@@ -6,6 +6,7 @@ OPTION_DEFAULTS = {
     create_keymaps = true,
     filetypes = {
         ["lua"] = { "print('", "')" },
+        ["vim"] = { 'echo "', '"' },
     },
 }
 

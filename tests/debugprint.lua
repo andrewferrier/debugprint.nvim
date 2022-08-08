@@ -97,6 +97,30 @@ describe("can do basic debug statement insertion", function()
             "print('DEBUG: filename.lua:2 [1]')",
         })
     end)
+end)
+
+describe("can do various file types", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    it("can insert a basic statement below", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        feedkeys(":w! /tmp/filename.vim<CR>")
+        vim.api.nvim_set_option_value("filetype", "vim", {})
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            'echo "DEBUG: filename.lua:1 [1]"',
+            "bar",
+        })
+    end)
 
     it("can gracefully handle unknown filetypes", function()
         set_lines({
