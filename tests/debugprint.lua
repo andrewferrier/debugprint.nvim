@@ -42,7 +42,7 @@ describe("can do basic debug statement insertion", function()
         })
     end)
 
-    it("can insert a basic statement above", function()
+    it("can insert a basic statement above first line", function()
         set_lines({
             "foo",
             "bar",
@@ -60,7 +60,7 @@ describe("can do basic debug statement insertion", function()
         })
     end)
 
-    it("can insert a basic statement above twice", function()
+    it("can insert a basic statement above first line twice", function()
         set_lines({
             "foo",
             "bar",
@@ -77,6 +77,24 @@ describe("can do basic debug statement insertion", function()
             "print('DEBUG: filename.lua:2 [2]')",
             "foo",
             "bar",
+        })
+    end)
+
+    it("can insert a basic statement below last line", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        feedkeys(":w! /tmp/filename.lua<CR>")
+        vim.api.nvim_set_option_value("filetype", "lua", {})
+        vim.api.nvim_win_set_cursor(0, { 2, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUG: filename.lua:2 [1]')",
         })
     end)
 
