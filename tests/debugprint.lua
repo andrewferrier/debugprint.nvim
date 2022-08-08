@@ -372,3 +372,73 @@ describe("add custom filetype with add_custom_filetypes()", function()
         })
     end)
 end)
+
+describe("move to new line", function()
+    before_each(function()
+        vim.api.nvim_set_option_value("expandtab", true, {})
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+    end)
+
+    it("true below", function()
+        debugprint.setup({move_to_debugline = true})
+
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "bar",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), {2, 0})
+    end)
+
+    it("true above", function()
+        debugprint.setup({move_to_debugline = true})
+
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqP")
+
+        check_lines({
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "foo",
+            "bar",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), {1, 0})
+    end)
+
+    it("false", function()
+        debugprint.setup({move_to_debugline = false})
+
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "bar",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), {1, 0})
+    end)
+end)

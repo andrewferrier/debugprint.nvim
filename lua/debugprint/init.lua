@@ -4,6 +4,7 @@ local opts
 
 OPTION_DEFAULTS = {
     create_keymaps = true,
+    move_to_debugline = false,
     filetypes = require("debugprint.filetypes"),
 }
 
@@ -43,7 +44,10 @@ local indent_line = function(current_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
     vim.cmd(current_line + 1 .. "normal! ==")
-    vim.api.nvim_win_set_cursor(0, pos)
+
+    if not opts.move_to_debugline then
+        vim.api.nvim_win_set_cursor(0, pos)
+    end
 end
 
 M.debugprint = function(o)
