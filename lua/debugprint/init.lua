@@ -74,6 +74,9 @@ M.setup = function(o)
             M.debugprintvar(true)
         end)
     end
+
+    -- Because we want to be idempotent, re-running setup() resets the counter
+    counter = 0
 end
 
 return M
