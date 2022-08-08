@@ -104,7 +104,7 @@ describe("can do various file types", function()
         debugprint.setup()
     end)
 
-    it("can insert a basic statement below", function()
+    it("can handle a .vim file", function()
         set_lines({
             "foo",
             "bar",
