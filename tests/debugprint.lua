@@ -285,3 +285,90 @@ describe("can do indenting correctly", function()
         })
     end)
 end)
+
+describe("add custom filetype with setup()", function()
+    before_each(function()
+        debugprint.setup({
+            filetypes = {
+                ["wibble"] = {
+                    left = "foo('",
+                    right = "')",
+                    mid_var = "' .. ",
+                    right_var = ")",
+                },
+            },
+        })
+
+        vim.api.nvim_set_option_value("expandtab", true, {})
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+    end)
+
+    it("can handle basic", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("wibble")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "foo('DEBUG: " .. filename .. ":1 [1]')",
+            "bar",
+        })
+    end)
+
+    it("can handle variable", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("wibble")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQpapple<CR>")
+
+        check_lines({
+            "foo",
+            "foo('DEBUG: " .. filename .. ":1 [1]: apple=' .. apple)",
+            "bar",
+        })
+    end)
+end)
+
+describe("add custom filetype with add_custom_filetypes()", function()
+    before_each(function()
+        debugprint.setup()
+
+        vim.api.nvim_set_option_value("expandtab", true, {})
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+    end)
+
+    it("can handle", function()
+        debugprint.add_custom_filetypes({
+            ["foo"] = {
+                left = "bar('",
+                right = "')",
+                mid_var = "' .. ",
+                right_var = ")",
+            },
+        })
+
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("foo")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "bar('DEBUG: " .. filename .. ":1 [1]')",
+            "bar",
+        })
+    end)
+end)

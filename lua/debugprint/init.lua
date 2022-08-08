@@ -124,4 +124,12 @@ M.setup = function(o)
     counter = 0
 end
 
+M.add_custom_filetypes = function(filetypes)
+    vim.validate({
+        filetypes = { filetypes, "table" },
+    })
+
+    opts.filetypes = vim.tbl_deep_extend("force", opts.filetypes, filetypes)
+end
+
 return M
