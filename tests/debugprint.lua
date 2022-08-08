@@ -13,6 +13,18 @@ end
 
 local debugprint = require("debugprint")
 
+local write_file = function(filetype)
+    vim.api.nvim_set_option_value("filetype", filetype, {})
+
+    local tempfile = vim.fn.tempname() .. "." .. filetype
+    vim.cmd("silent w! " .. tempfile)
+    return vim.fn.expand("%:t")
+end
+
+vim.notify = function()
+    -- Remove these just to keep output quiet
+end
+
 describe("can do setup()", function()
     it("can do basic setup", function()
         debugprint.setup()
@@ -30,14 +42,13 @@ describe("can do basic debug statement insertion", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.lua<CR>")
-        vim.api.nvim_set_option_value("filetype", "lua", {})
+        local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
 
         check_lines({
             "foo",
-            "print('DEBUG: filename.lua:1 [1]')",
+            "print('DEBUG: " .. filename .. ":1 [1]')",
             "bar",
         })
     end)
@@ -48,13 +59,12 @@ describe("can do basic debug statement insertion", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.lua<CR>")
-        vim.api.nvim_set_option_value("filetype", "lua", {})
+        local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqP")
 
         check_lines({
-            "print('DEBUG: filename.lua:1 [1]')",
+            "print('DEBUG: " .. filename .. ":1 [1]')",
             "foo",
             "bar",
         })
@@ -66,15 +76,14 @@ describe("can do basic debug statement insertion", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.lua<CR>")
-        vim.api.nvim_set_option_value("filetype", "lua", {})
+        local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqP")
         feedkeys("dqP")
 
         check_lines({
-            "print('DEBUG: filename.lua:1 [1]')",
-            "print('DEBUG: filename.lua:2 [2]')",
+            "print('DEBUG: " .. filename .. ":1 [1]')",
+            "print('DEBUG: " .. filename .. ":2 [2]')",
             "foo",
             "bar",
         })
@@ -86,15 +95,14 @@ describe("can do basic debug statement insertion", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.lua<CR>")
-        vim.api.nvim_set_option_value("filetype", "lua", {})
+        local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 2, 0 })
         feedkeys("dqp")
 
         check_lines({
             "foo",
             "bar",
-            "print('DEBUG: filename.lua:2 [1]')",
+            "print('DEBUG: " .. filename .. ":2 [1]')",
         })
     end)
 end)
@@ -110,14 +118,13 @@ describe("can do various file types", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.vim<CR>")
-        vim.api.nvim_set_option_value("filetype", "vim", {})
+        local filename = write_file("vim")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
 
         check_lines({
             "foo",
-            'echo "DEBUG: filename.lua:1 [1]"',
+            'echo "DEBUG: ' .. filename .. ':1 [1]"',
             "bar",
         })
     end)
@@ -128,8 +135,7 @@ describe("can do various file types", function()
             "bar",
         })
 
-        feedkeys(":w! /tmp/filename.foo<CR>")
-        vim.api.nvim_set_option_value("filetype", "foo", {})
+        write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
 
