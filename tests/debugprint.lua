@@ -21,7 +21,7 @@ local write_file = function(filetype)
     return vim.fn.expand("%:t")
 end
 
-vim.notify = function()
+vim.notify = function(_, _)
     -- Remove these just to keep output quiet
 end
 
