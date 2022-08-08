@@ -107,6 +107,46 @@ describe("can do basic debug statement insertion", function()
     end)
 end)
 
+describe("can do variable debug statement insertion", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    it("can insert a variable statement below", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQpbanana<CR>")
+
+        check_lines({
+            "foo",
+            "print('DEBUG: " .. filename .. ":1 [1]: banana=' .. vim.inspect(banana))",
+            "bar",
+        })
+    end)
+
+    it("can insert a variable statement above", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQPbanana<CR>")
+
+        check_lines({
+            "print('DEBUG: " .. filename .. ":1 [1]: banana=' .. vim.inspect(banana))",
+            "foo",
+            "bar",
+        })
+    end)
+end)
+
 describe("can do various file types", function()
     before_each(function()
         debugprint.setup()
@@ -125,6 +165,23 @@ describe("can do various file types", function()
         check_lines({
             "foo",
             'echo "DEBUG: ' .. filename .. ':1 [1]"',
+            "bar",
+        })
+    end)
+
+    it("can handle a .vim file variable", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("vim")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQpbanana<CR>")
+
+        check_lines({
+            "foo",
+            'echo "DEBUG: ' .. filename .. ':1 [1]: banana=" .. banana',
             "bar",
         })
     end)

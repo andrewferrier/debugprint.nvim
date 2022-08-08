@@ -5,68 +5,104 @@ local opts
 OPTION_DEFAULTS = {
     create_keymaps = true,
     filetypes = {
-        ["lua"] = { "print('", "')" },
-        ["vim"] = { 'echo "', '"' },
+        ["lua"] = {
+            left = "print('",
+            right = "')",
+            mid_var = "' .. vim.inspect(",
+            right_var = "))",
+        },
+        ["vim"] = {
+            left = 'echo "',
+            right = '"',
+            mid_var = '" .. ',
+            right_var = "",
+        },
     },
 }
 
 local counter = 0
 
-local debuginfo = function()
+local debuginfo = function(variable_name)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     counter = counter + 1
 
-    return "DEBUG: "
+    local line = "DEBUG: "
         .. vim.fn.expand("%:t")
         .. ":"
         .. current_line
         .. " ["
         .. counter
         .. "]"
+
+    if variable_name ~= nil then
+        line = line .. ": " .. variable_name .. "="
+    end
+
+    return line
 end
 
 local get_fix = function(filetype)
     if vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
-        return opts.filetypes[filetype][1], opts.filetypes[filetype][2]
+        return opts.filetypes[filetype]
     else
         vim.notify(
             "Don't have debugprint configuration for filetype " .. filetype,
             vim.log.levels.WARN
         )
-        return nil, nil
+        return nil
     end
 end
 
-M.debugprint = function(above)
+M.debugprint = function(o)
+    local funcopts = vim.tbl_deep_extend(
+        "force",
+        { above = false, variable = false },
+        o or {}
+    )
+
+    vim.validate({
+        above = { funcopts.above, "boolean" },
+    })
+
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype = vim.api.nvim_get_option_value("filetype", {})
     local indent = string.rep(" ", vim.fn.indent(current_line))
-    local prefix, postfix = get_fix(filetype)
+    local fixes = get_fix(filetype)
 
-    if prefix == nil or postfix == nil then
+    if fixes == nil then
         return
-    else
-        local line_to_insert = indent .. prefix .. debuginfo() .. postfix
-
-        local line_to_insert_on
-
-        if above then
-            line_to_insert_on = current_line - 1
-        else
-            line_to_insert_on = current_line
-        end
-
-        vim.api.nvim_buf_set_lines(
-            0,
-            line_to_insert_on,
-            line_to_insert_on,
-            true,
-            { line_to_insert }
-        )
     end
-end
 
-M.debugprintvar = function(above) end
+    local line_to_insert
+    local line_to_insert_on
+
+    if funcopts.variable then
+        local variable_name = vim.fn.input("Variable name: ")
+
+        line_to_insert = indent
+            .. fixes.left
+            .. debuginfo(variable_name)
+            .. fixes.mid_var
+            .. variable_name
+            .. fixes.right_var
+    else
+        line_to_insert = indent .. fixes.left .. debuginfo() .. fixes.right
+    end
+
+    if funcopts.above then
+        line_to_insert_on = current_line - 1
+    else
+        line_to_insert_on = current_line
+    end
+
+    vim.api.nvim_buf_set_lines(
+        0,
+        line_to_insert_on,
+        line_to_insert_on,
+        true,
+        { line_to_insert }
+    )
+end
 
 M.setup = function(o)
     opts = vim.tbl_deep_extend("force", OPTION_DEFAULTS, o or {})
@@ -77,16 +113,16 @@ M.setup = function(o)
 
     if opts.create_keymaps then
         vim.keymap.set("n", "dqp", function()
-            M.debugprint(false)
+            M.debugprint()
         end)
         vim.keymap.set("n", "dqP", function()
-            M.debugprint(true)
+            M.debugprint({ above = true })
         end)
         vim.keymap.set("n", "dQp", function()
-            M.debugprintvar(false)
+            M.debugprint({ variable = true })
         end)
         vim.keymap.set("n", "dQP", function()
-            M.debugprintvar(true)
+            M.debugprint({ above = true, variable = true })
         end)
     end
 
