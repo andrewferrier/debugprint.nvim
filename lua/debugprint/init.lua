@@ -13,13 +13,10 @@ local debuginfo = function(variable_name)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     counter = counter + 1
 
-    local line = "DEBUG: "
+    local line = "DEBUG[" .. counter .. "]: "
         .. vim.fn.expand("%:t")
         .. ":"
         .. current_line
-        .. " ["
-        .. counter
-        .. "]"
 
     if variable_name ~= nil then
         line = line .. ": " .. variable_name .. "="

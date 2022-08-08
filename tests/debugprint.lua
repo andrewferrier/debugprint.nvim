@@ -48,7 +48,7 @@ describe("can do basic debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUG: " .. filename .. ":1 [1]')",
+            "print('DEBUG[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -64,7 +64,7 @@ describe("can do basic debug statement insertion", function()
         feedkeys("dqP")
 
         check_lines({
-            "print('DEBUG: " .. filename .. ":1 [1]')",
+            "print('DEBUG[1]: " .. filename .. ":1')",
             "foo",
             "bar",
         })
@@ -82,8 +82,8 @@ describe("can do basic debug statement insertion", function()
         feedkeys("dqP")
 
         check_lines({
-            "print('DEBUG: " .. filename .. ":1 [1]')",
-            "print('DEBUG: " .. filename .. ":2 [2]')",
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUG[2]: " .. filename .. ":2')",
             "foo",
             "bar",
         })
@@ -102,7 +102,7 @@ describe("can do basic debug statement insertion", function()
         check_lines({
             "foo",
             "bar",
-            "print('DEBUG: " .. filename .. ":2 [1]')",
+            "print('DEBUG[1]: " .. filename .. ":2')",
         })
     end)
 end)
@@ -124,9 +124,9 @@ describe("can do variable debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUG: "
+            "print('DEBUG[1]: "
                 .. filename
-                .. ":1 [1]: banana=' .. vim.inspect(banana))",
+                .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
         })
     end)
@@ -142,9 +142,9 @@ describe("can do variable debug statement insertion", function()
         feedkeys("dQPbanana<CR>")
 
         check_lines({
-            "print('DEBUG: "
+            "print('DEBUG[1]: "
                 .. filename
-                .. ":1 [1]: banana=' .. vim.inspect(banana))",
+                .. ":1: banana=' .. vim.inspect(banana))",
             "foo",
             "bar",
         })
@@ -168,7 +168,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            'echo "DEBUG: ' .. filename .. ':1 [1]"',
+            'echo "DEBUG[1]: ' .. filename .. ':1"',
             "bar",
         })
     end)
@@ -185,7 +185,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            'echo "DEBUG: ' .. filename .. ':1 [1]: banana=" .. banana',
+            'echo "DEBUG[1]: ' .. filename .. ':1: banana=" .. banana',
             "bar",
         })
     end)
@@ -225,7 +225,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUG: " .. filename .. ":1 [1]')",
+            "    print('DEBUG[1]: " .. filename .. ":1')",
             "end",
         })
     end)
@@ -243,7 +243,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUG: " .. filename .. ":2 [1]')",
+            "    print('DEBUG[1]: " .. filename .. ":2')",
             "end",
         })
     end)
@@ -260,7 +260,7 @@ describe("can do indenting correctly", function()
         feedkeys("dqP")
 
         check_lines({
-            "print('DEBUG: " .. filename .. ":1 [1]')",
+            "print('DEBUG[1]: " .. filename .. ":1')",
             "function()",
             "end",
         })
@@ -280,7 +280,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "\tprint('DEBUG: " .. filename .. ":1 [1]')",
+            "\tprint('DEBUG[1]: " .. filename .. ":1')",
             "end",
         })
     end)
@@ -315,7 +315,7 @@ describe("add custom filetype with setup()", function()
 
         check_lines({
             "foo",
-            "foo('DEBUG: " .. filename .. ":1 [1]')",
+            "foo('DEBUG[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -332,7 +332,7 @@ describe("add custom filetype with setup()", function()
 
         check_lines({
             "foo",
-            "foo('DEBUG: " .. filename .. ":1 [1]: apple=' .. apple)",
+            "foo('DEBUG[1]: " .. filename .. ":1: apple=' .. apple)",
             "bar",
         })
     end)
@@ -367,7 +367,7 @@ describe("add custom filetype with add_custom_filetypes()", function()
 
         check_lines({
             "foo",
-            "bar('DEBUG: " .. filename .. ":1 [1]')",
+            "bar('DEBUG[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
