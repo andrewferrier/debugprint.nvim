@@ -4,7 +4,7 @@ local opts
 
 OPTION_DEFAULTS = {
     create_keymaps = true,
-    filetypes = require('debugprint.filetypes'),
+    filetypes = require("debugprint.filetypes"),
 }
 
 local counter = 0
