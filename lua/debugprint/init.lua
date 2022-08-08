@@ -15,7 +15,13 @@ local debuginfo = function()
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     counter = counter + 1
 
-    return "DEBUG: " .. vim.fn.expand("%:t") .. ":" .. current_line .. " [" .. counter .. "]"
+    return "DEBUG: "
+        .. vim.fn.expand("%:t")
+        .. ":"
+        .. current_line
+        .. " ["
+        .. counter
+        .. "]"
 end
 
 M.debugprint = function(above)
@@ -45,8 +51,7 @@ M.debugprint = function(above)
     )
 end
 
-M.debugprintvar = function(above)
-end
+M.debugprintvar = function(above) end
 
 M.setup = function(o)
     opts = vim.tbl_deep_extend("force", OPTION_DEFAULTS, o or {})
