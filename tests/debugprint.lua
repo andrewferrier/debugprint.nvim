@@ -380,7 +380,7 @@ describe("move to new line", function()
     end)
 
     it("true below", function()
-        debugprint.setup({move_to_debugline = true})
+        debugprint.setup({ move_to_debugline = true })
 
         set_lines({
             "foo",
@@ -397,11 +397,11 @@ describe("move to new line", function()
             "bar",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), {2, 0})
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 0 })
     end)
 
     it("true above", function()
-        debugprint.setup({move_to_debugline = true})
+        debugprint.setup({ move_to_debugline = true })
 
         set_lines({
             "foo",
@@ -418,11 +418,11 @@ describe("move to new line", function()
             "bar",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), {1, 0})
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
     end)
 
     it("false", function()
-        debugprint.setup({move_to_debugline = false})
+        debugprint.setup({ move_to_debugline = false })
 
         set_lines({
             "foo",
@@ -439,6 +439,6 @@ describe("move to new line", function()
             "bar",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), {1, 0})
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
     end)
 end)
