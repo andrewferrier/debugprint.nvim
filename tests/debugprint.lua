@@ -79,4 +79,21 @@ describe("can do basic debug statement insertion", function()
             "bar",
         })
     end)
+
+    it("can gracefully handle unknown filetypes", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        feedkeys(":w! /tmp/filename.foo<CR>")
+        vim.api.nvim_set_option_value("filetype", "foo", {})
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
 end)

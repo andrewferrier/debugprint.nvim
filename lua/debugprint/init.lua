@@ -24,31 +24,45 @@ local debuginfo = function()
         .. "]"
 end
 
+local get_fix = function(filetype)
+    if vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
+        return opts.filetypes[filetype][1], opts.filetypes[filetype][2]
+    else
+        vim.notify(
+            "Don't have debugprint configuration for filetype " .. filetype,
+            vim.log.levels.WARN
+        )
+        return nil, nil
+    end
+end
+
 M.debugprint = function(above)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype = vim.api.nvim_get_option_value("filetype", {})
     local indent = string.rep(" ", vim.fn.indent(current_line))
+    local prefix, postfix = get_fix(filetype)
 
-    local line_to_insert = indent
-        .. opts.filetypes[filetype][1]
-        .. debuginfo()
-        .. opts.filetypes[filetype][2]
-
-    local line_to_insert_on
-
-    if above then
-        line_to_insert_on = current_line - 1
+    if prefix == nil or postfix == nil then
+        return
     else
-        line_to_insert_on = current_line
-    end
+        local line_to_insert = indent .. prefix .. debuginfo() .. postfix
 
-    vim.api.nvim_buf_set_lines(
-        0,
-        line_to_insert_on,
-        line_to_insert_on,
-        true,
-        { line_to_insert }
-    )
+        local line_to_insert_on
+
+        if above then
+            line_to_insert_on = current_line - 1
+        else
+            line_to_insert_on = current_line
+        end
+
+        vim.api.nvim_buf_set_lines(
+            0,
+            line_to_insert_on,
+            line_to_insert_on,
+            true,
+            { line_to_insert }
+        )
+    end
 end
 
 M.debugprintvar = function(above) end
