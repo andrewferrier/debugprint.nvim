@@ -4,26 +4,7 @@ local opts
 
 OPTION_DEFAULTS = {
     create_keymaps = true,
-    filetypes = {
-        ["lua"] = {
-            left = "print('",
-            right = "')",
-            mid_var = "' .. vim.inspect(",
-            right_var = "))",
-        },
-        ["vim"] = {
-            left = 'echo "',
-            right = '"',
-            mid_var = '" .. ',
-            right_var = "",
-        },
-        ["make"] = {
-            left = '@echo "',
-            right = '"',
-            mid_var = '"$(',
-            right_var = ')'
-        }
-    },
+    filetypes = require('debugprint.filetypes'),
 }
 
 local counter = 0
