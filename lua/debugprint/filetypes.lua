@@ -1,4 +1,12 @@
+local shell = {
+    left = 'echo "',
+    right = '"',
+    mid_var = "${",
+    right_var = '}"',
+}
+
 return {
+    ["bash"] = shell,
     ["lua"] = {
         left = "print('",
         right = "')",
@@ -11,10 +19,12 @@ return {
         mid_var = '"$(',
         right_var = ")",
     },
+    ["sh"] = shell,
     ["vim"] = {
         left = 'echo "',
         right = '"',
         mid_var = '" .. ',
         right_var = "",
     },
+    ["zsh"] = shell,
 }
