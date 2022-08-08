@@ -124,7 +124,9 @@ describe("can do variable debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUG: " .. filename .. ":1 [1]: banana=' .. vim.inspect(banana))",
+            "print('DEBUG: "
+                .. filename
+                .. ":1 [1]: banana=' .. vim.inspect(banana))",
             "bar",
         })
     end)
@@ -140,7 +142,9 @@ describe("can do variable debug statement insertion", function()
         feedkeys("dQPbanana<CR>")
 
         check_lines({
-            "print('DEBUG: " .. filename .. ":1 [1]: banana=' .. vim.inspect(banana))",
+            "print('DEBUG: "
+                .. filename
+                .. ":1 [1]: banana=' .. vim.inspect(banana))",
             "foo",
             "bar",
         })
