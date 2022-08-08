@@ -17,6 +17,12 @@ OPTION_DEFAULTS = {
             mid_var = '" .. ',
             right_var = "",
         },
+        ["make"] = {
+            left = '@echo "',
+            right = '"',
+            mid_var = '"$(',
+            right_var = ')'
+        }
     },
 }
 
