@@ -53,6 +53,13 @@ local get_fix = function(filetype)
     end
 end
 
+local indent_line = function(current_line)
+    local pos = vim.api.nvim_win_get_cursor(0)
+    -- There's probably a better way to do this indent, but I don't know what it is
+    vim.cmd(current_line + 1 .. "normal! ==")
+    vim.api.nvim_win_set_cursor(0, pos)
+end
+
 M.debugprint = function(o)
     local funcopts = vim.tbl_deep_extend(
         "force",
@@ -66,7 +73,6 @@ M.debugprint = function(o)
 
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype = vim.api.nvim_get_option_value("filetype", {})
-    local indent = string.rep(" ", vim.fn.indent(current_line))
     local fixes = get_fix(filetype)
 
     if fixes == nil then
@@ -79,14 +85,13 @@ M.debugprint = function(o)
     if funcopts.variable then
         local variable_name = vim.fn.input("Variable name: ")
 
-        line_to_insert = indent
-            .. fixes.left
+        line_to_insert = fixes.left
             .. debuginfo(variable_name)
             .. fixes.mid_var
             .. variable_name
             .. fixes.right_var
     else
-        line_to_insert = indent .. fixes.left .. debuginfo() .. fixes.right
+        line_to_insert = fixes.left .. debuginfo() .. fixes.right
     end
 
     if funcopts.above then
@@ -102,6 +107,8 @@ M.debugprint = function(o)
         true,
         { line_to_insert }
     )
+
+    indent_line(line_to_insert_on)
 end
 
 M.setup = function(o)

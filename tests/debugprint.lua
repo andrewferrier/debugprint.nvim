@@ -206,3 +206,82 @@ describe("can do various file types", function()
         })
     end)
 end)
+
+describe("can do indenting correctly", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    it("lua - inside function", function()
+        set_lines({
+            "function()",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "function()",
+            "    print('DEBUG: " .. filename .. ":1 [1]')",
+            "end",
+        })
+    end)
+
+    it("lua - inside function from below", function()
+        set_lines({
+            "function()",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+        vim.api.nvim_win_set_cursor(0, { 2, 0 })
+        feedkeys("dqP")
+
+        check_lines({
+            "function()",
+            "    print('DEBUG: " .. filename .. ":2 [1]')",
+            "end",
+        })
+    end)
+
+    it("lua - above function", function()
+        set_lines({
+            "function()",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqP")
+
+        check_lines({
+            "print('DEBUG: " .. filename .. ":1 [1]')",
+            "function()",
+            "end",
+        })
+    end)
+
+    it("lua - inside function using tabs", function()
+        set_lines({
+            "function()",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_set_option_value("expandtab", false, {})
+        vim.api.nvim_set_option_value("shiftwidth", 8, {})
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+
+        check_lines({
+            "function()",
+            "\tprint('DEBUG: " .. filename .. ":1 [1]')",
+            "end",
+        })
+    end)
+end)
