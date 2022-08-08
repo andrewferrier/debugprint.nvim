@@ -5,8 +5,16 @@ local shell = {
     right_var = '}"',
 }
 
+local js = {
+    left = 'console.log("',
+    right = '")',
+    mid_var = '", ',
+    right_var = ')',
+}
+
 return {
     ["bash"] = shell,
+    ["javascript"] = js,
     ["lua"] = {
         left = "print('",
         right = "')",
@@ -20,6 +28,7 @@ return {
         right_var = ")",
     },
     ["sh"] = shell,
+    ["typescript"] = js,
     ["vim"] = {
         left = 'echo "',
         right = '"',
