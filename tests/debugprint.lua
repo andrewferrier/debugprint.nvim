@@ -21,8 +21,10 @@ local write_file = function(filetype)
     return vim.fn.expand("%:t")
 end
 
-vim.notify = function(_, _)
-    -- Remove these just to keep output quiet
+local notify_message
+
+vim.notify = function(msg, _)
+    notify_message = msg
 end
 
 describe("can do setup()", function()
@@ -199,6 +201,7 @@ describe("can do various file types", function()
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
+        assert.are.same("Don't have debugprint configuration for filetype foo", notify_message)
 
         check_lines({
             "foo",
