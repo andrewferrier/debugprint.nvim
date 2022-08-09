@@ -360,7 +360,6 @@ describe("add custom filetype with add_custom_filetypes()", function()
             "foo",
             "bar",
         })
-
         local filename = write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
@@ -440,5 +439,103 @@ describe("move to new line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+    end)
+end)
+
+describe("can repeat", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    it("can insert a basic statement and repeat", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+        feedkeys(".")
+
+        check_lines({
+            "foo",
+            "print('DEBUG[2]: " .. filename .. ":1')",
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement and repeat above", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqP")
+        feedkeys(".")
+
+        check_lines({
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUG[2]: " .. filename .. ":2')",
+            "foo",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement and repeat in different directions", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqP")
+        feedkeys(".")
+        feedkeys("jdqp")
+        feedkeys(".")
+
+        check_lines({
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUG[2]: " .. filename .. ":2')",
+            "foo",
+            "bar",
+            "print('DEBUG[4]: " .. filename .. ":4')",
+            "print('DEBUG[3]: " .. filename .. ":4')",
+        })
+    end)
+
+    it("can insert a variable statement and repeat", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQpbanana<CR>")
+        feedkeys(".")
+        feedkeys("dQPapple<CR>")
+        feedkeys(".")
+
+        check_lines({
+            "print('DEBUG[3]: "
+                .. filename
+                .. ":1: apple=' .. vim.inspect(apple))",
+            "print('DEBUG[4]: "
+                .. filename
+                .. ":2: apple=' .. vim.inspect(apple))",
+            "foo",
+            "print('DEBUG[2]: "
+                .. filename
+                .. ":1: banana=' .. vim.inspect(banana))",
+            "print('DEBUG[1]: "
+                .. filename
+                .. ":1: banana=' .. vim.inspect(banana))",
+            "bar",
+        })
     end)
 end)

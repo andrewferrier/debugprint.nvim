@@ -50,7 +50,7 @@ local indent_line = function(current_line)
     end
 end
 
-M.debugprint = function(o)
+local debugprint_logic = function(o)
     local funcopts = vim.tbl_deep_extend(
         "force",
         { above = false, variable = false },
@@ -72,13 +72,11 @@ M.debugprint = function(o)
     local line_to_insert
     local line_to_insert_on
 
-    if funcopts.variable then
-        local variable_name = vim.fn.input("Variable name: ")
-
+    if funcopts.variable_name then
         line_to_insert = fixes.left
-            .. debuginfo(variable_name)
+            .. debuginfo(funcopts.variable_name)
             .. fixes.mid_var
-            .. variable_name
+            .. funcopts.variable_name
             .. fixes.right_var
     else
         line_to_insert = fixes.left .. debuginfo() .. fixes.right
@@ -101,6 +99,43 @@ M.debugprint = function(o)
     indent_line(line_to_insert_on)
 end
 
+local cache_request = nil
+
+M.NOOP = function() end
+
+local set_callback = function(func_name)
+    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
+    vim.cmd("normal! g@l")
+    vim.go.operatorfunc = func_name
+end
+
+local debugprint_cache = function(o)
+    if o and o.prerepeat == true then
+        if o.variable == true then
+            o.variable_name = vim.fn.input("Variable name: ")
+        end
+
+        cache_request = o
+        vim.go.operatorfunc = "v:lua.require'debugprint'.debugprint_callback"
+        return "g@l"
+    end
+
+    debugprint_logic(cache_request)
+
+    set_callback("v:lua.require'debugprint'.debugprint_callback")
+end
+
+M.debugprint_callback = function()
+    debugprint_cache()
+end
+
+M.debugprint = function(o)
+    o = o or {}
+    o.prerepeat = true
+    cache_request = nil
+    return debugprint_cache(o)
+end
+
 M.setup = function(o)
     opts = vim.tbl_deep_extend("force", OPTION_DEFAULTS, o or {})
 
@@ -110,17 +145,17 @@ M.setup = function(o)
 
     if opts.create_keymaps then
         vim.keymap.set("n", "dqp", function()
-            M.debugprint()
-        end)
+            return M.debugprint()
+        end, { expr = true })
         vim.keymap.set("n", "dqP", function()
-            M.debugprint({ above = true })
-        end)
+            return M.debugprint({ above = true })
+        end, { expr = true })
         vim.keymap.set("n", "dQp", function()
-            M.debugprint({ variable = true })
-        end)
+            return M.debugprint({ variable = true })
+        end, { expr = true })
         vim.keymap.set("n", "dQP", function()
-            M.debugprint({ above = true, variable = true })
-        end)
+            return M.debugprint({ above = true, variable = true })
+        end, { expr = true })
     end
 
     -- Because we want to be idempotent, re-running setup() resets the counter
