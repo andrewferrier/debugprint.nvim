@@ -28,15 +28,18 @@ local debuginfo = function(variable_name)
     return line
 end
 
-local get_fix = function(filetype)
-    if vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
-        return opts.filetypes[filetype]
-    else
+local filetype_configured = function()
+    local filetype =
+        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+
+    if not vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
         vim.notify(
             "Don't have debugprint configuration for filetype " .. filetype,
             vim.log.levels.WARN
         )
-        return nil
+        return false
+    else
+        return true
     end
 end
 
@@ -62,8 +65,9 @@ local debugprint_logic = function(o)
     })
 
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
-    local filetype = vim.api.nvim_get_option_value("filetype", {})
-    local fixes = get_fix(filetype)
+    local filetype =
+        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+    local fixes = opts.filetypes[filetype]
 
     if fixes == nil then
         return
@@ -111,6 +115,10 @@ end
 
 local debugprint_cache = function(o)
     if o and o.prerepeat == true then
+        if not filetype_configured() then
+            return
+        end
+
         if o.variable == true then
             o.variable_name = vim.fn.input("Variable name: ")
         end

@@ -208,6 +208,23 @@ describe("can do various file types", function()
             "bar",
         })
     end)
+
+    it("don't prompt for a variable name with an unknown filetype", function()
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        write_file("foo")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dQp")
+        assert.are.same("Don't have debugprint configuration for filetype foo", notify_message)
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
 end)
 
 describe("can do indenting correctly", function()
