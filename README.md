@@ -75,7 +75,7 @@ The sections below detail the allowed options.
 By default, the plugin will create the following keymappings:
 
 | Keymap | Purpose                                                                                              | Equivalent Lua Function                                             |
-| -      | -                                                                                                    | -                                                                   |
+| ------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `dqp`  | Insert a 'plain' debug line appropriate to the filetype just below the current line                  | `require('debugprint').debugprint()`                                |
 | `dqP`  | The same, but above the current line                                                                 | `require('debugprint').debugprint({above = true})`                  |
 | `dQP`  | Prompt for a variable name, and insert a debugging line just below the current line which outputs it | `require('debugprint').debugprint({variable = true})`               |
@@ -107,3 +107,11 @@ end)
 ### Add Custom Filetypes
 
 <span style="color:red">TODO</span>
+
+## Known Limitations
+
+*   `debugprint` only supports variable names or simple expressions when
+    using `dQp` - in particular, it does not make any attempt to escape
+    expressions, and may generate invalid syntax if you try to be too clever.
+    There's [an issue to look at ways of improving
+    this](https://github.com/andrewferrier/debugprint.nvim/issues/20).
