@@ -568,3 +568,28 @@ describe("can repeat", function()
         })
     end)
 end)
+
+describe("can repeat with move to line", function()
+    it("true below", function()
+        debugprint.setup({ move_to_debugline = true })
+
+        set_lines({
+            "foo",
+            "bar",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        feedkeys("dqp")
+        feedkeys(".")
+
+        check_lines({
+            "foo",
+            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUG[2]: " .. filename .. ":2')",
+            "bar",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 0 })
+    end)
+end)
