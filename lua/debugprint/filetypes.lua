@@ -9,7 +9,7 @@ local js = {
     left = 'console.log("',
     right = '")',
     mid_var = '", ',
-    right_var = ')',
+    right_var = ")",
 }
 
 return {
