@@ -201,7 +201,10 @@ describe("can do various file types", function()
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dqp")
-        assert.are.same("Don't have debugprint configuration for filetype foo", notify_message)
+        assert.are.same(
+            "Don't have debugprint configuration for filetype foo",
+            notify_message
+        )
 
         check_lines({
             "foo",
@@ -218,7 +221,10 @@ describe("can do various file types", function()
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dQp")
-        assert.are.same("Don't have debugprint configuration for filetype foo", notify_message)
+        assert.are.same(
+            "Don't have debugprint configuration for filetype foo",
+            notify_message
+        )
 
         check_lines({
             "foo",
@@ -505,28 +511,31 @@ describe("can repeat", function()
         })
     end)
 
-    it("can insert a basic statement and repeat in different directions", function()
-        set_lines({
-            "foo",
-            "bar",
-        })
+    it(
+        "can insert a basic statement and repeat in different directions",
+        function()
+            set_lines({
+                "foo",
+                "bar",
+            })
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
-        feedkeys(".")
-        feedkeys("jdqp")
-        feedkeys(".")
+            local filename = write_file("lua")
+            vim.api.nvim_win_set_cursor(0, { 1, 0 })
+            feedkeys("dqP")
+            feedkeys(".")
+            feedkeys("jdqp")
+            feedkeys(".")
 
-        check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
-            "print('DEBUG[2]: " .. filename .. ":2')",
-            "foo",
-            "bar",
-            "print('DEBUG[4]: " .. filename .. ":4')",
-            "print('DEBUG[3]: " .. filename .. ":4')",
-        })
-    end)
+            check_lines({
+                "print('DEBUG[1]: " .. filename .. ":1')",
+                "print('DEBUG[2]: " .. filename .. ":2')",
+                "foo",
+                "bar",
+                "print('DEBUG[4]: " .. filename .. ":4')",
+                "print('DEBUG[3]: " .. filename .. ":4')",
+            })
+        end
+    )
 
     it("can insert a variable statement and repeat", function()
         set_lines({
