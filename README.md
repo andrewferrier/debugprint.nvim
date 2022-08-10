@@ -9,7 +9,9 @@ a more low-tech approach; the 'print' statement, or the equivalent in a
 particular language, to trace the output of a program during execution.
 `debugprint` is a NeoVim plugin for them, as it can generate 'print' statements
 appropriate to the language being edited, which include the filename/line number
-they are being inserted on, as well as optionally printing out a variable.
+they are being inserted on, a counter which increases over the duration of a
+NeoVim session each time a statement is generated, as well as optionally
+printing out a variable.
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
