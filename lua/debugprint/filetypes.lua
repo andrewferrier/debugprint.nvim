@@ -14,6 +14,12 @@ local js = {
 
 return {
     ["bash"] = shell,
+    ["go"] = {
+        left = 'fmt.Printf("',
+        right = '")',
+        mid_var = '%+v\\n", ',
+        right_var = ")",
+    },
     ["javascript"] = js,
     ["lua"] = {
         left = "print('",
