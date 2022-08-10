@@ -32,6 +32,12 @@ return {
         mid_var = '%+v\\n", ',
         right_var = ")",
     },
+    ["java"] = {
+        left = 'System.out.println("',
+        right = '");',
+        mid_var = '" + ',
+        right_var = ");",
+    },
     ["javascript"] = js,
     ["lua"] = {
         left = "print('",
