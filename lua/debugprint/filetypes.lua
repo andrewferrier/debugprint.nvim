@@ -27,6 +27,12 @@ return {
         mid_var = '"$(',
         right_var = ")",
     },
+    ["python"] = {
+        left = 'print(f"',
+        right = '")',
+        mid_var = "{",
+        right_var = '}")',
+    },
     ["sh"] = shell,
     ["typescript"] = js,
     ["vim"] = {
