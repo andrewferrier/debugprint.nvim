@@ -21,9 +21,7 @@ It provides various improvements:
 *   Its configuration system is more 'NeoVim-like' and it is easier to add custom
     languages in your configuration.
 
-*   [*To be
-    implemented*](https://github.com/andrewferrier/debugprint.nvim/issues/3): It
-    dot-repeats with NeoVim.
+*   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/) with NeoVim.
 
 *   It indents the lines it inserts more accurately.
 
