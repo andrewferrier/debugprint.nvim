@@ -108,6 +108,17 @@ end)
 
 <span style="color:red">TODO</span>
 
+## Planned Future Improvements
+
+*   Provide a semi-automated way to get rid of all debugging lines
+    ([issue](https://github.com/andrewferrier/debugprint.nvim/issues/14))
+
+*   Dynamically adapt filetype for embedded languages (e.g. code embedded in
+    Markdown)
+    ([issue](https://github.com/andrewferrier/debugprint.nvim/issues/9))
+
+*   Using Treesitter to dynamically detect variable names
+
 ## Known Limitations
 
 *   `debugprint` only supports variable names or simple expressions when
