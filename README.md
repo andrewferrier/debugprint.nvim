@@ -53,7 +53,7 @@ packer.startup(function(use)
 end)
 ```
 
-## Modifying the Default Behaviour
+### Modifying the Default Behaviour
 
 You can add an `opts` object to the setup method:
 
@@ -70,7 +70,7 @@ use({
 
 The sections below detail the allowed options.
 
-### Keymappings
+## Keymappings
 
 By default, the plugin will create the following keymappings:
 
@@ -100,11 +100,11 @@ end)
 ...
 ```
 
-### Other Options
+## Other Options
 
 <span style="color:red">TODO: `move_to_debugline`</span>
 
-### Add Custom Filetypes
+## Add Custom Filetypes
 
 <span style="color:red">TODO</span>
 
