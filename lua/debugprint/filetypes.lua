@@ -39,6 +39,12 @@ return {
         mid_var = "{",
         right_var = '}")',
     },
+    ["ruby"] = {
+        left = 'puts "',
+        right = '"',
+        mid_var = "#{",
+        right_var = '}"',
+    },
     ["sh"] = shell,
     ["typescript"] = js,
     ["vim"] = {
