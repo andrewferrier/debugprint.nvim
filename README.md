@@ -107,9 +107,75 @@ end)
 ...
 ```
 
+## Other Options
+
+`debugprint` supports the following options in its `opts` object:
+
+| Option              | Default   | Purpose                                                 |
+| -                   | -         | -                                                       |
+| `create_keymaps`    | `true`    | Creates default keymappings - see above                 |
+| `move_to_debugline` | `false`   | When adding a debug line, moves the cursor to that line |
+| `filetypes`         | See below | Custom filetypes - see below                            |
+
 ## Add Custom Filetypes
 
-<span style="color:red">TODO</span>
+`debugprint` supports the following filetypes out-of-the-box:
+
+*   `bash`
+*   `c`
+*   `cpp` (C++)
+*   `go`
+*   `javascript`
+*   `lua`
+*   `make`
+*   `python`
+*   `ruby`
+*   `rust`
+*   `sh` (Sh/Bash)
+*   `typescript`
+*   `vim`
+*   `zsh`
+
+If `debugprint` doesn't support your filetype, you can add it as a custom
+filetype in one of two ways:
+
+*   In the `opts.filetypes` object in `setup()`.
+
+*   Using the `require('debugprint').add_custom_filetypes()` method (designed for
+    use from `ftplugin/` directories, etc.
+
+In either case, the format is the same. For example, if adding via `setup()`:
+
+```lua
+local my_fileformat = {
+    left = 'print "',
+    right = '"',
+    mid_var = "${",
+    right_var = '}"',
+}
+
+require('debugprint').setup({ filetypes = { my_fileformat, another_of_my_fileformats, ... }})
+```
+
+or `add_custom_filetypes()`:
+
+```lua
+require('debugprint').add_custom_filetypes({ my_fileformat, ... })
+```
+
+Your new file format will be *merged* in with those that already exist. If you
+pass in one that already exists, your configuration will override the built-in
+configuration.
+
+The keys in the configuration are used like this:
+
+| Type of debug line  | Default keys | How debug line is constructed
+| -                   | -            | -                                                                                                                           |
+| Plain debug line    | `dqp`/`dqP`  | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
+| Variable debug line | `dQp`/`dQP`  | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
+
+If it helps to understand these, you can look at the built-in configurations in
+[filetypes.lua](lua/debugprint/filetypes.lua).
 
 ## Planned Future Improvements
 
