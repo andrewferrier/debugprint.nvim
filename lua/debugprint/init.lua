@@ -62,6 +62,7 @@ local debugprint_logic = function(o)
 
     vim.validate({
         above = { funcopts.above, "boolean" },
+        variable = { funcopts.above, "boolean" },
     })
 
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
