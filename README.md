@@ -31,6 +31,12 @@ It provides various improvements:
 
 *   Able to optionally move to the inserted line (or not).
 
+## Demo
+
+<div align="center">
+  <video src="https://user-images.githubusercontent.com/107015/184187236-34f80a31-9626-4a3b-8d03-0f52752781e6.mp4" type="video/mp4"></video>
+</div>
+
 ## Installation
 
 **Requires NeoVim 0.7+.**
