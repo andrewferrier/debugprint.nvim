@@ -211,3 +211,13 @@ If it helps to understand these, you can look at the built-in configurations in
     expressions, and may generate invalid syntax if you try to be too clever.
     There's [an issue to look at ways of improving
     this](https://github.com/andrewferrier/debugprint.nvim/issues/20).
+
+## Alternatives / Competitors
+
+*   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
+    similar capabilities to debugprint, supports a slighter smaller set of
+    languages. Can pick up treesitter identifiers as variables - this is on the
+    debugprint roadmap.
+
+*   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
+    set of languages and requires you to set up your own autocmds/keymappings.
