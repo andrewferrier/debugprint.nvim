@@ -45,6 +45,12 @@ return {
         mid_var = '"$(',
         right_var = ")",
     },
+    ["php"] = {
+        left = 'echo "',
+        right = '\\n";',
+        mid_var = "$",
+        right_var = '\\n";',
+    },
     ["python"] = {
         left = 'print(f"',
         right = '")',
