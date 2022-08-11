@@ -53,18 +53,7 @@ local indent_line = function(current_line)
     end
 end
 
-local debugprint_logic = function(o)
-    local funcopts = vim.tbl_deep_extend(
-        "force",
-        { above = false, variable = false },
-        o or {}
-    )
-
-    vim.validate({
-        above = { funcopts.above, "boolean" },
-        variable = { funcopts.above, "boolean" },
-    })
-
+local debugprint_logic = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
@@ -139,10 +128,20 @@ M.debugprint_callback = function()
 end
 
 M.debugprint = function(o)
-    o = o or {}
-    o.prerepeat = true
+    local funcopts = vim.tbl_deep_extend(
+        "force",
+        { above = false, variable = false },
+        o or {}
+    )
+
+    vim.validate({
+        above = { funcopts.above, "boolean" },
+        variable = { funcopts.above, "boolean" },
+    })
+
+    funcopts.prerepeat = true
     cache_request = nil
-    return debugprint_cache(o)
+    return debugprint_cache(funcopts)
 end
 
 M.setup = function(o)
