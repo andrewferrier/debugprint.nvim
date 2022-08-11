@@ -11,7 +11,8 @@ particular language, to trace the output of a program during execution.
 appropriate to the language being edited, which include the filename/line number
 they are being inserted on, a counter which increases over the duration of a
 NeoVim session each time a statement is generated, as well as optionally
-printing out a variable.
+printing out a variable. `debugprint` comes with the generation logic built in
+for many common programming languages, and can be extended to support more.
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
@@ -53,18 +54,14 @@ packer.startup(function(use)
 end)
 ```
 
-### Modifying the Default Behaviour
-
-You can add an `opts` object to the setup method:
+Note that you can add an `opts` object to the setup method:
 
 ```lua
 opts = { ... }
 
-use({
-    "andrewferrier/debugprint.nvim",
-    config = function()
-        require("debugprint").setup(opts)
-    end,
+...
+require("debugprint").setup(opts)
+...
 })
 ```
 
@@ -72,7 +69,8 @@ The sections below detail the allowed options.
 
 ## Keymappings
 
-By default, the plugin will create the following keymappings:
+By default, the plugin will create the following normal-mode keymappings, which
+are the standard way to use it:
 
 | Keymap | Purpose                                                                                              | Equivalent Lua Function                                             |
 | ------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
@@ -97,12 +95,17 @@ require("debugprint").setup(opts)
 vim.keymap.set("n", "<Leader>d", function()
     require('debugprint').debugprint()
 end)
+vim.keymap.set("n", "<Leader>D", function()
+    require('debugprint').debugprint({ above = true })
+end)
+vim.keymap.set("n", "<Leader>dq", function()
+    require('debugprint').debugprint({ variable = true })
+end)
+vim.keymap.set("n", "<Leader>Dq", function()
+    require('debugprint').debugprint({ above = true, variable = true })
+end)
 ...
 ```
-
-## Other Options
-
-<span style="color:red">TODO: `move_to_debugline`</span>
 
 ## Add Custom Filetypes
 
@@ -117,12 +120,13 @@ end)
     Markdown)
     ([issue](https://github.com/andrewferrier/debugprint.nvim/issues/9))
 
-*   Using Treesitter to dynamically detect variable names
+*   Using Treesitter to dynamically detect variable names the cursor is on so
+    they don't have to be typed.
 
 ## Known Limitations
 
-*   `debugprint` only supports variable names or simple expressions when
-    using `dQp` - in particular, it does not make any attempt to escape
+*   `debugprint` only supports variable names or simple expressions when using
+    `dQp`/`dQP` - in particular, it does not make any attempt to escape
     expressions, and may generate invalid syntax if you try to be too clever.
     There's [an issue to look at ways of improving
     this](https://github.com/andrewferrier/debugprint.nvim/issues/20).
