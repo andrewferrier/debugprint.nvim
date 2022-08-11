@@ -119,6 +119,15 @@ end)
 
 ## Add Custom Filetypes
 
+<span style="color:red">Note: Since `debugprint.nvim` is still relatively new,
+if you work out a configuration for a filetype not listed here, particularly a
+standard or common one that NeoVim supports out-of-the-box, it would be really
+appreciated if you can open an
+[issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it
+supported out-of-the-box in `debugprint` so others can benefit from it.
+Similarly, if you spot any issues with, or improvements to, the language
+configurations out-of-the-box, please open an issue also.</span>
+
 `debugprint` supports the following filetypes out-of-the-box:
 
 *   `bash`
