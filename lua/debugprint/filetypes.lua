@@ -14,6 +14,18 @@ local js = {
 
 return {
     ["bash"] = shell,
+    ["c"] = {
+        left = 'printf("',
+        right = '");',
+        mid_var = '%d", ',
+        right_var = ");",
+    },
+    ["cpp"] = {
+        left = 'std::cout << "',
+        right = '" << std::endl;',
+        mid_var = '" << ',
+        right_var = " << std::endl;",
+    },
     ["go"] = {
         left = 'fmt.Printf("',
         right = '")',
@@ -44,6 +56,12 @@ return {
         right = '"',
         mid_var = "#{",
         right_var = '}"',
+    },
+    ["rust"] = {
+        left = 'println!("',
+        right = '");',
+        mid_var = '{}", ',
+        right_var = ");",
     },
     ["sh"] = shell,
     ["typescript"] = js,
