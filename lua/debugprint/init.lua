@@ -36,10 +36,8 @@ local debuginfo = function(variable_name)
 end
 
 local filetype_configured = function()
-    local filetype = vim.api.nvim_get_option_value(
-        "filetype",
-        { scope = "local" }
-    )
+    local filetype =
+        vim.api.nvim_get_option_value("filetype", { scope = "local" })
 
     if not vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
         vim.notify(
@@ -89,10 +87,8 @@ end
 
 local debugprint_logic = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
-    local filetype = vim.api.nvim_get_option_value(
-        "filetype",
-        { scope = "local" }
-    )
+    local filetype =
+        vim.api.nvim_get_option_value("filetype", { scope = "local" })
     local fixes = opts.filetypes[filetype]
 
     if fixes == nil then
@@ -173,11 +169,8 @@ M.debugprint_callback = function()
 end
 
 M.debugprint = function(o)
-    local funcopts = vim.tbl_deep_extend(
-        "force",
-        FUNCTION_OPTION_DEFAULTS,
-        o or {}
-    )
+    local funcopts =
+        vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, o or {})
 
     vim.validate({
         above = { funcopts.above, "boolean" },
