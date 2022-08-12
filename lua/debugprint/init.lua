@@ -8,6 +8,11 @@ OPTION_DEFAULTS = {
     filetypes = require("debugprint.filetypes"),
 }
 
+FUNCTION_OPTION_DEFAULTS = {
+    above = false,
+    variable = false,
+}
+
 local counter = 0
 
 local debuginfo = function(variable_name)
@@ -130,7 +135,7 @@ end
 M.debugprint = function(o)
     local funcopts = vim.tbl_deep_extend(
         "force",
-        { above = false, variable = false },
+        FUNCTION_OPTION_DEFAULTS,
         o or {}
     )
 
