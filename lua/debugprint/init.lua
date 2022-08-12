@@ -74,13 +74,18 @@ local find_treesitter_variable = function()
         -- Once get_node_at_cursor() is in NeoVim core, the nvim-treesitter
         -- dependency can be removed: https://github.com/neovim/neovim/pull/18232
         local node = ts_utils.get_node_at_cursor()
-        local node_type = node:type()
-        local variable_name = vim.treesitter.query.get_node_text(node, 0)
 
-        if node_type ~= "identifier" then
+        if node == nil then
             return nil
         else
-            return variable_name
+            local node_type = node:type()
+            local variable_name = vim.treesitter.query.get_node_text(node, 0)
+
+            if node_type ~= "identifier" then
+                return nil
+            else
+                return variable_name
+            end
         end
     end
 end
