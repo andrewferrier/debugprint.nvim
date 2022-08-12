@@ -216,8 +216,8 @@ If it helps to understand these, you can look at the built-in configurations in
 
 *   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
     similar capabilities to debugprint, supports a slighter smaller set of
-    languages. Can pick up treesitter identifiers as variables - this is on the
-    debugprint roadmap.
+    languages. Can pick up treesitter identifiers as variables and remove
+    added statements - these are on the debugprint roadmap.
 
 *   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
     set of languages and requires you to set up your own autocmds/keymappings.
