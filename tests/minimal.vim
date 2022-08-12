@@ -3,6 +3,5 @@ set noswapfile
 
 set rtp+=../plenary.nvim
 set rtp+=../debugprint.nvim
-set rtp+=../treesitter.nvim
+set rtp+=../nvim-treesitter
 runtime! plugin/plenary.vim
-runtime! plugin/treesitter.lua
