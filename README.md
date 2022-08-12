@@ -11,8 +11,10 @@ particular language, to trace the output of a program during execution.
 appropriate to the language being edited, which include the filename/line number
 they are being inserted on, a counter which increases over the duration of a
 NeoVim session each time a statement is generated, as well as optionally
-printing out a variable. `debugprint` comes with the generation logic built in
-for many common programming languages, and can be extended to support more.
+printing out a variable, including automatically picking up an
+identifier/variable name under the cursor. `debugprint` comes with the
+generation logic built in for many common programming languages, and can be
+extended to support more.
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
@@ -23,6 +25,8 @@ It provides various improvements:
     languages in your configuration.
 
 *   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/) with NeoVim.
+
+*   It can pick up a variable name from under the cursor.
 
 *   It indents the lines it inserts more accurately.
 
@@ -37,9 +41,17 @@ It provides various improvements:
   <video src="https://user-images.githubusercontent.com/107015/184187236-34f80a31-9626-4a3b-8d03-0f52752781e6.mp4" type="video/mp4"></video>
 </div>
 
+(This demo is not yet updated to show automatically picking up a variable name
+from under the cursor).
+
 ## Installation
 
 **Requires NeoVim 0.7+.**
+
+Optional dependency:
+[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
+is not installed, `debugprint` will not find variable names under the cursor and
+will always prompt for a variable name.
 
 Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
 
@@ -75,20 +87,23 @@ The sections below detail the allowed options.
 
 ## Keymappings
 
-By default, the plugin will create the following normal-mode keymappings, which
-are the standard way to use it:
+By default, the plugin will create some normal-mode keymappings, which are the
+standard way to use it. There are also some function invocations which are not
+mapped to any keymappings by default, but could be. This is all shown in the
+following table.
 
-| Keymap | Purpose                                                                                              | Equivalent Lua Function                                             |
-| ------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `dqp`  | Insert a 'plain' debug line appropriate to the filetype just below the current line                  | `require('debugprint').debugprint()`                                |
-| `dqP`  | The same, but above the current line                                                                 | `require('debugprint').debugprint({above = true})`                  |
-| `dQP`  | Prompt for a variable name, and insert a debugging line just below the current line which outputs it | `require('debugprint').debugprint({variable = true})`               |
-| `dQP`  | The same, but above the current line                                                                 | `require('debugprint').debugprint({above = true, variable = true})` |
+| Keymap          | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
+| ------          | ----------------------------------------------------------------------------------------------------                              | -------------------------------------------------------------------                           |
+| `dqp`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
+| `dqP`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
+| `dQP`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
+| `dQP`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| None by default | Always prompt for a variable name, and insert a debugging line just below the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
+| None by default | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
 
 These keybindings are chosen not to conflict with any standard Vim keys (or any
 common plugins, at least that I'm aware of). You can disable them from being
-created by setting `create_keymaps`, and map them yourself to something else if
-you prefer:
+created by setting `create_keymaps`, and map them yourself if you prefer:
 
 ```lua
 opts = {
@@ -115,13 +130,14 @@ end)
 
 ## Other Options
 
-`debugprint` supports the following options in its `opts` object:
+`debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default   | Purpose                                                 |
-| -                   | -         | -                                                       |
-| `create_keymaps`    | `true`    | Creates default keymappings - see above                 |
-| `move_to_debugline` | `false`   | When adding a debug line, moves the cursor to that line |
-| `filetypes`         | See below | Custom filetypes - see below                            |
+| Option              | Default   | Purpose                                                                                                                                      |
+| -                   | -         | -                                                                                                                                            |
+| `create_keymaps`    | `true`    | Creates default keymappings - see above                                                                                                      |
+| `move_to_debugline` | `false`   | When adding a debug line, moves the cursor to that line                                                                                      |
+| `filetypes`         | See below | Custom filetypes - see below                                                                                                                 |
+| `ignore_treesitter` | `false`   | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
 
 ## Add Custom Filetypes
 
@@ -201,9 +217,6 @@ If it helps to understand these, you can look at the built-in configurations in
     Markdown)
     ([issue](https://github.com/andrewferrier/debugprint.nvim/issues/9))
 
-*   Using Treesitter to dynamically detect variable names the cursor is on so
-    they don't have to be typed.
-
 ## Known Limitations
 
 *   `debugprint` only supports variable names or simple expressions when using
@@ -216,8 +229,7 @@ If it helps to understand these, you can look at the built-in configurations in
 
 *   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
     similar capabilities to debugprint, supports a slighter smaller set of
-    languages. Can pick up treesitter identifiers as variables and remove
-    added statements - these are on the debugprint roadmap.
+    languages. Can remove added statement - this is on the debugprint roadmap.
 
 *   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
     set of languages and requires you to set up your own autocmds/keymappings.

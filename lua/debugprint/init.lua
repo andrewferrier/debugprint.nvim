@@ -5,12 +5,14 @@ local opts
 OPTION_DEFAULTS = {
     create_keymaps = true,
     move_to_debugline = false,
+    ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
 }
 
 FUNCTION_OPTION_DEFAULTS = {
     above = false,
     variable = false,
+    ignore_treesitter = false,
 }
 
 local counter = 0
@@ -57,6 +59,31 @@ local indent_line = function(current_line)
 
     if not opts.move_to_debugline then
         vim.api.nvim_win_set_cursor(0, pos)
+    end
+end
+
+local find_treesitter_variable = function()
+    local function requiref(module)
+        require(module)
+    end
+
+    local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
+
+    if not ts_utils_test then
+        return nil
+    else
+        local ts_utils = require("nvim-treesitter.ts_utils")
+        -- Once get_node_at_cursor() is in NeoVim core, the nvim-treesitter
+        -- dependency can be removed: https://github.com/neovim/neovim/pull/18232
+        local node = ts_utils.get_node_at_cursor()
+        local node_type = node:type()
+        local variable_name = vim.treesitter.query.get_node_text(node, 0)
+
+        if node_type ~= "identifier" then
+            return nil
+        else
+            return variable_name
+        end
     end
 end
 
@@ -119,7 +146,16 @@ local debugprint_cache = function(o)
         end
 
         if o.variable == true then
-            o.variable_name = vim.fn.input("Variable name: ")
+            if
+                o.ignore_treesitter ~= true
+                and opts.ignore_treesitter ~= true
+            then
+                o.variable_name = find_treesitter_variable()
+            end
+
+            if o.variable_name == nil then
+                o.variable_name = vim.fn.input("Variable name: ")
+            end
         end
 
         cache_request = o
@@ -146,6 +182,7 @@ M.debugprint = function(o)
     vim.validate({
         above = { funcopts.above, "boolean" },
         variable = { funcopts.above, "boolean" },
+        ignore_treesitter = { funcopts.ignore_treesitter, "boolean" },
     })
 
     funcopts.prerepeat = true

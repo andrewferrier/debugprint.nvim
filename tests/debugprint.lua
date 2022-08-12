@@ -35,7 +35,7 @@ end)
 
 describe("can do basic debug statement insertion", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({ ignore_treesitter = true })
     end)
 
     it("can insert a basic statement below", function()
@@ -111,7 +111,7 @@ end)
 
 describe("can do variable debug statement insertion", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({ ignore_treesitter = true })
     end)
 
     it("can insert a variable statement below", function()
@@ -155,7 +155,7 @@ end)
 
 describe("can do various file types", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({ ignore_treesitter = true })
     end)
 
     it("can handle a .vim file", function()
@@ -235,7 +235,7 @@ end)
 
 describe("can do indenting correctly", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({ ignore_treesitter = true })
     end)
 
     it("lua - inside function", function()
@@ -315,6 +315,7 @@ end)
 describe("add custom filetype with setup()", function()
     before_each(function()
         debugprint.setup({
+            ignore_treesitter = true,
             filetypes = {
                 ["wibble"] = {
                     left = "foo('",
@@ -366,7 +367,7 @@ end)
 
 describe("add custom filetype with add_custom_filetypes()", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({ ignore_treesitter = true })
 
         vim.api.nvim_set_option_value("expandtab", true, {})
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
@@ -405,7 +406,10 @@ describe("move to new line", function()
     end)
 
     it("true below", function()
-        debugprint.setup({ move_to_debugline = true })
+        debugprint.setup({
+            ignore_treesitter = true,
+            move_to_debugline = true,
+        })
 
         set_lines({
             "foo",
@@ -426,7 +430,10 @@ describe("move to new line", function()
     end)
 
     it("true above", function()
-        debugprint.setup({ move_to_debugline = true })
+        debugprint.setup({
+            ignore_treesitter = true,
+            move_to_debugline = true,
+        })
 
         set_lines({
             "foo",
@@ -447,7 +454,10 @@ describe("move to new line", function()
     end)
 
     it("false", function()
-        debugprint.setup({ move_to_debugline = false })
+        debugprint.setup({
+            ignore_treesitter = true,
+            move_to_debugline = false,
+        })
 
         set_lines({
             "foo",
@@ -470,7 +480,10 @@ end)
 
 describe("can repeat", function()
     before_each(function()
-        debugprint.setup()
+        debugprint.setup({
+            ignore_treesitter = true,
+            ignore_treesitter = true,
+        })
     end)
 
     it("can insert a basic statement and repeat", function()
@@ -571,7 +584,10 @@ end)
 
 describe("can repeat with move to line", function()
     it("true below", function()
-        debugprint.setup({ move_to_debugline = true })
+        debugprint.setup({
+            ignore_treesitter = true,
+            move_to_debugline = true,
+        })
 
         set_lines({
             "foo",
@@ -591,5 +607,88 @@ describe("can repeat with move to line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 0 })
+    end)
+end)
+
+describe("can handle treesitter identifiers", function()
+    it("standard", function()
+        debugprint.setup({})
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("dQp")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
+    end)
+
+    it("non-identifier", function()
+        debugprint.setup({})
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("dQpapple<CR>")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: "
+                .. filename
+                .. ":2: apple=' .. vim.inspect(apple))",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
+    end)
+
+    it("disabled at function level", function()
+        debugprint.setup({})
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        vim.keymap.set("n", "zxa", function()
+            return require("debugprint").debugprint({
+                variable = true,
+                ignore_treesitter = true,
+            })
+        end, {
+            expr = true,
+        })
+        feedkeys("zxaapple<CR>")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: "
+                .. filename
+                .. ":2: apple=' .. vim.inspect(apple))",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
     end)
 end)
