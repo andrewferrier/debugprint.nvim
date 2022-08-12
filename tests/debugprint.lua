@@ -232,6 +232,7 @@ describe("can do various file types", function()
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("dQp")
+        feedkeys("<CR>")
         assert.are.same(
             "Don't have debugprint configuration for filetype foo",
             notify_message
@@ -633,7 +634,7 @@ describe("can handle treesitter identifiers", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 2, 6 })
-        feedkeys("dQp")
+        feedkeys("dQp<CR>")
 
         check_lines({
             "function x() {",
@@ -642,7 +643,7 @@ describe("can handle treesitter identifiers", function()
             "end",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 0 })
     end)
 
     it("non-identifier", function()
