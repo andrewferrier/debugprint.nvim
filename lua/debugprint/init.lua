@@ -34,8 +34,10 @@ local debuginfo = function(variable_name)
 end
 
 local filetype_configured = function()
-    local filetype =
-        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+    local filetype = vim.api.nvim_get_option_value(
+        "filetype",
+        { scope = "local" }
+    )
 
     if not vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
         vim.notify(
@@ -60,8 +62,10 @@ end
 
 local debugprint_logic = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
-    local filetype =
-        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+    local filetype = vim.api.nvim_get_option_value(
+        "filetype",
+        { scope = "local" }
+    )
     local fixes = opts.filetypes[filetype]
 
     if fixes == nil then
@@ -159,16 +163,24 @@ M.setup = function(o)
     if opts.create_keymaps then
         vim.keymap.set("n", "dqp", function()
             return M.debugprint()
-        end, { expr = true })
+        end, {
+            expr = true,
+        })
         vim.keymap.set("n", "dqP", function()
             return M.debugprint({ above = true })
-        end, { expr = true })
+        end, {
+            expr = true,
+        })
         vim.keymap.set("n", "dQp", function()
             return M.debugprint({ variable = true })
-        end, { expr = true })
+        end, {
+            expr = true,
+        })
         vim.keymap.set("n", "dQP", function()
             return M.debugprint({ above = true, variable = true })
-        end, { expr = true })
+        end, {
+            expr = true,
+        })
     end
 
     -- Because we want to be idempotent, re-running setup() resets the counter
