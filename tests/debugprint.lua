@@ -1,14 +1,3 @@
-local function requiref(module)
-    require(module)
-end
-
-local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
-
-if not ts_utils_test then
-    print("Treesitter is not installed; aborting testing.")
-    os.exit(1)
-end
-
 local set_lines = function(lines)
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 end
