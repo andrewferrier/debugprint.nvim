@@ -42,7 +42,8 @@ It provides various improvements:
 </div>
 
 (This demo is not yet updated to show automatically picking up a variable name
-from under the cursor).
+from under the cursor, and uses old keybindings - the new ones are `g?p`, `g?P`,
+`g?v` and `g?V`).
 
 ## Installation
 
