@@ -274,6 +274,8 @@ M.setup = function(o)
 
     vim.validate({
         create_keymaps = { opts.create_keymaps, "boolean" },
+        move_to_debugline = { opts.move_to_debugline, "boolean" },
+        ignore_treesitter = { opts.ignore_treesitter, "boolean" },
     })
 
     if opts.create_keymaps then
