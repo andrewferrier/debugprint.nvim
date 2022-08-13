@@ -46,7 +46,7 @@ describe("can do basic debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -63,7 +63,7 @@ describe("can do basic debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
+        feedkeys("g?P")
 
         check_lines({
             "print('DEBUG[1]: " .. filename .. ":1')",
@@ -80,8 +80,8 @@ describe("can do basic debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
-        feedkeys("dqP")
+        feedkeys("g?P")
+        feedkeys("g?P")
 
         check_lines({
             "print('DEBUG[1]: " .. filename .. ":1')",
@@ -99,7 +99,7 @@ describe("can do basic debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 2, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -122,7 +122,7 @@ describe("can do variable debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQpbanana<CR>")
+        feedkeys("g?vbanana<CR>")
 
         check_lines({
             "foo",
@@ -141,7 +141,7 @@ describe("can do variable debug statement insertion", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQPbanana<CR>")
+        feedkeys("g?Vbanana<CR>")
 
         check_lines({
             "print('DEBUG[1]: "
@@ -166,7 +166,7 @@ describe("can do various file types", function()
 
         local filename = write_file("vim")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -183,7 +183,7 @@ describe("can do various file types", function()
 
         local filename = write_file("vim")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQpbanana<CR>")
+        feedkeys("g?vbanana<CR>")
 
         check_lines({
             "foo",
@@ -200,7 +200,7 @@ describe("can do various file types", function()
 
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
         assert.are.same(
             "Don't have debugprint configuration for filetype foo",
             notify_message
@@ -220,7 +220,7 @@ describe("can do various file types", function()
 
         write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQp")
+        feedkeys("g?v")
         feedkeys("<CR>")
         assert.are.same(
             "Don't have debugprint configuration for filetype foo",
@@ -248,7 +248,7 @@ describe("can do indenting correctly", function()
         local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "function()",
@@ -266,7 +266,7 @@ describe("can do indenting correctly", function()
         local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
         vim.api.nvim_win_set_cursor(0, { 2, 0 })
-        feedkeys("dqP")
+        feedkeys("g?P")
 
         check_lines({
             "function()",
@@ -284,7 +284,7 @@ describe("can do indenting correctly", function()
         local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
+        feedkeys("g?P")
 
         check_lines({
             "print('DEBUG[1]: " .. filename .. ":1')",
@@ -303,7 +303,7 @@ describe("can do indenting correctly", function()
         vim.api.nvim_set_option_value("expandtab", false, {})
         vim.api.nvim_set_option_value("shiftwidth", 8, {})
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "function()",
@@ -339,7 +339,7 @@ describe("add custom filetype with setup()", function()
 
         local filename = write_file("wibble")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -356,7 +356,7 @@ describe("add custom filetype with setup()", function()
 
         local filename = write_file("wibble")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQpapple<CR>")
+        feedkeys("g?vapple<CR>")
 
         check_lines({
             "foo",
@@ -390,7 +390,7 @@ describe("add custom filetype with add_custom_filetypes()", function()
         })
         local filename = write_file("foo")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -419,7 +419,7 @@ describe("move to new line", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -443,7 +443,7 @@ describe("move to new line", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
+        feedkeys("g?P")
 
         check_lines({
             "print('DEBUG[1]: " .. filename .. ":1')",
@@ -467,7 +467,7 @@ describe("move to new line", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
 
         check_lines({
             "foo",
@@ -495,7 +495,7 @@ describe("can repeat", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
         feedkeys(".")
 
         check_lines({
@@ -514,7 +514,7 @@ describe("can repeat", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqP")
+        feedkeys("g?P")
         feedkeys(".")
 
         check_lines({
@@ -535,9 +535,9 @@ describe("can repeat", function()
 
             local filename = write_file("lua")
             vim.api.nvim_win_set_cursor(0, { 1, 0 })
-            feedkeys("dqP")
+            feedkeys("g?P")
             feedkeys(".")
-            feedkeys("jdqp")
+            feedkeys("jg?p")
             feedkeys(".")
 
             check_lines({
@@ -559,9 +559,9 @@ describe("can repeat", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dQpbanana<CR>")
+        feedkeys("g?vbanana<CR>")
         feedkeys(".")
-        feedkeys("dQPapple<CR>")
+        feedkeys("g?Vapple<CR>")
         feedkeys(".")
 
         check_lines({
@@ -597,7 +597,7 @@ describe("can repeat with move to line", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        feedkeys("dqp")
+        feedkeys("g?p")
         feedkeys(".")
 
         check_lines({
@@ -623,7 +623,7 @@ describe("can handle treesitter identifiers", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 2, 6 })
-        feedkeys("dQp<CR>")
+        feedkeys("g?v<CR>")
 
         check_lines({
             "function x() {",
@@ -646,7 +646,7 @@ describe("can handle treesitter identifiers", function()
 
         local filename = write_file("lua")
         vim.api.nvim_win_set_cursor(0, { 2, 6 })
-        feedkeys("dQpapple<CR>")
+        feedkeys("g?vapple<CR>")
 
         check_lines({
             "function x() {",

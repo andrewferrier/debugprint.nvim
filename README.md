@@ -94,16 +94,17 @@ following table.
 
 | Keymap          | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
 | ------          | ----------------------------------------------------------------------------------------------------                              | -------------------------------------------------------------------                           |
-| `dqp`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
-| `dqP`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
-| `dQP`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
-| `dQP`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| `g?p`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
+| `g?P`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
+| `g?v`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
+| `g?V`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
 | None by default | Always prompt for a variable name, and insert a debugging line just below the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
 | None by default | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
 
-These keybindings are chosen not to conflict with any standard Vim keys (or any
-common plugins, at least that I'm aware of). You can disable them from being
-created by setting `create_keymaps`, and map them yourself if you prefer:
+These keybindings are chosen specifically because by default in NeoVim they are
+used to convert sections to ROT-13, which most folks don't use. You can disable
+them from being created by setting `create_keymaps`, and map them yourself to
+something else if you prefer:
 
 ```lua
 opts = {
@@ -202,8 +203,8 @@ The keys in the configuration are used like this:
 
 | Type of debug line  | Default keys | How debug line is constructed
 | -                   | -            | -                                                                                                                           |
-| Plain debug line    | `dqp`/`dqP`  | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
-| Variable debug line | `dQp`/`dQP`  | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
+| Plain debug line    | `g?p`/`g?P`  | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
+| Variable debug line | `g?v`/`g?V`  | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
 
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
@@ -220,7 +221,7 @@ If it helps to understand these, you can look at the built-in configurations in
 ## Known Limitations
 
 *   `debugprint` only supports variable names or simple expressions when using
-    `dQp`/`dQP` - in particular, it does not make any attempt to escape
+    `g?v`/`g?V` - in particular, it does not make any attempt to escape
     expressions, and may generate invalid syntax if you try to be too clever.
     There's [an issue to look at ways of improving
     this](https://github.com/andrewferrier/debugprint.nvim/issues/20).

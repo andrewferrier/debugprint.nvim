@@ -169,6 +169,16 @@ local debugprint_cache = function(o)
     set_callback("v:lua.require'debugprint'.debugprint_callback")
 end
 
+local notify_deprecated = function()
+    vim.notify(
+        "dqp and similar keymappings are deprecated for debugprint and are "
+            .. "replaced with g?p, g?P, g?q, and g?Q. If you wish to continue "
+            .. "using dqp etc., please see the Keymappings section in the README "
+            .. "on how to map your own keymappings and map them explicitly. Thanks!",
+        vim.log.levels.WARN
+    )
+end
+
 M.debugprint_callback = function()
     debugprint_cache()
 end
@@ -196,22 +206,47 @@ M.setup = function(o)
     })
 
     if opts.create_keymaps then
+        vim.keymap.set("n", "g?p", function()
+            return M.debugprint()
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("n", "g?P", function()
+            return M.debugprint({ above = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("n", "g?v", function()
+            return M.debugprint({ variable = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("n", "g?V", function()
+            return M.debugprint({ above = true, variable = true })
+        end, {
+            expr = true,
+        })
+
         vim.keymap.set("n", "dqp", function()
+            notify_deprecated()
             return M.debugprint()
         end, {
             expr = true,
         })
         vim.keymap.set("n", "dqP", function()
+            notify_deprecated()
             return M.debugprint({ above = true })
         end, {
             expr = true,
         })
         vim.keymap.set("n", "dQp", function()
+            notify_deprecated()
             return M.debugprint({ variable = true })
         end, {
             expr = true,
         })
         vim.keymap.set("n", "dQP", function()
+            notify_deprecated()
             return M.debugprint({ above = true, variable = true })
         end, {
             expr = true,
