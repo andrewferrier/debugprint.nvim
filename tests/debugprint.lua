@@ -483,7 +483,6 @@ describe("can repeat", function()
     before_each(function()
         debugprint.setup({
             ignore_treesitter = true,
-            ignore_treesitter = true,
         })
     end)
 
