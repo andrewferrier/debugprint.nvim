@@ -62,6 +62,14 @@ local indent_line = function(current_line)
     end
 end
 
+M.NOOP = function() end
+
+local set_callback = function(func_name)
+    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
+    vim.cmd("normal! g@l")
+    vim.go.operatorfunc = func_name
+end
+
 local debugprint_addline = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
@@ -104,14 +112,6 @@ end
 
 local cache_request = nil
 
-M.NOOP = function() end
-
-local set_callback = function(func_name)
-    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
-    vim.cmd("normal! g@l")
-    vim.go.operatorfunc = func_name
-end
-
 M.debugprint_cache = function(o)
     if o and o.prerepeat == true then
         if not filetype_configured() then
@@ -147,16 +147,6 @@ M.debugprint_cache = function(o)
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
-local notify_deprecated = function()
-    vim.notify(
-        "dqp and similar keymappings are deprecated for debugprint and are "
-            .. "replaced with g?p, g?P, g?q, and g?Q. If you wish to continue "
-            .. "using dqp etc., please see the Keymappings section in the README "
-            .. "on how to map your own keymappings and map them explicitly. Thanks!",
-        vim.log.levels.WARN
-    )
-end
-
 M.debugprint = function(o)
     local funcopts =
         vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, o or {})
@@ -183,6 +173,16 @@ M.debugprint_motion_callback = function()
     cache_request.variable_name = utils.get_operator_selection()
     debugprint_addline(cache_request)
     set_callback("v:lua.require'debugprint'.debugprint_cache")
+end
+
+local notify_deprecated = function()
+    vim.notify(
+        "dqp and similar keymappings are deprecated for debugprint and are "
+            .. "replaced with g?p, g?P, g?q, and g?Q. If you wish to continue "
+            .. "using dqp etc., please see the Keymappings section in the README "
+            .. "on how to map your own keymappings and map them explicitly. Thanks!",
+        vim.log.levels.WARN
+    )
 end
 
 M.setup = function(o)
