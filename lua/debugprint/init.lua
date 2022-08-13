@@ -127,7 +127,7 @@ local get_visual_selection = function()
     return vim.api.nvim_buf_get_text(0, line1, col1, line2, col2, {})[1]
 end
 
-local debugprint_logic = function(funcopts)
+local debugprint_addline = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
@@ -177,7 +177,7 @@ local set_callback = function(func_name)
     vim.go.operatorfunc = func_name
 end
 
-local debugprint_cache = function(o)
+M.debugprint_cache = function(o)
     if o and o.prerepeat == true then
         if not filetype_configured() then
             return
@@ -204,13 +204,13 @@ local debugprint_cache = function(o)
         end
 
         cache_request = o
-        vim.go.operatorfunc = "v:lua.require'debugprint'.debugprint_callback"
+        vim.go.operatorfunc = "v:lua.require'debugprint'.debugprint_cache"
         return "g@l"
     end
 
-    debugprint_logic(cache_request)
+    debugprint_addline(cache_request)
 
-    set_callback("v:lua.require'debugprint'.debugprint_callback")
+    set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
 local notify_deprecated = function()
@@ -221,10 +221,6 @@ local notify_deprecated = function()
             .. "on how to map your own keymappings and map them explicitly. Thanks!",
         vim.log.levels.WARN
     )
-end
-
-M.debugprint_callback = function()
-    debugprint_cache()
 end
 
 M.debugprint = function(o)
@@ -239,7 +235,7 @@ M.debugprint = function(o)
 
     funcopts.prerepeat = true
     cache_request = nil
-    return debugprint_cache(funcopts)
+    return M.debugprint_cache(funcopts)
 end
 
 M.setup = function(o)
