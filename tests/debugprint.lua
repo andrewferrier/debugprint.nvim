@@ -692,3 +692,151 @@ describe("can handle treesitter identifiers", function()
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
     end)
 end)
+
+describe("visual selection", function()
+    it("standard", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("vllg?v")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("repeat", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("vllg?v.")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[2]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("standard line extremes", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "xyz",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 0 })
+        feedkeys("vllg?v")
+
+        check_lines({
+            "function x() {",
+            "xyz",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("reverse", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 8 })
+        feedkeys("vhhg?v")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("reverse extremes", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("vllg?v")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("above", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("vllg?V")
+
+        check_lines({
+            "function x() {",
+            "    print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("ignore multiline", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 1 })
+        feedkeys("vjg?v")
+
+        assert.are.same(
+            "debugprint not supported when multiple lines selected.",
+            notify_message
+        )
+    end)
+end)

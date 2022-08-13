@@ -90,6 +90,43 @@ local find_treesitter_variable = function()
     end
 end
 
+local get_visual_selection = function()
+    local mode = vim.fn.mode():lower()
+    if not (mode:find("^v") or mode:find("^ctrl-v")) then
+        return nil
+    end
+
+    local first_pos, last_pos = vim.fn.getpos("v"), vim.fn.getpos(".")
+
+    local line1 = first_pos[2] - 1
+    local line2 = last_pos[2] - 1
+    local col1 = first_pos[3] - 1
+    local col2 = last_pos[3]
+
+    if line2 < line1 or (line1 == line2 and col2 < col1) then
+        local linet = line2
+        line2 = line1
+        line1 = linet
+
+        local colt = col2
+        col2 = col1
+        col1 = colt
+
+        col1 = col1 - 1
+        col2 = col2 + 1
+    end
+
+    if line1 ~= line2 then
+        vim.notify(
+            "debugprint not supported when multiple lines selected.",
+            vim.log.levels.ERROR
+        )
+        return false
+    end
+
+    return vim.api.nvim_buf_get_text(0, line1, col1, line2, col2, {})[1]
+end
+
 local debugprint_logic = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
@@ -147,8 +184,15 @@ local debugprint_cache = function(o)
         end
 
         if o.variable == true then
+            o.variable_name = get_visual_selection()
+
+            if o.variable_name == false then
+                return
+            end
+
             if
-                o.ignore_treesitter ~= true
+                o.variable_name == nil
+                and o.ignore_treesitter ~= true
                 and opts.ignore_treesitter ~= true
             then
                 o.variable_name = find_treesitter_variable()
@@ -222,6 +266,16 @@ M.setup = function(o)
             expr = true,
         })
         vim.keymap.set("n", "g?V", function()
+            return M.debugprint({ above = true, variable = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("x", "g?v", function()
+            return M.debugprint({ variable = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("x", "g?V", function()
             return M.debugprint({ above = true, variable = true })
         end, {
             expr = true,
