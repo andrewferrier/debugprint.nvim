@@ -85,6 +85,10 @@ require("debugprint").setup(opts)
 
 The sections below detail the allowed options.
 
+Please subscribe to [this GitHub issue](https://github.com/andrewferrier/debugprint.nvim/issues/25),
+especially while `debugprint` is still in active development, to be notified of
+any breaking issues.
+
 ## Keymappings
 
 By default, the plugin will create some normal-mode keymappings, which are the
