@@ -2,9 +2,9 @@ local M = {}
 
 local utils = require('debugprint.utils')
 
-local opts
+local global_opts
 
-OPTION_DEFAULTS = {
+GLOBAL_OPTION_DEFAULTS = {
     create_keymaps = true,
     move_to_debugline = false,
     ignore_treesitter = false,
@@ -41,7 +41,7 @@ local filetype_configured = function()
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
 
-    if not vim.tbl_contains(vim.tbl_keys(opts.filetypes), filetype) then
+    if not vim.tbl_contains(vim.tbl_keys(global_opts.filetypes), filetype) then
         vim.notify(
             "Don't have debugprint configuration for filetype " .. filetype,
             vim.log.levels.WARN
@@ -57,7 +57,7 @@ local indent_line = function(current_line)
     -- There's probably a better way to do this indent, but I don't know what it is
     vim.cmd(current_line + 1 .. "normal! ==")
 
-    if not opts.move_to_debugline then
+    if not global_opts.move_to_debugline then
         vim.api.nvim_win_set_cursor(0, pos)
     end
 end
@@ -70,75 +70,75 @@ local set_callback = function(func_name)
     vim.go.operatorfunc = func_name
 end
 
-local debugprint_addline = function(funcopts)
+local debugprint_addline = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
-    local fixes = opts.filetypes[filetype]
+    local fixes = global_opts.filetypes[filetype]
 
     if fixes == nil then
         return
     end
 
-    local line_to_insert
-    local line_to_insert_on
+    local line_to_insert_content
+    local line_to_insert_linenr
 
-    if funcopts.variable_name then
-        line_to_insert = fixes.left
-            .. debuginfo(funcopts.variable_name)
+    if opts.variable_name then
+        line_to_insert_content = fixes.left
+            .. debuginfo(opts.variable_name)
             .. fixes.mid_var
-            .. funcopts.variable_name
+            .. opts.variable_name
             .. fixes.right_var
     else
-        line_to_insert = fixes.left .. debuginfo() .. fixes.right
+        line_to_insert_content = fixes.left .. debuginfo() .. fixes.right
     end
 
-    if funcopts.above then
-        line_to_insert_on = current_line - 1
+    if opts.above then
+        line_to_insert_linenr = current_line - 1
     else
-        line_to_insert_on = current_line
+        line_to_insert_linenr = current_line
     end
 
     vim.api.nvim_buf_set_lines(
         0,
-        line_to_insert_on,
-        line_to_insert_on,
+        line_to_insert_linenr,
+        line_to_insert_linenr,
         true,
-        { line_to_insert }
+        { line_to_insert_content }
     )
 
-    indent_line(line_to_insert_on)
+    indent_line(line_to_insert_linenr)
 end
 
 local cache_request = nil
 
-M.debugprint_cache = function(o)
-    if o and o.prerepeat == true then
+M.debugprint_cache = function(opts)
+    if opts and opts.prerepeat == true then
         if not filetype_configured() then
             return
         end
 
-        if o.variable == true then
-            o.variable_name = utils.get_visual_selection()
+        if opts.variable == true then
+            opts.variable_name = utils.get_visual_selection()
 
-            if o.variable_name == false then
+            if opts.variable_name == false then
                 return
             end
 
             if
-                o.variable_name == nil
-                and o.ignore_treesitter ~= true
+                opts.variable_name == nil
                 and opts.ignore_treesitter ~= true
+                and global_opts.ignore_treesitter ~= true
             then
-                o.variable_name = utils.find_treesitter_variable()
+                opts.variable_name = utils.find_treesitter_variable()
             end
 
-            if o.variable_name == nil then
-                o.variable_name = vim.fn.input("Variable name: ")
+            if opts.variable_name == nil then
+                opts.variable_name = vim.fn.input("Variable name: ")
             end
         end
 
-        cache_request = o
+        cache_request = opts
         vim.go.operatorfunc = "v:lua.require'debugprint'.debugprint_cache"
         return "g@l"
     end
@@ -147,25 +147,25 @@ M.debugprint_cache = function(o)
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
-M.debugprint = function(o)
-    local funcopts =
-        vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, o or {})
+M.debugprint = function(opts)
+    local func_opts =
+        vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, opts or {})
 
     vim.validate({
-        above = { funcopts.above, "boolean" },
-        variable = { funcopts.above, "boolean" },
-        ignore_treesitter = { funcopts.ignore_treesitter, "boolean" },
+        above = { func_opts.above, "boolean" },
+        variable = { func_opts.above, "boolean" },
+        ignore_treesitter = { func_opts.ignore_treesitter, "boolean" },
     })
 
-    if funcopts.motion == true then
-        cache_request = funcopts
+    if func_opts.motion == true then
+        cache_request = func_opts
         vim.go.operatorfunc =
             "v:lua.require'debugprint'.debugprint_motion_callback"
         return "g@"
     else
         cache_request = nil
-        funcopts.prerepeat = true
-        return M.debugprint_cache(funcopts)
+        func_opts.prerepeat = true
+        return M.debugprint_cache(func_opts)
     end
 end
 
@@ -185,16 +185,16 @@ local notify_deprecated = function()
     )
 end
 
-M.setup = function(o)
-    opts = vim.tbl_deep_extend("force", OPTION_DEFAULTS, o or {})
+M.setup = function(opts)
+    global_opts = vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
 
     vim.validate({
-        create_keymaps = { opts.create_keymaps, "boolean" },
-        move_to_debugline = { opts.move_to_debugline, "boolean" },
-        ignore_treesitter = { opts.ignore_treesitter, "boolean" },
+        create_keymaps = { global_opts.create_keymaps, "boolean" },
+        move_to_debugline = { global_opts.move_to_debugline, "boolean" },
+        ignore_treesitter = { global_opts.ignore_treesitter, "boolean" },
     })
 
-    if opts.create_keymaps then
+    if global_opts.create_keymaps then
         vim.keymap.set("n", "g?p", function()
             return M.debugprint()
         end, {
@@ -271,7 +271,7 @@ M.add_custom_filetypes = function(filetypes)
         filetypes = { filetypes, "table" },
     })
 
-    opts.filetypes = vim.tbl_deep_extend("force", opts.filetypes, filetypes)
+    global_opts.filetypes = vim.tbl_deep_extend("force", global_opts.filetypes, filetypes)
 end
 
 return M
