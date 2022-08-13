@@ -31,6 +31,9 @@ It provides various improvements:
 *   It provides keymappings for visual mode, so you can select a variable
     visually and print it out.
 
+*   It provides keymappings for operator-pending mode, so you can select a
+    variable using a motion.
+
 *   It indents the lines it inserts more accurately.
 
 *   The output when printing a 'plain' debug line, or a variable, is more
@@ -95,21 +98,22 @@ any breaking issues.
 
 ## Keymappings
 
-By default, the plugin will create some normal-mode keymappings, which are the
-standard way to use it. There are also some function invocations which are not
-mapped to any keymappings by default, but could be. This is all shown in the
-following table.
+By default, the plugin will create some keymappings, which are the standard way
+to use it. There are also some function invocations which are not mapped to any
+keymappings by default, but could be. This is all shown in the following table.
 
-| Mode   | Keymap          | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
-| ------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Normal | `g?p`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
-| Normal | `g?P`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
-| Normal | `g?v`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
-| Normal | `g?V`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
-| Normal | None by default | Always prompt for a variable name, and insert a debugging line just below the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
-| Normal | None by default | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
-| Visual | `g?v`           | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
-| Visual | `g?V`           | Find the visually select variable name, and insert a debugging line just above the current line which outputs it                  | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| Mode             | Keymap          | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
+| ------           | --------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Normal           | `g?p`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
+| Normal           | `g?P`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
+| Normal           | `g?v`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
+| Normal           | `g?V`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| Normal           | None by default | Always prompt for a variable name, and insert a debugging line just below the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
+| Normal           | None by default | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
+| Visual           | `g?v`           | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
+| Visual           | `g?v`           | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
+| Operator-pending | `g?o`           | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| Operator-pending | `g?O`           | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
 
 These keybindings are chosen specifically because by default in NeoVim they are
 used to convert sections to ROT-13, which most folks don't use. You can disable
@@ -211,10 +215,10 @@ configuration.
 
 The keys in the configuration are used like this:
 
-| Type of debug line  | Default keys | How debug line is constructed
-| -                   | -            | -                                                                                                                           |
-| Plain debug line    | `g?p`/`g?P`  | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
-| Variable debug line | `g?v`/`g?V`  | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
+| Type of debug line  | Default keys            | How debug line is constructed
+| -                   | -                       | -                                                                                                                           |
+| Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
+| Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
 
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).

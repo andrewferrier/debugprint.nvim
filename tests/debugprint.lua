@@ -840,3 +840,111 @@ describe("visual selection", function()
         )
     end)
 end)
+
+describe("motion mode", function()
+    it("standard", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("g?o2l")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "end",
+        })
+    end)
+
+    it("repeat", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("g?o2l.")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[2]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUG[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "end",
+        })
+    end)
+
+    it("above", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("g?Oiw")
+
+        check_lines({
+            "function x() {",
+            "    print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("repeat", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        local filename = write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 2, 6 })
+        feedkeys("g?oiw")
+        feedkeys("j.")
+
+        check_lines({
+            "function x() {",
+            "local xyz = 3",
+            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUG[2]: " .. filename .. ":3: xyz=' .. vim.inspect(xyz))",
+            "end",
+        })
+    end)
+
+    it("ignore multiline", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        set_lines({
+            "function x() {",
+            "local xyz = 3",
+            "end",
+        })
+
+        write_file("lua")
+        vim.api.nvim_win_set_cursor(0, { 1, 1 })
+        feedkeys("g?oj")
+
+        assert.are.same(
+            "debugprint not supported when multiple lines in motion.",
+            notify_message
+        )
+    end)
+end)

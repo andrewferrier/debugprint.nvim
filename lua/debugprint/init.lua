@@ -127,6 +127,25 @@ local get_visual_selection = function()
     return vim.api.nvim_buf_get_text(0, line1, col1, line2, col2, {})[1]
 end
 
+local get_operator_selection = function()
+    local first_pos, last_pos = vim.fn.getpos("'["), vim.fn.getpos("']")
+
+    local line1 = first_pos[2] - 1
+    local line2 = last_pos[2] - 1
+    local col1 = first_pos[3] - 1
+    local col2 = last_pos[3]
+
+    if line1 ~= line2 then
+        vim.notify(
+            "debugprint not supported when multiple lines in motion.",
+            vim.log.levels.ERROR
+        )
+        return false
+    end
+
+    return vim.api.nvim_buf_get_text(0, line1, col1, line2, col2, {})[1]
+end
+
 local debugprint_addline = function(funcopts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
@@ -209,7 +228,6 @@ M.debugprint_cache = function(o)
     end
 
     debugprint_addline(cache_request)
-
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
@@ -233,9 +251,22 @@ M.debugprint = function(o)
         ignore_treesitter = { funcopts.ignore_treesitter, "boolean" },
     })
 
-    funcopts.prerepeat = true
-    cache_request = nil
-    return M.debugprint_cache(funcopts)
+    if funcopts.motion == true then
+        cache_request = funcopts
+        vim.go.operatorfunc =
+            "v:lua.require'debugprint'.debugprint_motion_callback"
+        return "g@"
+    else
+        cache_request = nil
+        funcopts.prerepeat = true
+        return M.debugprint_cache(funcopts)
+    end
+end
+
+M.debugprint_motion_callback = function()
+    cache_request.variable_name = get_operator_selection()
+    debugprint_addline(cache_request)
+    set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
 M.setup = function(o)
@@ -273,6 +304,16 @@ M.setup = function(o)
         })
         vim.keymap.set("x", "g?V", function()
             return M.debugprint({ above = true, variable = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("n", "g?o", function()
+            return M.debugprint({ motion = true })
+        end, {
+            expr = true,
+        })
+        vim.keymap.set("n", "g?O", function()
+            return M.debugprint({ motion = true, above = true })
         end, {
             expr = true,
         })
