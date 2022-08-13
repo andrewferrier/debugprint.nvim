@@ -1,6 +1,4 @@
-local set_lines = function(lines)
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end
+local debugprint = require("debugprint")
 
 local check_lines = function(lines)
     assert.are.same(lines, vim.api.nvim_buf_get_lines(0, 0, -1, false))
@@ -11,14 +9,19 @@ local feedkeys = function(keys)
     vim.api.nvim_feedkeys(keys, "mtx", false)
 end
 
-local debugprint = require("debugprint")
-
 local write_file = function(filetype)
     vim.api.nvim_set_option_value("filetype", filetype, {})
 
     local tempfile = vim.fn.tempname() .. "." .. filetype
     vim.cmd("silent w! " .. tempfile)
     return vim.fn.expand("%:t")
+end
+
+local init_file = function(lines, filetype, row, col)
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+    local filename = write_file(filetype)
+    vim.api.nvim_win_set_cursor(0, { row, col })
+    return filename
 end
 
 local notify_message
@@ -39,13 +42,11 @@ describe("can do basic debug statement insertion", function()
     end)
 
     it("can insert a basic statement below", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -56,13 +57,11 @@ describe("can do basic debug statement insertion", function()
     end)
 
     it("can insert a basic statement above first line", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?P")
 
         check_lines({
@@ -73,13 +72,11 @@ describe("can do basic debug statement insertion", function()
     end)
 
     it("can insert a basic statement above first line twice", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?P")
         feedkeys("g?P")
 
@@ -92,13 +89,11 @@ describe("can do basic debug statement insertion", function()
     end)
 
     it("can insert a basic statement below last line", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 2, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -115,13 +110,11 @@ describe("can do variable debug statement insertion", function()
     end)
 
     it("can insert a variable statement below", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?vbanana<CR>")
 
         check_lines({
@@ -134,13 +127,11 @@ describe("can do variable debug statement insertion", function()
     end)
 
     it("can insert a variable statement above", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?Vbanana<CR>")
 
         check_lines({
@@ -159,13 +150,11 @@ describe("can do various file types", function()
     end)
 
     it("can handle a .vim file", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "vim", 1, 0)
 
-        local filename = write_file("vim")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -176,13 +165,11 @@ describe("can do various file types", function()
     end)
 
     it("can handle a .vim file variable", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "vim", 1, 0)
 
-        local filename = write_file("vim")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?vbanana<CR>")
 
         check_lines({
@@ -193,13 +180,11 @@ describe("can do various file types", function()
     end)
 
     it("can gracefully handle unknown filetypes", function()
-        set_lines({
+        init_file({
             "foo",
             "bar",
-        })
+        }, "foo", 1, 0)
 
-        write_file("foo")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
         assert.are.same(
             "Don't have debugprint configuration for filetype foo",
@@ -213,13 +198,11 @@ describe("can do various file types", function()
     end)
 
     it("don't prompt for a variable name with an unknown filetype", function()
-        set_lines({
+        init_file({
             "foo",
             "bar",
-        })
+        }, "foo", 1, 0)
 
-        write_file("foo")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?v")
         feedkeys("<CR>")
         assert.are.same(
@@ -240,14 +223,12 @@ describe("can do indenting correctly", function()
     end)
 
     it("lua - inside function", function()
-        set_lines({
+        local filename = init_file({
             "function()",
             "end",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -258,14 +239,12 @@ describe("can do indenting correctly", function()
     end)
 
     it("lua - inside function from below", function()
-        set_lines({
+        local filename = init_file({
             "function()",
             "end",
-        })
+        }, "lua", 2, 0)
 
-        local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
-        vim.api.nvim_win_set_cursor(0, { 2, 0 })
         feedkeys("g?P")
 
         check_lines({
@@ -276,14 +255,12 @@ describe("can do indenting correctly", function()
     end)
 
     it("lua - above function", function()
-        set_lines({
+        local filename = init_file({
             "function()",
             "end",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?P")
 
         check_lines({
@@ -294,15 +271,13 @@ describe("can do indenting correctly", function()
     end)
 
     it("lua - inside function using tabs", function()
-        set_lines({
+        local filename = init_file({
             "function()",
             "end",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
         vim.api.nvim_set_option_value("expandtab", false, {})
         vim.api.nvim_set_option_value("shiftwidth", 8, {})
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -332,13 +307,11 @@ describe("add custom filetype with setup()", function()
     end)
 
     it("can handle basic", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "wibble", 1, 0)
 
-        local filename = write_file("wibble")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -349,13 +322,11 @@ describe("add custom filetype with setup()", function()
     end)
 
     it("can handle variable", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "wibble", 1, 0)
 
-        local filename = write_file("wibble")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?vapple<CR>")
 
         check_lines({
@@ -384,12 +355,11 @@ describe("add custom filetype with add_custom_filetypes()", function()
             },
         })
 
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
-        local filename = write_file("foo")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        }, "foo", 1, 0)
+
         feedkeys("g?p")
 
         check_lines({
@@ -412,13 +382,11 @@ describe("move to new line", function()
             move_to_debugline = true,
         })
 
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -436,13 +404,11 @@ describe("move to new line", function()
             move_to_debugline = true,
         })
 
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?P")
 
         check_lines({
@@ -460,13 +426,11 @@ describe("move to new line", function()
             move_to_debugline = false,
         })
 
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
 
         check_lines({
@@ -487,13 +451,11 @@ describe("can repeat", function()
     end)
 
     it("can insert a basic statement and repeat", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
         feedkeys(".")
 
@@ -506,13 +468,11 @@ describe("can repeat", function()
     end)
 
     it("can insert a basic statement and repeat above", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?P")
         feedkeys(".")
 
@@ -527,13 +487,11 @@ describe("can repeat", function()
     it(
         "can insert a basic statement and repeat in different directions",
         function()
-            set_lines({
+            local filename = init_file({
                 "foo",
                 "bar",
-            })
+            }, "lua", 1, 0)
 
-            local filename = write_file("lua")
-            vim.api.nvim_win_set_cursor(0, { 1, 0 })
             feedkeys("g?P")
             feedkeys(".")
             feedkeys("jg?p")
@@ -551,13 +509,11 @@ describe("can repeat", function()
     )
 
     it("can insert a variable statement and repeat", function()
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?vbanana<CR>")
         feedkeys(".")
         feedkeys("g?Vapple<CR>")
@@ -589,13 +545,11 @@ describe("can repeat with move to line", function()
             move_to_debugline = true,
         })
 
-        set_lines({
+        local filename = init_file({
             "foo",
             "bar",
-        })
+        }, "lua", 1, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 0 })
         feedkeys("g?p")
         feedkeys(".")
 
@@ -614,14 +568,12 @@ describe("can handle treesitter identifiers", function()
     it("standard", function()
         debugprint.setup({})
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?v<CR>")
 
         check_lines({
@@ -637,14 +589,12 @@ describe("can handle treesitter identifiers", function()
     it("non-identifier", function()
         debugprint.setup({})
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?vapple<CR>")
 
         check_lines({
@@ -662,14 +612,12 @@ describe("can handle treesitter identifiers", function()
     it("disabled at function level", function()
         debugprint.setup({})
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         vim.keymap.set("n", "zxa", function()
             return require("debugprint").debugprint({
                 variable = true,
@@ -697,14 +645,12 @@ describe("visual selection", function()
     it("standard", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("vllg?v")
 
         check_lines({
@@ -718,14 +664,12 @@ describe("visual selection", function()
     it("repeat", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("vllg?v.")
 
         check_lines({
@@ -740,14 +684,12 @@ describe("visual selection", function()
     it("standard line extremes", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "xyz",
             "end",
-        })
+        }, "lua", 2, 0)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 0 })
         feedkeys("vllg?v")
 
         check_lines({
@@ -761,14 +703,12 @@ describe("visual selection", function()
     it("reverse", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 8)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 8 })
         feedkeys("vhhg?v")
 
         check_lines({
@@ -782,14 +722,12 @@ describe("visual selection", function()
     it("reverse extremes", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("vllg?v")
 
         check_lines({
@@ -803,19 +741,19 @@ describe("visual selection", function()
     it("above", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("vllg?V")
 
         check_lines({
             "function x() {",
-            "    print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "    print('DEBUG[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "local xyz = 3",
             "end",
         })
@@ -824,14 +762,12 @@ describe("visual selection", function()
     it("ignore multiline", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 1, 1)
 
-        write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 1 })
         feedkeys("vjg?v")
 
         assert.are.same(
@@ -845,14 +781,12 @@ describe("motion mode", function()
     it("standard", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?o2l")
 
         check_lines({
@@ -866,14 +800,12 @@ describe("motion mode", function()
     it("repeat", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?o2l.")
 
         check_lines({
@@ -888,19 +820,19 @@ describe("motion mode", function()
     it("above", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?Oiw")
 
         check_lines({
             "function x() {",
-            "    print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "    print('DEBUG[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "local xyz = 3",
             "end",
         })
@@ -909,14 +841,12 @@ describe("motion mode", function()
     it("repeat", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        local filename = init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 2, 6)
 
-        local filename = write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 2, 6 })
         feedkeys("g?oiw")
         feedkeys("j.")
 
@@ -932,14 +862,12 @@ describe("motion mode", function()
     it("ignore multiline", function()
         debugprint.setup({ ignore_treesitter = true })
 
-        set_lines({
+        init_file({
             "function x() {",
             "local xyz = 3",
             "end",
-        })
+        }, "lua", 1, 1)
 
-        write_file("lua")
-        vim.api.nvim_win_set_cursor(0, { 1, 1 })
         feedkeys("g?oj")
 
         assert.are.same(
