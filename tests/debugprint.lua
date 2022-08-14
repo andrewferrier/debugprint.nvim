@@ -144,6 +144,24 @@ describe("can do variable debug statement insertion", function()
             "bar",
         })
     end)
+
+    it("entering no name gives an error", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?v<CR>")
+        assert.are.same(
+            "No variable name entered.",
+            notify_message
+        )
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
 end)
 
 describe("can do various file types", function()
