@@ -263,8 +263,8 @@ If it helps to understand these, you can look at the built-in configurations in
 ## Alternatives / Competitors
 
 *   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
-    similar capabilities to debugprint, supports a slighter smaller set of
-    languages. Can remove added statement - this is on the debugprint roadmap.
+    smaller set of capabilities than debugprint, supports a slighter smaller
+    set of languages.
 
 *   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
-    set of languages and requires you to set up your own autocmds/keymappings.
+    set of languages and no default keymappings.
