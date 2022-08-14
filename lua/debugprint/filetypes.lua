@@ -26,6 +26,12 @@ return {
         mid_var = '" << ',
         right_var = " << std::endl;",
     },
+    ["dart"] = {
+        left = 'print("',
+        right = '");',
+        mid_var = '${',
+        right_var = '}");'
+    },
     ["go"] = {
         left = 'fmt.Printf("',
         right = '")',
