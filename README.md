@@ -251,12 +251,6 @@ The keys in the configuration are used like this:
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
 
-## Planned Future Improvements
-
-*   Dynamically adapt filetype for embedded languages (e.g. code embedded in
-    Markdown)
-    ([issue](https://github.com/andrewferrier/debugprint.nvim/issues/9))
-
 ## Known Limitations
 
 *   `debugprint` only supports variable names or simple expressions when using
