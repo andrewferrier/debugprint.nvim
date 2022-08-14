@@ -10,7 +10,7 @@ particular language, to trace the output of a program during execution.
 `debugprint` is a NeoVim plugin for them, as it can easily generate 'print'
 statements appropriate to the language being edited, which include:
 
-*   A tag string unique to `debugprint`.
+*   A 'print tag' string unique to `debugprint`.
 
 *   The filename/line number they are being inserted on.
 
