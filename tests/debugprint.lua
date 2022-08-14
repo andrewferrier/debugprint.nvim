@@ -569,7 +569,7 @@ describe("can handle treesitter identifiers", function()
         debugprint.setup({})
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -577,7 +577,7 @@ describe("can handle treesitter identifiers", function()
         feedkeys("g?v<CR>")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
@@ -590,7 +590,7 @@ describe("can handle treesitter identifiers", function()
         debugprint.setup({})
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -598,7 +598,7 @@ describe("can handle treesitter identifiers", function()
         feedkeys("g?vapple<CR>")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: "
                 .. filename
@@ -613,7 +613,7 @@ describe("can handle treesitter identifiers", function()
         debugprint.setup({})
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -629,7 +629,7 @@ describe("can handle treesitter identifiers", function()
         feedkeys("zxaapple<CR>")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: "
                 .. filename
@@ -646,7 +646,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -654,7 +654,7 @@ describe("visual selection", function()
         feedkeys("vllg?v")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
@@ -665,7 +665,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -673,7 +673,7 @@ describe("visual selection", function()
         feedkeys("vllg?v.")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[2]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
@@ -685,7 +685,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "xyz",
             "end",
         }, "lua", 2, 0)
@@ -693,7 +693,7 @@ describe("visual selection", function()
         feedkeys("vllg?v")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "xyz",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
@@ -704,7 +704,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 8)
@@ -712,7 +712,7 @@ describe("visual selection", function()
         feedkeys("vhhg?v")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
@@ -723,7 +723,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -731,7 +731,7 @@ describe("visual selection", function()
         feedkeys("vllg?v")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
@@ -742,7 +742,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -750,7 +750,7 @@ describe("visual selection", function()
         feedkeys("vllg?V")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "    print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: xyz=' .. vim.inspect(xyz))",
@@ -763,7 +763,7 @@ describe("visual selection", function()
         debugprint.setup({ ignore_treesitter = true })
 
         init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 1, 1)
@@ -782,7 +782,7 @@ describe("motion mode", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -790,7 +790,7 @@ describe("motion mode", function()
         feedkeys("g?o2l")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
             "end",
@@ -801,7 +801,7 @@ describe("motion mode", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -809,7 +809,7 @@ describe("motion mode", function()
         feedkeys("g?o2l.")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[2]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
@@ -821,7 +821,7 @@ describe("motion mode", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -829,7 +829,7 @@ describe("motion mode", function()
         feedkeys("g?Oiw")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "    print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: xyz=' .. vim.inspect(xyz))",
@@ -842,7 +842,7 @@ describe("motion mode", function()
         debugprint.setup({ ignore_treesitter = true })
 
         local filename = init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 2, 6)
@@ -851,7 +851,7 @@ describe("motion mode", function()
         feedkeys("j.")
 
         check_lines({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "print('DEBUGPRINT[2]: " .. filename .. ":3: xyz=' .. vim.inspect(xyz))",
@@ -863,7 +863,7 @@ describe("motion mode", function()
         debugprint.setup({ ignore_treesitter = true })
 
         init_file({
-            "function x() {",
+            "function x()",
             "local xyz = 3",
             "end",
         }, "lua", 1, 1)
