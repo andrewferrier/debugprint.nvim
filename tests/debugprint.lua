@@ -876,3 +876,122 @@ describe("motion mode", function()
         )
     end)
 end)
+
+describe("delete lines command", function()
+    it("basic", function()
+        debugprint.setup({})
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd('DeleteDebugPrints')
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("complex", function()
+        debugprint.setup({})
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 0)
+
+        feedkeys("g?pg?vwibble<CR>g?p")
+        vim.cmd('DeleteDebugPrints')
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("range - one line", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 0)
+
+        feedkeys("g?pg?pg?pg?p")
+
+        vim.cmd("2 DeleteDebugPrints")
+
+        check_lines({
+            "function x()",
+            "    print('DEBUGPRINT[3]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[2]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("range", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 0)
+
+        feedkeys("g?pg?pg?pg?p")
+
+        vim.cmd("2,3 DeleteDebugPrints")
+
+        check_lines({
+            "function x()",
+            "    print('DEBUGPRINT[2]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("range at top", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+        }, "lua", 1, 0)
+
+        feedkeys("g?pg?P")
+
+        vim.cmd("1 DeleteDebugPrints")
+
+        check_lines({
+            "function x()",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+        })
+    end)
+
+    it("range at bottom", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+        }, "lua", 1, 0)
+
+        feedkeys("g?pg?P")
+
+        vim.cmd("$ DeleteDebugPrints")
+
+        check_lines({
+            "print('DEBUGPRINT[2]: " .. filename .. ":1')",
+            "function x()",
+        })
+    end)
+end)

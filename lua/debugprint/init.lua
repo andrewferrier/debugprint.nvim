@@ -6,6 +6,7 @@ local global_opts
 
 GLOBAL_OPTION_DEFAULTS = {
     create_keymaps = true,
+    create_commands = true,
     move_to_debugline = false,
     ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
@@ -176,6 +177,47 @@ M.debugprint_motion_callback = function()
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
+M.deleteprints = function(opts)
+    local lines_to_consider
+    local initial_line
+
+    -- opts.range appears to be the magic value that indicates a range is passed
+    -- in and valid.
+
+    if
+        opts
+        and (opts.range == 1 or opts.range == 2)
+        and opts.line1
+        and opts.line2
+    then
+        lines_to_consider =
+            vim.api.nvim_buf_get_lines(0, opts.line1 - 1, opts.line2, false)
+        initial_line = opts.line1
+    else
+        lines_to_consider = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+        initial_line = 1
+    end
+
+    local delete_adjust = 0
+
+    for count, line in ipairs(lines_to_consider) do
+        if string.find(line, global_opts.print_tag) ~= nil then
+            local line_to_delete = count
+                - 1
+                - delete_adjust
+                + (initial_line - 1)
+            vim.api.nvim_buf_set_lines(
+                0,
+                line_to_delete,
+                line_to_delete + 1,
+                false,
+                {}
+            )
+            delete_adjust = delete_adjust + 1
+        end
+    end
+end
+
 local notify_deprecated = function()
     vim.notify(
         "dqp and similar keymappings are deprecated for debugprint and are "
@@ -191,6 +233,7 @@ M.setup = function(opts)
 
     vim.validate({
         create_keymaps = { global_opts.create_keymaps, "boolean" },
+        create_commands = { global_opts.create_commands, "boolean" },
         move_to_debugline = { global_opts.move_to_debugline, "boolean" },
         ignore_treesitter = { global_opts.ignore_treesitter, "boolean" },
         filetypes = { global_opts.filetypes, "table" },
@@ -262,6 +305,15 @@ M.setup = function(opts)
             return M.debugprint({ above = true, variable = true })
         end, {
             expr = true,
+        })
+    end
+
+    if global_opts.create_commands then
+        vim.api.nvim_create_user_command("DeleteDebugPrints", function(opts)
+            M.deleteprints(opts)
+        end, {
+            range = true,
+            desc = "Delete all debugprint statements in the current buffer.",
         })
     end
 
