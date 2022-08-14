@@ -18,6 +18,8 @@ local write_file = function(filetype)
 end
 
 local init_file = function(lines, filetype, row, col)
+    vim.cmd('new')
+    vim.cmd('only')
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
     local filename = write_file(filetype)
     vim.api.nvim_win_set_cursor(0, { row, col })
@@ -593,7 +595,7 @@ describe("can handle treesitter identifiers", function()
             "function x()",
             "local xyz = 3",
             "end",
-        }, "lua", 2, 6)
+        }, "lua", 2, 5)
 
         feedkeys("g?vapple<CR>")
 
@@ -606,7 +608,7 @@ describe("can handle treesitter identifiers", function()
             "end",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 6 })
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 5 })
     end)
 
     it("disabled at function level", function()
