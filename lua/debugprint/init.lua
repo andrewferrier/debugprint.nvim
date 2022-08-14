@@ -193,6 +193,8 @@ M.setup = function(opts)
         create_keymaps = { global_opts.create_keymaps, "boolean" },
         move_to_debugline = { global_opts.move_to_debugline, "boolean" },
         ignore_treesitter = { global_opts.ignore_treesitter, "boolean" },
+        filetypes = { global_opts.filetypes, "table" },
+        print_tag = { global_opts.print_tag, "string" },
     })
 
     if global_opts.create_keymaps then
