@@ -51,7 +51,7 @@ describe("can do basic debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -65,7 +65,7 @@ describe("can do basic debug statement insertion", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "foo",
             "bar",
         })
@@ -81,8 +81,8 @@ describe("can do basic debug statement insertion", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
-            "print('DEBUG[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
             "foo",
             "bar",
         })
@@ -99,7 +99,7 @@ describe("can do basic debug statement insertion", function()
         check_lines({
             "foo",
             "bar",
-            "print('DEBUG[1]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2')",
         })
     end)
 end)
@@ -119,7 +119,7 @@ describe("can do variable debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[1]: "
+            "print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
@@ -135,7 +135,7 @@ describe("can do variable debug statement insertion", function()
         feedkeys("g?Vbanana<CR>")
 
         check_lines({
-            "print('DEBUG[1]: "
+            "print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":1: banana=' .. vim.inspect(banana))",
             "foo",
@@ -159,7 +159,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            'echo "DEBUG[1]: ' .. filename .. ':1"',
+            'echo "DEBUGPRINT[1]: ' .. filename .. ':1"',
             "bar",
         })
     end)
@@ -174,7 +174,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            'echo "DEBUG[1]: ' .. filename .. ':1: banana=" .. banana',
+            'echo "DEBUGPRINT[1]: ' .. filename .. ':1: banana=" .. banana',
             "bar",
         })
     end)
@@ -233,7 +233,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUG[1]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "end",
         })
     end)
@@ -249,7 +249,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUG[1]: " .. filename .. ":2')",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":2')",
             "end",
         })
     end)
@@ -264,7 +264,7 @@ describe("can do indenting correctly", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "function()",
             "end",
         })
@@ -282,7 +282,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "\tprint('DEBUG[1]: " .. filename .. ":1')",
+            "\tprint('DEBUGPRINT[1]: " .. filename .. ":1')",
             "end",
         })
     end)
@@ -316,7 +316,7 @@ describe("add custom filetype with setup()", function()
 
         check_lines({
             "foo",
-            "foo('DEBUG[1]: " .. filename .. ":1')",
+            "foo('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -331,7 +331,7 @@ describe("add custom filetype with setup()", function()
 
         check_lines({
             "foo",
-            "foo('DEBUG[1]: " .. filename .. ":1: apple=' .. apple)",
+            "foo('DEBUGPRINT[1]: " .. filename .. ":1: apple=' .. apple)",
             "bar",
         })
     end)
@@ -364,7 +364,7 @@ describe("add custom filetype with add_custom_filetypes()", function()
 
         check_lines({
             "foo",
-            "bar('DEBUG[1]: " .. filename .. ":1')",
+            "bar('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -391,7 +391,7 @@ describe("move to new line", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
 
@@ -412,7 +412,7 @@ describe("move to new line", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "foo",
             "bar",
         })
@@ -435,7 +435,7 @@ describe("move to new line", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
 
@@ -461,8 +461,8 @@ describe("can repeat", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[2]: " .. filename .. ":1')",
-            "print('DEBUG[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
     end)
@@ -477,8 +477,8 @@ describe("can repeat", function()
         feedkeys(".")
 
         check_lines({
-            "print('DEBUG[1]: " .. filename .. ":1')",
-            "print('DEBUG[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
             "foo",
             "bar",
         })
@@ -498,12 +498,12 @@ describe("can repeat", function()
             feedkeys(".")
 
             check_lines({
-                "print('DEBUG[1]: " .. filename .. ":1')",
-                "print('DEBUG[2]: " .. filename .. ":2')",
+                "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+                "print('DEBUGPRINT[2]: " .. filename .. ":2')",
                 "foo",
                 "bar",
-                "print('DEBUG[4]: " .. filename .. ":4')",
-                "print('DEBUG[3]: " .. filename .. ":4')",
+                "print('DEBUGPRINT[4]: " .. filename .. ":4')",
+                "print('DEBUGPRINT[3]: " .. filename .. ":4')",
             })
         end
     )
@@ -520,17 +520,17 @@ describe("can repeat", function()
         feedkeys(".")
 
         check_lines({
-            "print('DEBUG[3]: "
+            "print('DEBUGPRINT[3]: "
                 .. filename
                 .. ":1: apple=' .. vim.inspect(apple))",
-            "print('DEBUG[4]: "
+            "print('DEBUGPRINT[4]: "
                 .. filename
                 .. ":2: apple=' .. vim.inspect(apple))",
             "foo",
-            "print('DEBUG[2]: "
+            "print('DEBUGPRINT[2]: "
                 .. filename
                 .. ":1: banana=' .. vim.inspect(banana))",
-            "print('DEBUG[1]: "
+            "print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
@@ -555,8 +555,8 @@ describe("can repeat with move to line", function()
 
         check_lines({
             "foo",
-            "print('DEBUG[1]: " .. filename .. ":1')",
-            "print('DEBUG[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
             "bar",
         })
 
@@ -579,7 +579,7 @@ describe("can handle treesitter identifiers", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
 
@@ -600,7 +600,7 @@ describe("can handle treesitter identifiers", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: "
+            "print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: apple=' .. vim.inspect(apple))",
             "end",
@@ -631,7 +631,7 @@ describe("can handle treesitter identifiers", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: "
+            "print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: apple=' .. vim.inspect(apple))",
             "end",
@@ -656,7 +656,7 @@ describe("visual selection", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -675,8 +675,8 @@ describe("visual selection", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[2]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -695,7 +695,7 @@ describe("visual selection", function()
         check_lines({
             "function x() {",
             "xyz",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -714,7 +714,7 @@ describe("visual selection", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -733,7 +733,7 @@ describe("visual selection", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -751,7 +751,7 @@ describe("visual selection", function()
 
         check_lines({
             "function x() {",
-            "    print('DEBUG[1]: "
+            "    print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "local xyz = 3",
@@ -792,7 +792,7 @@ describe("motion mode", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
     end)
@@ -811,8 +811,8 @@ describe("motion mode", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[2]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
-            "print('DEBUG[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
     end)
@@ -830,7 +830,7 @@ describe("motion mode", function()
 
         check_lines({
             "function x() {",
-            "    print('DEBUG[1]: "
+            "    print('DEBUGPRINT[1]: "
                 .. filename
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "local xyz = 3",
@@ -853,8 +853,8 @@ describe("motion mode", function()
         check_lines({
             "function x() {",
             "local xyz = 3",
-            "print('DEBUG[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
-            "print('DEBUG[2]: " .. filename .. ":3: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[2]: " .. filename .. ":3: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)

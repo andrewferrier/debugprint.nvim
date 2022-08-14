@@ -1,20 +1,25 @@
 # debugprint.nvim
 
-## Purpose
+## Overview
 
 The gold standard for debugging a program or script is to use a real debugger.
 For NeoVim, the 'standard' way to integrate this is to use something like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap). However, many folks prefer
 a more low-tech approach; the 'print' statement, or the equivalent in a
 particular language, to trace the output of a program during execution.
-`debugprint` is a NeoVim plugin for them, as it can generate 'print' statements
-appropriate to the language being edited, which include the filename/line number
-they are being inserted on, a counter which increases over the duration of a
-NeoVim session each time a statement is generated, as well as optionally
-printing out a variable, including automatically picking up an
-identifier/variable name under the cursor. `debugprint` comes with the
-generation logic built in for many common programming languages, and can be
-extended to support more.
+`debugprint` is a NeoVim plugin for them, as it can easily generate 'print'
+statements appropriate to the language being edited, which include:
+
+*   A tag string unique to `debugprint`.
+
+*   The filename/line number they are being inserted on.
+
+*   A counter which increases over the duration of a NeoVim session each time a statement is generated.
+
+*   (optionally) A variable (which may be automatically picked up from an identifier/variable name under the cursor).
+
+`debugprint` comes with the generation logic built in for many common
+programming languages, and can be extended to support more.
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
@@ -103,7 +108,7 @@ to use it. There are also some function invocations which are not mapped to any
 keymappings by default, but could be. This is all shown in the following table.
 
 | Mode             | Keymap          | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
-| ------           | --------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| ---------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | Normal           | `g?p`           | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
 | Normal           | `g?P`           | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
 | Normal           | `g?v`           | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
@@ -147,12 +152,13 @@ end)
 
 `debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default   | Purpose                                                                                                                                      |
-| -                   | -         | -                                                                                                                                            |
-| `create_keymaps`    | `true`    | Creates default keymappings - see above                                                                                                      |
-| `move_to_debugline` | `false`   | When adding a debug line, moves the cursor to that line                                                                                      |
-| `filetypes`         | See below | Custom filetypes - see below                                                                                                                 |
-| `ignore_treesitter` | `false`   | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
+| Option              | Default      | Purpose                                                                                                                                      |
+| ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `create_keymaps`    | `true`       | Creates default keymappings - see above                                                                                                      |
+| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                      |
+| `filetypes`         | See below    | Custom filetypes - see below                                                                                                                 |
+| `ignore_treesitter` | `false`      | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
+| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.                   |
 
 ## Add Custom Filetypes
 
@@ -215,8 +221,8 @@ configuration.
 
 The keys in the configuration are used like this:
 
-| Type of debug line  | Default keys            | How debug line is constructed
-| -                   | -                       | -                                                                                                                           |
+| Type of debug line  | Default keys            | How debug line is constructed                                                                                               |
+| ------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
 | Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
 

@@ -9,6 +9,7 @@ GLOBAL_OPTION_DEFAULTS = {
     move_to_debugline = false,
     ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
+    print_tag = 'DEBUGPRINT'
 }
 
 FUNCTION_OPTION_DEFAULTS = {
@@ -23,7 +24,7 @@ local debuginfo = function(variable_name)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     counter = counter + 1
 
-    local line = "DEBUG["
+    local line = global_opts.print_tag .. "["
         .. counter
         .. "]: "
         .. vim.fn.expand("%:t")
