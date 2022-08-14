@@ -198,6 +198,7 @@ configurations out-of-the-box, please open an issue also.*
 *   `bash`
 *   `c`
 *   `cpp` (C++)
+*   `dart`
 *   `go`
 *   `javascript`
 *   `lua`
