@@ -18,8 +18,8 @@ local write_file = function(filetype)
 end
 
 local init_file = function(lines, filetype, row, col)
-    vim.cmd('new')
-    vim.cmd('only')
+    vim.cmd("new")
+    vim.cmd("only")
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
     local filename = write_file(filetype)
     vim.api.nvim_win_set_cursor(0, { row, col })
@@ -581,7 +581,9 @@ describe("can handle treesitter identifiers", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
 
@@ -658,7 +660,9 @@ describe("visual selection", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -677,8 +681,12 @@ describe("visual selection", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[2]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -697,7 +705,9 @@ describe("visual selection", function()
         check_lines({
             "function x()",
             "xyz",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -716,7 +726,9 @@ describe("visual selection", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -735,7 +747,9 @@ describe("visual selection", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -794,7 +808,9 @@ describe("motion mode", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
     end)
@@ -813,8 +829,12 @@ describe("motion mode", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[2]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: xy=' .. vim.inspect(xy))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
     end)
@@ -855,8 +875,12 @@ describe("motion mode", function()
         check_lines({
             "function x()",
             "local xyz = 3",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2: xyz=' .. vim.inspect(xyz))",
-            "print('DEBUGPRINT[2]: " .. filename .. ":3: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":3: xyz=' .. vim.inspect(xyz))",
             "end",
         })
     end)
@@ -890,7 +914,7 @@ describe("delete lines command", function()
         }, "lua", 2, 1)
 
         feedkeys("g?p")
-        vim.cmd('DeleteDebugPrints')
+        vim.cmd("DeleteDebugPrints")
 
         check_lines({
             "function x()",
@@ -909,7 +933,7 @@ describe("delete lines command", function()
         }, "lua", 1, 0)
 
         feedkeys("g?pg?vwibble<CR>g?p")
-        vim.cmd('DeleteDebugPrints')
+        vim.cmd("DeleteDebugPrints")
 
         check_lines({
             "function x()",
