@@ -1,6 +1,6 @@
 local M = {}
 
-local utils = require('debugprint.utils')
+local utils = require("debugprint.utils")
 
 local global_opts
 
@@ -10,7 +10,7 @@ GLOBAL_OPTION_DEFAULTS = {
     move_to_debugline = false,
     ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
-    print_tag = 'DEBUGPRINT'
+    print_tag = "DEBUGPRINT",
 }
 
 FUNCTION_OPTION_DEFAULTS = {
@@ -25,7 +25,8 @@ local debuginfo = function(variable_name)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
     counter = counter + 1
 
-    local line = global_opts.print_tag .. "["
+    local line = global_opts.print_tag
+        .. "["
         .. counter
         .. "]: "
         .. vim.fn.expand("%:t")
@@ -229,7 +230,8 @@ local notify_deprecated = function()
 end
 
 M.setup = function(opts)
-    global_opts = vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
+    global_opts =
+        vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
 
     vim.validate({
         create_keymaps = { global_opts.create_keymaps, "boolean" },
@@ -326,7 +328,8 @@ M.add_custom_filetypes = function(filetypes)
         filetypes = { filetypes, "table" },
     })
 
-    global_opts.filetypes = vim.tbl_deep_extend("force", global_opts.filetypes, filetypes)
+    global_opts.filetypes =
+        vim.tbl_deep_extend("force", global_opts.filetypes, filetypes)
 end
 
 return M
