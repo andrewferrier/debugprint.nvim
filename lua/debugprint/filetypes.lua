@@ -29,8 +29,8 @@ return {
     ["dart"] = {
         left = 'print("',
         right = '");',
-        mid_var = '${',
-        right_var = '}");'
+        mid_var = "${",
+        right_var = '}");',
     },
     ["go"] = {
         left = 'fmt.Printf("',
