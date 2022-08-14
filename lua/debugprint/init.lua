@@ -140,10 +140,7 @@ M.debugprint_cache = function(opts)
                 opts.variable_name = vim.fn.input("Variable name: ")
 
                 if opts.variable_name == nil or opts.variable_name == "" then
-                    vim.notify(
-                        "No variable name entered.",
-                        vim.log.levels.WARN
-                    )
+                    vim.notify("No variable name entered.", vim.log.levels.WARN)
                     return
                 end
             end
