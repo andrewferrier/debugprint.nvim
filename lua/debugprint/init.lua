@@ -29,15 +29,10 @@ local debuginfo = function(variable_name)
     local line = global_opts.print_tag
 
     if global_opts.display_counter then
-        line = line .. "["
-        .. counter
-        .. "]"
+        line = line .. "[" .. counter .. "]"
     end
 
-    line = line .. ": "
-        .. vim.fn.expand("%:t")
-        .. ":"
-        .. current_line
+    line = line .. ": " .. vim.fn.expand("%:t") .. ":" .. current_line
 
     if variable_name ~= nil then
         line = line .. ": " .. variable_name .. "="
