@@ -1036,3 +1036,41 @@ describe("delete lines command", function()
         })
     end)
 end)
+
+describe("don't display counter", function()
+    before_each(function()
+        debugprint.setup({ ignore_treesitter = true, display_counter = false })
+    end)
+
+    it("basic statement", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT: " .. filename .. ":1')",
+            "bar",
+        })
+    end)
+
+    it("can insert a variable statement below", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?vbanana<CR>")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT: "
+                .. filename
+                .. ":1: banana=' .. vim.inspect(banana))",
+            "bar",
+        })
+    end)
+end)

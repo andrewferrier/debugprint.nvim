@@ -178,6 +178,7 @@ end)
 | ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `create_keymaps`    | `true`       | Creates default keymappings - see above                                                                                                      |
 | `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                      |
+| `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message added                                                  |
 | `filetypes`         | See below    | Custom filetypes - see below                                                                                                                 |
 | `ignore_treesitter` | `false`      | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
 | `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.                   |

@@ -7,6 +7,7 @@ local global_opts
 GLOBAL_OPTION_DEFAULTS = {
     create_keymaps = true,
     create_commands = true,
+    display_counter = true,
     move_to_debugline = false,
     ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
@@ -26,9 +27,14 @@ local debuginfo = function(variable_name)
     counter = counter + 1
 
     local line = global_opts.print_tag
-        .. "["
+
+    if global_opts.display_counter then
+        line = line .. "["
         .. counter
-        .. "]: "
+        .. "]"
+    end
+
+    line = line .. ": "
         .. vim.fn.expand("%:t")
         .. ":"
         .. current_line
@@ -243,6 +249,7 @@ M.setup = function(opts)
     vim.validate({
         create_keymaps = { global_opts.create_keymaps, "boolean" },
         create_commands = { global_opts.create_commands, "boolean" },
+        display_counter = { global_opts.move_to_debugline, "boolean" },
         move_to_debugline = { global_opts.move_to_debugline, "boolean" },
         ignore_treesitter = { global_opts.ignore_treesitter, "boolean" },
         filetypes = { global_opts.filetypes, "table" },
