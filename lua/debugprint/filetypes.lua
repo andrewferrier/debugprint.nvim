@@ -53,7 +53,7 @@ return {
         right_var = "))",
     },
     ["make"] = {
-        left = '@echo "',
+        left = "\t@echo \"",
         right = '"',
         mid_var = '"$(',
         right_var = ")",
