@@ -1118,7 +1118,7 @@ describe("check python indenting", function()
         local filename = init_file({
             "def xyz():",
             "    x = 1",
-            "    y = 2"
+            "    y = 2",
         }, "python", 2, 0)
 
         feedkeys("g?p")
@@ -1127,7 +1127,7 @@ describe("check python indenting", function()
             "def xyz():",
             "    x = 1",
             '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2")',
-            "    y = 2"
+            "    y = 2",
         })
     end)
 end)

@@ -101,7 +101,7 @@ local debugprint_addline = function(opts)
     -- 'default' indent for languages like Python, where the NeoVim or Treesitter
     -- indenter doesn't know how to indent them.
     local current_line = vim.api.nvim_get_current_line()
-    local leading_space = current_line:match('^(%s+)') or ''
+    local leading_space = current_line:match("^(%s+)") or ""
 
     if opts.above then
         line_to_insert_linenr = current_line_nr - 1
