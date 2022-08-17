@@ -56,6 +56,14 @@ local filetype_configured = function()
     end
 end
 
+M.NOOP = function() end
+
+local set_callback = function(func_name)
+    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
+    vim.cmd("normal! g@l")
+    vim.go.operatorfunc = func_name
+end
+
 local indent_line = function(current_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
@@ -66,16 +74,8 @@ local indent_line = function(current_line)
     end
 end
 
-M.NOOP = function() end
-
-local set_callback = function(func_name)
-    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
-    vim.cmd("normal! g@l")
-    vim.go.operatorfunc = func_name
-end
-
 local debugprint_addline = function(opts)
-    local current_line = vim.api.nvim_win_get_cursor(0)[1]
+    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
     local fixes = global_opts.filetypes[filetype]
@@ -97,10 +97,13 @@ local debugprint_addline = function(opts)
         line_to_insert_content = fixes.left .. debuginfo() .. fixes.right
     end
 
+    local current_line = vim.api.nvim_get_current_line()
+    local leading_space = current_line:match('(%s+)') or ''
+
     if opts.above then
-        line_to_insert_linenr = current_line - 1
+        line_to_insert_linenr = current_line_nr - 1
     else
-        line_to_insert_linenr = current_line
+        line_to_insert_linenr = current_line_nr
     end
 
     vim.api.nvim_buf_set_lines(
@@ -108,9 +111,8 @@ local debugprint_addline = function(opts)
         line_to_insert_linenr,
         line_to_insert_linenr,
         true,
-        { line_to_insert_content }
+        { leading_space .. line_to_insert_content }
     )
-
     indent_line(line_to_insert_linenr)
 end
 
