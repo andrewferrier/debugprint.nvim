@@ -1076,3 +1076,58 @@ describe("don't display counter", function()
         })
     end)
 end)
+
+describe("check python indenting", function()
+    before_each(function()
+        debugprint.setup({ ignore_treesitter = true })
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+        vim.api.nvim_set_option_value("expandtab", true, {})
+    end)
+
+    it("at top level", function()
+        local filename = init_file({
+            "x = 1",
+            "y = 2",
+        }, "python", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "x = 1",
+            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1")',
+            "y = 2",
+        })
+    end)
+
+    it("just below def()", function()
+        local filename = init_file({
+            "def xyz():",
+            "    pass",
+        }, "python", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "def xyz():",
+            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':1")',
+            "    pass",
+        })
+    end)
+
+    it("in the middle of a statement block", function()
+        local filename = init_file({
+            "def xyz():",
+            "    x = 1",
+            "    y = 2"
+        }, "python", 2, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "def xyz():",
+            "    x = 1",
+            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2")',
+            "    y = 2"
+        })
+    end)
+end)
