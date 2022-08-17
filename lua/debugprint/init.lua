@@ -116,6 +116,7 @@ local debugprint_addline = function(opts)
         true,
         { leading_space .. line_to_insert_content }
     )
+
     indent_line(line_to_insert_linenr)
 end
 
