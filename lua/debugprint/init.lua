@@ -97,6 +97,9 @@ local debugprint_addline = function(opts)
         line_to_insert_content = fixes.left .. debuginfo() .. fixes.right
     end
 
+    -- Inserting the leading space from the current line effectively acts as a
+    -- 'default' indent for languages like Python, where the NeoVim or Treesitter
+    -- indenter doesn't know how to indent them.
     local current_line = vim.api.nvim_get_current_line()
     local leading_space = current_line:match('(%s+)') or ''
 
