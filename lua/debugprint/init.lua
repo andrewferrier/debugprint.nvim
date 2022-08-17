@@ -20,6 +20,26 @@ FUNCTION_OPTION_DEFAULTS = {
     ignore_treesitter = false,
 }
 
+local validate_global_opts = function(o)
+    vim.validate({
+        create_keymaps = { o.create_keymaps, "boolean" },
+        create_commands = { o.create_commands, "boolean" },
+        display_counter = { o.move_to_debugline, "boolean" },
+        move_to_debugline = { o.move_to_debugline, "boolean" },
+        ignore_treesitter = { o.ignore_treesitter, "boolean" },
+        filetypes = { o.filetypes, "table" },
+        print_tag = { o.print_tag, "string" },
+    })
+end
+
+local validate_function_opts = function(o)
+    vim.validate({
+        above = { o.above, "boolean" },
+        variable = { o.above, "boolean" },
+        ignore_treesitter = { o.ignore_treesitter, "boolean" },
+    })
+end
+
 local counter = 0
 
 local debuginfo = function(variable_name)
@@ -166,11 +186,7 @@ M.debugprint = function(opts)
     local func_opts =
         vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, opts or {})
 
-    vim.validate({
-        above = { func_opts.above, "boolean" },
-        variable = { func_opts.above, "boolean" },
-        ignore_treesitter = { func_opts.ignore_treesitter, "boolean" },
-    })
+    validate_function_opts(func_opts)
 
     if func_opts.motion == true then
         cache_request = func_opts
@@ -245,15 +261,7 @@ M.setup = function(opts)
     global_opts =
         vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
 
-    vim.validate({
-        create_keymaps = { global_opts.create_keymaps, "boolean" },
-        create_commands = { global_opts.create_commands, "boolean" },
-        display_counter = { global_opts.move_to_debugline, "boolean" },
-        move_to_debugline = { global_opts.move_to_debugline, "boolean" },
-        ignore_treesitter = { global_opts.ignore_treesitter, "boolean" },
-        filetypes = { global_opts.filetypes, "table" },
-        print_tag = { global_opts.print_tag, "string" },
-    })
+    validate_global_opts(global_opts)
 
     if global_opts.create_keymaps then
         vim.keymap.set("n", "g?p", function()
