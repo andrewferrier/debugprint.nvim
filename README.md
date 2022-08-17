@@ -123,7 +123,7 @@ shown in the following table.
 | Visual           | `g?v`                  | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
 | Operator-pending | `g?o`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
 | Operator-pending | `g?O`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
-| Command          | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                      | `require('debugprint').deleteprints()                                                         |
+| Command          | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                      | `require('debugprint').deleteprints()`                                                        |
 
 The keymappings are chosen specifically because by default in NeoVim they are
 used to convert sections to ROT-13, which most folks don't use. You can disable
