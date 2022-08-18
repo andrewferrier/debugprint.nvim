@@ -45,6 +45,7 @@ return {
         right_var = ");",
     },
     ["javascript"] = js,
+    ["javascriptreact"] = js,
     ["lua"] = {
         left = "print('",
         right = "')",
@@ -83,6 +84,7 @@ return {
     },
     ["sh"] = shell,
     ["typescript"] = js,
+    ["typescriptreact"] = js,
     ["vim"] = {
         left = 'echo "',
         right = '"',
