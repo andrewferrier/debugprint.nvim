@@ -8,6 +8,7 @@ GLOBAL_OPTION_DEFAULTS = {
     create_keymaps = true,
     create_commands = true,
     display_counter = true,
+    display_snippet = true,
     move_to_debugline = false,
     ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
@@ -20,11 +21,14 @@ FUNCTION_OPTION_DEFAULTS = {
     ignore_treesitter = false,
 }
 
+MAX_SNIPPET_LENGTH = 40
+
 local validate_global_opts = function(o)
     vim.validate({
         create_keymaps = { o.create_keymaps, "boolean" },
         create_commands = { o.create_commands, "boolean" },
         display_counter = { o.move_to_debugline, "boolean" },
+        display_snippet = { o.move_to_debugline, "boolean" },
         move_to_debugline = { o.move_to_debugline, "boolean" },
         ignore_treesitter = { o.ignore_treesitter, "boolean" },
         filetypes = { o.filetypes, "table" },
@@ -42,8 +46,33 @@ end
 
 local counter = 0
 
-local debuginfo = function(variable_name)
+local get_current_line_for_printing = function(current_line)
+    local current_line_contents =
+        vim.api.nvim_buf_get_lines(0, current_line - 1, current_line, true)[1]
+
+    -- Remove whitespace and any quoting characters which could potentially
+    -- cause a syntax error in the statement being printed.
+    current_line_contents = current_line_contents:gsub("^%s+", "")
+    current_line_contents = current_line_contents:gsub("%s+$", "")
+    current_line_contents = current_line_contents:gsub('"', "")
+    current_line_contents = current_line_contents:gsub("'", "")
+    current_line_contents = current_line_contents:gsub("\\", "")
+    current_line_contents = current_line_contents:gsub("`", "")
+
+    if current_line_contents:len() > MAX_SNIPPET_LENGTH then
+        current_line_contents = string.sub(
+            current_line_contents,
+            0,
+            MAX_SNIPPET_LENGTH
+        ) .. "…"
+    end
+
+    return current_line_contents
+end
+
+local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
+
     counter = counter + 1
 
     local line = global_opts.print_tag
@@ -54,8 +83,23 @@ local debuginfo = function(variable_name)
 
     line = line .. ": " .. vim.fn.expand("%:t") .. ":" .. current_line
 
-    if variable_name ~= nil then
-        line = line .. ": " .. variable_name .. "="
+    if global_opts.display_snippet and opts.variable_name == nil then
+        local snippet
+
+        if opts.above then
+            snippet = " (before "
+        else
+            snippet = " (after "
+        end
+
+        line = line
+            .. snippet
+            .. get_current_line_for_printing(current_line)
+            .. ")"
+    end
+
+    if opts.variable_name ~= nil then
+        line = line .. ": " .. opts.variable_name .. "="
     end
 
     return line
@@ -109,12 +153,13 @@ local debugprint_addline = function(opts)
 
     if opts.variable_name then
         line_to_insert_content = fixes.left
-            .. debuginfo(opts.variable_name)
+            .. debuginfo(opts)
             .. fixes.mid_var
             .. opts.variable_name
             .. fixes.right_var
     else
-        line_to_insert_content = fixes.left .. debuginfo() .. fixes.right
+        opts.variable_name = nil
+        line_to_insert_content = fixes.left .. debuginfo(opts) .. fixes.right
     end
 
     -- Inserting the leading space from the current line effectively acts as a

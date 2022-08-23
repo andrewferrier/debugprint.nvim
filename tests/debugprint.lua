@@ -53,7 +53,7 @@ describe("can do basic debug statement insertion", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
@@ -67,7 +67,7 @@ describe("can do basic debug statement insertion", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
             "foo",
             "bar",
         })
@@ -83,8 +83,8 @@ describe("can do basic debug statement insertion", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
-            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2 (before foo)')",
             "foo",
             "bar",
         })
@@ -101,7 +101,45 @@ describe("can do basic debug statement insertion", function()
         check_lines({
             "foo",
             "bar",
-            "print('DEBUGPRINT[1]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2 (after bar)')",
+        })
+    end)
+end)
+
+describe("snippet handling", function()
+    it("can insert a basic statement below", function()
+        debugprint.setup({ display_snippet = false })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "bar",
+        })
+    end)
+
+    it("can handle long lines", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "very_long_function_name_that_goes_on_for_quite_a_while_and_will_possibly_never_stop_but_maybe_it_will()",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "very_long_function_name_that_goes_on_for_quite_a_while_and_will_possibly_never_stop_but_maybe_it_will()",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after very_long_function_name_that_goes_on_for…)')",
+            "bar",
         })
     end)
 end)
@@ -176,7 +214,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            'echo "DEBUGPRINT[1]: ' .. filename .. ':1"',
+            'echo "DEBUGPRINT[1]: ' .. filename .. ':1 (after foo)"',
             "bar",
         })
     end)
@@ -250,7 +288,9 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function())')",
             "end",
         })
     end)
@@ -266,7 +306,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "    print('DEBUGPRINT[1]: " .. filename .. ":2')",
+            "    print('DEBUGPRINT[1]: " .. filename .. ":2 (before end)')",
             "end",
         })
     end)
@@ -281,7 +321,7 @@ describe("can do indenting correctly", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before function())')",
             "function()",
             "end",
         })
@@ -299,7 +339,7 @@ describe("can do indenting correctly", function()
 
         check_lines({
             "function()",
-            "\tprint('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "\tprint('DEBUGPRINT[1]: " .. filename .. ":1 (after function())')",
             "end",
         })
     end)
@@ -333,7 +373,7 @@ describe("add custom filetype with setup()", function()
 
         check_lines({
             "foo",
-            "foo('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "foo('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
@@ -381,7 +421,7 @@ describe("add custom filetype with add_custom_filetypes()", function()
 
         check_lines({
             "foo",
-            "bar('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "bar('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
@@ -408,7 +448,7 @@ describe("move to new line", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
 
@@ -429,7 +469,7 @@ describe("move to new line", function()
         feedkeys("g?P")
 
         check_lines({
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
             "foo",
             "bar",
         })
@@ -452,7 +492,7 @@ describe("move to new line", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
 
@@ -478,8 +518,8 @@ describe("can repeat", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT[2]: " .. filename .. ":1')",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":1 (after foo)')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
@@ -494,8 +534,8 @@ describe("can repeat", function()
         feedkeys(".")
 
         check_lines({
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
-            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2 (before foo)')",
             "foo",
             "bar",
         })
@@ -515,12 +555,12 @@ describe("can repeat", function()
             feedkeys(".")
 
             check_lines({
-                "print('DEBUGPRINT[1]: " .. filename .. ":1')",
-                "print('DEBUGPRINT[2]: " .. filename .. ":2')",
+                "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+                "print('DEBUGPRINT[2]: " .. filename .. ":2 (before foo)')",
                 "foo",
                 "bar",
-                "print('DEBUGPRINT[4]: " .. filename .. ":4')",
-                "print('DEBUGPRINT[3]: " .. filename .. ":4')",
+                "print('DEBUGPRINT[4]: " .. filename .. ":4 (after bar)')",
+                "print('DEBUGPRINT[3]: " .. filename .. ":4 (after bar)')",
             })
         end
     )
@@ -572,8 +612,10 @@ describe("can repeat with move to line", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1')",
-            "print('DEBUGPRINT[2]: " .. filename .. ":2')",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2 (after print(DEBUGPRINT[1]: 28.lua:1 (after foo…)')",
             "bar",
         })
 
@@ -972,9 +1014,15 @@ describe("delete lines command", function()
 
         check_lines({
             "function x()",
-            "    print('DEBUGPRINT[3]: " .. filename .. ":1')",
-            "    print('DEBUGPRINT[2]: " .. filename .. ":1')",
-            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[3]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
             "    local xyz = 3",
             "end",
         })
@@ -995,8 +1043,12 @@ describe("delete lines command", function()
 
         check_lines({
             "function x()",
-            "    print('DEBUGPRINT[2]: " .. filename .. ":1')",
-            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
             "    local xyz = 3",
             "end",
         })
@@ -1016,7 +1068,9 @@ describe("delete lines command", function()
 
         check_lines({
             "function x()",
-            "    print('DEBUGPRINT[1]: " .. filename .. ":1')",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
             "end",
         })
     end)
@@ -1033,7 +1087,9 @@ describe("delete lines command", function()
         vim.cmd("$ DeleteDebugPrints")
 
         check_lines({
-            "print('DEBUGPRINT[2]: " .. filename .. ":1')",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":1 (before function x())')",
             "function x()",
         })
     end)
@@ -1054,7 +1110,7 @@ describe("don't display counter", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT: " .. filename .. ":1')",
+            "print('DEBUGPRINT: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
@@ -1094,7 +1150,7 @@ describe("check python indenting", function()
 
         check_lines({
             "x = 1",
-            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1")',
+            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)")',
             "y = 2",
         })
     end)
@@ -1109,7 +1165,9 @@ describe("check python indenting", function()
 
         check_lines({
             "def xyz():",
-            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':1")',
+            '    print(f"DEBUGPRINT[1]: '
+                .. filename
+                .. ':1 (after def xyz():)")',
             "    pass",
         })
     end)
@@ -1126,7 +1184,7 @@ describe("check python indenting", function()
         check_lines({
             "def xyz():",
             "    x = 1",
-            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2")',
+            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)")',
             "    y = 2",
         })
     end)
