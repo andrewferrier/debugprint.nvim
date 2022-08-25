@@ -615,7 +615,7 @@ describe("can repeat with move to line", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "print('DEBUGPRINT[2]: "
                 .. filename
-                .. ":2 (after print(DEBUGPRINT[1]: 28.lua:1 (after foo…)')",
+                .. ":2 (after print(DEBUGPRINT[1]: " .. filename .. ":1 (after foo…)')",
             "bar",
         })
 
