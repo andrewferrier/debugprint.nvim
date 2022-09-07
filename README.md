@@ -270,3 +270,7 @@ If it helps to understand these, you can look at the built-in configurations in
 
 *   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
     set of languages and no default keymappings.
+    
+*   [debuglog](https://github.com/smartpde/debuglog) - specifically designed for
+    debugging NeoVim lua plugins. Richer facilities for that (e.g. can turn off
+    messages), but does not support other languages.
