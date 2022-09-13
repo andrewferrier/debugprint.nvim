@@ -53,15 +53,9 @@ local get_current_line_for_printing = function(current_line)
     -- Remove whitespace and any quoting characters which could potentially
     -- cause a syntax error in the statement being printed, or any characters
     -- which could cause unintended interpolation of expressions
-    current_line_contents = current_line_contents:gsub("^%s+", "")
-    current_line_contents = current_line_contents:gsub("%s+$", "")
-    current_line_contents = current_line_contents:gsub('"', "")
-    current_line_contents = current_line_contents:gsub("'", "")
-    current_line_contents = current_line_contents:gsub("\\", "")
-    current_line_contents = current_line_contents:gsub("`", "")
-    current_line_contents = current_line_contents:gsub("%$", "")
-    current_line_contents = current_line_contents:gsub("{", "")
-    current_line_contents = current_line_contents:gsub("}", "")
+    current_line_contents = current_line_contents:gsub("^%s+", "") -- leading
+    current_line_contents = current_line_contents:gsub("%s+$", "") -- trailing
+    current_line_contents = current_line_contents:gsub("[\"'\\`%${}]", "")
 
     if current_line_contents:len() > MAX_SNIPPET_LENGTH then
         current_line_contents = string.sub(
