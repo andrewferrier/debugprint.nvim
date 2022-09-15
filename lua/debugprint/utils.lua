@@ -21,10 +21,12 @@ M.find_treesitter_variable = function()
             local node_type = node:type()
             local variable_name = vim.treesitter.query.get_node_text(node, 0)
 
-            if node_type ~= "identifier" then
-                return nil
-            else
+            -- lua -> identifier
+            -- sh -> variable_name
+            if node_type == "identifier" or node_type == "variable_name" then
                 return variable_name
+            else
+                return nil
             end
         end
     end

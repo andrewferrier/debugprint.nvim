@@ -635,7 +635,7 @@ describe("can handle treesitter identifiers", function()
             "end",
         }, "lua", 2, 10)
 
-        feedkeys("g?v<CR>")
+        feedkeys("g?v")
 
         check_lines({
             "function x()",
@@ -646,7 +646,24 @@ describe("can handle treesitter identifiers", function()
             "end",
         })
 
-        assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 4 })
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
+    end)
+
+    it("standard (bash)", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "XYZ=123",
+        }, "sh", 1, 1)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "XYZ=123",
+            'echo "DEBUGPRINT[1]: ' .. filename .. ':1: XYZ=${XYZ}"',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 1 })
     end)
 
     it("non-identifier", function()
