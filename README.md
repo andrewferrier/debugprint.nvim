@@ -264,6 +264,11 @@ If it helps to understand these, you can look at the built-in configurations in
 
 ## Alternatives / Competitors
 
+*   [vim-debugstring](https://github.com/bergercookie/vim-debugstring) - the
+    plugin which inspired this one. Appears to be unmaintained, written in VimL.
+    Doesn't support some of the fancier features of debugprint like picking up
+    treesitter-derived identifiers automatically.
+
 *   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
     smaller set of capabilities than debugprint, supports a slighter smaller
     set of languages.
