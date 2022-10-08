@@ -12,4 +12,5 @@ set rtp+=.
 runtime! plugin/plenary.vim
 runtime! plugin/nvim-treesitter.lua
 
+TSInstallSync! bash
 TSInstallSync! lua
