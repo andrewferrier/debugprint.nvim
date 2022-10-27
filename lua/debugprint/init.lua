@@ -290,16 +290,6 @@ M.deleteprints = function(opts)
     end
 end
 
-local notify_deprecated = function()
-    vim.notify(
-        "dqp and similar keymappings are deprecated for debugprint and are "
-            .. "replaced with g?p, g?P, g?q, and g?Q. If you wish to continue "
-            .. "using dqp etc., please see the Keymappings section in the README "
-            .. "on how to map your own keymappings and map them explicitly. Thanks!",
-        vim.log.levels.WARN
-    )
-end
-
 M.setup = function(opts)
     global_opts =
         vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
@@ -344,31 +334,6 @@ M.setup = function(opts)
         })
         vim.keymap.set("n", "g?O", function()
             return M.debugprint({ motion = true, above = true })
-        end, {
-            expr = true,
-        })
-
-        vim.keymap.set("n", "dqp", function()
-            notify_deprecated()
-            return M.debugprint()
-        end, {
-            expr = true,
-        })
-        vim.keymap.set("n", "dqP", function()
-            notify_deprecated()
-            return M.debugprint({ above = true })
-        end, {
-            expr = true,
-        })
-        vim.keymap.set("n", "dQp", function()
-            notify_deprecated()
-            return M.debugprint({ variable = true })
-        end, {
-            expr = true,
-        })
-        vim.keymap.set("n", "dQP", function()
-            notify_deprecated()
-            return M.debugprint({ above = true, variable = true })
         end, {
             expr = true,
         })
