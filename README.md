@@ -202,9 +202,11 @@ configurations out-of-the-box, please open an issue also.*
 *   `cpp` (C++)
 *   `dart`
 *   `go`
+*   `java`
 *   `javascript`
 *   `lua`
 *   `make`
+*   `php`
 *   `python`
 *   `ruby`
 *   `rust`
