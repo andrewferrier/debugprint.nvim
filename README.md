@@ -18,8 +18,27 @@ statements appropriate to the language being edited, which include:
 
 *   (optionally) A variable (which may be automatically picked up from an identifier/variable name under the cursor).
 
-`debugprint` comes with the generation logic built in for many common
-programming languages, and can be extended to support more.
+`debugprint` supports the following filetypes/programming languages out-of-the-box:
+
+*   `bash`
+*   `c`
+*   `cpp` (C++)
+*   `dart`
+*   `go`
+*   `java`
+*   `javascript`
+*   `lua`
+*   `make`
+*   `php`
+*   `python`
+*   `ruby`
+*   `rust`
+*   `sh` (Sh/Bash)
+*   `typescript`
+*   `vim`
+*   `zsh`
+
+It can also be extended to support more.
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
@@ -193,26 +212,6 @@ appreciated if you can open an
 supported out-of-the-box in `debugprint` so others can benefit from it.
 Similarly, if you spot any issues with, or improvements to, the language
 configurations out-of-the-box, please open an issue also.*
-
-`debugprint` supports the following filetypes out-of-the-box:
-
-*   `bash`
-*   `c`
-*   `cpp` (C++)
-*   `dart`
-*   `go`
-*   `java`
-*   `javascript`
-*   `lua`
-*   `make`
-*   `php`
-*   `python`
-*   `ruby`
-*   `rust`
-*   `sh` (Sh/Bash)
-*   `typescript`
-*   `vim`
-*   `zsh`
 
 If `debugprint` doesn't support your filetype, you can add it as a custom
 filetype in one of two ways:
