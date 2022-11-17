@@ -2,8 +2,8 @@
 
 ## Overview
 
-The gold standard for debugging a program or script is to use a real debugger.
-For NeoVim, the 'standard' way to integrate this is to use something like
+The gold standard for debugging a program or script in NeoVim is to use a real
+debugger using an interface like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap). However, many folks prefer
 a more low-tech approach; the 'print' statement, or the equivalent in a
 particular language, to trace the output of a program during execution.
@@ -100,9 +100,9 @@ require("debugprint").setup(opts)
 
 The sections below detail the allowed options.
 
-Please subscribe to [this GitHub issue](https://github.com/andrewferrier/debugprint.nvim/issues/25),
-especially while `debugprint` is still in active development, to be notified of
-any breaking issues.
+Please subscribe to [this GitHub
+issue](https://github.com/andrewferrier/debugprint.nvim/issues/25) to be
+notified of any breaking changes to `debugprint`.
 
 ## Keymappings and Commands
 
@@ -186,9 +186,8 @@ end)
 
 ## Add Custom Filetypes
 
-*Note: Since `debugprint.nvim` is still relatively new,
-if you work out a configuration for a filetype not listed here, particularly a
-standard or common one that NeoVim supports out-of-the-box, it would be really
+*Note: Since `debugprint.nvim` is still relatively new, if you work out a
+configuration for a filetype not supported out-of-the-box, it would be really
 appreciated if you can open an
 [issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it
 supported out-of-the-box in `debugprint` so others can benefit from it.
