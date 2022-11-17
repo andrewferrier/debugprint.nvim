@@ -272,6 +272,14 @@ If it helps to understand these, you can look at the built-in configurations in
 *   [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) -
     smaller set of capabilities than debugprint, supports a slighter smaller
     set of languages.
+    
+*   [vim-printer](https://github.com/meain/vim-printer) - written in VimL. Supports
+    the equivalent of debugprint's variable lines only. Doesn't support some of the richer
+    customization of debugprint.
+    
+*   [vim-printf](https://github.com/mptre/vim-printf) - written in VimL. Supports
+    the equivalent of debugprint's variable lines only. Doesn't support some of the richer
+    customization of debugprint.
 
 *   [logsitter](https://github.com/gaelph/logsitter.nvim) - supports a smaller
     set of languages and no default keymappings.
