@@ -7,7 +7,7 @@ local shell = {
 
 local docker = vim.deepcopy(shell)
 
-docker.left = 'RUN ' .. docker.left
+docker.left = "RUN " .. docker.left
 
 local js = {
     left = 'console.log("',
