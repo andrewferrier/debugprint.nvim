@@ -71,13 +71,8 @@ It provides various improvements:
 
 ## Demo
 
-**NOTE: This demo gives an idea of what `debugprint` does, but does not show some of
-the more recent capabilities such as using treesitter to pick up a variable name, deleting
-debug lines with a command, and uses older deprecated keymappings - the new ones are `g?p`, `g?P`,
-`g?v` and `g?V`).**
-
 <div align="center">
-  <video src="https://user-images.githubusercontent.com/107015/184187236-34f80a31-9626-4a3b-8d03-0f52752781e6.mp4" type="video/mp4"></video>
+  <video src="https://user-images.githubusercontent.com/107015/209445825-13ef2f98-d06d-4e73-837f-d9e644f0ac81.mp4" type="video/mp4"></video>
 </div>
 
 ## Installation
