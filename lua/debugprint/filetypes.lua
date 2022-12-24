@@ -5,6 +5,10 @@ local shell = {
     right_var = '}"',
 }
 
+local docker = vim.deepcopy(shell)
+
+docker.left = 'RUN ' .. docker.left
+
 local js = {
     left = 'console.log("',
     right = '")',
@@ -38,6 +42,7 @@ return {
         mid_var = "${",
         right_var = '}");',
     },
+    ["dockerfile"] = docker,
     ["go"] = {
         left = 'fmt.Printf("',
         right = '")',
