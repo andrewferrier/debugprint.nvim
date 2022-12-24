@@ -26,6 +26,12 @@ return {
         mid_var = '" << ',
         right_var = " << std::endl;",
     },
+    ["cs"] = {
+        left = 'System.Console.WriteLine($"',
+        right = '")',
+        mid_var = "{",
+        right_var = '}");',
+    },
     ["dart"] = {
         left = 'print("',
         right = '");',
