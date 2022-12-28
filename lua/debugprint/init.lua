@@ -136,7 +136,7 @@ local indent_line = function(current_line)
     end
 end
 
-local debugprint_addline = function(opts)
+local addline = function(opts)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
@@ -221,7 +221,7 @@ M.debugprint_cache = function(opts)
         return "g@l"
     end
 
-    debugprint_addline(cache_request)
+    addline(cache_request)
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
@@ -245,7 +245,7 @@ end
 
 M.debugprint_motion_callback = function()
     cache_request.variable_name = utils.get_operator_selection()
-    debugprint_addline(cache_request)
+    addline(cache_request)
     set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
