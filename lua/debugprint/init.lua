@@ -183,6 +183,33 @@ local addline = function(opts)
     indent_line(line_to_insert_linenr)
 end
 
+local get_variable_name = function(opts)
+    local variable_name = utils.get_visual_selection()
+
+    if variable_name == false then
+        return false
+    end
+
+    if
+        variable_name == nil
+        and opts.ignore_treesitter ~= true
+        and global_opts.ignore_treesitter ~= true
+    then
+        variable_name = utils.find_treesitter_variable()
+    end
+
+    if variable_name == nil then
+        variable_name = vim.fn.input("Variable name: ")
+
+        if variable_name == nil or variable_name == "" then
+            vim.notify("No variable name entered.", vim.log.levels.WARN)
+            return false
+        end
+    end
+
+    return variable_name
+end
+
 local cache_request = nil
 
 M.debugprint_cache = function(opts)
@@ -192,27 +219,10 @@ M.debugprint_cache = function(opts)
         end
 
         if opts.variable == true then
-            opts.variable_name = utils.get_visual_selection()
+            opts.variable_name = get_variable_name(opts)
 
             if opts.variable_name == false then
                 return
-            end
-
-            if
-                opts.variable_name == nil
-                and opts.ignore_treesitter ~= true
-                and global_opts.ignore_treesitter ~= true
-            then
-                opts.variable_name = utils.find_treesitter_variable()
-            end
-
-            if opts.variable_name == nil then
-                opts.variable_name = vim.fn.input("Variable name: ")
-
-                if opts.variable_name == nil or opts.variable_name == "" then
-                    vim.notify("No variable name entered.", vim.log.levels.WARN)
-                    return
-                end
             end
         end
 
