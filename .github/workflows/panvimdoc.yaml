@@ -1,0 +1,19 @@
+name: panvimdoc
+
+on: [push]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    name: pandoc to vimdoc
+    steps:
+      - uses: actions/checkout@v2
+      - name: wrapping
+        uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: debugprint.nvim
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: Auto generate Vim docs"
+          branch: ${{ github.head_ref }}
+          file_pattern: 'doc/*'
