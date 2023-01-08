@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*       For NVIM v0.8.0       Last change: 2023 January 05
+*debugprint.nvim.txt*       For NVIM v0.8.0       Last change: 2023 January 08
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -88,7 +88,7 @@ provides various improvements:
 DEMO                                                    *debugprint.nvim-demo*
 
 <video
-src="https://user-images.githubusercontent.com/107015/209445825-13ef2f98-d06d-4e73-837f-d9e644f0ac81.mp4"
+src="https://user-images.githubusercontent.com/107015/211196425-2b371442-54f9-43d7-9187-a29185d43586.mp4"
 type="video/mp4"></video>
 
 INSTALLATION                                    *debugprint.nvim-installation*
