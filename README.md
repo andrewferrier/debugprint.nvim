@@ -156,17 +156,25 @@ opts = {
 require("debugprint").setup(opts)
 
 vim.keymap.set("n", "<Leader>d", function()
-    require('debugprint').debugprint()
-end)
+    return require('debugprint').debugprint()
+end, {
+    expr = true,
+})
 vim.keymap.set("n", "<Leader>D", function()
-    require('debugprint').debugprint({ above = true })
-end)
+    return require('debugprint').debugprint({ above = true })
+end, {
+    expr = true,
+})
 vim.keymap.set("n", "<Leader>dq", function()
-    require('debugprint').debugprint({ variable = true })
-end)
+    return require('debugprint').debugprint({ variable = true })
+end, {
+    expr = true,
+})
 vim.keymap.set("n", "<Leader>Dq", function()
-    require('debugprint').debugprint({ above = true, variable = true })
-end)
+    return require('debugprint').debugprint({ above = true, variable = true })
+end, {
+    expr = true,
+})
 
 vim.api.nvim_create_user_command("DeleteDebugs", function(opts)
     -- Note: you must set `range=true` and pass through opts for ranges to work
