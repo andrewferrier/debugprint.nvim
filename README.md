@@ -137,8 +137,8 @@ shown in the following table.
 | Normal           | None by default        | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
 | Visual           | `g?v`                  | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
 | Visual           | `g?v`                  | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
-| Operator-pending | `g?o`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
-| Operator-pending | `g?O`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| Operator-pending | `g?o`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({motion = true})`                                           |
+| Operator-pending | `g?O`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({motion = true, above = true})`                             |
 | Command          | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                      | `require('debugprint').deleteprints()`                                                        |
 
 The keymappings are chosen specifically because by default in NeoVim they are
@@ -176,6 +176,13 @@ end, {
 vim.keymap.set("n", "<Leader>Dq", function()
     -- Note: setting `expr=true` and returning the value are essential
     return require('debugprint').debugprint({ above = true, variable = true })
+end, {
+    expr = true,
+})
+vim.keymap.set("n", "<Leader>do", function()
+    -- Note: setting `expr=true` and returning the value are essential
+    -- It's also important to use motion = true for operator-pending motions
+    return require('debugprint').debugprint({ motion = true })
 end, {
     expr = true,
 })
