@@ -93,7 +93,7 @@ type="video/mp4"></video>
 
 INSTALLATION                                    *debugprint.nvim-installation*
 
-**Requires NeoVim 0.7+.**
+**Requires NeoVim 0.8+.**
 
 Optional dependency: nvim-treesitter
 <https://github.com/nvim-treesitter/nvim-treesitter>. If this is not installed,
