@@ -77,7 +77,7 @@ It provides various improvements:
 
 ## Installation
 
-**Requires NeoVim 0.7+.**
+**Requires NeoVim 0.8+.**
 
 Optional dependency:
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
