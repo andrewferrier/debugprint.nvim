@@ -14,7 +14,8 @@ statements appropriate to the language being edited, which include:
 
 *   The filename/line number they are being inserted on.
 
-*   A counter which increases over the duration of a NeoVim session each time a statement is generated.
+*   A snippet of the line above or below and a unique counter value from the NeoVim
+    session to help identification in debug output.
 
 *   (optionally) A variable (which may be automatically picked up from an identifier/variable name under the cursor).
 
