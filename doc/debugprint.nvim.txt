@@ -124,11 +124,8 @@ Note that you can add an `opts` object to the setup method:
 
 >
     opts = { ... }
-    
     ...
     require("debugprint").setup(opts)
-    ...
-    })
 <
 
 
