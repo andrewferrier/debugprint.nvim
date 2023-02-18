@@ -660,7 +660,7 @@ describe("can handle treesitter identifiers", function()
 
         check_lines({
             "XYZ=123",
-            'echo "DEBUGPRINT[1]: ' .. filename .. ':1: XYZ=${XYZ}"',
+            '>&2 echo "DEBUGPRINT[1]: ' .. filename .. ':1: XYZ=${XYZ}"',
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 1 })
@@ -1169,7 +1169,7 @@ describe("check python indenting", function()
 
         check_lines({
             "x = 1",
-            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)")',
+            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)", file=sys.stderr)',
             "y = 2",
         })
     end)
@@ -1186,7 +1186,7 @@ describe("check python indenting", function()
             "def xyz():",
             '    print(f"DEBUGPRINT[1]: '
                 .. filename
-                .. ':1 (after def xyz():)")',
+                .. ':1 (after def xyz():)", file=sys.stderr)',
             "    pass",
         })
     end)
@@ -1203,7 +1203,7 @@ describe("check python indenting", function()
         check_lines({
             "def xyz():",
             "    x = 1",
-            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)")',
+            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)", file=sys.stderr)',
             "    y = 2",
         })
     end)
