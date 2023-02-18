@@ -1169,7 +1169,9 @@ describe("check python indenting", function()
 
         check_lines({
             "x = 1",
-            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)", file=sys.stderr)',
+            'print(f"DEBUGPRINT[1]: '
+                .. filename
+                .. ':1 (after x = 1)", file=sys.stderr)',
             "y = 2",
         })
     end)
@@ -1203,7 +1205,9 @@ describe("check python indenting", function()
         check_lines({
             "def xyz():",
             "    x = 1",
-            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)", file=sys.stderr)',
+            '    print(f"DEBUGPRINT[1]: '
+                .. filename
+                .. ':2 (after x = 1)", file=sys.stderr)',
             "    y = 2",
         })
     end)
