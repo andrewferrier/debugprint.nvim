@@ -1,5 +1,5 @@
 local shell = {
-    left = 'echo "',
+    left = '>&2 echo "',
     right = '"',
     mid_var = "${",
     right_var = '}"',
@@ -16,22 +16,24 @@ local js = {
     right_var = ")",
 }
 
+-- still printing to stdout: dart, lua, make, vim
+
 return {
     ["bash"] = shell,
     ["c"] = {
-        left = 'printf("',
+        left = 'fprintf(stderr, "',
         right = '");',
         mid_var = '%d", ',
         right_var = ");",
     },
     ["cpp"] = {
-        left = 'std::cout << "',
+        left = 'std::cerr << "',
         right = '" << std::endl;',
         mid_var = '" << ',
         right_var = " << std::endl;",
     },
     ["cs"] = {
-        left = 'System.Console.WriteLine($"',
+        left = 'System.Console.Error.WriteLine($"',
         right = '")',
         mid_var = "{",
         right_var = '}");',
@@ -44,13 +46,13 @@ return {
     },
     ["dockerfile"] = docker,
     ["go"] = {
-        left = 'fmt.Printf("',
+        left = 'fmt.Fprintf(os.Stderr, "',
         right = '")',
         mid_var = '%+v\\n", ',
         right_var = ")",
     },
     ["java"] = {
-        left = 'System.out.println("',
+        left = 'System.err.println("',
         right = '");',
         mid_var = '" + ',
         right_var = ");",
@@ -70,25 +72,25 @@ return {
         right_var = ")",
     },
     ["php"] = {
-        left = 'echo "',
-        right = '\\n";',
+        left = 'fwrite(STDERR, "',
+        right = '\\n");',
         mid_var = "$",
-        right_var = '\\n";',
+        right_var = '\\n");',
     },
     ["python"] = {
         left = 'print(f"',
-        right = '")',
+        right = '", file=sys.stderr)',
         mid_var = "{",
-        right_var = '}")',
+        right_var = '}", file=sys.stderr)',
     },
     ["ruby"] = {
-        left = 'puts "',
+        left = 'STDERR.puts "',
         right = '"',
         mid_var = "#{",
         right_var = '}"',
     },
     ["rust"] = {
-        left = 'println!("',
+        left = 'eprintln!("',
         right = '");',
         mid_var = '{}", ',
         right_var = ");",
