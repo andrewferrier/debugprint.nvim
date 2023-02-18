@@ -108,11 +108,8 @@ Note that you can add an `opts` object to the setup method:
 
 ```lua
 opts = { ... }
-
 ...
 require("debugprint").setup(opts)
-...
-})
 ```
 
 The sections below detail the allowed options.
