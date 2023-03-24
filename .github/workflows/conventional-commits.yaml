@@ -1,10 +1,11 @@
+---
 name: Check conventional commits
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   commit_lint:
