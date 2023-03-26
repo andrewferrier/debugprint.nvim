@@ -19,7 +19,16 @@ M.find_treesitter_variable = function()
             return nil
         else
             local node_type = node:type()
-            local variable_name = vim.treesitter.query.get_node_text(node, 0)
+
+            local variable_name
+
+            if vim.treesitter.get_node_text then
+                -- vim.treesitter.query.get_node_text deprecated as of NeoVim
+                -- 0.9
+                variable_name = vim.treesitter.get_node_text(node, 0)
+            else
+                variable_name = vim.treesitter.query.get_node_text(node, 0)
+            end
 
             -- lua -> identifier
             -- sh -> variable_name
