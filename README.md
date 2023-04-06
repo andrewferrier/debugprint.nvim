@@ -80,10 +80,11 @@ It provides various improvements:
 
 **Requires NeoVim 0.8+.**
 
-Optional dependency:
+Optional dependency for NeoVim 0.8 only:
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
 is not installed, `debugprint` will not find variable names under the cursor and
-will always prompt for a variable name.
+will always prompt for a variable name. For NeoVim 0.9+, this dependency is
+never needed for this behaviour.
 
 Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
 
