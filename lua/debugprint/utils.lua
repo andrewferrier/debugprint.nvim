@@ -1,42 +1,49 @@
 local M = {}
 
-M.find_treesitter_variable = function()
-    local function requiref(module)
-        require(module)
-    end
-
-    local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
-
-    if not ts_utils_test then
-        return nil
+local get_node_at_cursor = function()
+    if vim.treesitter.get_node then
+        -- Supported as of NeoVim 0.9?
+        return vim.treesitter.get_node()
     else
-        local ts_utils = require("nvim-treesitter.ts_utils")
-        -- Once get_node_at_cursor() is in NeoVim core, the nvim-treesitter
-        -- dependency can be removed: https://github.com/neovim/neovim/pull/18232
-        local node = ts_utils.get_node_at_cursor()
+        local function requiref(module)
+            require(module)
+        end
 
-        if node == nil then
+        local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
+
+        if not ts_utils_test then
             return nil
         else
-            local node_type = node:type()
+            local ts_utils = require("nvim-treesitter.ts_utils")
+            return ts_utils.get_node_at_cursor()
+        end
+    end
+end
 
-            local variable_name
+M.find_treesitter_variable = function()
+    local node = get_node_at_cursor()
 
-            if vim.treesitter.get_node_text then
-                -- vim.treesitter.query.get_node_text deprecated as of NeoVim
-                -- 0.9
-                variable_name = vim.treesitter.get_node_text(node, 0)
-            else
-                variable_name = vim.treesitter.query.get_node_text(node, 0)
-            end
+    if node == nil then
+        return nil
+    else
+        local node_type = node:type()
 
-            -- lua -> identifier
-            -- sh -> variable_name
-            if node_type == "identifier" or node_type == "variable_name" then
-                return variable_name
-            else
-                return nil
-            end
+        local variable_name
+
+        if vim.treesitter.get_node_text then
+            -- vim.treesitter.query.get_node_text deprecated as of NeoVim
+            -- 0.9
+            variable_name = vim.treesitter.get_node_text(node, 0)
+        else
+            variable_name = vim.treesitter.query.get_node_text(node, 0)
+        end
+
+        -- lua -> identifier
+        -- sh -> variable_name
+        if node_type == "identifier" or node_type == "variable_name" then
+            return variable_name
+        else
+            return nil
         end
     end
 end
