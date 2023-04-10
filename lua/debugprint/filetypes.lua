@@ -22,8 +22,8 @@ return {
     ["bash"] = shell,
     ["c"] = {
         left = 'fprintf(stderr, "',
-        right = '");',
-        mid_var = '%d", ',
+        right = '\\n");',
+        mid_var = '%d\\n", ',
         right_var = ");",
     },
     ["cpp"] = {
@@ -47,7 +47,7 @@ return {
     ["dockerfile"] = docker,
     ["go"] = {
         left = 'fmt.Fprintf(os.Stderr, "',
-        right = '")',
+        right = '\\n")',
         mid_var = '%+v\\n", ',
         right_var = ")",
     },
