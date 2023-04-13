@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*        For NVIM v0.8.0        Last change: 2023 April 10
+*debugprint.nvim.txt*        For NVIM v0.8.0        Last change: 2023 April 13
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -19,21 +19,18 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 
 OVERVIEW                            *debugprint.nvim-debugprint.nvim-overview*
 
-The gold standard for debugging a program or script in NeoVim is to use a real
-debugger using an interface like nvim-dap
-<https://github.com/mfussenegger/nvim-dap>. However, many folks prefer a more
-low-tech approach; the 'print' statement, or the equivalent in a particular
-language, to trace the output of a program during execution. `debugprint` is a
-NeoVim plugin for them, as it can easily generate 'print' statements
-appropriate to the language being edited, which include:
+`debugprint` is a plugin for NeoVim that simplifies debugging for those who
+prefer a low-tech approach. While using a real debugger like nvim-dap
+<https://github.com/mfussenegger/nvim-dap> is the gold standard for debugging a
+script or program, some prefer the use of the 'print' statement to trace the
+output during execution. `debugprint` generates appropriate 'print' statements
+based on the language being edited.
 
-
-- A 'print tag' string unique to `debugprint`.
-- The filename/line number they are being inserted on.
-- A snippet of the line above or below and a unique counter value from the NeoVim
-    session to help identification in debug output.
-- (optionally) A variable (which may be automatically picked up from an
-    identifier/variable name under the cursor).
+debugprint also inserts into the 'print' statements the file name and line
+numbers where debug lines are inserted, as well as a snippet of the previous or
+following line and a unique counter value from the current NeoVim session to
+help identify lines in debug output. Optionally it can also output variable
+values.
 
 `debugprint` supports the following filetypes/programming languages
 out-of-the-box:
