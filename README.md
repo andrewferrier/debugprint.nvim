@@ -80,7 +80,20 @@ Optional dependency for NeoVim 0.8 only:
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
 is not installed, `debugprint` will not find variable names under the cursor and
 will always prompt for a variable name. For NeoVim 0.9+, this dependency is
-never needed for this behaviour.
+never needed.
+
+Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
+
+```lua
+return {
+    url = "andrewferrier/debugprint.nvim",
+    opts = { ... },
+    -- Dependency only needed for NeoVim 0.8
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter"
+    }
+}
+```
 
 Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
 
@@ -92,7 +105,8 @@ packer.startup(function(use)
     use({
         "andrewferrier/debugprint.nvim",
         config = function()
-            require("debugprint").setup()
+            opts = { ... }
+            require("debugprint").setup(opts)
         end,
     })
 
@@ -101,15 +115,8 @@ packer.startup(function(use)
 end)
 ```
 
-Note that you can add an `opts` object to the setup method:
-
-```lua
-opts = { ... }
-...
-require("debugprint").setup(opts)
-```
-
-The sections below detail the allowed options.
+The sections below detail the allowed options that can appear in the `opts`
+object.
 
 Please subscribe to [this GitHub
 issue](https://github.com/andrewferrier/debugprint.nvim/issues/25) to be
