@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.0.0...v1.1.0) (2023-04-20)
+
+
+### Features
+
+* Improve Rust variables - closes [#52](https://github.com/andrewferrier/debugprint.nvim/issues/52) ([4af9d23](https://github.com/andrewferrier/debugprint.nvim/commit/4af9d23b34a63cb2f371dad654b4141554d3d194))
+
 ## 1.0.0 (2023-04-17)
 
 
