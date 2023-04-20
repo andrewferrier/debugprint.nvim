@@ -6,7 +6,7 @@
 prefer a low-tech approach. While using a real debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap) is the gold standard for
 debugging a script or program, some prefer the use of the 'print' statement to
-trace the output during execution. `debugprint` generates appropriate 'print'
+trace the output during execution. `debugprint` allow quick insertion of appropriate 'print'
 statements based on the language being edited.
 
 debugprint also inserts into the 'print' statements the file name and line
