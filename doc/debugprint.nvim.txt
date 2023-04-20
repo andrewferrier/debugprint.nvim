@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*        For NVIM v0.8.0        Last change: 2023 April 17
+*debugprint.nvim.txt*        For NVIM v0.8.0        Last change: 2023 April 20
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -23,8 +23,8 @@ OVERVIEW                            *debugprint.nvim-debugprint.nvim-overview*
 prefer a low-tech approach. While using a real debugger like nvim-dap
 <https://github.com/mfussenegger/nvim-dap> is the gold standard for debugging a
 script or program, some prefer the use of the 'print' statement to trace the
-output during execution. `debugprint` generates appropriate 'print' statements
-based on the language being edited.
+output during execution. `debugprint` allows quick insertion of appropriate
+'print' statements based on the language being edited.
 
 debugprint also inserts into the 'print' statements the file name and line
 numbers where debug lines are inserted, as well as a snippet of the previous or
