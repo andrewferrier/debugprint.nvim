@@ -428,7 +428,7 @@ ALTERNATIVE FEATURE COMPARISON*debugprint.nvim-debugprint.nvim-alternative-featu
 
   GNU Make                :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
-  Perl                    :x:               :+1:              :x:            :x:                :x:           :x:          :x:
+  Perl                    :x:               :x:               :x:            :x:                :x:           :x:          :x:
 
   PHP                     :+1:              :+1:              :x:            :+1:               :x:           :x:          :x:
 
