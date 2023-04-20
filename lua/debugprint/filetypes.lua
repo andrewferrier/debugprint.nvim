@@ -92,7 +92,7 @@ return {
     ["rust"] = {
         left = 'eprintln!("',
         right = '");',
-        mid_var = '{}", ',
+        mid_var = '{:#?}", ',
         right_var = ");",
     },
     ["sh"] = shell,
