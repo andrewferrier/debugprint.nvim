@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*        For NVIM v0.8.0        Last change: 2023 April 20
+*debugprint.nvim.txt*         For NVIM v0.8.0         Last change: 2023 May 28
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -35,7 +35,6 @@ values.
 `debugprint` supports the following filetypes/programming languages
 out-of-the-box:
 
-
 - `bash`
 - `c`
 - `cpp` (C++)
@@ -62,7 +61,6 @@ It can also be extended to support more.
 <https://github.com/bergercookie/vim-debugstring>, which I’ve used for
 several years, but is updated and refreshed for the NeoVim generation. It
 provides various improvements:
-
 
 - Its configuration system is more 'NeoVim-like' and it is easier to add custom
     languages in your configuration.
@@ -303,7 +301,6 @@ open an issue also._
 If `debugprint` doesn’t support your filetype, you can add it as a custom
 filetype in one of two ways:
 
-
 - In the `opts.filetypes` object in `setup()`.
 - Using the `require('debugprint').add_custom_filetypes()` method (designed for
     use from `ftplugin/` directories, etc.
@@ -348,7 +345,6 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
 KNOWN LIMITATIONS          *debugprint.nvim-debugprint.nvim-known-limitations*
-
 
 - `debugprint` only supports variable names or simple expressions when using
     `g?v`/`g?V` - in particular, it does not make any attempt to escape
