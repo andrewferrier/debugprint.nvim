@@ -144,6 +144,118 @@ describe("snippet handling", function()
     end)
 end)
 
+describe("will ignore blank lines when calculating snippet", function()
+    before_each(function()
+        debugprint.setup({ ignore_treesitter = true })
+    end)
+
+    it("can insert a basic statement above", function()
+        local filename = init_file({
+            "foo",
+            "",
+            "",
+            "bar",
+        }, "lua", 3, 0)
+
+        feedkeys("g?P")
+
+        check_lines({
+            "foo",
+            "",
+            "print('DEBUGPRINT[1]: " .. filename .. ":3 (before bar)')",
+            "",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement below", function()
+        local filename = init_file({
+            "foo",
+            "",
+            "",
+            "bar",
+        }, "lua", 2, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2 (after foo)')",
+            "",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement above first line", function()
+        local filename = init_file({
+            "",
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?P")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "",
+            "foo",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement below last line", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+            "",
+        }, "lua", 3, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "bar",
+            "",
+            "print('DEBUGPRINT[1]: " .. filename .. ":3 (after bar)')",
+        })
+    end)
+
+    it("can insert a basic statement before first line", function()
+        local filename = init_file({
+            "",
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (start of file)')",
+            "foo",
+            "bar",
+        })
+    end)
+
+    it("can insert a basic statement above last line", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+            "",
+        }, "lua", 3, 0)
+
+        feedkeys("g?P")
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUGPRINT[1]: " .. filename .. ":3 (end of file)')",
+            "",
+        })
+    end)
+end)
+
 describe("can do variable debug statement insertion", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })

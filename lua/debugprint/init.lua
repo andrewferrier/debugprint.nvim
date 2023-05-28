@@ -46,26 +46,54 @@ end
 
 local counter = 0
 
-local get_current_line_for_printing = function(current_line)
-    local current_line_contents =
-        vim.api.nvim_buf_get_lines(0, current_line - 1, current_line, true)[1]
+local get_trimmed_content_of_line = function(line)
+    local line_contents = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
 
     -- Remove whitespace and any quoting characters which could potentially
     -- cause a syntax error in the statement being printed, or any characters
     -- which could cause unintended interpolation of expressions
-    current_line_contents = current_line_contents:gsub("^%s+", "") -- leading
-    current_line_contents = current_line_contents:gsub("%s+$", "") -- trailing
-    current_line_contents = current_line_contents:gsub("[\"'\\`%${}]", "")
+    line_contents = line_contents:gsub("^%s+", "") -- leading
+    line_contents = line_contents:gsub("%s+$", "") -- trailing
+    line_contents = line_contents:gsub("[\"'\\`%${}]", "")
 
-    if current_line_contents:len() > MAX_SNIPPET_LENGTH then
-        current_line_contents = string.sub(
-            current_line_contents,
-            0,
-            MAX_SNIPPET_LENGTH
-        ) .. "…"
+    return line_contents
+end
+
+local get_snippet = function(current_line, above)
+    local line_contents = ""
+
+    while line_contents == "" do
+        line_contents = get_trimmed_content_of_line(current_line)
+
+        if line_contents == "" then
+            if above then
+                current_line = current_line + 1
+            else
+                current_line = current_line - 1
+            end
+
+            if current_line < 1 then
+                return "(start of file)"
+            end
+
+            if current_line > vim.api.nvim_buf_line_count(0) then
+                return "(end of file)"
+            end
+        end
     end
 
-    return current_line_contents
+    if line_contents:len() > MAX_SNIPPET_LENGTH then
+        line_contents = string.sub(line_contents, 0, MAX_SNIPPET_LENGTH)
+            .. "…"
+    end
+
+    if above then
+        line_contents = "(before " .. line_contents .. ")"
+    else
+        line_contents = "(after " .. line_contents .. ")"
+    end
+
+    return line_contents
 end
 
 local debuginfo = function(opts)
@@ -82,18 +110,11 @@ local debuginfo = function(opts)
     line = line .. ": " .. vim.fn.expand("%:t") .. ":" .. current_line
 
     if global_opts.display_snippet and opts.variable_name == nil then
-        local snippet
+        local snippet = get_snippet(current_line, opts.above)
 
-        if opts.above then
-            snippet = " (before "
-        else
-            snippet = " (after "
+        if snippet then
+            line = line .. " " .. snippet
         end
-
-        line = line
-            .. snippet
-            .. get_current_line_for_printing(current_line)
-            .. ")"
     end
 
     if opts.variable_name ~= nil then
