@@ -1,3 +1,14 @@
+-- For most of these default configurations, we're aiming to log at a
+-- 'debug'-style level of logging. For more console-oriented languages (e.g.
+-- shell/python), we log to stderr, as this is often a standard way of producing
+-- output which isn't part of the main program. For others (e.g. JavaScript), we
+-- use a language-specific way, i.e. console.debug().
+--
+-- In general, we're trying to avoid the user of debugprint having to modify
+-- their imports or other libraries in order to use any of these statements.
+-- However, in a few cases, that might be needed. Any potential improvements to
+-- this welcome.
+
 local shell = {
     left = '>&2 echo "',
     right = '"',
@@ -10,13 +21,11 @@ local docker = vim.deepcopy(shell)
 docker.left = "RUN " .. docker.left
 
 local js = {
-    left = 'console.log("',
+    left = 'console.debug("',
     right = '")',
     mid_var = '", ',
     right_var = ")",
 }
-
--- still printing to stdout: dart, lua, make, vim
 
 return {
     ["bash"] = shell,
@@ -66,7 +75,7 @@ return {
         right_var = "))",
     },
     ["make"] = {
-        left = '\t@echo "',
+        left = '\t@echo >&2 "',
         right = '"',
         mid_var = '"$(',
         right_var = ")",
