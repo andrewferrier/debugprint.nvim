@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*        For NVIM v0.8.0       Last change: 2023 August 20
+*debugprint.nvim.txt*        For NVIM v0.8.0       Last change: 2023 August 24
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -101,7 +101,7 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         -- Dependency only needed for NeoVim 0.8
         dependencies = {
             "nvim-treesitter/nvim-treesitter"
-        }
+        },
         -- Remove the following line to use development versions,
         -- not just the formal releases
         version = "*"
