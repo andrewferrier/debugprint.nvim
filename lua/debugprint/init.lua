@@ -333,36 +333,42 @@ M.setup = function(opts)
         end, {
             expr = true,
             desc = "Plain debug below current line",
+            unique = true,
         })
         vim.keymap.set("n", "g?P", function()
             return M.debugprint({ above = true })
         end, {
             expr = true,
             desc = "Plain debug above current line",
+            unique = true,
         })
         vim.keymap.set({ "n", "x" }, "g?v", function()
             return M.debugprint({ variable = true })
         end, {
             expr = true,
             desc = "Variable debug below current line",
+            unique = true,
         })
         vim.keymap.set({ "n", "x" }, "g?V", function()
             return M.debugprint({ above = true, variable = true })
         end, {
             expr = true,
             desc = "Variable debug above current line",
+            unique = true,
         })
         vim.keymap.set("n", "g?o", function()
             return M.debugprint({ motion = true })
         end, {
             expr = true,
             desc = "Text-obj-selected variable debug below current line",
+            unique = true,
         })
         vim.keymap.set("n", "g?O", function()
             return M.debugprint({ motion = true, above = true })
         end, {
             expr = true,
             desc = "Text-obj-selected variable debug above current line",
+            unique = true,
         })
     end
 
