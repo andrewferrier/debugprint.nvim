@@ -801,7 +801,7 @@ describe("can handle treesitter identifiers", function()
 
         local filename = init_file({
             "XYZ=123",
-        }, "sh", 1, 1)
+        }, "bash", 1, 1)
 
         feedkeys("g?v")
 

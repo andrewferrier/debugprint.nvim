@@ -14,4 +14,3 @@ runtime! plugin/nvim-treesitter.lua
 
 TSInstallSync! bash
 TSInstallSync! lua
-TSInstallSync! sh
