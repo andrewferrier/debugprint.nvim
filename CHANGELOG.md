@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.1.0...v1.2.0) (2023-10-07)
+
+
+### Features
+
+* Ignore blank calc'ing snippet - closes [#55](https://github.com/andrewferrier/debugprint.nvim/issues/55) ([6ad5606](https://github.com/andrewferrier/debugprint.nvim/commit/6ad5606eebe7b872da1683c90ad5ec2bb071919a))
+* Make keymappings unique ([92a6dd1](https://github.com/andrewferrier/debugprint.nvim/commit/92a6dd1a5958a7f951aa70c37d48ebdd20cd8203))
+* Make uses stderr, JS uses console.debug - closes [#48](https://github.com/andrewferrier/debugprint.nvim/issues/48) ([f7f88de](https://github.com/andrewferrier/debugprint.nvim/commit/f7f88de9791ecee16cab028907cacfd88df289d2))
+
 ## [1.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.0.0...v1.1.0) (2023-04-20)
 
 
