@@ -26,6 +26,15 @@ local init_file = function(lines, filetype, row, col)
     return filename
 end
 
+local teardown = function()
+    vim.keymap.del("n", "g?p")
+    vim.keymap.del("n", "g?P")
+    vim.keymap.del({ "n", "x" }, "g?v")
+    vim.keymap.del({ "n", "x" }, "g?V")
+    vim.keymap.del("n", "g?o")
+    vim.keymap.del("n", "g?O")
+end
+
 local notify_message
 
 vim.notify = function(msg, _)
@@ -33,6 +42,8 @@ vim.notify = function(msg, _)
 end
 
 describe("can do setup()", function()
+    after_each(teardown)
+
     it("can do basic setup", function()
         debugprint.setup()
     end)
@@ -42,6 +53,8 @@ describe("can do basic debug statement insertion", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })
     end)
+
+    after_each(teardown)
 
     it("can insert a basic statement below", function()
         local filename = init_file({
@@ -107,6 +120,8 @@ describe("can do basic debug statement insertion", function()
 end)
 
 describe("snippet handling", function()
+    after_each(teardown)
+
     it("can insert a basic statement below", function()
         debugprint.setup({ display_snippet = false })
 
@@ -148,6 +163,8 @@ describe("will ignore blank lines when calculating snippet", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })
     end)
+
+    after_each(teardown)
 
     it("can insert a basic statement above", function()
         local filename = init_file({
@@ -261,6 +278,8 @@ describe("can do variable debug statement insertion", function()
         debugprint.setup({ ignore_treesitter = true })
     end)
 
+    after_each(teardown)
+
     it("can insert a variable statement below", function()
         local filename = init_file({
             "foo",
@@ -315,6 +334,8 @@ describe("can do various file types", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })
     end)
+
+    after_each(teardown)
 
     it("can handle a .vim file", function()
         local filename = init_file({
@@ -388,6 +409,8 @@ describe("can do indenting correctly", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })
     end)
+
+    after_each(teardown)
 
     it("lua - inside function", function()
         local filename = init_file({
@@ -475,6 +498,8 @@ describe("add custom filetype with setup()", function()
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
 
+    after_each(teardown)
+
     it("can handle basic", function()
         local filename = init_file({
             "foo",
@@ -514,6 +539,8 @@ describe("add custom filetype with add_custom_filetypes()", function()
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
 
+    after_each(teardown)
+
     it("can handle", function()
         debugprint.add_custom_filetypes({
             ["foo"] = {
@@ -544,6 +571,8 @@ describe("move to new line", function()
         vim.api.nvim_set_option_value("expandtab", true, {})
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
+
+    after_each(teardown)
 
     it("true below", function()
         debugprint.setup({
@@ -618,6 +647,8 @@ describe("can repeat", function()
             ignore_treesitter = true,
         })
     end)
+
+    after_each(teardown)
 
     it("can insert a basic statement and repeat", function()
         local filename = init_file({
@@ -708,6 +739,8 @@ describe("can repeat", function()
 end)
 
 describe("can repeat with move to line", function()
+    after_each(teardown)
+
     it("true below", function()
         debugprint.setup({
             ignore_treesitter = true,
@@ -738,6 +771,8 @@ describe("can repeat with move to line", function()
 end)
 
 describe("can handle treesitter identifiers", function()
+    after_each(teardown)
+
     it("standard", function()
         debugprint.setup({})
 
@@ -834,6 +869,8 @@ describe("can handle treesitter identifiers", function()
 end)
 
 describe("visual selection", function()
+    after_each(teardown)
+
     it("standard", function()
         debugprint.setup({ ignore_treesitter = true })
 
@@ -982,6 +1019,8 @@ describe("visual selection", function()
 end)
 
 describe("motion mode", function()
+    after_each(teardown)
+
     it("standard", function()
         debugprint.setup({ ignore_treesitter = true })
 
@@ -1092,6 +1131,8 @@ describe("motion mode", function()
 end)
 
 describe("delete lines command", function()
+    after_each(teardown)
+
     it("basic", function()
         debugprint.setup({})
 
@@ -1227,6 +1268,8 @@ describe("delete lines command", function()
 end)
 
 describe("don't display counter", function()
+    after_each(teardown)
+
     before_each(function()
         debugprint.setup({ ignore_treesitter = true, display_counter = false })
     end)
@@ -1270,6 +1313,8 @@ describe("check python indenting", function()
         vim.api.nvim_set_option_value("shiftwidth", 4, {})
         vim.api.nvim_set_option_value("expandtab", true, {})
     end)
+
+    after_each(teardown)
 
     it("at top level", function()
         local filename = init_file({
