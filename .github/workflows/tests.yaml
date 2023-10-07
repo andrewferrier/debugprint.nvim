@@ -11,13 +11,13 @@ jobs:
   commit_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: webiny/action-conventional-commits@v1.0.3
+      - uses: webiny/action-conventional-commits@v1.1.0
 
   stylua:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: JohnnyMorganz/stylua-action@v1
+      - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --color always --check lua/ tests/
