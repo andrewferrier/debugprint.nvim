@@ -220,7 +220,8 @@ local get_variable_name = function(opts)
     end
 
     if variable_name == nil then
-        variable_name = vim.fn.input("Variable name: ")
+        local word_under_cursor = vim.fn.expand("<cword>")
+        variable_name = vim.fn.input("Variable name: ", word_under_cursor)
 
         if variable_name == nil or variable_name == "" then
             vim.notify("No variable name entered.", vim.log.levels.WARN)

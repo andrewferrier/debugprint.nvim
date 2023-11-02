@@ -280,13 +280,30 @@ describe("can do variable debug statement insertion", function()
 
     after_each(teardown)
 
+    it("can insert a variable statement below using the default value", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?v<CR>")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+            "bar",
+        })
+    end)
+
     it("can insert a variable statement below", function()
         local filename = init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?vbanana<CR>")
+        feedkeys("g?v<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
@@ -303,7 +320,7 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?Vbanana<CR>")
+        feedkeys("g?V<BS><BS><BS>banana<CR>")
 
         check_lines({
             "print('DEBUGPRINT[1]: "
@@ -320,7 +337,7 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<CR>")
+        feedkeys("g?v<BS><BS><BS><CR>")
         assert.are.same("No variable name entered.", notify_message)
 
         check_lines({
@@ -358,7 +375,7 @@ describe("can do various file types", function()
             "bar",
         }, "vim", 1, 0)
 
-        feedkeys("g?vbanana<CR>")
+        feedkeys("g?v<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
@@ -521,7 +538,7 @@ describe("add custom filetype with setup()", function()
             "bar",
         }, "wibble", 1, 0)
 
-        feedkeys("g?vapple<CR>")
+        feedkeys("g?v<BS><BS><BS>apple<CR>")
 
         check_lines({
             "foo",
@@ -714,9 +731,9 @@ describe("can repeat", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?vbanana<CR>")
+        feedkeys("g?v<BS><BS><BS>banana<CR>")
         feedkeys(".")
-        feedkeys("g?Vapple<CR>")
+        feedkeys("g?V<BS><BS><BS>apple<CR>")
         feedkeys(".")
 
         check_lines({
@@ -822,7 +839,7 @@ describe("can handle treesitter identifiers", function()
             "end",
         }, "lua", 2, 9)
 
-        feedkeys("g?vapple<CR>")
+        feedkeys("g?v<BS><BS><BS>apple<CR>")
 
         check_lines({
             "function x()",
@@ -853,7 +870,7 @@ describe("can handle treesitter identifiers", function()
         end, {
             expr = true,
         })
-        feedkeys("zxaapple<CR>")
+        feedkeys("zxa<BS><BS><BS>apple<CR>")
 
         check_lines({
             "function x()",
@@ -1295,7 +1312,7 @@ describe("don't display counter", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?vbanana<CR>")
+        feedkeys("g?v<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
