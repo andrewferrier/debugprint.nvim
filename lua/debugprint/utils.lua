@@ -38,9 +38,14 @@ M.find_treesitter_variable = function()
             variable_name = vim.treesitter.query.get_node_text(node, 0)
         end
 
-        -- lua -> identifier
-        -- sh -> variable_name
-        if node_type == "identifier" or node_type == "variable_name" then
+        -- lua, typescript -> identifier
+        -- sh              -> variable_name
+        -- typescript      -> shorthand_property_identifier_pattern (see issue #60)
+        if
+            node_type == "identifier"
+            or node_type == "variable_name"
+            or node_type == "shorthand_property_identifier_pattern"
+        then
             return variable_name
         else
             return nil
