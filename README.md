@@ -49,7 +49,8 @@ It provides various improvements:
 
 *   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/) with NeoVim.
 
-*   It can pick up a variable name from under the cursor.
+*   It can pick up a variable name from under the cursor if it's a supported language
+    with Treesitter, or will prompt for the variable name with a sensible default if not.
 
 *   It provides keymappings for visual mode, so you can select a variable
     visually and print it out.
