@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.2.0...v1.3.0) (2023-11-02)
+
+
+### Features
+
+* Use a default value for variable input - closes [#59](https://github.com/andrewferrier/debugprint.nvim/issues/59) ([775de28](https://github.com/andrewferrier/debugprint.nvim/commit/775de28f3477f3f3498a55e267cbfde1d7a7a39d))
+
+
+### Bug Fixes
+
+* Property identifier for Typescript - closes [#60](https://github.com/andrewferrier/debugprint.nvim/issues/60) ([e811865](https://github.com/andrewferrier/debugprint.nvim/commit/e81186571ea7358f65536a8d72197f5b6bea12ba))
+
 ## [1.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.1.0...v1.2.0) (2023-10-07)
 
 
