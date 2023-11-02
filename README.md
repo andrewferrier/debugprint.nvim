@@ -227,9 +227,8 @@ end)
 
 ## Add Custom Filetypes
 
-*Note: Since `debugprint.nvim` is still relatively new, if you work out a
-configuration for a filetype not supported out-of-the-box, it would be really
-appreciated if you can open an
+*Note: If you work out a configuration for a filetype not supported
+out-of-the-box, it would be really appreciated if you can open an
 [issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it
 supported out-of-the-box in `debugprint` so others can benefit from it.
 Similarly, if you spot any issues with, or improvements to, the language
