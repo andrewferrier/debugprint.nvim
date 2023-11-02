@@ -280,7 +280,7 @@ describe("can do variable debug statement insertion", function()
 
     after_each(teardown)
 
-    it("can insert a variable statement below using the default value", function()
+    it("can insert a var statement below using the default value", function()
         local filename = init_file({
             "foo",
             "bar",
