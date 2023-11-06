@@ -27,6 +27,7 @@ M.find_treesitter_variable = function()
         return nil
     else
         local node_type = node:type()
+        local parent_node_type = node:parent():type()
 
         local variable_name
 
@@ -41,10 +42,12 @@ M.find_treesitter_variable = function()
         -- lua, typescript -> identifier
         -- sh              -> variable_name
         -- typescript      -> shorthand_property_identifier_pattern (see issue #60)
+        -- Makefile        -> variable_reference
         if
             node_type == "identifier"
             or node_type == "variable_name"
             or node_type == "shorthand_property_identifier_pattern"
+            or parent_node_type == "variable_reference"
         then
             return variable_name
         else
