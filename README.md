@@ -99,26 +99,6 @@ return {
 }
 ```
 
-Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
-
-```lua
-packer.startup(function(use)
-
-    ...
-
-    use({
-        "andrewferrier/debugprint.nvim",
-        config = function()
-            opts = { ... }
-            require("debugprint").setup(opts)
-        end,
-    })
-
-    ...
-
-end)
-```
-
 The sections below detail the allowed options that can appear in the `opts`
 object.
 
