@@ -374,8 +374,8 @@ M.setup = function(opts)
     end
 
     if global_opts.create_commands then
-        vim.api.nvim_create_user_command("DeleteDebugPrints", function(opts)
-            M.deleteprints(opts)
+        vim.api.nvim_create_user_command("DeleteDebugPrints", function(cmd_opts)
+            M.deleteprints(cmd_opts)
         end, {
             range = true,
             desc = "Delete all debugprint statements in the current buffer.",
