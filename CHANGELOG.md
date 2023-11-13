@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.3.0...v1.4.0) (2023-11-06)
+
+
+### Features
+
+* Handle variables in Makefiles - closes [#37](https://github.com/andrewferrier/debugprint.nvim/issues/37) ([52c82f6](https://github.com/andrewferrier/debugprint.nvim/commit/52c82f6c3c01f09c7812793bbce50206a4c20030))
+
 ## [1.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.2.0...v1.3.0) (2023-11-02)
 
 
