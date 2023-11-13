@@ -68,6 +68,12 @@ return {
     },
     ["javascript"] = js,
     ["javascriptreact"] = js,
+    ["kotlin"] = {
+        left = 'println("',
+        right = '")',
+        mid_var = "$",
+        right_var = '")',
+    },
     ["lua"] = {
         left = "print('",
         right = "')",
