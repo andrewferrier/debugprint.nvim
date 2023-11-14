@@ -111,6 +111,12 @@ return {
         right_var = ");",
     },
     ["sh"] = shell,
+    ["swift"] = {
+        left = 'debugPrint("',
+        right = '")',
+        mid_var = '\\(',
+        right_var = ')")',
+    },
     ["typescript"] = js,
     ["typescriptreact"] = js,
     ["vim"] = {
