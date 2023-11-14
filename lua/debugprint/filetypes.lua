@@ -86,6 +86,12 @@ return {
         mid_var = "$",
         right_var = '\\n");',
     },
+    ["ps1"] = {
+        left = 'Write-Error "',
+        right = '"',
+        mid_var = "$",
+        right_var = '"',
+    },
     ["python"] = {
         left = 'print(f"',
         right = '", file=sys.stderr)',
