@@ -8,8 +8,7 @@ prefer a low-tech approach. While using a real debugger like
 debugging a script or program, some prefer the use of the 'print' statement to
 trace the output during execution. `debugprint` allows quick insertion of
 appropriate 'print' statements based on the language being edited, including
-reference information such as file names, line numbers, a monotonic counter, and
-snippets of other lines to locate them quickly in output. `debugprint` can also
+reference information to locate them quickly in output, as well as being able to
 output the values of variables.
 
 `debugprint` supports the following filetypes/programming languages out-of-the-box:
@@ -38,15 +37,19 @@ output the values of variables.
 
 It can also be extended to support more.
 
+## Features
+
 `debugprint` is inspired by
-[vim-debugstring](https://github.com/bergercookie/vim-debugstring), which I've
-used for several years, but is updated and refreshed for the NeoVim generation.
-It provides various improvements:
+[vim-debugstring](https://github.com/bergercookie/vim-debugstring), but is
+updated and refreshed for the NeoVim generation. It has these features:
 
-*   Its configuration system is more 'NeoVim-like' and it is easier to add custom
-    languages in your configuration.
+*   It includes reference information in each 'print line' such as file names,
+    line numbers, a monotonic counter, and snippets of other lines to make it easier
+    to cross-reference them in output.
 
-*   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/) with NeoVim.
+*   It can output the value of variables (or in some cases, expressions).
+
+*   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/).
 
 *   It can pick up a variable name from under the cursor if it's a supported language
     with Treesitter, or will prompt for the variable name with a sensible default if not.
@@ -57,14 +60,11 @@ It provides various improvements:
 *   It provides keymappings for operator-pending mode, so you can select a
     variable using a motion.
 
-*   It indents the lines it inserts more accurately.
-
-*   The output when printing a 'plain' debug line, or a variable, is more
-    consistent.
-
 *   It provides a command to delete all debugging lines added to the current buffer.
 
-*   Able to optionally move to the inserted line (or not).
+*   It can optionally move to the inserted line (or not).
+
+*   You can add support for languages it doesn't support out of the box.
 
 ## Demo
 
@@ -107,10 +107,10 @@ notified of any breaking changes to `debugprint`.
 
 ## Keymappings and Commands
 
-By default, the plugin will create some keymappings and commands, which are the
-standard way to use it. There are also some function invocations which are not
-mapped to any keymappings or commands by default, but could be. This is all
-shown in the following table.
+By default, the plugin will create some keymappings and commands for use 'out of
+the box'. There are also some function invocations which are not mapped to any
+keymappings or commands by default, but could be. This is all shown in the
+following table.
 
 | Mode       | Default Keymap/Command | Purpose                                                                                                                      | Equivalent Lua Function                                                                       |
 | ---------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
@@ -125,6 +125,8 @@ shown in the following table.
 | Op-pending | `g?o`                  | Locate a variable using a motion, and insert a variable debugging line above the current line                                | `require('debugprint').debugprint({motion = true})`                                           |
 | Op-pending | `g?O`                  | Locate a variable using a motion, and insert a variable debugging line above the current line                                | `require('debugprint').debugprint({motion = true, above = true})`                             |
 | Command    | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                 | `require('debugprint').deleteprints()`                                                        |
+
+### Custom Keymappings and Commands
 
 The keymappings are chosen specifically because by default they are
 used to convert sections to ROT-13, which most folks don't use. You can disable
@@ -198,7 +200,7 @@ end)
 | ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `create_keymaps`    | `true`       | Creates default keymappings - see above                                                                                                      |
 | `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                      |
-| `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message added                                                  |
+| `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message                                                        |
 | `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                                    |
 | `filetypes`         | See below    | Custom filetypes - see below                                                                                                                 |
 | `ignore_treesitter` | `false`      | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
