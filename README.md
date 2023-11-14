@@ -6,14 +6,11 @@
 prefer a low-tech approach. While using a real debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap) is the gold standard for
 debugging a script or program, some prefer the use of the 'print' statement to
-trace the output during execution. `debugprint` allows quick insertion of appropriate 'print'
-statements based on the language being edited.
-
-debugprint also inserts into the 'print' statements the file name and line
-numbers where debug lines are inserted, as well as a snippet of the previous or
-following line and a unique counter value from the current NeoVim session to
-help identify lines in debug output. Optionally it can also output variable
-values.
+trace the output during execution. `debugprint` allows quick insertion of
+appropriate 'print' statements based on the language being edited, including
+reference information such as file names, line numbers, a monotonic counter, and
+snippets of other lines to locate them quickly in output. `debugprint` can also
+output the values of variables.
 
 `debugprint` supports the following filetypes/programming languages out-of-the-box:
 
@@ -114,21 +111,21 @@ standard way to use it. There are also some function invocations which are not
 mapped to any keymappings or commands by default, but could be. This is all
 shown in the following table.
 
-| Mode             | Default Keymap/Command | Purpose                                                                                                                           | Equivalent Lua Function                                                                       |
-| ---------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Normal           | `g?p`                  | Insert a 'plain' debug line appropriate to the filetype just below the current line                                               | `require('debugprint').debugprint()`                                                          |
-| Normal           | `g?P`                  | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true})`                                            |
-| Normal           | `g?v`                  | Insert a variable debugging line below the current line. If the cursor is on a variable name, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
-| Normal           | `g?V`                  | The same, but above the current line                                                                                              | `require('debugprint').debugprint({above = true, variable = true})`                           |
-| Normal           | None by default        | Always prompt for a variable name, and insert a debugging line just below the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
-| Normal           | None by default        | Always prompt for a variable name, and insert a debugging line just above the current line which outputs it                       | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
-| Visual           | `g?v`                  | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
-| Visual           | `g?v`                  | Find the visually select variable name, and insert a debugging line just below the current line which outputs it                  | `require('debugprint').debugprint({variable = true})`                                         |
-| Operator-pending | `g?o`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({motion = true})`                                           |
-| Operator-pending | `g?O`                  | Locate a variable using a motion, and insert a debugging line just above the current line which outputs it                        | `require('debugprint').debugprint({motion = true, above = true})`                             |
-| Command          | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                      | `require('debugprint').deleteprints()`                                                        |
+| Mode       | Default Keymap/Command | Purpose                                                                                                                      | Equivalent Lua Function                                                                       |
+| ---------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Normal     | `g?p`                  | Insert a 'plain' debug line below the current line                                                                           | `require('debugprint').debugprint()`                                                          |
+| Normal     | `g?P`                  | The same, but above the current line                                                                                         | `require('debugprint').debugprint({above = true})`                                            |
+| Normal     | `g?v`                  | Insert a variable debugging line below the current line. If the cursor is on a variable, use that, otherwise prompt for one. | `require('debugprint').debugprint({variable = true})`                                         |
+| Normal     | `g?V`                  | The same, but above the current line                                                                                         | `require('debugprint').debugprint({above = true, variable = true})`                           |
+| Normal     | No default             | Always prompt for a variable name, and insert a variable debugging line below the current line                               | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
+| Normal     | No default             | Always prompt for a variable name, and insert a variable debugging line above the current line                               | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
+| Visual     | `g?v`                  | Find the visually select variable name, and insert a variable debugging line below the current line                          | `require('debugprint').debugprint({variable = true})`                                         |
+| Visual     | `g?v`                  | Find the visually select variable name, and insert a variable debugging line below the current line                          | `require('debugprint').debugprint({variable = true})`                                         |
+| Op-pending | `g?o`                  | Locate a variable using a motion, and insert a variable debugging line above the current line                                | `require('debugprint').debugprint({motion = true})`                                           |
+| Op-pending | `g?O`                  | Locate a variable using a motion, and insert a variable debugging line above the current line                                | `require('debugprint').debugprint({motion = true, above = true})`                             |
+| Command    | `:DeleteDebugPrints`   | Delete all debug lines added to this buffer.                                                                                 | `require('debugprint').deleteprints()`                                                        |
 
-The keymappings are chosen specifically because by default in NeoVim they are
+The keymappings are chosen specifically because by default they are
 used to convert sections to ROT-13, which most folks don't use. You can disable
 the defaults above from being created by setting `create_keymaps` and/or
 `create_commands`, and map them yourself to something else if you prefer:
