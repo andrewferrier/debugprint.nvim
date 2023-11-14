@@ -1,11 +1,11 @@
 vim.o.hidden = true
 vim.o.swapfile = false
 
-vim.cmd('set rtp+=~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter')
-vim.cmd('set rtp+=../nvim-treesitter')
-vim.cmd('runtime! plugin/nvim-treesitter.lua')
-vim.cmd('TSInstallSync! bash')
-vim.cmd('TSInstallSync! lua')
+vim.cmd("set rtp+=~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter")
+vim.cmd("set rtp+=../nvim-treesitter")
+vim.cmd("runtime! plugin/nvim-treesitter.lua")
+vim.cmd("TSInstallSync! bash")
+vim.cmd("TSInstallSync! lua")
 
 local debugprint = require("debugprint")
 
