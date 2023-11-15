@@ -1,30 +1,29 @@
 local M = {}
 
 local get_node_at_cursor = function()
-    local success, is_node = pcall(vim.treesitter.get_node)
+    if vim.fn.has("nvim-0.9.0") == 1 then
+        local success, is_node = pcall(vim.treesitter.get_node)
 
-    -- This will fail if this language is not supported by Treesitter, e.g.
-    -- Powershell/ps1
-    if success then
-        if is_node then
-            -- Supported as of NeoVim 0.9?
-            return vim.treesitter.get_node()
+        -- This will fail if this language is not supported by Treesitter, e.g.
+        -- Powershell/ps1
+        if success and is_node then
+            return is_node
         else
-            local function requiref(module)
-                require(module)
-            end
-
-            local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
-
-            if not ts_utils_test then
-                return nil
-            else
-                local ts_utils = require("nvim-treesitter.ts_utils")
-                return ts_utils.get_node_at_cursor()
-            end
+            return nil
         end
     else
-        return nil
+        local function requiref(module)
+            require(module)
+        end
+
+        local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
+
+        if not ts_utils_test then
+            return nil
+        else
+            local ts_utils = require("nvim-treesitter.ts_utils")
+            return ts_utils.get_node_at_cursor()
+        end
     end
 end
 
