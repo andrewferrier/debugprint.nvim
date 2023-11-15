@@ -120,7 +120,7 @@ return {
     ["swift"] = {
         left = 'debugPrint("',
         right = '")',
-        mid_var = '\\(',
+        mid_var = "\\(",
         right_var = ')")',
     },
     ["typescript"] = js,
