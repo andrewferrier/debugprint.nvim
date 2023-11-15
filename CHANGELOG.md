@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.4.0...v1.5.0) (2023-11-15)
+
+
+### Features
+
+* Add Kotlin support ([0676e6d](https://github.com/andrewferrier/debugprint.nvim/commit/0676e6d2b9ac6faef0ca5a664af632af658d84ed))
+* Add support for Powershell/ps1 ([d1fb0c1](https://github.com/andrewferrier/debugprint.nvim/commit/d1fb0c1ff41c7d823fa870c316de8320d202144d))
+* Support Swift ([49e83ea](https://github.com/andrewferrier/debugprint.nvim/commit/49e83ea3c2cec7b4cff836b7c773110dcf1ed528))
+
+
+### Bug Fixes
+
+* get_node_at_cursor works again on 0.8.x - closes [#64](https://github.com/andrewferrier/debugprint.nvim/issues/64) ([b141128](https://github.com/andrewferrier/debugprint.nvim/commit/b14112882ab1247dd3480eabe3bac7b20ffe3334))
+
 ## [1.4.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.3.0...v1.4.0) (2023-11-06)
 
 
