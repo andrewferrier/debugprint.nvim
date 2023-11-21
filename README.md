@@ -2,14 +2,13 @@
 
 ## Overview
 
-`debugprint` is a plugin for NeoVim that simplifies debugging for those who
-prefer a low-tech approach. While using a real debugger like
-[nvim-dap](https://github.com/mfussenegger/nvim-dap) is the gold standard for
-debugging a script or program, some prefer the use of the 'print' statement to
-trace the output during execution. `debugprint` allows quick insertion of
-appropriate 'print' statements based on the language being edited, including
-reference information to locate them quickly in output, as well as being able to
-output the values of variables.
+`debugprint` is a NeoVim plugin that simplifies debugging for those who prefer a
+low-tech approach. Instead of using a sophisticated debugger like
+[nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using
+the 'print' statement to trace the output during execution. With `debugprint`,
+you can easily insert appropriate 'print' statements relevant to the language
+you're editing. These statements include reference information for quick output
+navigation and the ability to output variable values.
 
 `debugprint` supports the following filetypes/programming languages out-of-the-box:
 
