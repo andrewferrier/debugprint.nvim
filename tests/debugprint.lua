@@ -3,7 +3,9 @@ vim.o.swapfile = false
 
 -- These must be prepended because of this:
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/3092#issue-1288690088
-vim.opt.runtimepath:prepend("~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter")
+vim.opt.runtimepath:prepend(
+    "~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter"
+)
 vim.opt.runtimepath:prepend("../nvim-treesitter")
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
 
