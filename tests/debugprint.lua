@@ -6,12 +6,17 @@ vim.cmd("set rtp+=../nvim-treesitter")
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
 
 local install_parser_if_needed = function(filetype)
-    vim.cmd("new")
-    vim.cmd("only")
-    local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
-    if not ok then
-        print("Cannot load parser for " .. filetype .. ", installing...")
+    if vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW") then
+        print("Running in GitHub; always installing parser " .. filetype .. "...")
         vim.cmd("TSInstallSync! " .. filetype)
+    else
+        vim.cmd("new")
+        vim.cmd("only")
+        local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
+        if not ok then
+            print("Cannot load parser for " .. filetype .. ", installing...")
+            vim.cmd("TSInstallSync! " .. filetype)
+        end
     end
 end
 
