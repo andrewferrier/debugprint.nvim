@@ -4,8 +4,19 @@ vim.o.swapfile = false
 vim.cmd("set rtp+=~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter")
 vim.cmd("set rtp+=../nvim-treesitter")
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
-vim.cmd("TSInstallSync! bash")
-vim.cmd("TSInstallSync! lua")
+
+local install_parser_if_needed = function(filetype)
+    vim.cmd("new")
+    vim.cmd("only")
+    local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
+    if not ok then
+        print("Cannot load parser for " .. filetype .. ", installing...")
+        vim.cmd("TSInstallSync! " .. filetype)
+    end
+end
+
+install_parser_if_needed("bash")
+install_parser_if_needed("lua")
 
 local debugprint = require("debugprint")
 
