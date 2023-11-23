@@ -7,7 +7,7 @@ vim.cmd("runtime! plugin/nvim-treesitter.lua")
 
 local install_parser_if_needed = function(filetype)
     if vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW") then
-        print("Running in GitHub; always installing parser " .. filetype .. "...")
+        print("Running in GitHub; installing parser " .. filetype .. "...")
         vim.cmd("TSInstallSync! " .. filetype)
     else
         vim.cmd("new")
