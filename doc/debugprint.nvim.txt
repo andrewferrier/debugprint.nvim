@@ -8,7 +8,7 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 3. Demo                                                 |debugprint.nvim-demo|
 4. Installation                                 |debugprint.nvim-installation|
 5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
-  - Custom Keymappings and Commands|debugprint.nvim-keymappings-and-commands-custom-keymappings-and-commands|
+  - Custom Keymappings and Commands|debugprint.nvim-custom-keymappings-and-commands|
 6. Other Options                               |debugprint.nvim-other-options|
 7. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
 8. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
@@ -172,7 +172,7 @@ following table.
                                     this buffer.                        
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CUSTOM KEYMAPPINGS AND COMMANDS*debugprint.nvim-keymappings-and-commands-custom-keymappings-and-commands*
+CUSTOM KEYMAPPINGS AND COMMANDS*debugprint.nvim-custom-keymappings-and-commands*
 
 The keymappings are chosen specifically because by default they are used to
 convert sections to ROT-13, which most folks don’t use. You can disable the
