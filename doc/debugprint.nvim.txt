@@ -11,7 +11,7 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
   - Keymappings and Commands|debugprint.nvim-debugprint.nvim-keymappings-and-commands|
   - Other Options              |debugprint.nvim-debugprint.nvim-other-options|
   - Add Custom Filetypes|debugprint.nvim-debugprint.nvim-add-custom-filetypes|
-  - Alternative Feature Comparison|debugprint.nvim-debugprint.nvim-alternative-feature-comparison|
+  - Feature Comparison with Other Plugins|debugprint.nvim-debugprint.nvim-feature-comparison-with-other-plugins|
 
 ==============================================================================
 1. debugprint.nvim                           *debugprint.nvim-debugprint.nvim*
@@ -320,7 +320,7 @@ If it helps to understand these, you can look at the built-in configurations in
 filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
-ALTERNATIVE FEATURE COMPARISON*debugprint.nvim-debugprint.nvim-alternative-feature-comparison*
+FEATURE COMPARISON WITH OTHER PLUGINS*debugprint.nvim-debugprint.nvim-feature-comparison-with-other-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
@@ -329,10 +329,7 @@ ALTERNATIVE FEATURE COMPARISON*debugprint.nvim-debugprint.nvim-alternative-featu
   ----------------------- ----------------- ----------------- -------------- ------------------ ------------- ------------ -----------
   Print plain debug lines :+1:              :+1:              :x:            :+1:               :x:           :x:          :x:
 
-  Print plain debug lines :x:               :x:               :x:            :x:                :x:           :x:          :+1:
-  using treesitter                                                                                                         
-
-  Print variables using   :x:               :+1:              :x:            :x:                :+1:          :+1:         :x:
+  Print variables using   :+1:              :+1:              :x:            :x:                :+1:          :+1:         :x:
   current word/heuristic                                                                                                   
 
   Print variables using   :+1:              :x:               :x:            :+1:               :x:           :x:          :x:
