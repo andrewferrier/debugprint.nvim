@@ -255,14 +255,6 @@ The keys in the configuration are used like this:
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
 
-## Known Limitations
-
-*   `debugprint` only supports variable names or simple expressions when using
-    `g?v`/`g?V` - in particular, it does not make any attempt to escape
-    expressions, and may generate invalid syntax if you try to be too clever.
-    There's [an issue to look at ways of improving
-    this](https://github.com/andrewferrier/debugprint.nvim/issues/20).
-
 ## Alternative Feature Comparison
 
 (This table is quite wide, you may need to scroll horizontally)
