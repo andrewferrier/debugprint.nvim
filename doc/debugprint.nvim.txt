@@ -1,14 +1,20 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-38-24
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-11-24
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
 
-  - debugprint.nvim                          |debugprint.nvim-debugprint.nvim|
+1. Overview                                         |debugprint.nvim-overview|
+2. Features                                         |debugprint.nvim-features|
+3. Demo                                                 |debugprint.nvim-demo|
+4. Installation                                 |debugprint.nvim-installation|
+5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
+  - Custom Keymappings and Commands|debugprint.nvim-keymappings-and-commands-custom-keymappings-and-commands|
+6. Other Options                               |debugprint.nvim-other-options|
+7. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
+8. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
 
-DEBUGPRINT.NVIM                              *debugprint.nvim-debugprint.nvim*
-
-
-OVERVIEW ~
+==============================================================================
+1. Overview                                         *debugprint.nvim-overview*
 
 `debugprint` is a NeoVim plugin that simplifies debugging for those who prefer
 a low-tech approach. Instead of using a sophisticated debugger like nvim-dap
@@ -46,7 +52,8 @@ out-of-the-box:
 It can also be extended to support more.
 
 
-FEATURES ~
+==============================================================================
+2. Features                                         *debugprint.nvim-features*
 
 `debugprint` is inspired by vim-debugstring
 <https://github.com/bergercookie/vim-debugstring>, but is updated and refreshed
@@ -70,11 +77,13 @@ for the NeoVim generation. It has these features:
 - You can add support for languages it doesn’t support out of the box.
 
 
-DEMO ~
+==============================================================================
+3. Demo                                                 *debugprint.nvim-demo*
 
 
 
-INSTALLATION ~
+==============================================================================
+4. Installation                                 *debugprint.nvim-installation*
 
 **Requires NeoVim 0.8+.**
 
@@ -107,7 +116,8 @@ Please subscribe to this GitHub issue
 any breaking changes to `debugprint`.
 
 
-KEYMAPPINGS AND COMMANDS ~
+==============================================================================
+5. Keymappings and Commands         *debugprint.nvim-keymappings-and-commands*
 
 By default, the plugin will create some keymappings and commands for use 'out
 of the box'. There are also some function invocations which are not mapped to
@@ -162,7 +172,7 @@ following table.
                                     this buffer.                        
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CUSTOM KEYMAPPINGS AND COMMANDS
+CUSTOM KEYMAPPINGS AND COMMANDS*debugprint.nvim-keymappings-and-commands-custom-keymappings-and-commands*
 
 The keymappings are chosen specifically because by default they are used to
 convert sections to ROT-13, which most folks don’t use. You can disable the
@@ -229,7 +239,8 @@ affect the entire buffer, visual and operator-pending modes will not work):
 <
 
 
-OTHER OPTIONS ~
+==============================================================================
+6. Other Options                               *debugprint.nvim-other-options*
 
 `debugprint` supports the following options in its global `opts` object:
 
@@ -257,7 +268,8 @@ OTHER OPTIONS ~
                                    debugprint.
   -------------------------------------------------------------------------------------------
 
-ADD CUSTOM FILETYPES ~
+==============================================================================
+7. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
 
 _Note: If you work out a configuration for a filetype not supported
 out-of-the-box, it would be really appreciated if you can open an issue to have
@@ -311,7 +323,8 @@ If it helps to understand these, you can look at the built-in configurations in
 filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
-FEATURE COMPARISON WITH OTHER PLUGINS ~
+==============================================================================
+8. Feature Comparison with Other Plugins*debugprint.nvim-feature-comparison-with-other-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
