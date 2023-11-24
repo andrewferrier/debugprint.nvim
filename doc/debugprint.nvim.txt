@@ -357,17 +357,20 @@ FEATURE COMPARISON WITH OTHER PLUGINS*debugprint.nvim-debugprint.nvim-feature-co
   Command to clean up all :+1:              :x:               :x:            :x:                :x:           :x:          :x:
   debug lines                                                                                                              
 
+  Can put debugprint text :x:               :x:               :+1:           :x:                :x:           :x:          :x:
+  into default register                                                                                                    
+
   Built-in support for:   -                 -                 -              -                  -             -            -
 
   arduino                 :x:               :+1:              :x:            :x:                :x:           :x:          :x:
 
   bash/sh                 :+1:              :+1:              :+1:           :x:                :+1:          :x:          :x:
 
-  C                       :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
+  C                       :+1:              :+1:              :x:            :x:                :x:           :+1:         :x:
 
   C#                      :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
-  C++                     :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :x:
+  C++                     :+1:              :+1:              :+1:           :+1:               :+1:          :+1:         :x:
 
   CMake                   :x:               :+1:              :x:            :x:                :x:           :x:          :x:
 
