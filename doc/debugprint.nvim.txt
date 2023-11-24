@@ -11,7 +11,6 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
   - Keymappings and Commands|debugprint.nvim-debugprint.nvim-keymappings-and-commands|
   - Other Options              |debugprint.nvim-debugprint.nvim-other-options|
   - Add Custom Filetypes|debugprint.nvim-debugprint.nvim-add-custom-filetypes|
-  - Known Limitations      |debugprint.nvim-debugprint.nvim-known-limitations|
   - Alternative Feature Comparison|debugprint.nvim-debugprint.nvim-alternative-feature-comparison|
 
 ==============================================================================
@@ -319,15 +318,6 @@ The keys in the configuration are used like this:
   --------------------------------------------------------------------------------------------------------------------------------------------------------
 If it helps to understand these, you can look at the built-in configurations in
 filetypes.lua <lua/debugprint/filetypes.lua>.
-
-
-KNOWN LIMITATIONS          *debugprint.nvim-debugprint.nvim-known-limitations*
-
-- `debugprint` only supports variable names or simple expressions when using
-    `g?v`/`g?V` - in particular, it does not make any attempt to escape
-    expressions, and may generate invalid syntax if you try to be too clever.
-    There’s an issue to look at ways of improving
-    this <https://github.com/andrewferrier/debugprint.nvim/issues/20>.
 
 
 ALTERNATIVE FEATURE COMPARISON*debugprint.nvim-debugprint.nvim-alternative-feature-comparison*
