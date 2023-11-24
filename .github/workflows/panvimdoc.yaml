@@ -13,8 +13,8 @@ jobs:
         uses: kdheepak/panvimdoc@main
         with:
           vimdoc: debugprint.nvim
-          titledatepattern: "%Y-%M-%d"
-          shiftheadinglevelby: 1
+          titledatepattern: "%Y-%m-%d"
+          shiftheadinglevelby: -1
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto generate Vim docs"
