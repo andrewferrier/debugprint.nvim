@@ -15,6 +15,7 @@ jobs:
           vimdoc: debugprint.nvim
           titledatepattern: "%Y-%m-%d"
           shiftheadinglevelby: -1
+          dedupsubheadings: false
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto generate Vim docs"
