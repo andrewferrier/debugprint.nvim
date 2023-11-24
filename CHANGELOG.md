@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1](https://github.com/andrewferrier/debugprint.nvim/compare/v1.5.0...v1.5.1) (2023-11-24)
+
+
+### Bug Fixes
+
+* Don't make keybindings unique - closes [#69](https://github.com/andrewferrier/debugprint.nvim/issues/69) ([08a4dff](https://github.com/andrewferrier/debugprint.nvim/commit/08a4dff0c73d80efad06bbd28b933b3a309af9f6))
+* populate runtimepath correctly - closes [#65](https://github.com/andrewferrier/debugprint.nvim/issues/65) ([e12671b](https://github.com/andrewferrier/debugprint.nvim/commit/e12671b96050a79606d63504e196f4df0fccc2e2))
+
 ## [1.5.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.4.0...v1.5.0) (2023-11-15)
 
 
