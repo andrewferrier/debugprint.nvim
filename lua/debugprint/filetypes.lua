@@ -116,11 +116,12 @@ return {
         mid_var = "$",
         right_var = '"',
     },
+    -- Don't print to stderr by default, because it requires 'import sys'
     ["python"] = {
         left = 'print(f"',
-        right = '", file=sys.stderr)',
+        right = '")',
         mid_var = "{",
-        right_var = '}", file=sys.stderr)',
+        right_var = '}")',
     },
     ["ruby"] = {
         left = 'STDERR.puts "',
