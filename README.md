@@ -1,5 +1,7 @@
 # debugprint.nvim
 
+![Test status](https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg)
+
 ## Overview
 
 `debugprint` is a NeoVim plugin that simplifies debugging for those who prefer a
