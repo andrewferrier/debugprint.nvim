@@ -124,6 +124,12 @@ return {
         mid_var = "{",
         right_var = '}")',
     },
+    ["r"] = {
+        left = 'cat(paste("',
+        right = '"), file=stderr())',
+        mid_var = '", ',
+        right_var = "), file=stderr())",
+    },
     ["ruby"] = {
         left = 'STDERR.puts "',
         right = '"',
