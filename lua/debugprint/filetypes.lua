@@ -86,6 +86,12 @@ return {
         mid_var = '"$(',
         right_var = ")",
     },
+    ["perl"] = {
+        left = 'print STDERR "',
+        right = '\\n";',
+        mid_var = "$",
+        right_var = '\\n";',
+    },
     ["php"] = {
         left = 'fwrite(STDERR, "',
         right = '\\n");',
