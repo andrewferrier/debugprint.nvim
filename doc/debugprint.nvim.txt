@@ -29,6 +29,7 @@ out-of-the-box:
 
 - `bash`
 - `c`
+- `cmake`
 - `cpp` (C++)
 - `cs` (C#)
 - `dart`
@@ -378,7 +379,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   C++                     :+1:              :+1:              :+1:           :+1:               :+1:          :+1:         :x:
 
-  CMake                   :x:               :+1:              :x:            :x:                :x:           :x:          :x:
+  CMake                   :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
   dart                    :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
