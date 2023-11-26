@@ -44,6 +44,7 @@ out-of-the-box:
 - `php`
 - `ps1` (Powershell)
 - `python`
+- `r`
 - `ruby`
 - `rust`
 - `sh` (Sh/Bash)
@@ -410,6 +411,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   Powershell/ps1          :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   Python                  :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :x:
+
+  R                       :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   Ruby                    :+1:              :+1:              :x:            :+1:               :x:           :x:          :x:
 
