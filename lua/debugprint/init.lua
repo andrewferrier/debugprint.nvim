@@ -161,9 +161,9 @@ local addline = function(opts)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
     local filetype =
         vim.api.nvim_get_option_value("filetype", { scope = "local" })
-    local fixes = global_opts.filetypes[filetype]
+    local fileconfig = global_opts.filetypes[filetype]
 
-    if fixes == nil then
+    if fileconfig == nil then
         return
     end
 
@@ -171,14 +171,16 @@ local addline = function(opts)
     local line_to_insert_linenr
 
     if opts.variable_name then
-        line_to_insert_content = fixes.left
+        line_to_insert_content = fileconfig.left
             .. debuginfo(opts)
-            .. fixes.mid_var
+            .. fileconfig.mid_var
             .. opts.variable_name
-            .. fixes.right_var
+            .. fileconfig.right_var
     else
         opts.variable_name = nil
-        line_to_insert_content = fixes.left .. debuginfo(opts) .. fixes.right
+        line_to_insert_content = fileconfig.left
+            .. debuginfo(opts)
+            .. fileconfig.right
     end
 
     -- Inserting the leading space from the current line effectively acts as a
