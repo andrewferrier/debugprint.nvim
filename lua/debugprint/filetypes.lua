@@ -54,6 +54,12 @@ return {
         right_var = '}");',
     },
     ["dockerfile"] = docker,
+    ["fish"] = {
+        left = 'echo "',
+        right = '" 1>&2',
+        mid_var = "$",
+        right_var = '" 1>&2',
+    },
     ["go"] = {
         left = 'fmt.Fprintf(os.Stderr, "',
         right = '\\n")',
