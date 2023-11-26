@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-11-24
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-11-26
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -38,6 +38,7 @@ out-of-the-box:
 - `javascript`
 - `lua`
 - `make`
+- `perl`
 - `php`
 - `ps1` (Powershell)
 - `python`
@@ -400,7 +401,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   GNU Make                :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
-  Perl                    :x:               :x:               :x:            :x:                :x:           :x:          :x:
+  Perl                    :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   PHP                     :+1:              :+1:              :x:            :+1:               :x:           :x:          :x:
 
