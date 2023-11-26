@@ -71,7 +71,7 @@ updated and refreshed for the NeoVim generation. It has these features:
 ## Demo
 
 <div align="center">
-  <video src="https://user-images.githubusercontent.com/107015/211196425-2b371442-54f9-43d7-9187-a29185d43586.mp4" type="video/mp4"></video>
+  <video src="https://github.com/andrewferrier/debugprint.nvim/assets/107015/e1a8b93b-0c8f-4f02-86e8-cbe1d476940c" type="video/mp4"></video>
 </div>
 
 ## Installation
