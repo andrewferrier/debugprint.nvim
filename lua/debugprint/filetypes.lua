@@ -20,8 +20,10 @@ local docker = vim.deepcopy(shell)
 
 docker.left = "RUN " .. docker.left
 
+-- Use console.warn() rather than console.debug() so that messages are visible
+-- by default.
 local js = {
-    left = 'console.debug("',
+    left = 'console.warn("',
     right = '")',
     mid_var = '", ',
     right_var = ")",
