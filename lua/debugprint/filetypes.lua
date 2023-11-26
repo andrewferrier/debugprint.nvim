@@ -1,13 +1,11 @@
--- For most of these default configurations, we're aiming to log at a
+-- For most of these default configurations, debugprint.nvim aims to log at a
 -- 'debug'-style level of logging. For more console-oriented languages (e.g.
--- shell/python), we log to stderr, as this is often a standard way of producing
--- output which isn't part of the main program. For others (e.g. JavaScript), we
--- use a language-specific way, i.e. console.debug().
---
--- In general, we're trying to avoid the user of debugprint having to modify
--- their imports or other libraries in order to use any of these statements.
--- However, in a few cases, that might be needed. Any potential improvements to
--- this welcome.
+-- shell), it logs to stderr, as this is often a standard way of producing
+-- output which isn't part of the main program. In some cases, however, it
+-- deviates from these principles, in particular to avoid the user of debugprint
+-- having to modify their imports to make sure the statements can be
+-- added/removed standalone, or to ensure that the statements are visible by
+-- default. Explanations are given below in comments below in some cases.
 
 local shell = {
     left = '>&2 echo "',
