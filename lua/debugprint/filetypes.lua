@@ -19,7 +19,8 @@ local docker = vim.deepcopy(shell)
 docker.left = "RUN " .. docker.left
 
 -- Use console.warn() rather than console.debug() so that messages are visible
--- by default.
+-- by default in browser consoles. console.warn() will send to stderr with
+-- NodeJS.
 local js = {
     left = 'console.warn("',
     right = '")',
