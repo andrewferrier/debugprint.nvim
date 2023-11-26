@@ -35,6 +35,12 @@ return {
         mid_var = '%d\\n", ',
         right_var = ");",
     },
+    ["cmake"] = {
+        left = 'message(DEBUG "',
+        right = '")',
+        mid_var = "${",
+        right_var = '}")',
+    },
     ["cpp"] = {
         left = 'std::cerr << "',
         right = '" << std::endl;',
