@@ -33,6 +33,7 @@ out-of-the-box:
 - `cs` (C#)
 - `dart`
 - `dockerfile`
+- `fish`
 - `go`
 - `java`
 - `javascript`
@@ -383,7 +384,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   Docker                  :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
-  fish                    :x:               :+1:              :x:            :x:                :x:           :x:          :x:
+  fish                    :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
   Fortran                 :x:               :+1:              :x:            :x:                :+1:          :x:          :x:
 
