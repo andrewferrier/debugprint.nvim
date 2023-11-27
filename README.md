@@ -93,7 +93,7 @@ Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 ```lua
 return {
     url = "andrewferrier/debugprint.nvim",
-    opts = { ... },
+    opts = { … },
     -- Dependency only needed for NeoVim 0.8
     dependencies = {
         "nvim-treesitter/nvim-treesitter"
@@ -112,7 +112,7 @@ packer.startup(function(use)
     use({
         "andrewferrier/debugprint.nvim",
         config = function()
-            opts = { ... }
+            opts = { … }
             require("debugprint").setup(opts)
         end,
     })
