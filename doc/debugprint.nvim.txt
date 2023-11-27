@@ -129,53 +129,52 @@ of the box'. There are also some function invocations which are not mapped to
 any keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Mode         Default              Purpose                             Equivalent Lua Function
-               Keymap/Command                                           
-  ------------ -------------------- ----------------------------------- ---------------------------------------------------------------------------------------------
-  Normal       g?p                  Insert a ‘plain’ debug line below   require('debugprint').debugprint()
-                                    the current line                    
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Mode         Default Keymap / Cmd Purpose                         Equivalent Lua Function
+  ------------ -------------------- ------------------------------- ---------------------------------------------------------------------------------------------
+  Normal       g?p                  Insert plain debug line below   require('debugprint').debugprint()
+                                    current line                    
 
-  Normal       g?P                  The same, but above the current     require('debugprint').debugprint({above = true})
-                                    line                                
+  Normal       g?P                  Insert plain debug line above   require('debugprint').debugprint({above = true})
+                                    current line                    
 
-  Normal       g?v                  Insert a variable debugging line    require('debugprint').debugprint({variable = true})
-                                    below the current line. If the      
-                                    cursor is on a variable, use that,  
-                                    otherwise prompt for one.           
+  Normal       g?v                  Insert variable debug line      require('debugprint').debugprint({variable = true})
+                                    below current line. If cursor   
+                                    is on a variable, use it,       
+                                    otherwise prompt                
 
-  Normal       g?V                  The same, but above the current     require('debugprint').debugprint({above = true, variable = true})
-                                    line                                
+  Normal       g?V                  Insert variable debug line      require('debugprint').debugprint({above = true, variable = true})
+                                    above current line. If cursor   
+                                    is on a variable, use it,       
+                                    otherwise prompt                
 
-  Normal       No default           Always prompt for a variable name,  require('debugprint').debugprint({ignore_treesitter = true, variable = true})
-                                    and insert a variable debugging     
-                                    line below the current line         
+  Normal       None                 Prompt for variable name,       require('debugprint').debugprint({ignore_treesitter = true, variable = true})
+                                    insert variable debugging line  
+                                    below the current line          
 
-  Normal       No default           Always prompt for a variable name,  require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})
-                                    and insert a variable debugging     
-                                    line above the current line         
+  Normal       None                 Prompt for variable name,       require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})
+                                    insert variable debugging line  
+                                    above the current line          
 
-  Visual       g?v                  Find the visually select variable   require('debugprint').debugprint({variable = true})
-                                    name, and insert a variable         
-                                    debugging line below the current    
-                                    line                                
+  Visual       g?v                  Insert visually-selected        require('debugprint').debugprint({variable = true})
+                                    variable debugging line below   
+                                    the current line                
 
-  Visual       g?v                  Find the visually select variable   require('debugprint').debugprint({variable = true})
-                                    name, and insert a variable         
-                                    debugging line below the current    
-                                    line                                
+  Visual       g?v                  Insert visually-selected        require('debugprint').debugprint({variable = true})
+                                    variable debugging line below   
+                                    the current line                
 
-  Op-pending   g?o                  Locate a variable using a motion,   require('debugprint').debugprint({motion = true})
-                                    and insert a variable debugging     
-                                    line above the current line         
+  Op-pending   g?o                  Locate variable using motion,   require('debugprint').debugprint({motion = true})
+                                    and insert a variable debugging 
+                                    line below the current line     
 
-  Op-pending   g?O                  Locate a variable using a motion,   require('debugprint').debugprint({motion = true, above = true})
-                                    and insert a variable debugging     
-                                    line above the current line         
+  Op-pending   g?O                  Locate variable using motion,   require('debugprint').debugprint({motion = true, above = true})
+                                    and insert a variable debugging 
+                                    line above the current line     
 
-  Command      :DeleteDebugPrints   Delete all debug lines added to     require('debugprint').deleteprints()
-                                    this buffer.                        
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Command      :DeleteDebugPrints   Delete all debug lines added to require('debugprint').deleteprints()
+                                    this buffer                     
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CUSTOM KEYMAPPINGS AND COMMANDS*debugprint.nvim-custom-keymappings-and-commands*
 
