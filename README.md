@@ -108,9 +108,7 @@ Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
 
 ```lua
 packer.startup(function(use)
-
-    ...
-
+    …
     use({
         "andrewferrier/debugprint.nvim",
         config = function()
@@ -118,9 +116,7 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
     })
-
-    ...
-
+    …
 end)
 ```
 
