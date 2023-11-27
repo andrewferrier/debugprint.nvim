@@ -35,7 +35,7 @@ navigation and the ability to output variable values.
 *   `r`
 *   `ruby`
 *   `rust`
-*   `sh` (Sh/Bash)
+*   `sh` (sh/Bash)
 *   `swift`
 *   `typescript`
 *   `vim`
