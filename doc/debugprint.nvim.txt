@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-11-26
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-11-27
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -34,6 +34,7 @@ out-of-the-box:
 - `cs` (C#)
 - `dart`
 - `dockerfile`
+- `dosbatch` (DOS/Windows Batch)
 - `fish`
 - `go`
 - `java`
@@ -47,7 +48,7 @@ out-of-the-box:
 - `r`
 - `ruby`
 - `rust`
-- `sh` (Sh/Bash)
+- `sh` (sh/Bash)
 - `swift`
 - `typescript`
 - `vim`
@@ -385,6 +386,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   dart                    :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   Docker                  :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
+
+  DOS/Windows Batch       :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   fish                    :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
