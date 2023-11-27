@@ -61,6 +61,12 @@ return {
         right_var = '}");',
     },
     ["dockerfile"] = docker,
+    ["dosbatch"] = {
+        left = 'echo "',
+        right = '" 1>&2',
+        mid_var = "%",
+        right_var = '%" 1>&2',
+    },
     ["fish"] = {
         left = 'echo "',
         right = '" 1>&2',
