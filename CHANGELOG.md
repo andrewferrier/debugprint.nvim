@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.5.1...v1.6.0) (2023-11-28)
+
+
+### Features
+
+* Add 'R' support ([89a791b](https://github.com/andrewferrier/debugprint.nvim/commit/89a791ba9eda248f892eb6675ebc02d5805f8ce5))
+* Add CMake support ([78f6400](https://github.com/andrewferrier/debugprint.nvim/commit/78f64000415357e3351f9e8a0882e021c804b653))
+* Add dosbatch support ([33aefa6](https://github.com/andrewferrier/debugprint.nvim/commit/33aefa6076c80beda623300152e15003662cfbbd))
+* Add fish support ([37cba86](https://github.com/andrewferrier/debugprint.nvim/commit/37cba864e0a127c2cb50f66114c21a9016328cc8))
+* Add perl support ([f1fda1c](https://github.com/andrewferrier/debugprint.nvim/commit/f1fda1c95a7777aabde7660b74c2c8adef8fb949))
+
+
+### Bug Fixes
+
+* JavaScript logging debug → warn ([c8341fd](https://github.com/andrewferrier/debugprint.nvim/commit/c8341fddca633ffe8b50474601c3651f260dbeed))
+* Remove stderr for Python ([a3f8beb](https://github.com/andrewferrier/debugprint.nvim/commit/a3f8bebb76b1ce44a9a3cdd3ae748e1ba883d325))
+* Try to fix demo video link ([dafd4db](https://github.com/andrewferrier/debugprint.nvim/commit/dafd4db801174cc9544715cdcb3b72fd8f65ce2d))
+
 ## [1.5.1](https://github.com/andrewferrier/debugprint.nvim/compare/v1.5.0...v1.5.1) (2023-11-24)
 
 
