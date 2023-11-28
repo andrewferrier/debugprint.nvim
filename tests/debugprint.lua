@@ -1311,6 +1311,25 @@ describe("delete lines command", function()
             "function x()",
         })
     end)
+
+    it("with regexp print_tag", function()
+        debugprint.setup({ print_tag = "\\033[33mDEBUG\\033[0m" })
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("DeleteDebugPrints")
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
 end)
 
 describe("don't display counter", function()
