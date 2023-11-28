@@ -438,7 +438,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   Swift                   :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
-  VimL                    :+1:              :+1:              :+1:           :x:                :+1:          :x:          :x:
+  VimL (vimscript)        :+1:              :+1:              :+1:           :x:                :+1:          :x:          :x:
 
   zsh                     :+1:              :+1:              :+1:           :x:                :+1:          :x:          :x:
 
