@@ -307,7 +307,7 @@ M.deleteprints = function(opts)
     local delete_adjust = 0
 
     for count, line in ipairs(lines_to_consider) do
-        if string.find(line, global_opts.print_tag) ~= nil then
+        if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             local line_to_delete = count
                 - 1
                 - delete_adjust
