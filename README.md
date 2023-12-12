@@ -57,14 +57,11 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 *   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/).
 
-*   It can pick up a variable name from under the cursor if it's a supported language
-    with Treesitter, or will prompt for the variable name with a sensible default if not.
+*   It can detect a variable name under the cursor if it's a supported Treesitter-based
+    language, or will prompt for the variable name with a sensible default if not.
 
-*   It provides keymappings for visual mode, so you can select a variable
-    visually and print it out.
-
-*   It provides keymappings for operator-pending mode, so you can select a
-    variable using a motion.
+*   In addition to normal mode, it provides keymappings for visual and operator-pending
+    modes, so you can select variables visually and using motions respectively.
 
 *   It provides a command to delete all debugging lines added to the current buffer.
 
