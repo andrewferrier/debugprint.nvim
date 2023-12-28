@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-12-12
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2023-12-28
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -20,9 +20,9 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 a low-tech approach. Instead of using a sophisticated debugger like nvim-dap
 <https://github.com/mfussenegger/nvim-dap>, some people prefer using the
 'print' statement to trace the output during execution. With `debugprint`, you
-can easily insert appropriate 'print' statements relevant to the language
-you’re editing. These statements include reference information for quick
-output navigation and the ability to output variable values.
+can insert appropriate 'print' statements relevant to the language you’re
+editing. These statements include reference information for quick output
+navigation and the ability to output variable values.
 
 `debugprint` supports the following filetypes/programming languages
 out-of-the-box:
@@ -91,7 +91,7 @@ for the NeoVim generation. It has these features:
 
 **Requires NeoVim 0.8+.**
 
-Optional dependency for NeoVim 0.8 only: nvim-treesitter
+Optional dependency for NeoVim 0.8: nvim-treesitter
 <https://github.com/nvim-treesitter/nvim-treesitter>. If this is not installed,
 `debugprint` will not find variable names under the cursor and will always
 prompt for a variable name. For NeoVim 0.9+, this dependency is never needed.
@@ -145,7 +145,7 @@ any keymappings or commands by default, but could be. This is all shown in the
 following table.
 
   ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Mode         Default Keymap / Cmd Purpose                         Equivalent Lua Function
+  Mode         Default Keymap / Cmd Purpose                         Lua Function
   ------------ -------------------- ------------------------------- ---------------------------------------------------------------------------------------------
   Normal       g?p                  Insert plain debug line below   require('debugprint').debugprint()
                                     current line                    
@@ -248,8 +248,8 @@ defaults above from being created by setting `create_keymaps` and/or
     ...
 <
 
-or, to have a keymapping instead for deleting debug lines (this will only
-affect the entire buffer, visual and operator-pending modes will not work):
+or, to have a keymapping instead for deleting debug lines (this will affect the
+entire buffer, visual and operator-pending modes will not work):
 
 >lua
     vim.keymap.set("n", "g?d", function()
@@ -291,10 +291,10 @@ affect the entire buffer, visual and operator-pending modes will not work):
 7. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
 
 _Note: If you work out a configuration for a filetype not supported
-out-of-the-box, it would be really appreciated if you can open an issue to have
-it supported out-of-the-box in debugprint so others can benefit from it.
-Similarly, if you spot any issues with, or improvements to, the language
-configurations out-of-the-box, please open an issue also._
+out-of-the-box, it would be appreciated if you can open an issue to have it
+supported out-of-the-box in debugprint so others can benefit. Similarly, if you
+spot any issues with, or improvements to, the language configurations
+out-of-the-box, please open an issue also._
 
 If `debugprint` doesn’t support your filetype, you can add it as a custom
 filetype in one of two ways:
@@ -329,8 +329,8 @@ configuration.
 The keys in the configuration are used like this:
 
   --------------------------------------------------------------------------------------------------------------------------------------------------------
-  Type of    Default keys      How debug line is constructed
-  debug line                   
+  Debug line Default keys      How debug line is constructed
+  type                         
   ---------- ----------------- ---------------------------------------------------------------------------------------------------------------------------
   Plain      g?p/g?P           my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right
   debug line                   
@@ -368,8 +368,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   Print variables using   :+1:              :x:               :+1:           :+1:               :+1:          :x:          :x:
   visual mode                                                                                                              
 
-  Print debug lines       :+1:              :x:               (only via      :x:                :+1:          :x:          :x:
-  above/below current                                         global config)                                               
+  Print debug lines       :+1:              :x:               (via global    :x:                :+1:          :x:          :x:
+  above/below current                                         config)                                                      
   line                                                                                                                     
 
   Supports dot-repeat     :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
