@@ -8,7 +8,7 @@
 low-tech approach. Instead of using a sophisticated debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using
 the 'print' statement to trace the output during execution. With `debugprint`,
-you can easily insert appropriate 'print' statements relevant to the language
+you can insert appropriate 'print' statements relevant to the language
 you're editing. These statements include reference information for quick output
 navigation and the ability to output variable values.
 
@@ -79,7 +79,7 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 **Requires NeoVim 0.8+.**
 
-Optional dependency for NeoVim 0.8 only:
+Optional dependency for NeoVim 0.8:
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
 is not installed, `debugprint` will not find variable names under the cursor and
 will always prompt for a variable name. For NeoVim 0.9+, this dependency is
@@ -131,7 +131,7 @@ the box'. There are also some function invocations which are not mapped to any
 keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-| Mode       | Default Keymap / Cmd | Purpose                                                                                             | Equivalent Lua Function                                                                       |
+| Mode       | Default Keymap / Cmd | Purpose                                                                                             | Lua Function                                                                                  |
 | ---------- | -------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | Normal     | `g?p`                | Insert plain debug line below current line                                                          | `require('debugprint').debugprint()`                                                          |
 | Normal     | `g?P`                | Insert plain debug line above current line                                                          | `require('debugprint').debugprint({above = true})`                                            |
@@ -202,7 +202,7 @@ end)
 ...
 ```
 
-or, to have a keymapping instead for deleting debug lines (this will only affect
+or, to have a keymapping instead for deleting debug lines (this will affect
 the entire buffer, visual and operator-pending modes will not work):
 
 ```lua
@@ -228,11 +228,11 @@ end)
 ## Add Custom Filetypes
 
 *Note: If you work out a configuration for a filetype not supported
-out-of-the-box, it would be really appreciated if you can open an
+out-of-the-box, it would be appreciated if you can open an
 [issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it
-supported out-of-the-box in `debugprint` so others can benefit from it.
-Similarly, if you spot any issues with, or improvements to, the language
-configurations out-of-the-box, please open an issue also.*
+supported out-of-the-box in `debugprint` so others can benefit. Similarly, if
+you spot any issues with, or improvements to, the language configurations
+out-of-the-box, please open an issue also.*
 
 If `debugprint` doesn't support your filetype, you can add it as a custom
 filetype in one of two ways:
@@ -267,7 +267,7 @@ configuration.
 
 The keys in the configuration are used like this:
 
-| Type of debug line  | Default keys            | How debug line is constructed                                                                                               |
+| Debug line type     | Default keys            | How debug line is constructed                                                                                               |
 | ------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
 | Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
@@ -287,7 +287,7 @@ If it helps to understand these, you can look at the built-in configurations in
 | Print variables/expressions using prompts                           | :+1:              | :+1:                                                               | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                               | :x:                                                   |
 | Print variables using motions                                       | :+1:              | :x:                                                                | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                               | :x:                                                   |
 | Print variables using visual mode                                   | :+1:              | :x:                                                                | :+1:                                                      | :+1:                                                                 | :+1:                                                | :x:                                               | :x:                                                   |
-| Print debug lines above/below current line                          | :+1:              | :x:                                                                | (only via global config)                                  | :x:                                                                  | :+1:                                                | :x:                                               | :x:                                                   |
+| Print debug lines above/below current line                          | :+1:              | :x:                                                                | (via global config)                                       | :x:                                                                  | :+1:                                                | :x:                                               | :x:                                                   |
 | Supports [dot-repeat](https://www.vikasraj.dev/blog/vim-dot-repeat) | :+1:              | :+1:                                                               | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                               | :x:                                                   |
 | Can control whether to move to inserted lines                       | :+1:              | :x:                                                                | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                               | :x:                                                   |
 | Command to clean up all debug lines                                 | :+1:              | :x:                                                                | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                               | :x:                                                   |
