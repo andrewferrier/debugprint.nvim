@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.6.0...v1.7.0) (2024-01-21)
+
+
+### Features
+
+* Make MIT Licensed ([189c13b](https://github.com/andrewferrier/debugprint.nvim/commit/189c13b410d2a7fff9ace474a4aede6db3bbdcbc))
+
+
+### Bug Fixes
+
+* License link ([f3633cb](https://github.com/andrewferrier/debugprint.nvim/commit/f3633cb2206299d263e107acd64698dcd6b47a55))
+
 ## [1.6.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.5.1...v1.6.0) (2023-11-28)
 
 
