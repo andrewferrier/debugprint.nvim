@@ -69,7 +69,7 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 *   You can add support for languages it doesn't support out of the box.
 
-*   It's [MIT Licensed](LICENSE.md).
+*   It's [MIT Licensed](LICENSE.txt).
 
 ## Demo
 
