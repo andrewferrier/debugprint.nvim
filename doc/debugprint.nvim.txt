@@ -101,7 +101,7 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
 
 >lua
     return {
-        url = "andrewferrier/debugprint.nvim",
+        "andrewferrier/debugprint.nvim",
         opts = { … },
         -- Dependency only needed for NeoVim 0.8
         dependencies = {
@@ -242,7 +242,7 @@ defaults above from being created by setting `create_keymaps` and/or
     
     vim.api.nvim_create_user_command("DeleteDebugs", function(opts)
         -- Note: you must set `range=true` and pass through opts for ranges to work
-        M.deleteprints(opts)
+        require('debugprint').deleteprints(opts)
     end, {
         range = true})
     end)
@@ -254,7 +254,7 @@ entire buffer, visual and operator-pending modes will not work):
 
 >lua
     vim.keymap.set("n", "g?d", function()
-        M.deleteprints()
+        require('debugprint').deleteprints()
     end)
 <
 
@@ -314,7 +314,7 @@ In either case, the format is the same. For example, if adding via `setup()`:
         right_var = '}"',
     }
     
-    require('debugprint').setup({ filetypes = { my_fileformat, another_of_my_fileformats, ... }})
+    require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat, ["another_filetype"] = another_of_my_fileformats, ... }})
 <
 
 or `add_custom_filetypes()`:
