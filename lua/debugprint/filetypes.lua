@@ -93,6 +93,12 @@ return {
         mid_var = "$",
         right_var = '")',
     },
+    ["lean"] = {
+        left = 'dbg_trace s!"',
+        right = '"',
+        mid_var = "{",
+        right_var = '}"',
+    },
     ["lua"] = {
         left = "print('",
         right = "')",
