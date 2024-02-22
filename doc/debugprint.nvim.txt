@@ -255,7 +255,7 @@ entire buffer, visual and operator-pending modes will not work):
 
 >lua
     vim.keymap.set("n", "g?d", function()
-        require('debugprint').deleteprints()
+        return require('debugprint').deleteprints()
     end)
 <
 
