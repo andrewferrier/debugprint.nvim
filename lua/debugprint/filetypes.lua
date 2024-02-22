@@ -73,6 +73,12 @@ return {
         mid_var = "$",
         right_var = '" 1>&2',
     },
+    ["fortran"] = {
+        left = "print *, '",
+        right = "'",
+        mid_var = "', ",
+        right_var = "",
+    },
     ["go"] = {
         left = 'fmt.Fprintf(os.Stderr, "',
         right = '\\n")',
