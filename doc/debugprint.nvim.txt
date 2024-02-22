@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-01-21
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-02-22
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -39,6 +39,7 @@ out-of-the-box:
 - `go`
 - `java`
 - `javascript`
+- `lean`
 - `lua`
 - `make`
 - `perl`
@@ -417,6 +418,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   Javascript/Typescript   :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :+1:
 
   Kotlin                  :+1:              :x:               :x:            :x:                :x:           :x:          :x:
+
+  lean                    :+1:              :x:               :x:            :x:                :x:           :x:          :x:
 
   lua                     :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :+1:
 
