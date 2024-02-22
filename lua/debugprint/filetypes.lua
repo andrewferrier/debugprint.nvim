@@ -85,6 +85,12 @@ return {
         mid_var = '%+v\\n", ',
         right_var = ")",
     },
+    ["haskell"] = {
+        left = 'putStrLn "',
+        right = '"',
+        mid_var = '" ++ ',
+        right_var = "",
+    },
     ["java"] = {
         left = 'System.err.println("',
         right = '");',
