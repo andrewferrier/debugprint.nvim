@@ -20,7 +20,9 @@ docker.left = "RUN " .. docker.left
 
 -- Use console.warn() rather than console.debug() so that messages are visible
 -- by default in browser consoles. console.warn() will send to stderr with
--- NodeJS.
+-- NodeJS. See
+-- https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694
+-- for some other discussion on this.
 local js = {
     left = 'console.warn("',
     right = '")',
