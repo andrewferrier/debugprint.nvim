@@ -36,7 +36,9 @@ out-of-the-box:
 - `dockerfile`
 - `dosbatch` (DOS/Windows Batch)
 - `fish`
+- `fortran`
 - `go`
+- `haskell`
 - `java`
 - `javascript`
 - `lean`
@@ -407,11 +409,11 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   fish                    :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
-  Fortran                 :x:               :+1:              :x:            :x:                :+1:          :x:          :x:
+  Fortran                 :+1:              :+1:              :x:            :x:                :+1:          :x:          :x:
 
   Golang                  :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :+1:
 
-  Haskell                 :x:               :+1:              :x:            :x:                :x:           :x:          :x:
+  Haskell                 :+1:              :+1:              :x:            :x:                :x:           :x:          :x:
 
   Java                    :+1:              :+1:              :+1:           :+1:               :+1:          :x:          :x:
 
