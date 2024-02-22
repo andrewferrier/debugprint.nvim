@@ -8,9 +8,10 @@
 low-tech approach. Instead of using a sophisticated debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using
 the 'print' statement to trace the output during execution. With `debugprint`,
-you can insert appropriate 'print' statements relevant to the language
-you're editing. These statements include reference information for quick output
-navigation and the ability to output variable values.
+you can insert 'print' statements, with debug information pre-populated,
+relevant to the language you're editing. These statements include reference
+information for quick output navigation and the ability to output variable
+values.
 
 `debugprint` supports the following filetypes/programming languages out-of-the-box:
 
@@ -246,6 +247,7 @@ filetype in one of two ways:
 
 *   Using the `require('debugprint').add_custom_filetypes()` method (designed for
     use from `ftplugin/` directories, etc.
+
 
 In either case, the format is the same. For example, if adding via `setup()`:
 
