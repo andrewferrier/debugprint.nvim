@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.7.0...v1.8.0) (2024-02-22)
+
+
+### Features
+
+* Add Fortran support ([63a28d1](https://github.com/andrewferrier/debugprint.nvim/commit/63a28d1b3a585dd08e273bc8b735e845387e49e6))
+* Add Haskell support ([d8bc418](https://github.com/andrewferrier/debugprint.nvim/commit/d8bc418262c51b43e282945c4f8d47f4ae8226f2))
+
 ## [1.7.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.6.0...v1.7.0) (2024-01-21)
 
 
