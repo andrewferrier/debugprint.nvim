@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: pandoc to vimdoc
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: wrapping
         uses: kdheepak/panvimdoc@main
         with:
@@ -16,7 +16,7 @@ jobs:
           titledatepattern: "%Y-%m-%d"
           shiftheadinglevelby: -1
           dedupsubheadings: false
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Auto generate Vim docs"
           branch: ${{ github.head_ref }}
