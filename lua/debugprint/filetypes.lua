@@ -145,7 +145,8 @@ return {
     },
     -- Don't print to stderr by default, because it requires 'import sys'
     ["python"] = {
-        left = 'print(f"',
+        left = 'print("',
+        left_var = 'print(f"',
         right = '")',
         mid_var = "{",
         right_var = '}")',

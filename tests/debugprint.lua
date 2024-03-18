@@ -1391,7 +1391,7 @@ describe("check python indenting", function()
 
         check_lines({
             "x = 1",
-            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)")',
+            'print("DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)")',
             "y = 2",
         })
     end)
@@ -1406,7 +1406,7 @@ describe("check python indenting", function()
 
         check_lines({
             "def xyz():",
-            '    print(f"DEBUGPRINT[1]: '
+            '    print("DEBUGPRINT[1]: '
                 .. filename
                 .. ':1 (after def xyz():)")',
             "    pass",
@@ -1418,14 +1418,31 @@ describe("check python indenting", function()
             "def xyz():",
             "    x = 1",
             "    y = 2",
-        }, "python", 2, 0)
+        }, "python", 2, 5)
 
         feedkeys("g?p")
 
         check_lines({
             "def xyz():",
             "    x = 1",
-            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)")',
+            '    print("DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)")',
+            "    y = 2",
+        })
+    end)
+
+    it("variable", function()
+        local filename = init_file({
+            "def xyz():",
+            "    x = 1",
+            "    y = 2",
+        }, "python", 2, 4)
+
+        feedkeys("g?v<CR>")
+
+        check_lines({
+            "def xyz():",
+            "    x = 1",
+            '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2: x={x}")',
             "    y = 2",
         })
     end)

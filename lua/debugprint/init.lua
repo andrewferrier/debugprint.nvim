@@ -171,7 +171,15 @@ local addline = function(opts)
     local line_to_insert_linenr
 
     if opts.variable_name then
-        line_to_insert_content = fileconfig.left
+        local left
+
+        if fileconfig["left_var"] ~= nil then
+            left = fileconfig["left_var"]
+        else
+            left = fileconfig["left"]
+        end
+
+        line_to_insert_content = left
             .. debuginfo(opts)
             .. fileconfig.mid_var
             .. opts.variable_name

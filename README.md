@@ -254,6 +254,7 @@ In either case, the format is the same. For example, if adding via `setup()`:
 ```lua
 local my_fileformat = {
     left = 'print "',
+    left_var = 'print "', -- `left_var` is optional, for 'variable' lines only; `left` will be used if it's not present
     right = '"',
     mid_var = "${",
     right_var = '}"',
@@ -274,10 +275,10 @@ configuration.
 
 The keys in the configuration are used like this:
 
-| Debug line type     | Default keys            | How debug line is constructed                                                                                               |
-| ------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                      |
-| Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
+| Debug line type     | Default keys            | How debug line is constructed                                                                                                                           |
+| ------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                                                  |
+| Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left_var (or my_fileformat.left) .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
 
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
