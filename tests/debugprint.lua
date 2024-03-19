@@ -1447,3 +1447,37 @@ describe("check python indenting", function()
         })
     end)
 end)
+
+if vim.fn.has("nvim-0.9.0") == 1 then
+    -- This test will not work on NeoVim <= 0.8, I think because markdown only
+    -- supports a limited range of embedded langs
+
+    describe("embedded treesitter langs", function()
+        before_each(function()
+            debugprint.setup({ ignore_treesitter = false })
+        end)
+
+        after_each(teardown)
+
+        it("lua in markdown", function()
+            local filename = init_file({
+                "foo",
+                "```lua",
+                "x = 1",
+                "```",
+                "bar",
+            }, "markdown", 3, 0)
+
+            feedkeys("g?p")
+
+            check_lines({
+                "foo",
+                "```lua",
+                "x = 1",
+                "print('DEBUGPRINT[1]: " .. filename .. ":3 (after x = 1)')",
+                "```",
+                "bar",
+            })
+        end)
+    end)
+end

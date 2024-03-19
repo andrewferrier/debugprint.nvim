@@ -125,8 +125,7 @@ local debuginfo = function(opts)
 end
 
 local filetype_configured = function()
-    local filetype =
-        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+    local filetype = utils.get_effective_filetype()
 
     if not vim.tbl_contains(vim.tbl_keys(global_opts.filetypes), filetype) then
         vim.notify(
@@ -159,8 +158,7 @@ end
 
 local addline = function(opts)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-    local filetype =
-        vim.api.nvim_get_option_value("filetype", { scope = "local" })
+    local filetype = utils.get_effective_filetype()
     local fileconfig = global_opts.filetypes[filetype]
 
     if fileconfig == nil then
