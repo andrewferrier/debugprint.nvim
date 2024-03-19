@@ -26,6 +26,8 @@ end
 
 install_parser_if_needed("bash")
 install_parser_if_needed("lua")
+install_parser_if_needed("markdown")
+install_parser_if_needed("markdown_inline")
 
 local debugprint = require("debugprint")
 
