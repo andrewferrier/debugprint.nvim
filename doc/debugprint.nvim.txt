@@ -76,6 +76,8 @@ for the NeoVim generation. It has these features:
 - It can detect a variable name under the cursor if it’s a supported
     Treesitter-based language, or will prompt for the variable name with a sensible
     default if not.
+- It knows which filetype you are working with when embedded inside another
+    filetype, e.g. JavaScript-in-HTML, using Treesitter magic.
 - In addition to normal mode, it provides keymappings for visual and
     operator-pending modes, so you can select variables visually and using motions
     respectively.
