@@ -33,7 +33,7 @@ M.get_effective_filetype = function()
     -- Looking at the last column is more accurate because there are some
     -- embeddings (e.g. JS in HTML) where the Treesitter embedding doesn't begin
     -- until the first non-whitespace column
-    local current_line_col = vim.fn.col('$')
+    local current_line_col = vim.fn.col("$")
 
     local success, parser = pcall(vim.treesitter.get_parser, 0)
 
