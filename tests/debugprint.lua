@@ -1525,7 +1525,9 @@ if vim.fn.has("nvim-0.9.0") == 1 then
                 "    let x = 3;",
                 "",
                 "    console.log(x);",
-                "    console.warn(\"DEBUGPRINT[1]: " .. filename .. ":6 (after console.log(x);)\")",
+                '    console.warn("DEBUGPRINT[1]: '
+                    .. filename
+                    .. ':6 (after console.log(x);)")',
                 "</script>",
                 "</body>",
                 "</html>",
