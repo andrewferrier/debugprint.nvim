@@ -1481,5 +1481,55 @@ if vim.fn.has("nvim-0.9.0") == 1 then
                 "bar",
             })
         end)
+
+        it("lua in markdown above", function()
+            local filename = init_file({
+                "foo",
+                "```lua",
+                "x = 1",
+                "```",
+                "bar",
+            }, "markdown", 3, 0)
+
+            feedkeys("g?P")
+
+            check_lines({
+                "foo",
+                "```lua",
+                "print('DEBUGPRINT[1]: " .. filename .. ":3 (before x = 1)')",
+                "x = 1",
+                "```",
+                "bar",
+            })
+        end)
+
+        it("javascript in html", function()
+            local filename = init_file({
+                "<html>",
+                "<body>",
+                "<script>",
+                "    let x = 3;",
+                "",
+                "    console.log(x);",
+                "</script>",
+                "</body>",
+                "</html>",
+            }, "html", 6, 0)
+
+            feedkeys("g?p")
+
+            check_lines({
+                "<html>",
+                "<body>",
+                "<script>",
+                "    let x = 3;",
+                "",
+                "    console.log(x);",
+                "    console.warn(\"DEBUGPRINT[1]: " .. filename .. ":6 (after console.log(x);)\")",
+                "</script>",
+                "</body>",
+                "</html>",
+            })
+        end)
     end)
 end

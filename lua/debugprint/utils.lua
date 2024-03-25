@@ -29,15 +29,18 @@ local get_node_at_cursor = function()
 end
 
 M.get_effective_filetype = function()
-    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-    local current_line_col = vim.api.nvim_win_get_cursor(0)[2]
+    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1] - 1
+    -- Looking at the last column is more accurate because there are some
+    -- embeddings (e.g. JS in HTML) where the Treesitter embedding doesn't begin
+    -- until the first non-whitespace column
+    local current_line_col = vim.fn.col('$')
 
     local success, parser = pcall(vim.treesitter.get_parser, 0)
 
     if success then
         -- For some reason I don't understand, this parse line is necessary to
         -- make embedded languages work
-        parser:parse({ 0, current_line_nr })
+        parser:parse(true)
 
         return parser
             :language_for_range({
