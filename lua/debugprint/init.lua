@@ -3,48 +3,9 @@ local M = {}
 local utils = require("debugprint.utils")
 
 local global_opts
-
-GLOBAL_OPTION_DEFAULTS = {
-    create_keymaps = true,
-    create_commands = true,
-    display_counter = true,
-    display_snippet = true,
-    move_to_debugline = false,
-    ignore_treesitter = false,
-    filetypes = require("debugprint.filetypes"),
-    print_tag = "DEBUGPRINT",
-}
-
-FUNCTION_OPTION_DEFAULTS = {
-    above = false,
-    variable = false,
-    ignore_treesitter = false,
-}
+local counter = 0
 
 MAX_SNIPPET_LENGTH = 40
-
-local validate_global_opts = function(o)
-    vim.validate({
-        create_keymaps = { o.create_keymaps, "boolean" },
-        create_commands = { o.create_commands, "boolean" },
-        display_counter = { o.display_counter, "boolean" },
-        display_snippet = { o.display_snippet, "boolean" },
-        move_to_debugline = { o.move_to_debugline, "boolean" },
-        ignore_treesitter = { o.ignore_treesitter, "boolean" },
-        filetypes = { o.filetypes, "table" },
-        print_tag = { o.print_tag, "string" },
-    })
-end
-
-local validate_function_opts = function(o)
-    vim.validate({
-        above = { o.above, "boolean" },
-        variable = { o.above, "boolean" },
-        ignore_treesitter = { o.ignore_treesitter, "boolean" },
-    })
-end
-
-local counter = 0
 
 local get_snippet = function(current_line, above)
     local line_contents = ""
@@ -211,9 +172,7 @@ end
 
 M.debugprint = function(opts)
     local func_opts =
-        vim.tbl_deep_extend("force", FUNCTION_OPTION_DEFAULTS, opts or {})
-
-    validate_function_opts(func_opts)
+        require("debugprint.options").get_and_validate_function_opts(opts)
 
     if func_opts.motion == true then
         cache_request = func_opts
@@ -276,9 +235,7 @@ end
 
 M.setup = function(opts)
     global_opts =
-        vim.tbl_deep_extend("force", GLOBAL_OPTION_DEFAULTS, opts or {})
-
-    validate_global_opts(global_opts)
+        require("debugprint.options").get_and_validate_global_opts(opts)
 
     if global_opts.create_keymaps then
         vim.keymap.set("n", "g?p", function()
