@@ -46,24 +46,11 @@ end
 
 local counter = 0
 
-local get_trimmed_content_of_line = function(line)
-    local line_contents = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-
-    -- Remove whitespace and any quoting characters which could potentially
-    -- cause a syntax error in the statement being printed, or any characters
-    -- which could cause unintended interpolation of expressions
-    line_contents = line_contents:gsub("^%s+", "") -- leading
-    line_contents = line_contents:gsub("%s+$", "") -- trailing
-    line_contents = line_contents:gsub("[\"'\\`%${}]", "")
-
-    return line_contents
-end
-
 local get_snippet = function(current_line, above)
     local line_contents = ""
 
     while line_contents == "" do
-        line_contents = get_trimmed_content_of_line(current_line)
+        line_contents = utils.get_trimmed_content_of_line(current_line)
 
         if line_contents == "" then
             if above then
@@ -138,24 +125,6 @@ local filetype_configured = function()
     end
 end
 
-M.NOOP = function() end
-
-local set_callback = function(func_name)
-    vim.go.operatorfunc = "v:lua.require'debugprint'.NOOP"
-    vim.cmd("normal! g@l")
-    vim.go.operatorfunc = func_name
-end
-
-local indent_line = function(current_line)
-    local pos = vim.api.nvim_win_get_cursor(0)
-    -- There's probably a better way to do this indent, but I don't know what it is
-    vim.cmd(current_line + 1 .. "normal! ==")
-
-    if not global_opts.move_to_debugline then
-        vim.api.nvim_win_set_cursor(0, pos)
-    end
-end
-
 local addline = function(opts)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
     local filetype = utils.get_effective_filetype()
@@ -209,35 +178,7 @@ local addline = function(opts)
         { leading_space .. line_to_insert_content }
     )
 
-    indent_line(line_to_insert_linenr)
-end
-
-local get_variable_name = function(opts)
-    local variable_name = utils.get_visual_selection()
-
-    if variable_name == false then
-        return false
-    end
-
-    if
-        variable_name == nil
-        and opts.ignore_treesitter ~= true
-        and global_opts.ignore_treesitter ~= true
-    then
-        variable_name = utils.find_treesitter_variable()
-    end
-
-    if variable_name == nil then
-        local word_under_cursor = vim.fn.expand("<cword>")
-        variable_name = vim.fn.input("Variable name: ", word_under_cursor)
-
-        if variable_name == nil or variable_name == "" then
-            vim.notify("No variable name entered.", vim.log.levels.WARN)
-            return false
-        end
-    end
-
-    return variable_name
+    utils.indent_line(line_to_insert_linenr, global_opts.move_to_debugline)
 end
 
 local cache_request = nil
@@ -249,7 +190,10 @@ M.debugprint_cache = function(opts)
         end
 
         if opts.variable == true then
-            opts.variable_name = get_variable_name(opts)
+            opts.variable_name = utils.get_variable_name(
+                global_opts.ignore_treesitter,
+                opts.ignore_treesitter
+            )
 
             if opts.variable_name == false then
                 return
@@ -262,7 +206,7 @@ M.debugprint_cache = function(opts)
     end
 
     addline(cache_request)
-    set_callback("v:lua.require'debugprint'.debugprint_cache")
+    utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
 M.debugprint = function(opts)
@@ -286,7 +230,7 @@ end
 M.debugprint_motion_callback = function()
     cache_request.variable_name = utils.get_operator_selection()
     addline(cache_request)
-    set_callback("v:lua.require'debugprint'.debugprint_cache")
+    utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
 M.deleteprints = function(opts)

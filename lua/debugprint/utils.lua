@@ -28,6 +28,68 @@ local get_node_at_cursor = function()
     end
 end
 
+M.get_variable_name = function(
+    global_ignore_treesitter,
+    local_ignore_treesitter
+)
+    local variable_name = M.get_visual_selection()
+
+    if variable_name == false then
+        return false
+    end
+
+    if
+        variable_name == nil
+        and local_ignore_treesitter ~= true
+        and global_ignore_treesitter ~= true
+    then
+        variable_name = M.find_treesitter_variable()
+    end
+
+    if variable_name == nil then
+        local word_under_cursor = vim.fn.expand("<cword>")
+        variable_name = vim.fn.input("Variable name: ", word_under_cursor)
+
+        if variable_name == nil or variable_name == "" then
+            vim.notify("No variable name entered.", vim.log.levels.WARN)
+            return false
+        end
+    end
+
+    return variable_name
+end
+
+M.get_trimmed_content_of_line = function(line)
+    local line_contents = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+
+    -- Remove whitespace and any quoting characters which could potentially
+    -- cause a syntax error in the statement being printed, or any characters
+    -- which could cause unintended interpolation of expressions
+    line_contents = line_contents:gsub("^%s+", "") -- leading
+    line_contents = line_contents:gsub("%s+$", "") -- trailing
+    line_contents = line_contents:gsub("[\"'\\`%${}]", "")
+
+    return line_contents
+end
+
+M.indent_line = function(current_line, move_to_debugline)
+    local pos = vim.api.nvim_win_get_cursor(0)
+    -- There's probably a better way to do this indent, but I don't know what it is
+    vim.cmd(current_line + 1 .. "normal! ==")
+
+    if not move_to_debugline then
+        vim.api.nvim_win_set_cursor(0, pos)
+    end
+end
+
+M.NOOP = function() end
+
+M.set_callback = function(func_name)
+    vim.go.operatorfunc = "v:lua.require'debugprint.utils'.NOOP"
+    vim.cmd("normal! g@l")
+    vim.go.operatorfunc = func_name
+end
+
 M.get_effective_filetype = function()
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1] - 1
     -- Looking at the last column is more accurate because there are some
