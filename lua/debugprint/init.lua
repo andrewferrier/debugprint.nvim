@@ -262,11 +262,7 @@ M.toggle_comment_debugprints = function(opts)
                     {}
                 )
 
-                comment.toggle_lines(
-                    line_to_toggle,
-                    line_to_toggle,
-                    {}
-                )
+                comment.toggle_lines(line_to_toggle, line_to_toggle, {})
             end
         end
     else
