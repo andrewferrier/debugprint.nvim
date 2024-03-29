@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.9.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.8.0...v1.9.0) (2024-03-29)
+
+
+### Features
+
+* Support `left_var` - closes [#82](https://github.com/andrewferrier/debugprint.nvim/issues/82) ([3e8e393](https://github.com/andrewferrier/debugprint.nvim/commit/3e8e393d8ef538baf4398f5657f2f50040a2648b))
+* Use dynamic lang detect - closes [#9](https://github.com/andrewferrier/debugprint.nvim/issues/9) ([a9a09ae](https://github.com/andrewferrier/debugprint.nvim/commit/a9a09ae307c120e8eb103399ebe57b6a861ea986))
+
+
+### Bug Fixes
+
+* Accuracy finding embedded langs - closes [#84](https://github.com/andrewferrier/debugprint.nvim/issues/84) ([b813797](https://github.com/andrewferrier/debugprint.nvim/commit/b813797c8a78fb8683b495453de9ba7c4c4d2416))
+* Make validation work ([fdc30b2](https://github.com/andrewferrier/debugprint.nvim/commit/fdc30b2572bdc65587e9e57d9d09f1b20e587010))
+* Take a fresh copy of options object each time ([c63b01d](https://github.com/andrewferrier/debugprint.nvim/commit/c63b01dbcf024647de999714fd97f518f6d0c4e7))
+
 ## [1.8.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.7.0...v1.8.0) (2024-02-22)
 
 
