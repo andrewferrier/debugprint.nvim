@@ -60,12 +60,12 @@ local init_file = function(lines, filetype, row, col)
 end
 
 local teardown = function()
-    vim.keymap.del("n", "g?p")
-    vim.keymap.del("n", "g?P")
-    vim.keymap.del({ "n", "x" }, "g?v")
-    vim.keymap.del({ "n", "x" }, "g?V")
-    vim.keymap.del("n", "g?o")
-    vim.keymap.del("n", "g?O")
+    pcall(vim.keymap.del, "n", "g?p")
+    pcall(vim.keymap.del, "n", "g?P")
+    pcall(vim.keymap.del, { "n", "x" }, "g?v")
+    pcall(vim.keymap.del, { "n", "x" }, "g?V")
+    pcall(vim.keymap.del, "n", "g?o")
+    pcall(vim.keymap.del, "n", "g?O")
 end
 
 local notify_message
