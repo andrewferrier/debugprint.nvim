@@ -233,24 +233,11 @@ M.deleteprints = function(opts)
     end
 end
 
-local map_key = function(mode, lhs, rhs, desc)
+local map_key = function(mode, lhs, opts)
     if lhs ~= nil then
-        if type(rhs) == "function" then
-            vim.api.nvim_set_keymap(
-                mode,
-                lhs,
-                "",
-                { expr = true, desc = desc, callback = rhs }
-            )
-        else
-            vim.api.nvim_set_keymap(mode, lhs, "", {
-                expr = true,
-                desc = desc,
-                callback = function()
-                    return M.debugprint(rhs)
-                end,
-            })
-        end
+        opts = vim.tbl_extend("force", { expr = true }, opts)
+
+        vim.api.nvim_set_keymap(mode, lhs, "", opts)
     end
 end
 
@@ -258,82 +245,85 @@ M.setup = function(opts)
     global_opts =
         require("debugprint.options").get_and_validate_global_opts(opts)
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.plain_below,
-        {},
-        "Plain debug below current line"
-    )
+    map_key("n", global_opts.keymaps.normal.plain_below, {
+        callback = function()
+            return M.debugprint({})
+        end,
+        desc = "Plain debug below current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.plain_above,
-        { above = true },
-        "Plain debug below current line"
-    )
+    map_key("n", global_opts.keymaps.normal.plain_above, {
+        callback = function()
+            return M.debugprint({ above = true })
+        end,
+        desc = "Plain debug below current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.variable_below,
-        { variable = true },
-        "Variable debug below current line"
-    )
+    map_key("n", global_opts.keymaps.normal.variable_below, {
+        callback = function()
+            return M.debugprint({ variable = true })
+        end,
+        desc = "Variable debug below current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.variable_above,
-        { above = true, variable = true },
-        "Variable debug above current line"
-    )
+    map_key("n", global_opts.keymaps.normal.variable_above, {
+        callback = function()
+            return M.debugprint({ above = true, variable = true })
+        end,
+        desc = "Variable debug above current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.variable_below_alwaysprompt,
-        { variable = true, ignore_treesitter = true },
-        "Variable debug below current line (always prompt)"
-    )
+    map_key("n", global_opts.keymaps.normal.variable_below_alwaysprompt, {
+        callback = function()
+            return M.debugprint({ variable = true, ignore_treesitter = true })
+        end,
+        desc = "Variable debug below current line (always prompt})",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.variable_above_alwaysprompt,
-        { above = true, variable = true, ignore_treesitter = true },
-        "Variable debug above current line (always prompt)"
-    )
+    map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
+        callback = function()
+            return M.debugprint({
+                above = true,
+                variable = true,
+                ignore_treesitter = true,
+            })
+        end,
+        desc = "Variable debug above current line (always prompt})",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.textobj_below,
-        { motion = true },
-        "Text-obj-selected variable debug below current line"
-    )
+    map_key("n", global_opts.keymaps.normal.textobj_below, {
+        callback = function()
+            return M.debugprint({ motion = true })
+        end,
+        desc = "Text-obj-selected variable debug below current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.textobj_above,
-        { motion = true, above = true },
-        "Text-obj-selected variable debug above current line"
-    )
+    map_key("n", global_opts.keymaps.normal.textobj_above, {
+        callback = function()
+            return M.debugprint({ motion = true, above = true })
+        end,
+        desc = "Text-obj-selected variable debug above current line",
+    })
 
-    map_key(
-        "n",
-        global_opts.keymaps.normal.delete_debug_prints,
-        M.deleteprints,
-        "Delete all debugprint statements in the current buffer"
-    )
+    map_key("n", global_opts.keymaps.normal.delete_debug_prints, {
+        callback = M.deleteprints,
+        desc = "Delete all debugprint statements in the current buffer",
+        expr = false,
+    })
 
-    map_key(
-        "x",
-        global_opts.keymaps.visual.variable_below,
-        { variable = true },
-        "Variable debug below current line"
-    )
+    map_key("x", global_opts.keymaps.visual.variable_below, {
+        callback = function()
+            return M.debugprint({ variable = true })
+        end,
+        desc = "Variable debug below current line",
+    })
 
-    map_key(
-        "x",
-        global_opts.keymaps.visual.variable_above,
-        { above = true, variable = true },
-        "Variable debug above current line"
-    )
+    map_key("x", global_opts.keymaps.visual.variable_above, {
+        callback = function()
+            return M.debugprint({ above = true, variable = true })
+        end,
+        desc = "Variable debug above current line",
+    })
 
     if global_opts.commands.delete_debug_prints then
         vim.api.nvim_create_user_command(

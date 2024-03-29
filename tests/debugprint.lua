@@ -1381,6 +1381,25 @@ describe("delete lines command", function()
             "end",
         })
     end)
+
+    it("basic - with key binding", function()
+        debugprint.setup({ keymaps = { normal = { delete_debug_prints = "g?x" }}})
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        feedkeys("g?x")
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
 end)
 
 describe("don't display counter", function()

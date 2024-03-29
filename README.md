@@ -143,6 +143,7 @@ return {
                 variable_above_alwaysprompt = nil,
                 textobj_below = "g?o",
                 textobj_above = "g?O",
+                delete_debug_prints = nil,
             },
             visual = {
                 variable_below = "g?v",

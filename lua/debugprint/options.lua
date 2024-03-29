@@ -11,6 +11,7 @@ local GLOBAL_OPTION_DEFAULTS = {
             variable_above_alwaysprompt = nil,
             textobj_below = "g?o",
             textobj_above = "g?O",
+            delete_debug_prints = nil,
         },
         visual = {
             variable_below = "g?v",
@@ -70,6 +71,7 @@ local validate_global_opts = function(o)
         },
         textobj_below = { normal.textobj_below, STRING_NIL },
         textobj_above = { normal.textobj_above, STRING_NIL },
+        delete_debug_prints = { normal.delete_debug_prints, STRING_NIL }
     })
 
     vim.validate({
