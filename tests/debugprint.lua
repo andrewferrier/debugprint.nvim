@@ -365,7 +365,7 @@ describe("can do variable debug statement insertion", function()
     end)
 
     it("entering no name gives an error", function()
-        local filename = init_file({
+        init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
