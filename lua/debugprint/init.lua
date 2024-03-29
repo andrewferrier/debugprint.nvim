@@ -262,7 +262,7 @@ M.toggle_comment_debugprints = function(opts)
                     {}
                 )
 
-                require("mini.comment").toggle_lines(
+                comment.toggle_lines(
                     line_to_toggle,
                     line_to_toggle,
                     {}
