@@ -59,19 +59,20 @@ local init_file = function(lines, filetype, row, col)
     return filename
 end
 
+local notify_message
+
+vim.notify = function(msg, _)
+    notify_message = msg
+end
+
 local teardown = function()
+    notify_message = nil
     pcall(vim.keymap.del, "n", "g?p")
     pcall(vim.keymap.del, "n", "g?P")
     pcall(vim.keymap.del, { "n", "x" }, "g?v")
     pcall(vim.keymap.del, { "n", "x" }, "g?V")
     pcall(vim.keymap.del, "n", "g?o")
     pcall(vim.keymap.del, "n", "g?O")
-end
-
-local notify_message
-
-vim.notify = function(msg, _)
-    notify_message = msg
 end
 
 describe("can do setup()", function()
@@ -90,6 +91,8 @@ describe("can do basic debug statement insertion", function()
     after_each(teardown)
 
     it("can insert a basic statement below", function()
+        assert.equals(notify_message, nil)
+
         local filename = init_file({
             "foo",
             "bar",
@@ -148,6 +151,37 @@ describe("can do basic debug statement insertion", function()
             "foo",
             "bar",
             "print('DEBUGPRINT[1]: " .. filename .. ":2 (after bar)')",
+        })
+    end)
+end)
+
+describe("can do basic debug statement insertion (custom keys)", function()
+    before_each(function()
+        debugprint.setup({ keymaps = { normal = { plain_below = "zdp" } } })
+    end)
+
+    after_each(teardown)
+
+    it("can insert a basic statement below", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("zdp")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
         })
     end)
 end)
@@ -887,7 +921,9 @@ describe("can handle treesitter identifiers", function()
     end)
 
     it("disabled at function level", function()
-        debugprint.setup({})
+        debugprint.setup({
+            keymaps = { normal = { variable_below_alwaysprompt = "zxa" } },
+        })
 
         local filename = init_file({
             "function x()",
@@ -895,14 +931,6 @@ describe("can handle treesitter identifiers", function()
             "end",
         }, "lua", 2, 10)
 
-        vim.keymap.set("n", "zxa", function()
-            return require("debugprint").debugprint({
-                variable = true,
-                ignore_treesitter = true,
-            })
-        end, {
-            expr = true,
-        })
         feedkeys("zxa<BS><BS><BS>apple<CR>")
 
         check_lines({
@@ -1194,6 +1222,25 @@ describe("delete lines command", function()
 
         feedkeys("g?p")
         vim.cmd("DeleteDebugPrints")
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("with custom command", function()
+        debugprint.setup({ commands = { delete_debug_prints = "FooBar" } })
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("FooBar")
 
         check_lines({
             "function x()",
@@ -1537,3 +1584,60 @@ if vim.fn.has("nvim-0.9.0") == 1 then
         end)
     end)
 end
+
+describe("handle deprecated options, create_keymaps=false", function()
+    before_each(function()
+        debugprint.setup({ create_keymaps = false })
+    end)
+
+    after_each(teardown)
+
+    it("basic", function()
+        assert.True(
+            notify_message:find("^`create_keymaps` option is deprecated") == 1
+        )
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
+end)
+
+describe("handle deprecated options, create_keymaps=true", function()
+    before_each(function()
+        debugprint.setup({ create_keymaps = true })
+    end)
+
+    after_each(teardown)
+
+    it("basic", function()
+        -- This deprecation message will not be shown again after the test above
+        -- because these tests are run inside the same NeoVim instance and
+        -- vim.deprecate won't show the same notification twice.
+        --
+        -- assert.True(
+        --     notify_message:find("^`create_keymaps` option is deprecated") == 1
+        -- )
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+    end)
+end)

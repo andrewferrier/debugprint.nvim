@@ -233,56 +233,119 @@ M.deleteprints = function(opts)
     end
 end
 
+local map_key = function(mode, lhs, rhs, desc)
+    if lhs ~= nil then
+        if type(rhs) == "function" then
+            vim.api.nvim_set_keymap(
+                mode,
+                lhs,
+                rhs,
+                { expr = true, desc = desc }
+            )
+        else
+            vim.api.nvim_set_keymap(mode, lhs, '', {
+                expr = true,
+                desc = desc,
+                callback = function()
+                    return M.debugprint(rhs)
+                end,
+            })
+        end
+    end
+end
+
 M.setup = function(opts)
     global_opts =
         require("debugprint.options").get_and_validate_global_opts(opts)
 
-    if global_opts.create_keymaps then
-        vim.keymap.set("n", "g?p", function()
-            return M.debugprint()
-        end, {
-            expr = true,
-            desc = "Plain debug below current line",
-        })
-        vim.keymap.set("n", "g?P", function()
-            return M.debugprint({ above = true })
-        end, {
-            expr = true,
-            desc = "Plain debug above current line",
-        })
-        vim.keymap.set({ "n", "x" }, "g?v", function()
-            return M.debugprint({ variable = true })
-        end, {
-            expr = true,
-            desc = "Variable debug below current line",
-        })
-        vim.keymap.set({ "n", "x" }, "g?V", function()
-            return M.debugprint({ above = true, variable = true })
-        end, {
-            expr = true,
-            desc = "Variable debug above current line",
-        })
-        vim.keymap.set("n", "g?o", function()
-            return M.debugprint({ motion = true })
-        end, {
-            expr = true,
-            desc = "Text-obj-selected variable debug below current line",
-        })
-        vim.keymap.set("n", "g?O", function()
-            return M.debugprint({ motion = true, above = true })
-        end, {
-            expr = true,
-            desc = "Text-obj-selected variable debug above current line",
-        })
-    end
+    map_key(
+        "n",
+        global_opts.keymaps.normal.plain_below,
+        {},
+        "Plain debug below current line"
+    )
 
-    if global_opts.create_commands then
-        vim.api.nvim_create_user_command("DeleteDebugPrints", function(cmd_opts)
-            M.deleteprints(cmd_opts)
-        end, {
-            range = true,
-            desc = "Delete all debugprint statements in the current buffer.",
-        })
+    map_key(
+        "n",
+        global_opts.keymaps.normal.plain_above,
+        { above = true },
+        "Plain debug below current line"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.variable_below,
+        { variable = true },
+        "Variable debug below current line"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.variable_above,
+        { above = true, variable = true },
+        "Variable debug above current line"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.variable_below_alwaysprompt,
+        { variable = true, ignore_treesitter = true },
+        "Variable debug below current line (always prompt)"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.variable_above_alwaysprompt,
+        { above = true, variable = true, ignore_treesitter = true },
+        "Variable debug above current line (always prompt)"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.textobj_below,
+        { motion = true },
+        "Text-obj-selected variable debug below current line"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.textobj_above,
+        { motion = true, above = true },
+        "Text-obj-selected variable debug above current line"
+    )
+
+    map_key(
+        "n",
+        global_opts.keymaps.normal.delete_debug_prints,
+        M.deleteprints,
+        "Delete all debugprint statements in the current buffer"
+    )
+
+    map_key(
+        "x",
+        global_opts.keymaps.visual.variable_below,
+        { variable = true },
+        "Variable debug below current line"
+    )
+
+    map_key(
+        "x",
+        global_opts.keymaps.visual.variable_above,
+        { above = true, variable = true },
+        "Variable debug above current line"
+    )
+
+    if global_opts.commands.delete_debug_prints then
+        vim.api.nvim_create_user_command(
+            global_opts.commands.delete_debug_prints,
+            function(cmd_opts)
+                M.deleteprints(cmd_opts)
+            end,
+            {
+                range = true,
+                desc = "Delete all debugprint statements in the current buffer",
+            }
+        )
     end
 
     -- Because we want to be idempotent, re-running setup() resets the counter

@@ -110,85 +110,70 @@ the box'. There are also some function invocations which are not mapped to any
 keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-| Mode       | Default Keymap / Cmd | Purpose                                                                                             | Lua Function                                                                                  |
-| ---------- | -------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Normal     | `g?p`                | Insert plain debug line below current line                                                          | `require('debugprint').debugprint()`                                                          |
-| Normal     | `g?P`                | Insert plain debug line above current line                                                          | `require('debugprint').debugprint({above = true})`                                            |
-| Normal     | `g?v`                | Insert variable debug line below current line. If cursor is on a variable, use it, otherwise prompt | `require('debugprint').debugprint({variable = true})`                                         |
-| Normal     | `g?V`                | Insert variable debug line above current line. If cursor is on a variable, use it, otherwise prompt | `require('debugprint').debugprint({above = true, variable = true})`                           |
-| Normal     | None                 | Prompt for variable name, insert variable debugging line below the current line                     | `require('debugprint').debugprint({ignore_treesitter = true, variable = true})`               |
-| Normal     | None                 | Prompt for variable name, insert variable debugging line above the current line                     | `require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})` |
-| Visual     | `g?v`                | Insert visually-selected variable debugging line below the current line                             | `require('debugprint').debugprint({variable = true})`                                         |
-| Visual     | `g?v`                | Insert visually-selected variable debugging line below the current line                             | `require('debugprint').debugprint({variable = true})`                                         |
-| Op-pending | `g?o`                | Locate variable using motion, and insert a variable debugging line below the current line           | `require('debugprint').debugprint({motion = true})`                                           |
-| Op-pending | `g?O`                | Locate variable using motion, and insert a variable debugging line above the current line           | `require('debugprint').debugprint({motion = true, above = true})`                             |
-| Command    | `:DeleteDebugPrints` | Delete all debug lines added to this buffer                                                         | `require('debugprint').deleteprints()`                                                        |
+| Mode       | Default Key / Cmd    | Purpose                                     | Above/Below Line |
+| ---------- | -------------------- | ------------------------------------------- | ---------------- |
+| Normal     | `g?p`                | Plain debug                                 | Below            |
+| Normal     | `g?P`                | Plain debug                                 | Above            |
+| Normal     | `g?v`                | Variable debug                              | Below            |
+| Normal     | `g?V`                | Variable debug                              | Above            |
+| Normal     | None                 | Variable debug (always prompt for variable) | Below            |
+| Normal     | None                 | Variable debug (always prompt for variable) | Above            |
+| Visual     | `g?v`                | Variable debug                              | Below            |
+| Visual     | `g?v`                | Variable debug                              | Above            |
+| Op-pending | `g?o`                | Variable debug                              | Below            |
+| Op-pending | `g?O`                | Variable debug                              | Above            |
+| Command    | `:DeleteDebugPrints` | Delete all debug lines added to this buffer |                  |
 
-### Custom Keymappings and Commands
-
-The keymappings are chosen specifically because by default they are
-used to convert sections to ROT-13, which most folks don't use. You can disable
-the defaults above from being created by setting `create_keymaps` and/or
-`create_commands`, and map them yourself to something else if you prefer:
+The keys and commands outlined above can be specifically overridden using the
+`keymaps` and `commands` objects inside the `opts` object used above during
+configuration of debugprint. For example, if configuring via `lazy.nvim`, it
+might look like this:
 
 ```lua
-opts = {
-    create_keymaps = false,
-    create_commands = false
-    ...
+return {
+    "andrewferrier/debugprint.nvim",
+    opts = {
+        keymaps = {
+            normal = {
+                plain_below = "g?p",
+                plain_above = "g?P",
+                variable_below = "g?v",
+                variable_above = "g?V",
+                variable_below_alwaysprompt = nil,
+                variable_above_alwaysprompt = nil,
+                textobj_below = "g?o",
+                textobj_above = "g?O",
+            },
+            visual = {
+                variable_below = "g?v",
+                variable_above = "g?V",
+            },
+        },
+        commands = {
+            delete_debug_prints = "DeleteDebugPrints",
+        },
+    }
+    version = "*"
 }
-
-require("debugprint").setup(opts)
-
-vim.keymap.set("n", "<Leader>d", function()
-    -- Note: setting `expr=true` and returning the value are essential
-    return require('debugprint').debugprint()
-end, {
-    expr = true,
-})
-vim.keymap.set("n", "<Leader>D", function()
-    -- Note: setting `expr=true` and returning the value are essential
-    return require('debugprint').debugprint({ above = true })
-end, {
-    expr = true,
-})
-vim.keymap.set("n", "<Leader>dq", function()
-    -- Note: setting `expr=true` and returning the value are essential
-    return require('debugprint').debugprint({ variable = true })
-end, {
-    expr = true,
-})
-vim.keymap.set("n", "<Leader>Dq", function()
-    -- Note: setting `expr=true` and returning the value are essential
-    return require('debugprint').debugprint({ above = true, variable = true })
-end, {
-    expr = true,
-})
-vim.keymap.set("n", "<Leader>do", function()
-    -- Note: setting `expr=true` and returning the value are essential
-    -- It's also important to use motion = true for operator-pending motions
-    return require('debugprint').debugprint({ motion = true })
-end, {
-    expr = true,
-})
-
-vim.api.nvim_create_user_command("DeleteDebugs", function(opts)
-    -- Note: you must set `range=true` and pass through opts for ranges to work
-    require('debugprint').deleteprints(opts)
-end, {
-    range = true})
-end)
-...
 ```
 
-or, to have a keymapping instead for deleting debug lines (this will affect
-the entire buffer, visual and operator-pending modes will not work):
+You only need to include the keys / commands which you wish to override, others
+will default as shown above.
 
-```lua
-vim.keymap.set("n", "g?d", function()
-    return require('debugprint').deleteprints()
-end)
-```
+The default keymappings are chosen specifically because ordinarily in NeoVim
+they are used to convert sections to ROT-13, which most folks don't use.
+
+### Mapping Deprecation
+
+*Note*: as of commit XXX, the old mechanism of configuring keymaps/commands
+which specifically allowed for mapping directly to
+`require('debugprint').debugprint(...)` is no longer officially supported or
+documented. This is primarily because of confusion which arose over how to do
+this mapping. Existing mappings performed this way are likely to continue to
+work for some time. You should, however, migrate over to the new method outlined
+above. If this doesn't give you the flexibility to map how you wish for some
+reason, please open an
+[issue](https://github.com/andrewferrier/debugprint.nvim/issues/new).
 
 ## Other Options
 
@@ -196,7 +181,6 @@ end)
 
 | Option              | Default      | Purpose                                                                                                                                      |
 | ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `create_keymaps`    | `true`       | Creates default keymappings - see above                                                                                                      |
 | `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                      |
 | `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message                                                        |
 | `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                                    |
