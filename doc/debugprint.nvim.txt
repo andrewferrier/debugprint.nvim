@@ -8,11 +8,11 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 3. Demo                                                 |debugprint.nvim-demo|
 4. Installation                                 |debugprint.nvim-installation|
 5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
-  - Mapping Deprecation                  |debugprint.nvim-mapping-deprecation|
-6. Other Options                               |debugprint.nvim-other-options|
-7. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
-8. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
-9. Links                                               |debugprint.nvim-links|
+6. Mapping Deprecation                   |debugprint.nvim-mapping-deprecation|
+7. Other Options                               |debugprint.nvim-other-options|
+8. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
+9. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
+10. Links                                              |debugprint.nvim-links|
 
 ==============================================================================
 1. Overview                                         *debugprint.nvim-overview*
@@ -190,10 +190,11 @@ The default keymappings are chosen specifically because ordinarily in NeoVim
 they are used to convert sections to ROT-13, which most folks don’t use.
 
 
-MAPPING DEPRECATION                      *debugprint.nvim-mapping-deprecation*
+==============================================================================
+6. Mapping Deprecation                   *debugprint.nvim-mapping-deprecation*
 
-_Note_: as of commit XXX, the old mechanism of configuring keymaps/commands
-which specifically allowed for mapping directly to
+_Note_: as of commit `ee9d6ff`, the old mechanism of configuring
+keymaps/commands which specifically allowed for mapping directly to
 `require('debugprint').debugprint(...)` is no longer officially supported or
 documented. This is primarily because of confusion which arose over how to do
 this mapping. Existing mappings performed this way are likely to continue to
@@ -204,7 +205,7 @@ for some reason, please open an issue
 
 
 ==============================================================================
-6. Other Options                               *debugprint.nvim-other-options*
+7. Other Options                               *debugprint.nvim-other-options*
 
 `debugprint` supports the following options in its global `opts` object:
 
@@ -231,7 +232,7 @@ for some reason, please open an issue
   -------------------------------------------------------------------------------------------
 
 ==============================================================================
-7. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
+8. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
 
 _Note: If you work out a configuration for a filetype not supported
 out-of-the-box, it would be appreciated if you can open an issue to have it
@@ -287,7 +288,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
 ==============================================================================
-8. Feature Comparison with Other Plugins*debugprint.nvim-feature-comparison-with-other-plugins*
+9. Feature Comparison with Other Plugins*debugprint.nvim-feature-comparison-with-other-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
@@ -396,7 +397,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   Implemented in          Lua               VimL              Lua            Lua                VimL          VimL         Lua
   ------------------------------------------------------------------------------------------------------------------------------------
 ==============================================================================
-9. Links                                               *debugprint.nvim-links*
+10. Links                                              *debugprint.nvim-links*
 
 1. *Test status*: https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg
 
