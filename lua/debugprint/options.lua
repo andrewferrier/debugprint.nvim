@@ -11,6 +11,7 @@ local GLOBAL_OPTION_DEFAULTS = {
             variable_above_alwaysprompt = nil,
             textobj_below = "g?o",
             textobj_above = "g?O",
+            toggle_comment_debug_prints = nil,
             delete_debug_prints = nil,
         },
         visual = {
@@ -19,6 +20,7 @@ local GLOBAL_OPTION_DEFAULTS = {
         },
     },
     commands = {
+        toggle_comment_debug_prints = "ToggleCommentDebugPrints",
         delete_debug_prints = "DeleteDebugPrints",
     },
     display_counter = true,
@@ -51,6 +53,11 @@ local validate_global_opts = function(o)
             o.commands.delete_debug_prints,
             STRING_NIL,
         },
+
+        commands_toggle_comment_debug_prints = {
+            o.commands_toggle_comment_debug_prints,
+            STRING_NIL,
+        },
     })
 
     local normal = o.keymaps.normal
@@ -72,6 +79,10 @@ local validate_global_opts = function(o)
         textobj_below = { normal.textobj_below, STRING_NIL },
         textobj_above = { normal.textobj_above, STRING_NIL },
         delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
+        commands_toggle_comment_debug_prints = {
+            normal.commands_toggle_comment_debug_prints,
+            STRING_NIL,
+        },
     })
 
     vim.validate({

@@ -80,6 +80,12 @@ M.map_keys_and_commands = function(global_opts)
         expr = false,
     })
 
+    map_key("n", global_opts.keymaps.normal.toggle_comment_debug_prints, {
+        callback = debugprint.toggle_comment_debugprints,
+        desc = "Comment/uncomment all debugprint statements in the current buffer",
+        expr = false,
+    })
+
     map_key("x", global_opts.keymaps.visual.variable_below, {
         callback = function()
             return debugprint.debugprint({ variable = true })
@@ -103,6 +109,19 @@ M.map_keys_and_commands = function(global_opts)
             {
                 range = true,
                 desc = "Delete all debugprint statements in the current buffer",
+            }
+        )
+    end
+
+    if global_opts.commands.toggle_comment_debug_prints then
+        vim.api.nvim_create_user_command(
+            global_opts.commands.toggle_comment_debug_prints,
+            function(cmd_opts)
+                debugprint.toggle_comment_debugprints(cmd_opts)
+            end,
+            {
+                range = true,
+                desc = "Comment/uncomment all debugprint statements in the current buffer",
             }
         )
     end

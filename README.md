@@ -70,9 +70,9 @@ Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 return {
     "andrewferrier/debugprint.nvim",
     opts = { … },
-    -- Dependency only needed for NeoVim 0.8
     dependencies = {
-        "nvim-treesitter/nvim-treesitter"
+        "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+        "nvim-treesitter/nvim-treesitter" -- Only needed for NeoVim 0.8
     },
     -- Remove the following line to use development versions,
     -- not just the formal releases
@@ -91,6 +91,9 @@ packer.startup(function(use)
             opts = { … }
             require("debugprint").setup(opts)
         end,
+        requires = {
+            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+        }
     })
     …
 end)
@@ -110,20 +113,22 @@ the box'. There are also some function invocations which are not mapped to any
 keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-| Mode       | Default Key / Cmd    | Purpose                                     | Above/Below Line |
-| ---------- | -------------------- | ------------------------------------------- | ---------------- |
-| Normal     | `g?p`                | Plain debug                                 | Below            |
-| Normal     | `g?P`                | Plain debug                                 | Above            |
-| Normal     | `g?v`                | Variable debug                              | Below            |
-| Normal     | `g?V`                | Variable debug                              | Above            |
-| Normal     | None                 | Variable debug (always prompt for variable) | Below            |
-| Normal     | None                 | Variable debug (always prompt for variable) | Above            |
-| Normal     | None                 | Delete debug lines in buffer                | -                |
-| Visual     | `g?v`                | Variable debug                              | Below            |
-| Visual     | `g?v`                | Variable debug                              | Above            |
-| Op-pending | `g?o`                | Variable debug                              | Below            |
-| Op-pending | `g?O`                | Variable debug                              | Above            |
-| Command    | `:DeleteDebugPrints` | Delete debug lines in buffer                | -                |
+| Mode       | Default Key / Cmd           | Purpose                                     | Above/Below Line |
+| ---------- | --------------------------- | ------------------------------------------- | ---------------- |
+| Normal     | `g?p`                       | Plain debug                                 | Below            |
+| Normal     | `g?P`                       | Plain debug                                 | Above            |
+| Normal     | `g?v`                       | Variable debug                              | Below            |
+| Normal     | `g?V`                       | Variable debug                              | Above            |
+| Normal     | None                        | Variable debug (always prompt for variable) | Below            |
+| Normal     | None                        | Variable debug (always prompt for variable) | Above            |
+| Normal     | None                        | Delete debug lines in buffer                | -                |
+| Normal     | None                        | Comment/uncomment debug lines in buffer     | -                |
+| Visual     | `g?v`                       | Variable debug                              | Below            |
+| Visual     | `g?v`                       | Variable debug                              | Above            |
+| Op-pending | `g?o`                       | Variable debug                              | Below            |
+| Op-pending | `g?O`                       | Variable debug                              | Above            |
+| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                | -                |
+| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer     | -                |
 
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
@@ -144,6 +149,7 @@ return {
                 variable_above_alwaysprompt = nil,
                 textobj_below = "g?o",
                 textobj_above = "g?O",
+                toggle_comment_debug_prints = nil,
                 delete_debug_prints = nil,
             },
             visual = {
@@ -152,6 +158,7 @@ return {
             },
         },
         commands = {
+            toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
         },
     }

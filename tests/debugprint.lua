@@ -7,6 +7,10 @@ vim.opt.runtimepath:prepend(
     "~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter"
 )
 vim.opt.runtimepath:prepend("../nvim-treesitter")
+vim.opt.runtimepath:prepend(
+    "~/.local/share/nvim/site/pack/vendor/start/mini.nvim"
+)
+vim.opt.runtimepath:prepend("../mini.nvim")
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
 
 local install_parser_if_needed = function(filetype)
@@ -1605,6 +1609,101 @@ if vim.fn.has("nvim-0.9.0") == 1 then
         end)
     end)
 end
+
+describe("comment toggle", function()
+    after_each(teardown)
+
+    it("basic", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 1)
+
+        feedkeys("g?p")
+        vim.cmd("ToggleCommentDebugPrint")
+        feedkeys("jjg?p")
+
+        check_lines({
+            "function x()",
+            "    -- print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":3 (after local xyz = 3)')",
+            "end",
+        })
+
+        vim.cmd("ToggleCommentDebugPrint")
+
+        check_lines({
+            "function x()",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "    -- print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":3 (after local xyz = 3)')",
+            "end",
+        })
+    end)
+
+    it("range", function()
+        debugprint.setup({})
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 1)
+
+        feedkeys("g?pjjg?p")
+        vim.cmd("2 ToggleCommentDebugPrint")
+
+        check_lines({
+            "function x()",
+            "    -- print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":3 (after local xyz = 3)')",
+            "end",
+        })
+    end)
+
+    it("basic with keymaps", function()
+        debugprint.setup({
+            keymaps = { normal = { toggle_comment_debug_prints = "g?x" } },
+        })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 1)
+
+        feedkeys("g?pg?xjjg?p")
+
+        check_lines({
+            "function x()",
+            "    -- print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":3 (after local xyz = 3)')",
+            "end",
+        })
+    end)
+end)
 
 describe("handle deprecated options, create_keymaps=false", function()
     before_each(function()

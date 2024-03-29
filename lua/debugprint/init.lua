@@ -192,7 +192,7 @@ M.debugprint_motion_callback = function()
     utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
-M.deleteprints = function(opts)
+local get_lines_to_handle = function(opts)
     local lines_to_consider
     local initial_line
 
@@ -213,6 +213,15 @@ M.deleteprints = function(opts)
         initial_line = 1
     end
 
+    return lines_to_consider, initial_line
+end
+
+M.deleteprints = function(opts)
+    local lines_to_consider
+    local initial_line
+
+    lines_to_consider, initial_line = get_lines_to_handle(opts)
+
     local delete_adjust = 0
 
     for count, line in ipairs(lines_to_consider) do
@@ -230,6 +239,42 @@ M.deleteprints = function(opts)
             )
             delete_adjust = delete_adjust + 1
         end
+    end
+end
+
+M.toggle_comment_debugprints = function(opts)
+    local status, comment = pcall(require, "mini.comment")
+
+    if status == true then
+        local lines_to_consider
+        local initial_line
+
+        lines_to_consider, initial_line = get_lines_to_handle(opts)
+
+        for count, line in ipairs(lines_to_consider) do
+            if string.find(line, global_opts.print_tag, 1, true) ~= nil then
+                local line_to_toggle = count + initial_line - 1
+                vim.api.nvim_buf_set_lines(
+                    0,
+                    line_to_toggle,
+                    line_to_toggle,
+                    false,
+                    {}
+                )
+
+                require("mini.comment").toggle_lines(
+                    line_to_toggle,
+                    line_to_toggle,
+                    {}
+                )
+            end
+        end
+    else
+        vim.notify(
+            "mini.nvim is required to toggle comment debugprint lines",
+            vim.log.levels.ERROR,
+            {}
+        )
     end
 end
 
