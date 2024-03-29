@@ -243,7 +243,7 @@ local map_key = function(mode, lhs, rhs, desc)
                 { expr = true, desc = desc }
             )
         else
-            vim.api.nvim_set_keymap(mode, lhs, '', {
+            vim.api.nvim_set_keymap(mode, lhs, "", {
                 expr = true,
                 desc = desc,
                 callback = function()
