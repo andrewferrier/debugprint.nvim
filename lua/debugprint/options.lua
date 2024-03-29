@@ -71,7 +71,7 @@ local validate_global_opts = function(o)
         },
         textobj_below = { normal.textobj_below, STRING_NIL },
         textobj_above = { normal.textobj_above, STRING_NIL },
-        delete_debug_prints = { normal.delete_debug_prints, STRING_NIL }
+        delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
     })
 
     vim.validate({

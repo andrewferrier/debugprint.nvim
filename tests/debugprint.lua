@@ -1383,7 +1383,9 @@ describe("delete lines command", function()
     end)
 
     it("basic - with key binding", function()
-        debugprint.setup({ keymaps = { normal = { delete_debug_prints = "g?x" }}})
+        debugprint.setup({
+            keymaps = { normal = { delete_debug_prints = "g?x" } },
+        })
 
         init_file({
             "function x()",
