@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-03-26
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-03-29
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -12,53 +12,23 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 6. Other Options                               |debugprint.nvim-other-options|
 7. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
 8. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
+9. Links                                               |debugprint.nvim-links|
 
 ==============================================================================
 1. Overview                                         *debugprint.nvim-overview*
 
 `debugprint` is a NeoVim plugin that simplifies debugging for those who prefer
 a low-tech approach. Instead of using a sophisticated debugger like nvim-dap
-<https://github.com/mfussenegger/nvim-dap>, some people prefer using the
-'print' statement to trace the output during execution. With `debugprint`, you
-can insert 'print' statements, with debug information pre-populated, relevant
-to the language you’re editing. These statements include reference
-information for quick output navigation and the ability to output variable
-values.
+<https://github.com/mfussenegger/nvim-dap>, some people prefer using a 'print'
+statement to trace the output during execution. With `debugprint`, you can
+insert 'print' statements, with debug information pre-populated, relevant to
+the language you’re editing. These statements include reference information
+for quick output navigation and the ability to output variable values.
 
-`debugprint` supports the following filetypes/programming languages
-out-of-the-box:
-
-- `bash`
-- `c`
-- `cmake`
-- `cpp` (C++)
-- `cs` (C#)
-- `dart`
-- `dockerfile`
-- `dosbatch` (DOS/Windows Batch)
-- `fish`
-- `fortran`
-- `go`
-- `haskell`
-- `java`
-- `javascript`
-- `lean`
-- `lua`
-- `make`
-- `perl`
-- `php`
-- `ps1` (Powershell)
-- `python`
-- `r`
-- `ruby`
-- `rust`
-- `sh` (sh/Bash)
-- `swift`
-- `typescript`
-- `vim`
-- `zsh`
-
-It can also be extended to support more.
+`debugprint` supports 29 filetypes/programming languages out-of-the-box,
+including Python, JavaScript/TypeScript, Java, C/C++ and more. See
+|debugprint.nvim-the-comparison-table| for the full list. It can also be
+extended to support other languages.
 
 
 ==============================================================================
