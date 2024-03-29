@@ -40,7 +40,8 @@ updated and refreshed for the NeoVim generation. It has these features:
 *   In addition to normal mode, it provides keymappings for visual and operator-pending
     modes, so you can select variables visually and using motions respectively.
 
-*   It provides a command to delete all debugging lines added to the current buffer.
+*   It provides commands to delete all debugging lines added to the current buffer
+    as well as comment/uncomment those lines.
 
 *   It can optionally move to the inserted line (or not).
 
