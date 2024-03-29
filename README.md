@@ -118,11 +118,12 @@ following table.
 | Normal     | `g?V`                | Variable debug                              | Above            |
 | Normal     | None                 | Variable debug (always prompt for variable) | Below            |
 | Normal     | None                 | Variable debug (always prompt for variable) | Above            |
+| Normal     | None                 | Delete debug lines in buffer                | -                |
 | Visual     | `g?v`                | Variable debug                              | Below            |
 | Visual     | `g?v`                | Variable debug                              | Above            |
 | Op-pending | `g?o`                | Variable debug                              | Below            |
 | Op-pending | `g?O`                | Variable debug                              | Above            |
-| Command    | `:DeleteDebugPrints` | Delete all debug lines added to this buffer |                  |
+| Command    | `:DeleteDebugPrints` | Delete debug lines in buffer                | -                |
 
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
