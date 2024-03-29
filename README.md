@@ -221,7 +221,6 @@ filetype in one of two ways:
 *   Using the `require('debugprint').add_custom_filetypes()` method (designed for
     use from `ftplugin/` directories, etc.
 
-
 In either case, the format is the same. For example, if adding via `setup()`:
 
 ```lua
