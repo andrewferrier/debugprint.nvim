@@ -239,8 +239,8 @@ local map_key = function(mode, lhs, rhs, desc)
             vim.api.nvim_set_keymap(
                 mode,
                 lhs,
-                rhs,
-                { expr = true, desc = desc }
+                "",
+                { expr = true, desc = desc, callback = rhs }
             )
         else
             vim.api.nvim_set_keymap(mode, lhs, "", {
