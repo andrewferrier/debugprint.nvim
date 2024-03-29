@@ -104,7 +104,7 @@ M.get_and_validate_global_opts = function(opts)
         vim.deprecate(
             "`create_keymaps` option",
             "`keymaps` option",
-            "3.0, use ':help debugprint-mapping-deprecation' for more information",
+            "3.0, use ':help debugprint.nvim-mapping-deprecation' for more information",
             "debugprint.nvim",
             false
         )
@@ -119,7 +119,7 @@ M.get_and_validate_global_opts = function(opts)
         vim.deprecate(
             "`create_commands` option",
             "`commands` option",
-            "3.0, use ':help debugprint-mapping-deprecation' for more information",
+            "3.0, use ':help debugprint.nvim-mapping-deprecation' for more information",
             "debugprint.nvim",
             false
         )
