@@ -8,7 +8,7 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 3. Demo                                                 |debugprint.nvim-demo|
 4. Installation                                 |debugprint.nvim-installation|
 5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
-  - Custom Keymappings and Commands|debugprint.nvim-custom-keymappings-and-commands|
+  - Mapping Deprecation                  |debugprint.nvim-mapping-deprecation|
 6. Other Options                               |debugprint.nvim-other-options|
 7. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
 8. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
@@ -121,118 +121,86 @@ of the box'. There are also some function invocations which are not mapped to
 any keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Mode         Default Keymap / Cmd Purpose                         Lua Function
-  ------------ -------------------- ------------------------------- ---------------------------------------------------------------------------------------------
-  Normal       g?p                  Insert plain debug line below   require('debugprint').debugprint()
-                                    current line                    
+  ----------------------------------------------------------------------------------
+  Mode         Default Key / Cmd    Purpose                            Above/Below
+                                                                       Line
+  ------------ -------------------- ---------------------------------- -------------
+  Normal       g?p                  Plain debug                        Below
 
-  Normal       g?P                  Insert plain debug line above   require('debugprint').debugprint({above = true})
-                                    current line                    
+  Normal       g?P                  Plain debug                        Above
 
-  Normal       g?v                  Insert variable debug line      require('debugprint').debugprint({variable = true})
-                                    below current line. If cursor   
-                                    is on a variable, use it,       
-                                    otherwise prompt                
+  Normal       g?v                  Variable debug                     Below
 
-  Normal       g?V                  Insert variable debug line      require('debugprint').debugprint({above = true, variable = true})
-                                    above current line. If cursor   
-                                    is on a variable, use it,       
-                                    otherwise prompt                
+  Normal       g?V                  Variable debug                     Above
 
-  Normal       None                 Prompt for variable name,       require('debugprint').debugprint({ignore_treesitter = true, variable = true})
-                                    insert variable debugging line  
-                                    below the current line          
+  Normal       None                 Variable debug (always prompt for  Below
+                                    variable)                          
 
-  Normal       None                 Prompt for variable name,       require('debugprint').debugprint({ignore_treesitter = true, above = true, variable = true})
-                                    insert variable debugging line  
-                                    above the current line          
+  Normal       None                 Variable debug (always prompt for  Above
+                                    variable)                          
 
-  Visual       g?v                  Insert visually-selected        require('debugprint').debugprint({variable = true})
-                                    variable debugging line below   
-                                    the current line                
+  Visual       g?v                  Variable debug                     Below
 
-  Visual       g?v                  Insert visually-selected        require('debugprint').debugprint({variable = true})
-                                    variable debugging line below   
-                                    the current line                
+  Visual       g?v                  Variable debug                     Above
 
-  Op-pending   g?o                  Locate variable using motion,   require('debugprint').debugprint({motion = true})
-                                    and insert a variable debugging 
-                                    line below the current line     
+  Op-pending   g?o                  Variable debug                     Below
 
-  Op-pending   g?O                  Locate variable using motion,   require('debugprint').debugprint({motion = true, above = true})
-                                    and insert a variable debugging 
-                                    line above the current line     
+  Op-pending   g?O                  Variable debug                     Above
 
-  Command      :DeleteDebugPrints   Delete all debug lines added to require('debugprint').deleteprints()
-                                    this buffer                     
-  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-CUSTOM KEYMAPPINGS AND COMMANDS*debugprint.nvim-custom-keymappings-and-commands*
-
-The keymappings are chosen specifically because by default they are used to
-convert sections to ROT-13, which most folks don’t use. You can disable the
-defaults above from being created by setting `create_keymaps` and/or
-`create_commands`, and map them yourself to something else if you prefer:
+  Command      :DeleteDebugPrints   Delete all debug lines added to    
+                                    this buffer                        
+  ----------------------------------------------------------------------------------
+The keys and commands outlined above can be specifically overridden using the
+`keymaps` and `commands` objects inside the `opts` object used above during
+configuration of debugprint. For example, if configuring via `lazy.nvim`, it
+might look like this:
 
 >lua
-    opts = {
-        create_keymaps = false,
-        create_commands = false
-        ...
+    return {
+        "andrewferrier/debugprint.nvim",
+        opts = {
+            keymaps = {
+                normal = {
+                    plain_below = "g?p",
+                    plain_above = "g?P",
+                    variable_below = "g?v",
+                    variable_above = "g?V",
+                    variable_below_alwaysprompt = nil,
+                    variable_above_alwaysprompt = nil,
+                    textobj_below = "g?o",
+                    textobj_above = "g?O",
+                },
+                visual = {
+                    variable_below = "g?v",
+                    variable_above = "g?V",
+                },
+            },
+            commands = {
+                delete_debug_prints = "DeleteDebugPrints",
+            },
+        }
+        version = "*"
     }
-    
-    require("debugprint").setup(opts)
-    
-    vim.keymap.set("n", "<Leader>d", function()
-        -- Note: setting `expr=true` and returning the value are essential
-        return require('debugprint').debugprint()
-    end, {
-        expr = true,
-    })
-    vim.keymap.set("n", "<Leader>D", function()
-        -- Note: setting `expr=true` and returning the value are essential
-        return require('debugprint').debugprint({ above = true })
-    end, {
-        expr = true,
-    })
-    vim.keymap.set("n", "<Leader>dq", function()
-        -- Note: setting `expr=true` and returning the value are essential
-        return require('debugprint').debugprint({ variable = true })
-    end, {
-        expr = true,
-    })
-    vim.keymap.set("n", "<Leader>Dq", function()
-        -- Note: setting `expr=true` and returning the value are essential
-        return require('debugprint').debugprint({ above = true, variable = true })
-    end, {
-        expr = true,
-    })
-    vim.keymap.set("n", "<Leader>do", function()
-        -- Note: setting `expr=true` and returning the value are essential
-        -- It's also important to use motion = true for operator-pending motions
-        return require('debugprint').debugprint({ motion = true })
-    end, {
-        expr = true,
-    })
-    
-    vim.api.nvim_create_user_command("DeleteDebugs", function(opts)
-        -- Note: you must set `range=true` and pass through opts for ranges to work
-        require('debugprint').deleteprints(opts)
-    end, {
-        range = true})
-    end)
-    ...
 <
 
-or, to have a keymapping instead for deleting debug lines (this will affect the
-entire buffer, visual and operator-pending modes will not work):
+You only need to include the keys / commands which you wish to override, others
+will default as shown above.
 
->lua
-    vim.keymap.set("n", "g?d", function()
-        return require('debugprint').deleteprints()
-    end)
-<
+The default keymappings are chosen specifically because ordinarily in NeoVim
+they are used to convert sections to ROT-13, which most folks don’t use.
+
+
+MAPPING DEPRECATION                      *debugprint.nvim-mapping-deprecation*
+
+_Note_: as of commit XXX, the old mechanism of configuring keymaps/commands
+which specifically allowed for mapping directly to
+`require('debugprint').debugprint(...)` is no longer officially supported or
+documented. This is primarily because of confusion which arose over how to do
+this mapping. Existing mappings performed this way are likely to continue to
+work for some time. You should, however, migrate over to the new method
+outlined above. If this doesn’t give you the flexibility to map how you wish
+for some reason, please open an issue
+<https://github.com/andrewferrier/debugprint.nvim/issues/new>.
 
 
 ==============================================================================
@@ -243,8 +211,6 @@ entire buffer, visual and operator-pending modes will not work):
   -------------------------------------------------------------------------------------------
   Option              Default      Purpose
   ------------------- ------------ ----------------------------------------------------------
-  create_keymaps      true         Creates default keymappings - see above
-
   move_to_debugline   false        When adding a debug line, moves the cursor to that line
 
   display_counter     true         Whether to display/include the monotonically increasing
