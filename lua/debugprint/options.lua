@@ -39,8 +39,11 @@ local validate_function_opts = function(o)
 end
 
 M.get_and_validate_global_opts = function(opts)
-    local global_opts =
-        vim.tbl_deep_extend("force", vim.deepcopy(GLOBAL_OPTION_DEFAULTS), opts or {})
+    local global_opts = vim.tbl_deep_extend(
+        "force",
+        vim.deepcopy(GLOBAL_OPTION_DEFAULTS),
+        opts or {}
+    )
 
     validate_global_opts(global_opts)
 
@@ -48,8 +51,11 @@ M.get_and_validate_global_opts = function(opts)
 end
 
 M.get_and_validate_function_opts = function(opts)
-    local func_opts =
-        vim.tbl_deep_extend("force", vim.deepcopy(FUNCTION_OPTION_DEFAULTS), opts or {})
+    local func_opts = vim.tbl_deep_extend(
+        "force",
+        vim.deepcopy(FUNCTION_OPTION_DEFAULTS),
+        opts or {}
+    )
 
     validate_function_opts(func_opts)
 
