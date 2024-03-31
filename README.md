@@ -125,7 +125,7 @@ following table.
 | Normal     | None                        | Delete debug lines in buffer                | -                |
 | Normal     | None                        | Comment/uncomment debug lines in buffer     | -                |
 | Visual     | `g?v`                       | Variable debug                              | Below            |
-| Visual     | `g?v`                       | Variable debug                              | Above            |
+| Visual     | `g?V`                       | Variable debug                              | Above            |
 | Op-pending | `g?o`                       | Variable debug                              | Below            |
 | Op-pending | `g?O`                       | Variable debug                              | Above            |
 | Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                | -                |
@@ -168,7 +168,7 @@ return {
 ```
 
 You only need to include the keys / commands which you wish to override, others
-will default as shown above. Setting any key or commands to `nil` will skip it.
+will default as shown above. Setting any key or command to `nil` will skip it.
 
 The default keymappings are chosen specifically because ordinarily in NeoVim
 they are used to convert sections to ROT-13, which most folks don't use.
