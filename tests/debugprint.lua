@@ -46,21 +46,21 @@ local feedkeys = function(keys)
     vim.api.nvim_feedkeys(keys, "mtx", false)
 end
 
-local write_file = function(filetype)
-    vim.api.nvim_set_option_value("filetype", filetype, {})
+local init_file = function(lines, extension, row, col, opts)
+    opts = opts or {}
 
-    local tempfile = vim.fn.tempname() .. "." .. filetype
-    vim.cmd("silent w! " .. tempfile)
-    return vim.fn.expand("%:t")
-end
-
-local init_file = function(lines, filetype, row, col)
-    vim.cmd("new")
+    local tempfile = vim.fn.tempname() .. "." .. extension
+    vim.cmd("split " .. tempfile)
     vim.cmd("only")
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-    local filename = write_file(filetype)
+    vim.cmd("silent w!")
     vim.api.nvim_win_set_cursor(0, { row, col })
-    return filename
+
+    if opts["filetype"] ~= nil then
+        vim.api.nvim_set_option_value("filetype", opts.filetype, {})
+    end
+
+    return vim.fn.expand("%:t")
 end
 
 local notify_message
@@ -459,7 +459,7 @@ describe("can do various file types", function()
         init_file({
             "foo",
             "bar",
-        }, "foo", 1, 0)
+        }, "foo", 1, 0, { filetype = "foo" })
 
         feedkeys("g?p")
         assert.are.same(
@@ -477,7 +477,7 @@ describe("can do various file types", function()
         init_file({
             "foo",
             "bar",
-        }, "foo", 1, 0)
+        }, "foo", 1, 0, { filetype = "foo" })
 
         feedkeys("g?v")
         feedkeys("<CR>")
@@ -592,7 +592,7 @@ describe("add custom filetype with setup()", function()
         local filename = init_file({
             "foo",
             "bar",
-        }, "wibble", 1, 0)
+        }, "wibble", 1, 0, { filetype = "wibble" })
 
         feedkeys("g?p")
 
@@ -607,7 +607,7 @@ describe("add custom filetype with setup()", function()
         local filename = init_file({
             "foo",
             "bar",
-        }, "wibble", 1, 0)
+        }, "wibble", 1, 0, { filetype = "wibble" })
 
         feedkeys("g?v<BS><BS><BS>apple<CR>")
 
@@ -642,7 +642,7 @@ describe("add custom filetype with add_custom_filetypes()", function()
         local filename = init_file({
             "foo",
             "bar",
-        }, "foo", 1, 0)
+        }, "foo", 1, 0, { filetype = "foo" })
 
         feedkeys("g?p")
 
@@ -1461,7 +1461,7 @@ describe("check python indenting", function()
         local filename = init_file({
             "x = 1",
             "y = 2",
-        }, "python", 1, 0)
+        }, "py", 1, 0)
 
         feedkeys("g?p")
 
@@ -1476,7 +1476,7 @@ describe("check python indenting", function()
         local filename = init_file({
             "def xyz():",
             "    pass",
-        }, "python", 1, 0)
+        }, "py", 1, 0)
 
         feedkeys("g?p")
 
@@ -1494,7 +1494,7 @@ describe("check python indenting", function()
             "def xyz():",
             "    x = 1",
             "    y = 2",
-        }, "python", 2, 5)
+        }, "py", 2, 5)
 
         feedkeys("g?p")
 
@@ -1511,7 +1511,7 @@ describe("check python indenting", function()
             "def xyz():",
             "    x = 1",
             "    y = 2",
-        }, "python", 2, 4)
+        }, "py", 2, 4)
 
         feedkeys("g?v<CR>")
 
