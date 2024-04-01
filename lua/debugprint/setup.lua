@@ -3,7 +3,10 @@ local M = {}
 local debugprint = require("debugprint")
 
 local map_key = function(mode, lhs, buffer, opts)
-    if lhs ~= nil and vim.api.nvim_buf_get_option(buffer, "modifiable") then
+    if
+        lhs ~= nil
+        and vim.api.nvim_get_option_value("modifiable", { buf = buffer })
+    then
         opts = vim.tbl_extend("force", { expr = true }, opts)
 
         vim.api.nvim_buf_set_keymap(buffer, mode, lhs, "", opts)
