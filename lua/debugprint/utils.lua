@@ -63,7 +63,8 @@ M.get_variable_name = function(
 end
 
 M.get_trimmed_content_of_line = function(line_nr)
-    local line_contents = vim.api.nvim_buf_get_lines(0, line_nr - 1, line_nr, true)[1]
+    local line_contents =
+        vim.api.nvim_buf_get_lines(0, line_nr - 1, line_nr, true)[1]
 
     -- Remove whitespace and any quoting characters which could potentially
     -- cause a syntax error in the statement being printed, or any characters
