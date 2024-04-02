@@ -51,7 +51,10 @@ M.get_variable_name = function(
         variable_name = vim.fn.input("Variable name: ", word_under_cursor)
 
         if variable_name == nil or variable_name == "" then
-            vim.notify("No variable name entered.", vim.log.levels.WARN)
+            -- Don't show a warning because of this issue:
+            -- https://github.com/andrewferrier/debugprint.nvim/issues/91.
+            -- Instead just silently end debugprint operation.
+            vim.cmd("mode") -- Clear command
             return false
         end
     end
@@ -180,10 +183,11 @@ M.get_visual_selection = function()
     end
 
     if line1 ~= line2 then
-        vim.notify(
-            "debugprint not supported when multiple lines selected.",
-            vim.log.levels.ERROR
-        )
+        -- Multiple lines are selected; in this case, silently fail to find a
+        -- visual selection, since it's unlikely to be what the user wants
+        -- anyway, and there's no good way to give them an error (vim.notify()
+        -- may fail because of an issue similar to this:
+        -- https://github.com/andrewferrier/debugprint.nvim/issues/91).
         return false
     end
 
@@ -199,6 +203,8 @@ M.get_operator_selection = function()
     local col2 = last_pos[3]
 
     if line1 ~= line2 then
+        -- This seems to work OK with nvim-notify and is not affected by
+        -- https://github.com/andrewferrier/debugprint.nvim/issues/91
         vim.notify(
             "debugprint not supported when multiple lines in motion.",
             vim.log.levels.ERROR

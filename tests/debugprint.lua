@@ -402,14 +402,13 @@ describe("can do variable debug statement insertion", function()
         })
     end)
 
-    it("entering no name gives an error", function()
+    it("entering no name silently ends debugprint operation", function()
         init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
 
         feedkeys("g?v<BS><BS><BS><CR>")
-        assert.are.same("No variable name entered.", notify_message)
 
         check_lines({
             "foo",
@@ -462,16 +461,41 @@ describe("can do various file types", function()
         }, "foo", 1, 0, { filetype = "foo" })
 
         feedkeys("g?p")
-        assert.are.same(
-            "Don't have debugprint configuration for filetype foo",
-            notify_message
-        )
 
-        check_lines({
-            "foo",
-            "bar",
-        })
+        if vim.fn.has("nvim-0.9.0") == 1 then
+            check_lines({
+                "foo",
+                "Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "bar",
+            })
+        else
+            check_lines({
+                "foo",
+                "/*Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
+                "bar",
+            })
+        end
     end)
+
+    it(
+        "can gracefully handle known filetypes we don't have a config for: fennel",
+        function()
+            init_file({
+                "(fn print-and-add [a b c]",
+                "  (print a)",
+                "  (+ b c))",
+            }, "fnl", 1, 0)
+
+            feedkeys("g?p")
+
+            check_lines({
+                "(fn print-and-add [a b c]",
+                "  ;Don't have debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "  (print a)",
+                "  (+ b c))",
+            })
+        end
+    )
 
     it("don't prompt for a variable name with an unknown filetype", function()
         init_file({
@@ -481,15 +505,20 @@ describe("can do various file types", function()
 
         feedkeys("g?v")
         feedkeys("<CR>")
-        assert.are.same(
-            "Don't have debugprint configuration for filetype foo",
-            notify_message
-        )
 
-        check_lines({
-            "foo",
-            "bar",
-        })
+        if vim.fn.has("nvim-0.9.0") == 1 then
+            check_lines({
+                "foo",
+                "Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "bar",
+            })
+        else
+            check_lines({
+                "foo",
+                "/*Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
+                "bar",
+            })
+        end
     end)
 end)
 
@@ -1093,10 +1122,11 @@ describe("visual selection", function()
 
         feedkeys("vjg?v")
 
-        assert.are.same(
-            "debugprint not supported when multiple lines selected.",
-            notify_message
-        )
+        check_lines({
+            "function x()",
+            "local xyz = 3",
+            "end",
+        })
     end)
 end)
 

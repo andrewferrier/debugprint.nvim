@@ -73,30 +73,18 @@ local debuginfo = function(opts)
 end
 
 local filetype_configured = function()
-    local filetype = utils.get_effective_filetype()
+    local effective_filetype = utils.get_effective_filetype()
 
-    if not vim.tbl_contains(vim.tbl_keys(global_opts.filetypes), filetype) then
-        vim.notify(
-            "Don't have debugprint configuration for filetype " .. filetype,
-            vim.log.levels.WARN
-        )
-        return false
-    else
-        return true
-    end
+    return vim.tbl_contains(
+        vim.tbl_keys(global_opts.filetypes),
+        effective_filetype
+    )
 end
 
-local addline = function(opts)
-    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-    local filetype = utils.get_effective_filetype()
-    local fileconfig = global_opts.filetypes[filetype]
+local construct_debugprint_line = function(opts, effective_filetype)
+    local fileconfig = global_opts.filetypes[effective_filetype]
 
-    if fileconfig == nil then
-        return
-    end
-
-    local line_to_insert_content
-    local line_to_insert_linenr
+    local line_to_insert
 
     if opts.variable_name then
         local left
@@ -107,23 +95,52 @@ local addline = function(opts)
             left = fileconfig["left"]
         end
 
-        line_to_insert_content = left
+        line_to_insert = left
             .. debuginfo(opts)
             .. fileconfig.mid_var
             .. opts.variable_name
             .. fileconfig.right_var
     else
         opts.variable_name = nil
-        line_to_insert_content = fileconfig.left
-            .. debuginfo(opts)
-            .. fileconfig.right
+        line_to_insert = fileconfig.left .. debuginfo(opts) .. fileconfig.right
+    end
+
+    return line_to_insert
+end
+
+local construct_error_line = function(errormsg)
+    local commentstring =
+        vim.api.nvim_get_option_value("commentstring", { scope = "local" })
+
+    if string.find(commentstring, "%%s") then
+        return vim.fn.substitute(commentstring, "%s", errormsg, "")
+    else
+        return errormsg
+    end
+end
+
+local addline = function(opts)
+    local effective_filetype = utils.get_effective_filetype()
+
+    local line_to_insert
+
+    if filetype_configured() then
+        line_to_insert = construct_debugprint_line(opts, effective_filetype)
+    else
+        line_to_insert = construct_error_line(
+            "Don't have debugprint configuration for filetype "
+                .. effective_filetype
+                .. "; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes"
+        )
     end
 
     -- Inserting the leading space from the current line effectively acts as a
     -- 'default' indent for languages like Python, where the NeoVim or Treesitter
     -- indenter doesn't know how to indent them.
-    local current_line = vim.api.nvim_get_current_line()
-    local leading_space = current_line:match("^(%s+)") or ""
+    local leading_space = vim.api.nvim_get_current_line():match("^(%s+)") or ""
+
+    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
+    local line_to_insert_linenr
 
     if opts.above then
         line_to_insert_linenr = current_line_nr - 1
@@ -136,7 +153,7 @@ local addline = function(opts)
         line_to_insert_linenr,
         line_to_insert_linenr,
         true,
-        { leading_space .. line_to_insert_content }
+        { leading_space .. line_to_insert }
     )
 
     utils.indent_line(line_to_insert_linenr, global_opts.move_to_debugline)
@@ -146,11 +163,7 @@ local cache_request = nil
 
 M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
-        if not filetype_configured() then
-            return
-        end
-
-        if opts.variable == true then
+        if filetype_configured() and opts.variable == true then
             opts.variable_name = utils.get_variable_name(
                 global_opts.ignore_treesitter,
                 opts.ignore_treesitter
