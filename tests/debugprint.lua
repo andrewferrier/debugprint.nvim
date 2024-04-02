@@ -465,13 +465,13 @@ describe("can do various file types", function()
         if vim.fn.has("nvim-0.9.0") == 1 then
             check_lines({
                 "foo",
-                "Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
                 "bar",
             })
         else
             check_lines({
                 "foo",
-                "/*Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
+                "/*No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
                 "bar",
             })
         end
@@ -490,7 +490,7 @@ describe("can do various file types", function()
 
             check_lines({
                 "(fn print-and-add [a b c]",
-                "  ;Don't have debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
                 "  (print a)",
                 "  (+ b c))",
             })
@@ -509,13 +509,13 @@ describe("can do various file types", function()
         if vim.fn.has("nvim-0.9.0") == 1 then
             check_lines({
                 "foo",
-                "Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
                 "bar",
             })
         else
             check_lines({
                 "foo",
-                "/*Don't have debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
+                "/*No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
                 "bar",
             })
         end

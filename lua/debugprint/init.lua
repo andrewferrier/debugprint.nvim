@@ -128,7 +128,7 @@ local addline = function(opts)
         line_to_insert = construct_debugprint_line(opts, effective_filetype)
     else
         line_to_insert = construct_error_line(
-            "Don't have debugprint configuration for filetype "
+            "No debugprint configuration for filetype "
                 .. effective_filetype
                 .. "; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes"
         )
