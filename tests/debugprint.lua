@@ -1637,6 +1637,25 @@ if vim.fn.has("nvim-0.9.0") == 1 then
                 "</html>",
             })
         end)
+
+        it("comment in lua", function()
+            local filename = init_file({
+                "x = 3",
+                "-- abc",
+                "a = 2",
+            }, "lua", 2, 4)
+
+            feedkeys("g?v<CR>")
+
+            check_lines({
+                "x = 3",
+                "-- abc",
+                "print('DEBUGPRINT[1]: "
+                    .. filename
+                    .. ":2: abc=' .. vim.inspect(abc))",
+                "a = 2",
+            })
+        end)
     end)
 end
 

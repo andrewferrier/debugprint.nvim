@@ -127,7 +127,13 @@ M.find_treesitter_variable = function()
         return nil
     else
         local node_type = node:type()
-        local parent_node_type = node:parent():type()
+        local parent_node_type
+
+        if node:parent() ~= nil then
+            -- This check is necessary; it triggers for example in comments in
+            -- lua code
+            parent_node_type = node:parent():type()
+        end
 
         local variable_name
 
