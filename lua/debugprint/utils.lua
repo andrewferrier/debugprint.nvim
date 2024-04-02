@@ -62,8 +62,8 @@ M.get_variable_name = function(
     return variable_name
 end
 
-M.get_trimmed_content_of_line = function(line)
-    local line_contents = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+M.get_trimmed_content_of_line = function(line_nr)
+    local line_contents = vim.api.nvim_buf_get_lines(0, line_nr - 1, line_nr, true)[1]
 
     -- Remove whitespace and any quoting characters which could potentially
     -- cause a syntax error in the statement being printed, or any characters
@@ -75,12 +75,12 @@ M.get_trimmed_content_of_line = function(line)
     return line_contents
 end
 
-M.indent_line = function(current_line, move_to_debugline)
+M.indent_line = function(line_nr, move_to_indented_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
-    vim.cmd(current_line + 1 .. "normal! ==")
+    vim.cmd(line_nr + 1 .. "normal! ==")
 
-    if not move_to_debugline then
+    if not move_to_indented_line then
         vim.api.nvim_win_set_cursor(0, pos)
     end
 end
