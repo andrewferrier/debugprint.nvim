@@ -117,9 +117,14 @@ M.get_effective_filetypes = function()
             })
             :lang()
 
-        local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
-        assert(vim.tbl_count(filetypes) > 0)
-        return filetypes
+        if vim.fn.has("nvim-0.9.0") == 1 then
+            local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
+            assert(vim.tbl_count(filetypes) > 0)
+            return filetypes
+        else
+            -- nvim < 0.9 doesn't have get_filetypes; so just return the lang as if it were a filetype. This will work for many languages (e.g. lua), although not for others (e.g. tsx).
+            return { treesitter_lang }
+        end
     else
         return { vim.api.nvim_get_option_value("filetype", { scope = "local" }) }
     end
