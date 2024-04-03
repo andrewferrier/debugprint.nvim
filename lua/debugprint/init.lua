@@ -72,18 +72,19 @@ local debuginfo = function(opts)
     return line
 end
 
-local filetype_configured = function()
-    local effective_filetype = utils.get_effective_filetype()
+local get_filetype_config = function()
+    local effective_filetypes = utils.get_effective_filetypes()
 
-    return vim.tbl_contains(
-        vim.tbl_keys(global_opts.filetypes),
-        effective_filetype
-    )
+    for _, effective_filetype in ipairs(effective_filetypes) do
+        if global_opts.filetypes[effective_filetype] ~= nil then
+            return global_opts.filetypes[effective_filetype]
+        end
+    end
+
+    return nil
 end
 
-local construct_debugprint_line = function(opts, effective_filetype)
-    local fileconfig = global_opts.filetypes[effective_filetype]
-
+local construct_debugprint_line = function(opts, fileconfig)
     local line_to_insert
 
     if opts.variable_name then
@@ -120,16 +121,16 @@ local construct_error_line = function(errormsg)
 end
 
 local addline = function(opts)
-    local effective_filetype = utils.get_effective_filetype()
-
     local line_to_insert
 
-    if filetype_configured() then
-        line_to_insert = construct_debugprint_line(opts, effective_filetype)
+    local fileconfig = get_filetype_config()
+
+    if fileconfig ~= nil then
+        line_to_insert = construct_debugprint_line(opts, fileconfig)
     else
         line_to_insert = construct_error_line(
             "No debugprint configuration for filetype "
-                .. effective_filetype
+                .. utils.get_effective_filetypes()[1]
                 .. "; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes"
         )
     end
@@ -163,7 +164,7 @@ local cache_request = nil
 
 M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
-        if filetype_configured() and opts.variable == true then
+        if get_filetype_config() and opts.variable == true then
             opts.variable_name = utils.get_variable_name(
                 global_opts.ignore_treesitter,
                 opts.ignore_treesitter

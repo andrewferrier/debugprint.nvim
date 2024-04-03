@@ -94,7 +94,7 @@ M.set_callback = function(func_name)
     vim.go.operatorfunc = func_name
 end
 
-M.get_effective_filetype = function()
+M.get_effective_filetypes = function()
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1] - 1
     -- Looking at the last column is more accurate because there are some
     -- embeddings (e.g. JS in HTML) where the Treesitter embedding doesn't begin
@@ -108,7 +108,7 @@ M.get_effective_filetype = function()
         -- make embedded languages work
         parser:parse(true)
 
-        return parser
+        local treesitter_lang = parser
             :language_for_range({
                 current_line_nr,
                 current_line_col,
@@ -116,8 +116,12 @@ M.get_effective_filetype = function()
                 current_line_col,
             })
             :lang()
+
+        local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
+        assert(vim.tbl_count(filetypes) > 0)
+        return filetypes
     else
-        return vim.api.nvim_get_option_value("filetype", { scope = "local" })
+        return { vim.api.nvim_get_option_value("filetype", { scope = "local" }) }
     end
 end
 

@@ -454,6 +454,26 @@ describe("can do various file types", function()
         })
     end)
 
+    it("can handle a file where ext != filetype", function()
+        local filename = init_file({
+            "const Foo: FunctionalComponent = () => {",
+            "    return <div>Hello World!</div>;",
+            "};",
+        }, "tsx", 1, 0)
+
+        vim.api.nvim_set_option_value("shiftwidth", 4, {})
+        feedkeys("g?p")
+
+        check_lines({
+            "const Foo: FunctionalComponent = () => {",
+            '    console.warn("DEBUGPRINT[1]: '
+                .. filename
+                .. ':1 (after const Foo: FunctionalComponent = () => )")',
+            "    return <div>Hello World!</div>;",
+            "};",
+        })
+    end)
+
     it("can gracefully handle unknown filetypes", function()
         init_file({
             "foo",
