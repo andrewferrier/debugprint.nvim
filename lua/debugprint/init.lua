@@ -258,14 +258,6 @@ M.toggle_comment_debugprints = function(opts)
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             local line_to_toggle = count + initial_line - 1
-            vim.api.nvim_buf_set_lines(
-                0,
-                line_to_toggle,
-                line_to_toggle,
-                false,
-                {}
-            )
-
             utils.toggle_comment_line(line_to_toggle)
         end
     end
