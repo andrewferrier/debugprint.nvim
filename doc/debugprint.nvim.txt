@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-04-03
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-04-06
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -80,7 +80,7 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         "andrewferrier/debugprint.nvim",
         opts = { … },
         dependencies = {
-            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
             "nvim-treesitter/nvim-treesitter" -- Only needed for NeoVim 0.8
         },
         -- Remove the following line to use development versions,
@@ -101,7 +101,7 @@ Example for `packer.nvim` <https://github.com/wbthomason/packer.nvim>:
                 require("debugprint").setup(opts)
             end,
             requires = {
-                "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+                "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
             }
         })
         …
