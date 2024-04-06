@@ -160,7 +160,7 @@ local addline = function(opts)
     utils.indent_line(line_to_insert_linenr, global_opts.move_to_debugline)
 end
 
-local cache_request = nil
+local cache_request = {}
 
 M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
@@ -194,7 +194,7 @@ M.debugprint = function(opts)
             "v:lua.require'debugprint'.debugprint_motion_callback"
         return "g@"
     else
-        cache_request = nil
+        cache_request = {}
         func_opts.prerepeat = true
         return M.debugprint_cache(func_opts)
     end
