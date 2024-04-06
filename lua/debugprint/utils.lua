@@ -87,6 +87,26 @@ M.indent_line = function(line_nr, move_to_indented_line)
     end
 end
 
+M.toggle_comment_line = function(line)
+    if vim.fn.has("nvim-0.10.0") == 1 then
+        local pos = vim.api.nvim_win_get_cursor(0)
+        vim.cmd(line .. "norm gcc")
+        vim.api.nvim_win_set_cursor(0, pos)
+    else
+        local status, comment = pcall(require, "mini.comment")
+
+        if status == true then
+            comment.toggle_lines(line, line, {})
+        else
+            vim.notify_once(
+                "mini.nvim is required to toggle comment debugprint lines prior to NeoVim 0.10",
+                vim.log.levels.ERROR,
+                {}
+            )
+        end
+    end
+end
+
 M.NOOP = function() end
 
 M.set_callback = function(func_name)

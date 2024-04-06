@@ -257,34 +257,24 @@ M.deleteprints = function(opts)
 end
 
 M.toggle_comment_debugprints = function(opts)
-    local status, comment = pcall(require, "mini.comment")
+    local lines_to_consider
+    local initial_line
 
-    if status == true then
-        local lines_to_consider
-        local initial_line
+    lines_to_consider, initial_line = get_lines_to_handle(opts)
 
-        lines_to_consider, initial_line = get_lines_to_handle(opts)
+    for count, line in ipairs(lines_to_consider) do
+        if string.find(line, global_opts.print_tag, 1, true) ~= nil then
+            local line_to_toggle = count + initial_line - 1
+            vim.api.nvim_buf_set_lines(
+                0,
+                line_to_toggle,
+                line_to_toggle,
+                false,
+                {}
+            )
 
-        for count, line in ipairs(lines_to_consider) do
-            if string.find(line, global_opts.print_tag, 1, true) ~= nil then
-                local line_to_toggle = count + initial_line - 1
-                vim.api.nvim_buf_set_lines(
-                    0,
-                    line_to_toggle,
-                    line_to_toggle,
-                    false,
-                    {}
-                )
-
-                comment.toggle_lines(line_to_toggle, line_to_toggle, {})
-            end
+            utils.toggle_comment_line(line_to_toggle)
         end
-    else
-        vim.notify(
-            "mini.nvim is required to toggle comment debugprint lines",
-            vim.log.levels.ERROR,
-            {}
-        )
     end
 end
 

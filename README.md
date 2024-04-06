@@ -72,7 +72,7 @@ return {
     "andrewferrier/debugprint.nvim",
     opts = { … },
     dependencies = {
-        "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+        "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
         "nvim-treesitter/nvim-treesitter" -- Only needed for NeoVim 0.8
     },
     -- Remove the following line to use development versions,
@@ -93,7 +93,7 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
         }
     })
     …
