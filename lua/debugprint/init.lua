@@ -298,7 +298,7 @@ M.add_custom_filetypes = function(filetypes)
 end
 
 if vim.fn.has("nvim-0.8.0") ~= 1 then
-    vim.notify(
+    vim.notify_once(
         "WARNING: debugprint.nvim is only compatible with NeoVim 0.8+",
         vim.log.levels.WARN
     )
