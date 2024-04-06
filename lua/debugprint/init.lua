@@ -231,11 +231,7 @@ local get_lines_to_handle = function(opts)
 end
 
 M.deleteprints = function(opts)
-    local lines_to_consider
-    local initial_line
-
-    lines_to_consider, initial_line = get_lines_to_handle(opts)
-
+    local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local delete_adjust = 0
 
     for count, line in ipairs(lines_to_consider) do
@@ -257,10 +253,7 @@ M.deleteprints = function(opts)
 end
 
 M.toggle_comment_debugprints = function(opts)
-    local lines_to_consider
-    local initial_line
-
-    lines_to_consider, initial_line = get_lines_to_handle(opts)
+    local lines_to_consider, initial_line = get_lines_to_handle(opts)
 
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
