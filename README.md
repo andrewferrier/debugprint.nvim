@@ -59,12 +59,6 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 **Requires NeoVim 0.8+.**
 
-Optional dependency for NeoVim 0.8:
-[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter). If this
-is not installed, `debugprint` will not find variable names under the cursor and
-will always prompt for a variable name. For NeoVim 0.9+, this dependency is
-never needed.
-
 Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 
 ```lua
@@ -73,7 +67,7 @@ return {
     opts = { … },
     dependencies = {
         "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
-        "nvim-treesitter/nvim-treesitter" -- Only needed for NeoVim 0.8
+        "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
     },
     -- Remove the following line to use development versions,
     -- not just the formal releases
@@ -93,7 +87,8 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
+            "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
+            "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
         }
     })
     …
