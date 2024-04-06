@@ -30,6 +30,13 @@ local js = {
     right_var = ")",
 }
 
+local cs = {
+    left = 'System.Console.Error.WriteLine($"',
+    right = '");',
+    mid_var = "{",
+    right_var = '}");',
+}
+
 return {
     ["bash"] = shell,
     ["c"] = {
@@ -50,12 +57,8 @@ return {
         mid_var = '" << ',
         right_var = " << std::endl;",
     },
-    ["cs"] = {
-        left = 'System.Console.Error.WriteLine($"',
-        right = '")',
-        mid_var = "{",
-        right_var = '}");',
-    },
+    ["cs"] = cs,
+    ["c_sharp"] = cs,
     ["dart"] = {
         left = 'print("',
         right = '");',
