@@ -1031,7 +1031,9 @@ describe("visual selection", function()
             "end",
         }, "lua", 2, 10)
 
-        feedkeys("vllg?v.")
+        feedkeys("vll")
+        feedkeys("g?v")
+        feedkeys(".")
 
         check_lines({
             "function x()",

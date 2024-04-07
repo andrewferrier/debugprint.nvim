@@ -127,20 +127,18 @@ M.map_keys_and_commands = function(global_opts)
 
             map_key("x", global_opts.keymaps.visual.variable_below, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({ variable = true })
+                    feedkeys(debugprint.debugprint({ variable = true }))
                 end,
                 desc = "Variable debug below current line",
-                expr = true,
             })
 
             map_key("x", global_opts.keymaps.visual.variable_above, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({
+                    feedkeys(debugprint.debugprint({
                         above = true,
                         variable = true,
-                    })
+                    }))
                 end,
-                expr = true,
                 desc = "Variable debug above current line",
             })
         end,
