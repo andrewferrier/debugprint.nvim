@@ -64,6 +64,8 @@ local init_file = function(lines, extension, row, col, opts)
         vim.api.nvim_set_option_value("filetype", opts.filetype, {})
     end
 
+    vim.api.nvim_set_option_value("shiftwidth", 4, {})
+
     return vim.fn.expand("%:t")
 end
 
@@ -465,7 +467,6 @@ describe("can do various file types", function()
             "};",
         }, "tsx", 1, 0)
 
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
         feedkeys("g?p")
 
         check_lines({
@@ -559,7 +560,6 @@ describe("can do indenting correctly", function()
             "end",
         }, "lua", 1, 0)
 
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
         feedkeys("g?p")
 
         check_lines({
@@ -577,7 +577,6 @@ describe("can do indenting correctly", function()
             "end",
         }, "lua", 2, 0)
 
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
         feedkeys("g?P")
 
         check_lines({
@@ -593,7 +592,6 @@ describe("can do indenting correctly", function()
             "end",
         }, "lua", 1, 0)
 
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
         feedkeys("g?P")
 
         check_lines({
@@ -636,7 +634,6 @@ describe("add custom filetype with setup()", function()
         })
 
         vim.api.nvim_set_option_value("expandtab", true, {})
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
 
     after_each(teardown)
@@ -677,7 +674,6 @@ describe("add custom filetype with add_custom_filetypes()", function()
         debugprint.setup({ ignore_treesitter = true })
 
         vim.api.nvim_set_option_value("expandtab", true, {})
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
 
     after_each(teardown)
@@ -710,7 +706,6 @@ end)
 describe("move to new line", function()
     before_each(function()
         vim.api.nvim_set_option_value("expandtab", true, {})
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
     end)
 
     after_each(teardown)
@@ -1507,7 +1502,6 @@ end)
 describe("check python indenting", function()
     before_each(function()
         debugprint.setup({ ignore_treesitter = true })
-        vim.api.nvim_set_option_value("shiftwidth", 4, {})
         vim.api.nvim_set_option_value("expandtab", true, {})
     end)
 
