@@ -1389,7 +1389,8 @@ describe("delete lines command", function()
             "end",
         }, "lua", 1, 0)
 
-        feedkeys("g?pg?P")
+        feedkeys("g?p")
+        feedkeys("g?P")
 
         vim.cmd("1 DeleteDebugPrints")
 
@@ -1409,7 +1410,8 @@ describe("delete lines command", function()
             "function x()",
         }, "lua", 1, 0)
 
-        feedkeys("g?pg?P")
+        feedkeys("g?p")
+        feedkeys("g?P")
 
         vim.cmd("$ DeleteDebugPrints")
 
@@ -1735,7 +1737,9 @@ describe("comment toggle", function()
             "end",
         }, "lua", 1, 1)
 
-        feedkeys("g?pjjg?p")
+        feedkeys("g?p")
+        feedkeys("jj")
+        feedkeys("g?p")
         vim.cmd("2 ToggleCommentDebugPrint")
 
         check_lines({
@@ -1762,7 +1766,10 @@ describe("comment toggle", function()
             "end",
         }, "lua", 1, 1)
 
-        feedkeys("g?pg?xjjg?p")
+        feedkeys("g?p")
+        feedkeys("g?xj")
+        feedkeys("j")
+        feedkeys("g?p")
 
         check_lines({
             "function x()",

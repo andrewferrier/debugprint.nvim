@@ -7,9 +7,13 @@ local map_key = function(mode, lhs, buffer, opts)
         lhs ~= nil
         and vim.api.nvim_get_option_value("modifiable", { buf = buffer })
     then
-        opts = vim.tbl_extend("force", { expr = true }, opts)
-
         vim.api.nvim_buf_set_keymap(buffer, mode, lhs, "", opts)
+    end
+end
+
+local feedkeys = function(keys)
+    if keys ~= nil and keys ~= "" then
+        vim.api.nvim_feedkeys(keys, "xt", true)
     end
 end
 
@@ -22,31 +26,31 @@ M.map_keys_and_commands = function(global_opts)
         callback = function(opts)
             map_key("n", global_opts.keymaps.normal.plain_below, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({})
+                    feedkeys(debugprint.debugprint({}))
                 end,
                 desc = "Plain debug below current line",
             })
 
             map_key("n", global_opts.keymaps.normal.plain_above, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({ above = true })
+                    feedkeys(debugprint.debugprint({ above = true }))
                 end,
                 desc = "Plain debug below current line",
             })
 
             map_key("n", global_opts.keymaps.normal.variable_below, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({ variable = true })
+                    feedkeys(debugprint.debugprint({ variable = true }))
                 end,
                 desc = "Variable debug below current line",
             })
 
             map_key("n", global_opts.keymaps.normal.variable_above, opts.buf, {
                 callback = function()
-                    return debugprint.debugprint({
+                    feedkeys(debugprint.debugprint({
                         above = true,
                         variable = true,
-                    })
+                    }))
                 end,
                 desc = "Variable debug above current line",
             })
@@ -57,10 +61,10 @@ M.map_keys_and_commands = function(global_opts)
                 opts.buf,
                 {
                     callback = function()
-                        return debugprint.debugprint({
+                        feedkeys(debugprint.debugprint({
                             variable = true,
                             ignore_treesitter = true,
-                        })
+                        }))
                     end,
                     desc = "Variable debug below current line (always prompt})",
                 }
@@ -72,11 +76,11 @@ M.map_keys_and_commands = function(global_opts)
                 opts.buf,
                 {
                     callback = function()
-                        return debugprint.debugprint({
+                        feedkeys(debugprint.debugprint({
                             above = true,
                             variable = true,
                             ignore_treesitter = true,
-                        })
+                        }))
                     end,
                     desc = "Variable debug above current line (always prompt})",
                 }
@@ -86,6 +90,7 @@ M.map_keys_and_commands = function(global_opts)
                 callback = function()
                     return debugprint.debugprint({ motion = true })
                 end,
+                expr = true,
                 desc = "Text-obj-selected variable debug below current line",
             })
 
@@ -96,6 +101,7 @@ M.map_keys_and_commands = function(global_opts)
                         above = true,
                     })
                 end,
+                expr = true,
                 desc = "Text-obj-selected variable debug above current line",
             })
 
@@ -106,7 +112,6 @@ M.map_keys_and_commands = function(global_opts)
                 {
                     callback = debugprint.deleteprints,
                     desc = "Delete all debugprint statements in the current buffer",
-                    expr = false,
                 }
             )
 
@@ -117,7 +122,6 @@ M.map_keys_and_commands = function(global_opts)
                 {
                     callback = debugprint.toggle_comment_debugprints,
                     desc = "Comment/uncomment all debugprint statements in the current buffer",
-                    expr = false,
                 }
             )
 
@@ -126,6 +130,7 @@ M.map_keys_and_commands = function(global_opts)
                     return debugprint.debugprint({ variable = true })
                 end,
                 desc = "Variable debug below current line",
+                expr = true,
             })
 
             map_key("x", global_opts.keymaps.visual.variable_above, opts.buf, {
@@ -135,6 +140,7 @@ M.map_keys_and_commands = function(global_opts)
                         variable = true,
                     })
                 end,
+                expr = true,
                 desc = "Variable debug above current line",
             })
         end,
