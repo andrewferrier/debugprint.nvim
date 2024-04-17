@@ -12,7 +12,7 @@ can insert 'print' statements, with debug information pre-populated, relevant to
 the language you're editing. These statements include reference information for
 quick output navigation and the ability to output variable values.
 
-`debugprint` supports 29 filetypes/programming languages out-of-the-box,
+`debugprint` supports 30 filetypes/programming languages out-of-the-box,
 including Python, JavaScript/TypeScript, Java, C/C++ and more. See [the
 comparison table](#feature-comparison-with-other-plugins) for the full list. It
 can also be extended to support other languages.
