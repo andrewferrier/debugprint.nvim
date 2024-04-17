@@ -72,6 +72,12 @@ return {
         mid_var = "%",
         right_var = '%" 1>&2',
     },
+    ["elixir"] = {
+        left = 'IO.puts :stderr, "',
+        right = '"',
+        mid_var = "#{inspect(",
+        right_var = ')}"',
+    },
     ["fish"] = {
         left = 'echo "',
         right = '" 1>&2',
