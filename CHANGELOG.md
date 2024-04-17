@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.9.0...v2.0.0) (2024-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* New keymap/command configuration - closes #44
+
+### Features
+
+* add elixir support ([0ac7f57](https://github.com/andrewferrier/debugprint.nvim/commit/0ac7f57d340e6ab326ebd28de2dd6e3944307f76))
+* Implement comment toggle - closes [#85](https://github.com/andrewferrier/debugprint.nvim/issues/85) ([7fac302](https://github.com/andrewferrier/debugprint.nvim/commit/7fac302c9dc4f687edb7ce6ce9637fa235fa875f))
+* Keybinding: delete_debug_lines - closes [#87](https://github.com/andrewferrier/debugprint.nvim/issues/87) ([6ef8571](https://github.com/andrewferrier/debugprint.nvim/commit/6ef8571d04368fe9c5638545780e743164dbc980))
+* **keymap:** map keys only on `modifiable` buffers and make keymaps buffer-local ([319edf0](https://github.com/andrewferrier/debugprint.nvim/commit/319edf00fdf5941695d8c3b51a438050df8987b7))
+* New keymap/command configuration - closes [#44](https://github.com/andrewferrier/debugprint.nvim/issues/44) ([ee9d6ff](https://github.com/andrewferrier/debugprint.nvim/commit/ee9d6ffa00709f90c51c69afe913fafa9400c9ed))
+* Simplify configuration warning text ([7e8ccd4](https://github.com/andrewferrier/debugprint.nvim/commit/7e8ccd42607c50a5d1bc728d7552fbafc7978c7e))
+
+
+### Bug Fixes
+
+* Debug Print Not generating for c_shrarp file type ([3d00dd0](https://github.com/andrewferrier/debugprint.nvim/commit/3d00dd0551841b867b479c1f0d81c04044a70e81))
+* g?v for comments in lua ([f9b9b87](https://github.com/andrewferrier/debugprint.nvim/commit/f9b9b87dbb87b6b785b7108f524eaa32ff60b855))
+* Mapping TS lang → filetype - closes [#93](https://github.com/andrewferrier/debugprint.nvim/issues/93) ([3b21eba](https://github.com/andrewferrier/debugprint.nvim/commit/3b21eba7b8796c4787b43b7119ce17fc6f5bbff4))
+* Only map TSLang → ft on NeoVim 0.9+ ([8c7a872](https://github.com/andrewferrier/debugprint.nvim/commit/8c7a8721a1eb9e125204bd31581c04920c0a5e52))
+* Only warn once about NeoVim version ([005430d](https://github.com/andrewferrier/debugprint.nvim/commit/005430d3128808649e6c274c39fce0a1b45aeaa5))
+* Remove conflicts with nvim-notify - closes [#91](https://github.com/andrewferrier/debugprint.nvim/issues/91) ([bb6d1c9](https://github.com/andrewferrier/debugprint.nvim/commit/bb6d1c934f5c42435e4c0bf76fbb10f5b6a109bc))
+* Setup of function callbacks ([32137d7](https://github.com/andrewferrier/debugprint.nvim/commit/32137d76ae2b4b1341677c9e107e48b2d4f1c82f))
+* Use feedkeys to work with noice.nvim - closes [#80](https://github.com/andrewferrier/debugprint.nvim/issues/80) ([a326cad](https://github.com/andrewferrier/debugprint.nvim/commit/a326cadf61a1ebf564c109155333f8d8cf236e82))
+* Use non-deprecated API ([63e9017](https://github.com/andrewferrier/debugprint.nvim/commit/63e901772418be8ecdd532c48fc4ba4f4b0272d7))
+
 ## [1.9.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.8.0...v1.9.0) (2024-03-29)
 
 
