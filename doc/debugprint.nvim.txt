@@ -187,7 +187,23 @@ might look like this:
                 toggle_comment_debug_prints = "ToggleCommentDebugPrints",
                 delete_debug_prints = "DeleteDebugPrints",
             },
-        }
+        },
+        -- The 'keys' and 'cmds' sections of this configuration are only needed if
+        -- you want to take advantage of `lazy.nvim` lazy-loading.
+        keys = {
+            { "g?p", mode = 'n' },
+            { "g?P", mode = 'n' },
+            { "g?v", mode = 'n' },
+            { "g?V", mode = 'n' },
+            { "g?o", mode = 'n' },
+            { "g?O", mode = 'n' },
+            { "g?v", mode = 'x' },
+            { "g?V", mode = 'x' },
+        },
+        cmd = {
+            "ToggleCommentDebugPrints",
+            "DeleteDebugPrints",
+        },
         version = "*"
     }
 <
