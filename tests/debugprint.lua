@@ -1837,3 +1837,31 @@ describe("handle deprecated options, create_keymaps=true", function()
         })
     end)
 end)
+
+describe("unmodifiable buffer", function()
+    before_each(function()
+        debugprint.setup({ create_keymaps = true })
+    end)
+
+    after_each(teardown)
+
+    it("basic", function()
+        assert.equals(notify_message, nil)
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        vim.cmd("set nomodifiable")
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+
+        assert.equals(notify_message, "Buffer is not modifiable.")
+    end)
+end)

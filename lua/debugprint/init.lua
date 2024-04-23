@@ -188,6 +188,10 @@ M.debugprint = function(opts)
     local func_opts =
         require("debugprint.options").get_and_validate_function_opts(opts)
 
+    if not utils.is_modifiable() then
+        return
+    end
+
     if func_opts.motion == true then
         cache_request = func_opts
         vim.go.operatorfunc =
@@ -234,6 +238,10 @@ M.deleteprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local delete_adjust = 0
 
+    if not utils.is_modifiable() then
+        return
+    end
+
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             local line_to_delete = count
@@ -254,6 +262,10 @@ end
 
 M.toggle_comment_debugprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
+
+    if not utils.is_modifiable() then
+        return
+    end
 
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then

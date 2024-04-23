@@ -29,6 +29,15 @@ local get_node_at_cursor = function()
     end
 end
 
+M.is_modifiable = function()
+    if not vim.api.nvim_get_option_value("modifiable", { buf = vim.api.nvim_get_current_buf() }) then
+        vim.notify('Buffer is not modifiable.', vim.log.levels.ERROR)
+        return false
+    else
+        return true
+    end
+end
+
 M.get_variable_name = function(
     global_ignore_treesitter,
     local_ignore_treesitter
