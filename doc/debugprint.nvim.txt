@@ -218,8 +218,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 ==============================================================================
 6. Mapping Deprecation                   *debugprint.nvim-mapping-deprecation*
 
-_Note_: as of commit `ee9d6ff`, the old mechanism of configuring
-keymaps/commands which specifically allowed for mapping directly to
+_Note_: as of version 2.0.0, the old mechanism of configuring keymaps/commands
+which specifically allowed for mapping directly to
 `require('debugprint').debugprint(...)` is no longer officially supported or
 documented. This is primarily because of confusion which arose over how to do
 this mapping. Existing mappings performed this way are likely to continue to
