@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/andrewferrier/debugprint.nvim/compare/v2.0.0...v2.0.1) (2024-04-24)
+
+
+### Bug Fixes
+
+* Lazy loading - no autocmds/warn on unmodifiable buffers - closes [#97](https://github.com/andrewferrier/debugprint.nvim/issues/97) ([61dbc50](https://github.com/andrewferrier/debugprint.nvim/commit/61dbc504ec8245dfa7637cb6f2a07f0547132593))
+
 ## [2.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v1.9.0...v2.0.0) (2024-04-17)
 
 
