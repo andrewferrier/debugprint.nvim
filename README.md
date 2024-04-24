@@ -186,7 +186,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 
 ## Mapping Deprecation
 
-*Note*: as of commit `ee9d6ff`, the old mechanism of configuring keymaps/commands
+*Note*: as of version 2.0.0, the old mechanism of configuring keymaps/commands
 which specifically allowed for mapping directly to
 `require('debugprint').debugprint(...)` is no longer officially supported or
 documented. This is primarily because of confusion which arose over how to do
