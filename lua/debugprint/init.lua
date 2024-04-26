@@ -288,7 +288,10 @@ M.toggle_comment_debugprints = function(opts)
     end
 
     if toggled_count == 1 then
-        vim.notify(toggled_count .. " debug line comment-toggled.", vim.log.levels.INFO)
+        vim.notify(
+            toggled_count .. " debug line comment-toggled.",
+            vim.log.levels.INFO
+        )
     else
         vim.notify(
             toggled_count .. " debug lines comment-toggled.",
