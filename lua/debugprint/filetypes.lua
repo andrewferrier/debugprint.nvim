@@ -42,7 +42,7 @@ return {
         left = 'log "',
         right = '"',
         mid_var = '" & ',
-        right_var = ''
+        right_var = "",
     },
     ["bash"] = shell,
     ["c"] = {
