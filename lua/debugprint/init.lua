@@ -237,6 +237,7 @@ end
 M.deleteprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local delete_adjust = 0
+    local deleted_count = 0
 
     if not utils.is_modifiable() then
         return
@@ -256,12 +257,23 @@ M.deleteprints = function(opts)
                 {}
             )
             delete_adjust = delete_adjust + 1
+            deleted_count = deleted_count + 1
         end
+    end
+
+    if deleted_count == 1 then
+        vim.notify(deleted_count .. " debug line deleted.", vim.log.levels.INFO)
+    else
+        vim.notify(
+            deleted_count .. " debug lines deleted.",
+            vim.log.levels.INFO
+        )
     end
 end
 
 M.toggle_comment_debugprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
+    local toggled_count = 0
 
     if not utils.is_modifiable() then
         return
@@ -271,7 +283,17 @@ M.toggle_comment_debugprints = function(opts)
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             local line_to_toggle = count + initial_line - 1
             utils.toggle_comment_line(line_to_toggle)
+            toggled_count = toggled_count + 1
         end
+    end
+
+    if toggled_count == 1 then
+        vim.notify(toggled_count .. " debug line comment-toggled.", vim.log.levels.INFO)
+    else
+        vim.notify(
+            toggled_count .. " debug lines comment-toggled.",
+            vim.log.levels.INFO
+        )
     end
 end
 

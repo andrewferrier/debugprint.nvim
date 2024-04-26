@@ -1267,6 +1267,8 @@ describe("delete lines command", function()
     after_each(teardown)
 
     it("basic", function()
+        assert.equals(notify_message, nil)
+
         debugprint.setup({})
 
         init_file({
@@ -1278,6 +1280,8 @@ describe("delete lines command", function()
         feedkeys("g?p")
         vim.cmd("DeleteDebugPrints")
 
+        assert.equals(notify_message, "1 debug line deleted.")
+
         check_lines({
             "function x()",
             "    local xyz = 3",
@@ -1286,6 +1290,8 @@ describe("delete lines command", function()
     end)
 
     it("with custom command", function()
+        assert.equals(notify_message, nil)
+
         debugprint.setup({ commands = { delete_debug_prints = "FooBar" } })
 
         init_file({
@@ -1297,6 +1303,8 @@ describe("delete lines command", function()
         feedkeys("g?p")
         vim.cmd("FooBar")
 
+        assert.equals(notify_message, "1 debug line deleted.")
+
         check_lines({
             "function x()",
             "    local xyz = 3",
@@ -1307,6 +1315,8 @@ describe("delete lines command", function()
     it("complex", function()
         debugprint.setup({})
 
+        assert.equals(notify_message, nil)
+
         init_file({
             "function x()",
             "    local xyz = 3",
@@ -1315,6 +1325,7 @@ describe("delete lines command", function()
 
         feedkeys("g?pg?vwibble<CR>g?p")
         vim.cmd("DeleteDebugPrints")
+        assert.equals(notify_message, "3 debug lines deleted.")
 
         check_lines({
             "function x()",
@@ -1326,6 +1337,8 @@ describe("delete lines command", function()
     it("range - one line", function()
         debugprint.setup({})
 
+        assert.equals(notify_message, nil)
+
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1335,6 +1348,7 @@ describe("delete lines command", function()
         feedkeys("g?pg?pg?pg?p")
 
         vim.cmd("2 DeleteDebugPrints")
+        assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
             "function x()",
@@ -1355,6 +1369,8 @@ describe("delete lines command", function()
     it("range", function()
         debugprint.setup({})
 
+        assert.equals(notify_message, nil)
+
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1364,6 +1380,7 @@ describe("delete lines command", function()
         feedkeys("g?pg?pg?pg?p")
 
         vim.cmd("2,3 DeleteDebugPrints")
+        assert.equals(notify_message, "2 debug lines deleted.")
 
         check_lines({
             "function x()",
@@ -1381,6 +1398,8 @@ describe("delete lines command", function()
     it("range at top", function()
         debugprint.setup({})
 
+        assert.equals(notify_message, nil)
+
         local filename = init_file({
             "function x()",
             "end",
@@ -1390,6 +1409,7 @@ describe("delete lines command", function()
         feedkeys("g?P")
 
         vim.cmd("1 DeleteDebugPrints")
+        assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
             "function x()",
@@ -1403,6 +1423,8 @@ describe("delete lines command", function()
     it("range at bottom", function()
         debugprint.setup({})
 
+        assert.equals(notify_message, nil)
+
         local filename = init_file({
             "function x()",
         }, "lua", 1, 0)
@@ -1411,6 +1433,7 @@ describe("delete lines command", function()
         feedkeys("g?P")
 
         vim.cmd("$ DeleteDebugPrints")
+        assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
             "print('DEBUGPRINT[2]: "
@@ -1423,6 +1446,8 @@ describe("delete lines command", function()
     it("with regexp print_tag", function()
         debugprint.setup({ print_tag = "\\033[33mDEBUG\\033[0m" })
 
+        assert.equals(notify_message, nil)
+
         init_file({
             "function x()",
             "    local xyz = 3",
@@ -1431,6 +1456,7 @@ describe("delete lines command", function()
 
         feedkeys("g?p")
         vim.cmd("DeleteDebugPrints")
+        assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
             "function x()",
@@ -1444,6 +1470,8 @@ describe("delete lines command", function()
             keymaps = { normal = { delete_debug_prints = "g?x" } },
         })
 
+        assert.equals(notify_message, nil)
+
         init_file({
             "function x()",
             "    local xyz = 3",
@@ -1452,6 +1480,7 @@ describe("delete lines command", function()
 
         feedkeys("g?p")
         feedkeys("g?x")
+        assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
             "function x()",
@@ -1686,6 +1715,7 @@ describe("comment toggle", function()
 
     it("basic", function()
         debugprint.setup({})
+        assert.equals(notify_message, nil)
 
         local filename = init_file({
             "function x()",
@@ -1696,6 +1726,7 @@ describe("comment toggle", function()
         feedkeys("g?p")
         vim.cmd("ToggleCommentDebugPrint")
         feedkeys("jjg?p")
+        assert.equals(notify_message, "1 debug line comment-toggled.")
 
         check_lines({
             "function x()",
@@ -1710,6 +1741,7 @@ describe("comment toggle", function()
         })
 
         vim.cmd("ToggleCommentDebugPrint")
+        assert.equals(notify_message, "2 debug lines comment-toggled.")
 
         check_lines({
             "function x()",
@@ -1726,6 +1758,7 @@ describe("comment toggle", function()
 
     it("range", function()
         debugprint.setup({})
+        assert.equals(notify_message, nil)
 
         local filename = init_file({
             "function x()",
@@ -1737,6 +1770,7 @@ describe("comment toggle", function()
         feedkeys("jj")
         feedkeys("g?p")
         vim.cmd("2 ToggleCommentDebugPrint")
+        assert.equals(notify_message, "1 debug line comment-toggled.")
 
         check_lines({
             "function x()",
@@ -1755,6 +1789,7 @@ describe("comment toggle", function()
         debugprint.setup({
             keymaps = { normal = { toggle_comment_debug_prints = "g?x" } },
         })
+        assert.equals(notify_message, nil)
 
         local filename = init_file({
             "function x()",
@@ -1766,6 +1801,7 @@ describe("comment toggle", function()
         feedkeys("g?xj")
         feedkeys("j")
         feedkeys("g?p")
+        assert.equals(notify_message, "1 debug line comment-toggled.")
 
         check_lines({
             "function x()",
