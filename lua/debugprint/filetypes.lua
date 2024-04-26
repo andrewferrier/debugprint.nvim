@@ -38,6 +38,12 @@ local cs = {
 }
 
 return {
+    ["applescript"] = {
+        left = 'log "',
+        right = '"',
+        mid_var = '" & ',
+        right_var = ''
+    },
     ["bash"] = shell,
     ["c"] = {
         left = 'fprintf(stderr, "',
