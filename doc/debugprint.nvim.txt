@@ -359,7 +359,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   Built-in support for:   -                 -               -                 -              -                  -             -            -
 
-  AppleScript             :x:               :+1:                                                                                           
+  AppleScript             :+1:              :+1:            :x:               :x:            :x:                :x:           :x:          :x:
 
   arduino                 :x:               :x:             :+1:              :x:            :x:                :x:           :x:          :x:
 
