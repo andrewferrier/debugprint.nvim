@@ -43,21 +43,14 @@ M.is_modifiable = function()
     end
 end
 
-M.get_variable_name = function(
-    global_ignore_treesitter,
-    local_ignore_treesitter
-)
+M.get_variable_name = function(ignore_treesitter)
     local variable_name = M.get_visual_selection()
 
     if variable_name == false then
         return false
     end
 
-    if
-        variable_name == nil
-        and local_ignore_treesitter ~= true
-        and global_ignore_treesitter ~= true
-    then
+    if variable_name == nil and ignore_treesitter ~= true then
         variable_name = M.find_treesitter_variable()
     end
 

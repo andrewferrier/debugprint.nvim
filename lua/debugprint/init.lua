@@ -166,8 +166,7 @@ M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
         if get_filetype_config() and opts.variable == true then
             opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter,
-                opts.ignore_treesitter
+                global_opts.ignore_treesitter or opts.ignore_treesitter
             )
 
             if opts.variable_name == false then
