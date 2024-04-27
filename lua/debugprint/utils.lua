@@ -29,6 +29,16 @@ local get_node_at_cursor = function()
     end
 end
 
+local get_node_text = function(node)
+    if vim.treesitter.get_node_text then
+        -- vim.treesitter.query.get_node_text deprecated as of NeoVim
+        -- 0.9
+        return vim.treesitter.get_node_text(node, 0)
+    else
+        return vim.treesitter.query.get_node_text(node, 0)
+    end
+end
+
 M.is_modifiable = function()
     if
         not vim.api.nvim_get_option_value(
@@ -43,7 +53,7 @@ M.is_modifiable = function()
     end
 end
 
-M.get_variable_name = function(ignore_treesitter)
+M.get_variable_name = function(ignore_treesitter, filetype_config)
     local variable_name = M.get_visual_selection()
 
     if variable_name == false then
@@ -51,7 +61,7 @@ M.get_variable_name = function(ignore_treesitter)
     end
 
     if variable_name == nil and ignore_treesitter ~= true then
-        variable_name = M.find_treesitter_variable()
+        variable_name = M.find_treesitter_variable(filetype_config)
     end
 
     if variable_name == nil then
@@ -163,44 +173,27 @@ M.get_effective_filetypes = function()
     end
 end
 
-M.find_treesitter_variable = function()
-    local node = get_node_at_cursor()
+M.find_treesitter_variable = function(filetype_config)
+    local obj = {}
 
-    if node == nil then
+    obj.node = get_node_at_cursor()
+
+    if obj.node == nil then
         return nil
     else
-        local node_type = node:type()
-        local parent_node_type
+        obj.node_text = get_node_text(obj.node)
+        obj.parent_node = obj.node:parent()
 
-        if node:parent() ~= nil then
-            -- This check is necessary; it triggers for example in comments in
-            -- lua code
-            parent_node_type = node:parent():type()
+        if obj.parent_node then
+            obj.parent_node_text = get_node_text(obj.parent_node)
+        else
+            obj.parent_node_text = nil
         end
 
-        local variable_name
-
-        if vim.treesitter.get_node_text then
-            -- vim.treesitter.query.get_node_text deprecated as of NeoVim
-            -- 0.9
-            variable_name = vim.treesitter.get_node_text(node, 0)
+        if vim.list_contains(vim.tbl_keys(filetype_config), "find_treesitter_variable") then
+            return filetype_config.find_treesitter_variable(obj)
         else
-            variable_name = vim.treesitter.query.get_node_text(node, 0)
-        end
-
-        -- lua, typescript -> identifier
-        -- sh              -> variable_name
-        -- typescript      -> shorthand_property_identifier_pattern (see issue #60)
-        -- Makefile        -> variable_reference
-        if
-            node_type == "identifier"
-            or node_type == "variable_name"
-            or node_type == "shorthand_property_identifier_pattern"
-            or parent_node_type == "variable_reference"
-        then
-            return variable_name
-        else
-            return nil
+            return obj.node_text
         end
     end
 end

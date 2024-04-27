@@ -12,6 +12,13 @@ local shell = {
     right = '"',
     mid_var = "${",
     right_var = '}"',
+    find_treesitter_variable = function(opts)
+        if opts.node:type() == "variable_name" then
+            return opts.node_text
+        else
+            return nil
+        end
+    end,
 }
 
 local docker = vim.deepcopy(shell)
@@ -28,6 +35,16 @@ local js = {
     right = '")',
     mid_var = '", ',
     right_var = ")",
+    find_treesitter_variable = function(opts)
+        if
+            opts.node:type() == "identifier"
+            or opts.node:type() == "shorthand_property_identifier_pattern"
+        then
+            return opts.node_text
+        else
+            return nil
+        end
+    end,
 }
 
 local cs = {
@@ -133,6 +150,13 @@ return {
         right = "')",
         mid_var = "' .. vim.inspect(",
         right_var = "))",
+        find_treesitter_variable = function(opts)
+            if opts.node:type() == "identifier" then
+                return opts.node_text
+            else
+                return nil
+            end
+        end,
     },
     ["make"] = {
         left = '\t@echo >&2 "',
