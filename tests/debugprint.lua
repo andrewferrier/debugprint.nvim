@@ -1028,14 +1028,16 @@ describe("can handle treesitter identifiers", function()
         local filename = init_file({
             "let x = {}",
             "x.abc = 123",
-        }, "javascript",2, 4)
+        }, "javascript", 2, 4)
 
         feedkeys("g?v")
 
         check_lines({
             "let x = {}",
             "x.abc = 123",
-            'console.warn("DEBUGPRINT[1]: ' .. filename .. ':2: x.abc=", x.abc)',
+            'console.warn("DEBUGPRINT[1]: '
+                .. filename
+                .. ':2: x.abc=", x.abc)',
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 4 })
