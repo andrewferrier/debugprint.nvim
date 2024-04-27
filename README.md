@@ -260,7 +260,7 @@ The keys in the configuration are used like this:
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
 
-## Feature Comparison with Other Plugins
+## Feature Comparison with Similar Plugins
 
 (This table is quite wide, you may need to scroll horizontally)
 
