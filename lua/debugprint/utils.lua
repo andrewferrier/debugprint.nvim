@@ -182,12 +182,7 @@ M.find_treesitter_variable = function(filetype_config)
     if obj.node == nil then
         return nil
     else
-        if
-            vim.list_contains(
-                vim.tbl_keys(filetype_config),
-                "find_treesitter_variable"
-            )
-        then
+        if vim.tbl_get(filetype_config, "find_treesitter_variable") then
             return filetype_config.find_treesitter_variable(obj)
         else
             return obj.node_text
