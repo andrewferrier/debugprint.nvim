@@ -996,6 +996,50 @@ describe("can handle treesitter identifiers", function()
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
     end)
+
+    it("special case nested (lua)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = {}",
+            "    xyz.abc = 123",
+            "end",
+        }, "lua", 3, 10)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "function x()",
+            "    local xyz = {}",
+            "    xyz.abc = 123",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":3: xyz.abc=' .. vim.inspect(xyz.abc))",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
+    end)
+
+    it("special case nested (javascript)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "let x = {}",
+            "x.abc = 123",
+        }, "javascript",2, 4)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "let x = {}",
+            "x.abc = 123",
+            'console.warn("DEBUGPRINT[1]: ' .. filename .. ':2: x.abc=", x.abc)',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 4 })
+    end)
 end)
 
 describe("visual selection", function()

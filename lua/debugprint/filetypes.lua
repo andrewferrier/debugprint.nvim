@@ -14,7 +14,7 @@ local shell = {
     right_var = '}"',
     find_treesitter_variable = function(opts)
         if opts.node:type() == "variable_name" then
-            return opts.node_text
+            return opts.get_node_text(opts.node)
         else
             return nil
         end
@@ -36,11 +36,10 @@ local js = {
     mid_var = '", ',
     right_var = ")",
     find_treesitter_variable = function(opts)
-        if
-            opts.node:type() == "identifier"
-            or opts.node:type() == "shorthand_property_identifier_pattern"
-        then
-            return opts.node_text
+        if opts.node:type() == "property_identifier" then
+            return opts.get_node_text(opts.node:parent())
+        elseif opts.node:type() == "identifier" then
+            return opts.get_node_text(opts.node)
         else
             return nil
         end
@@ -151,8 +150,16 @@ return {
         mid_var = "' .. vim.inspect(",
         right_var = "))",
         find_treesitter_variable = function(opts)
-            if opts.node:type() == "identifier" then
-                return opts.node_text
+            if opts.node:type() == "dot_index_expression" then
+                return opts.get_node_text(opts.node)
+            elseif
+                opts.node:parent()
+                and opts.node:parent():type() == "dot_index_expression"
+                and opts.node:prev_named_sibling()
+            then
+                return opts.get_node_text(opts.node:parent())
+            elseif opts.node:type() == "identifier" then
+                return opts.get_node_text(opts.node)
             else
                 return nil
             end
