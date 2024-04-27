@@ -11,7 +11,7 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 6. Mapping Deprecation                   |debugprint.nvim-mapping-deprecation|
 7. Other Options                               |debugprint.nvim-other-options|
 8. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
-9. Feature Comparison with Other Plugins|debugprint.nvim-feature-comparison-with-other-plugins|
+9. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
 10. Links                                              |debugprint.nvim-links|
 
 ==============================================================================
@@ -313,7 +313,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
 ==============================================================================
-9. Feature Comparison with Other Plugins*debugprint.nvim-feature-comparison-with-other-plugins*
+9. Feature Comparison with Similar Plugins*debugprint.nvim-feature-comparison-with-similar-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
@@ -372,8 +372,6 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   Built-in support for:   -                 -               -              -                  -             -
 
   AppleScript             :+1:              :+1:            :x:            :x:                :x:           :x:
-
-  arduino                 :x:               :x:             :x:            :x:                :x:           :x:
 
   bash/sh                 :+1:              :+1:            :+1:           :x:                :+1:          :x:
 
