@@ -206,7 +206,6 @@ reason, please open an
 | `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message                                                        |
 | `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                                    |
 | `filetypes`         | See below    | Custom filetypes - see below                                                                                                                 |
-| `ignore_treesitter` | `false`      | Never use treesitter to find a variable under the cursor, always prompt for it - overrides the same setting on `debugprint()` if set to true |
 | `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.                   |
 
 ## Add Custom Filetypes
