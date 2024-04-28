@@ -11,7 +11,8 @@ jobs:
   commit_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: webiny/action-conventional-commits@v1.1.0
+      - uses: actions/checkout@v4
+      - uses: webiny/action-conventional-commits@v1.3.0
 
   stylua:
     runs-on: ubuntu-latest
