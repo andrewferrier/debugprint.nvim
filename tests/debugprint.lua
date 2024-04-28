@@ -997,7 +997,7 @@ describe("can handle treesitter identifiers", function()
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
     end)
 
-    it("special case nested (lua)", function()
+    it("special case dot expression (lua)", function()
         debugprint.setup()
 
         local filename = init_file({
@@ -1022,7 +1022,7 @@ describe("can handle treesitter identifiers", function()
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
     end)
 
-    it("special case nested (javascript)", function()
+    it("special case dot expression (javascript)", function()
         debugprint.setup()
 
         local filename = init_file({
