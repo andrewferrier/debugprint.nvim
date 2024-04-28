@@ -38,6 +38,7 @@ install_parser_if_needed("javascript")
 install_parser_if_needed("lua")
 install_parser_if_needed("markdown")
 install_parser_if_needed("markdown_inline")
+install_parser_if_needed("php")
 
 local debugprint = require("debugprint")
 
@@ -1058,6 +1059,53 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+    end)
+
+    -- These two test cases based on https://github.com/andrewferrier/debugprint.nvim/issues/89
+    it("non-special case variable (php cursor-on-name)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "<?php",
+            "$branchCode = 'au';",
+            "?>",
+        }, "php", 2, 3)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "<?php",
+            "$branchCode = 'au';",
+            'fwrite(STDERR, "DEBUGPRINT[1]: '
+                .. filename
+                .. ':2: branchCode=$branchCode\\n");',
+            "?>",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 3 })
+    end)
+
+    it("non-special case variable (php cursor-on-dollar)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "<?php",
+            "$branchCode = 'au';",
+            "?>",
+        }, "php", 2, 1)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "<?php",
+            "$branchCode = 'au';",
+            'fwrite(STDERR, "DEBUGPRINT[1]: '
+                .. filename
+                .. ':2: branchCode=$branchCode\\n");',
+            "?>",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 1 })
     end)
 end)
 
