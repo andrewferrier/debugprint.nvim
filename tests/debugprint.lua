@@ -39,6 +39,7 @@ install_parser_if_needed("lua")
 install_parser_if_needed("markdown")
 install_parser_if_needed("markdown_inline")
 install_parser_if_needed("php")
+install_parser_if_needed("python")
 
 local debugprint = require("debugprint")
 
