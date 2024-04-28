@@ -1042,6 +1042,23 @@ describe("can handle treesitter identifiers", function()
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 4 })
     end)
+
+    it("non-special case variable (python)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "x = 1",
+        }, "py", 1, 0)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "x = 1",
+            'print(f"DEBUGPRINT[1]: ' .. filename .. ':1: x={x}")',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+    end)
 end)
 
 describe("visual selection", function()
