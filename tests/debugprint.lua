@@ -85,6 +85,7 @@ local teardown = function()
     pcall(vim.keymap.del, { "n", "x" }, "g?V")
     pcall(vim.keymap.del, "n", "g?o")
     pcall(vim.keymap.del, "n", "g?O")
+    vim.cmd("set modifiable")
 end
 
 describe("can do setup()", function()
@@ -2011,5 +2012,45 @@ describe("unmodifiable buffer", function()
         })
 
         assert.equals(notify_message, "Buffer is not modifiable.")
+    end)
+end)
+
+describe("custom counter", function()
+    local count = 0
+
+    before_each(function()
+        debugprint.setup({
+            display_counter = function(opts)
+                count = count + 2
+                return "-" .. tostring(count) .. "x"
+            end,
+        })
+    end)
+
+    after_each(teardown)
+
+    it("basic", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+        feedkeys("g?p")
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT-6x: "
+                .. filename
+                .. ":1 (after foo)')",
+            "print('DEBUGPRINT-4x: "
+                .. filename
+                .. ":1 (after foo)')",
+            "print('DEBUGPRINT-2x: "
+                .. filename
+                .. ":1 (after foo)')",
+            "bar",
+        })
     end)
 end)

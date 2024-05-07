@@ -200,13 +200,31 @@ reason, please open an
 
 `debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default      | Purpose                                                                                                                                      |
-| ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                      |
-| `display_counter`   | `true`       | Whether to display/include the monotonically increasing counter in each debug message                                                        |
-| `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                                    |
-| `filetypes`         | See below    | Custom filetypes - see below                                                                                                                 |
-| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.                   |
+| Option              | Default      | Purpose                                                                                                                                |
+| ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                |
+| `display_counter`   | `true`       | Whether to display/include the increasing integer counter in each debug message. Can also be set to a function to customize, see below |
+| `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                              |
+| `filetypes`         | See below    | Custom filetypes - see below                                                                                                           |
+| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.             |
+
+### Customizing Counter Logic
+
+`display_counter` can also be set to a custom callback function to implement
+custom counter logic. In this case you are responsible for implementing your own
+counter. For example, this logic will implement essentially the same as the
+default counter:
+
+```lua
+local counter = 0
+
+local counter_func = function()
+    counter = counter + 1
+    return '[' .. tostring(counter) .. ']'
+end
+
+debugprint.setup({display_counter = counter_func})
+```
 
 ## Add Custom Filetypes
 

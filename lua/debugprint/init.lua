@@ -3,7 +3,7 @@ local M = {}
 local utils = require("debugprint.utils")
 
 local global_opts
-local counter = 0
+local default_counter = 0
 
 MAX_SNIPPET_LENGTH = 40
 
@@ -44,15 +44,20 @@ local get_snippet = function(current_line, above)
     return line_contents
 end
 
+local default_display_counter = function()
+    default_counter = default_counter + 1
+    return "[" .. tostring(default_counter) .. "]"
+end
+
 local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
-    counter = counter + 1
-
     local line = global_opts.print_tag
 
-    if global_opts.display_counter then
-        line = line .. "[" .. counter .. "]"
+    if global_opts.display_counter == true then
+        line = line .. default_display_counter()
+    elseif type(global_opts.display_counter) == "function" then
+        line = line .. tostring(global_opts.display_counter())
     end
 
     line = line .. ": " .. vim.fn.expand("%:t") .. ":" .. current_line
@@ -307,7 +312,7 @@ M.setup = function(opts)
     require("debugprint.setup").map_keys_and_commands(global_opts)
 
     -- Because we want to be idempotent, re-running setup() resets the counter
-    counter = 0
+    default_counter = 0
 end
 
 M.add_custom_filetypes = function(filetypes)

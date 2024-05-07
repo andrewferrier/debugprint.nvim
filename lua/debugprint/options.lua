@@ -37,7 +37,7 @@ local validate_global_opts = function(o)
     vim.validate({
         keymaps = { o.keymaps, "table" },
         commands = { o.commands, "table" },
-        display_counter = { o.display_counter, "boolean" },
+        display_counter = { o.display_counter, { "function", "boolean" }},
         display_snippet = { o.display_snippet, "boolean" },
         move_to_debugline = { o.move_to_debugline, "boolean" },
         ignore_treesitter = { o.ignore_treesitter, "boolean" },
