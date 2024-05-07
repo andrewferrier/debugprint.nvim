@@ -2041,15 +2041,9 @@ describe("custom counter", function()
 
         check_lines({
             "foo",
-            "print('DEBUGPRINT-6x: "
-                .. filename
-                .. ":1 (after foo)')",
-            "print('DEBUGPRINT-4x: "
-                .. filename
-                .. ":1 (after foo)')",
-            "print('DEBUGPRINT-2x: "
-                .. filename
-                .. ":1 (after foo)')",
+            "print('DEBUGPRINT-6x: " .. filename .. ":1 (after foo)')",
+            "print('DEBUGPRINT-4x: " .. filename .. ":1 (after foo)')",
+            "print('DEBUGPRINT-2x: " .. filename .. ":1 (after foo)')",
             "bar",
         })
     end)
