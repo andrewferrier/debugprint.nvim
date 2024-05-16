@@ -57,7 +57,7 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 ## Installation
 
-**Requires NeoVim 0.8+.**
+**Requires NeoVim 0.9+.**
 
 Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 
@@ -66,8 +66,7 @@ return {
     "andrewferrier/debugprint.nvim",
     opts = { … },
     dependencies = {
-        "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
-        "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
+        "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
     },
     -- Remove the following line to use development versions,
     -- not just the formal releases
@@ -87,8 +86,7 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
-            "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
+            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
         }
     })
     …

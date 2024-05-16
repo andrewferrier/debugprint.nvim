@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        neovim_branch: ["v0.8.3", "v0.9.5", "nightly"]
+        neovim_branch: ["v0.9.5", "v0.10.0", "nightly"]
 
     steps:
       - uses: actions/checkout@v4

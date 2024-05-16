@@ -490,19 +490,11 @@ describe("can do various file types", function()
 
         feedkeys("g?p")
 
-        if vim.fn.has("nvim-0.9.0") == 1 then
-            check_lines({
-                "foo",
-                "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
-                "bar",
-            })
-        else
-            check_lines({
-                "foo",
-                "/*No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
-                "bar",
-            })
-        end
+        check_lines({
+            "foo",
+            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+            "bar",
+        })
     end)
 
     it(
@@ -534,19 +526,11 @@ describe("can do various file types", function()
         feedkeys("g?v")
         feedkeys("<CR>")
 
-        if vim.fn.has("nvim-0.9.0") == 1 then
-            check_lines({
-                "foo",
-                "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
-                "bar",
-            })
-        else
-            check_lines({
-                "foo",
-                "/*No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes*/",
-                "bar",
-            })
-        end
+        check_lines({
+            "foo",
+            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+            "bar",
+        })
     end)
 end)
 
@@ -1718,110 +1702,105 @@ describe("check python indenting", function()
     end)
 end)
 
-if vim.fn.has("nvim-0.9.0") == 1 then
-    -- This test will not work on NeoVim <= 0.8, I think because markdown only
-    -- supports a limited range of embedded langs
-
-    describe("embedded treesitter langs", function()
-        before_each(function()
-            debugprint.setup({ ignore_treesitter = false })
-        end)
-
-        after_each(teardown)
-
-        it("lua in markdown", function()
-            local filename = init_file({
-                "foo",
-                "```lua",
-                "x = 1",
-                "```",
-                "bar",
-            }, "markdown", 3, 0)
-
-            feedkeys("g?p")
-
-            check_lines({
-                "foo",
-                "```lua",
-                "x = 1",
-                "print('DEBUGPRINT[1]: " .. filename .. ":3 (after x = 1)')",
-                "```",
-                "bar",
-            })
-        end)
-
-        it("lua in markdown above", function()
-            local filename = init_file({
-                "foo",
-                "```lua",
-                "x = 1",
-                "```",
-                "bar",
-            }, "markdown", 3, 0)
-
-            feedkeys("g?P")
-
-            check_lines({
-                "foo",
-                "```lua",
-                "print('DEBUGPRINT[1]: " .. filename .. ":3 (before x = 1)')",
-                "x = 1",
-                "```",
-                "bar",
-            })
-        end)
-
-        it("javascript in html", function()
-            local filename = init_file({
-                "<html>",
-                "<body>",
-                "<script>",
-                "    let x = 3;",
-                "",
-                "    console.log(x);",
-                "</script>",
-                "</body>",
-                "</html>",
-            }, "html", 6, 0)
-
-            feedkeys("g?p")
-
-            check_lines({
-                "<html>",
-                "<body>",
-                "<script>",
-                "    let x = 3;",
-                "",
-                "    console.log(x);",
-                '    console.warn("DEBUGPRINT[1]: '
-                    .. filename
-                    .. ':6 (after console.log(x);)")',
-                "</script>",
-                "</body>",
-                "</html>",
-            })
-        end)
-
-        it("comment in lua", function()
-            local filename = init_file({
-                "x = 3",
-                "-- abc",
-                "a = 2",
-            }, "lua", 2, 4)
-
-            feedkeys("g?v<CR>")
-
-            check_lines({
-                "x = 3",
-                "-- abc",
-                "print('DEBUGPRINT[1]: "
-                    .. filename
-                    .. ":2: abc=' .. vim.inspect(abc))",
-                "a = 2",
-            })
-        end)
+describe("embedded treesitter langs", function()
+    before_each(function()
+        debugprint.setup({ ignore_treesitter = false })
     end)
-end
+
+    after_each(teardown)
+
+    it("lua in markdown", function()
+        local filename = init_file({
+            "foo",
+            "```lua",
+            "x = 1",
+            "```",
+            "bar",
+        }, "markdown", 3, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "```lua",
+            "x = 1",
+            "print('DEBUGPRINT[1]: " .. filename .. ":3 (after x = 1)')",
+            "```",
+            "bar",
+        })
+    end)
+
+    it("lua in markdown above", function()
+        local filename = init_file({
+            "foo",
+            "```lua",
+            "x = 1",
+            "```",
+            "bar",
+        }, "markdown", 3, 0)
+
+        feedkeys("g?P")
+
+        check_lines({
+            "foo",
+            "```lua",
+            "print('DEBUGPRINT[1]: " .. filename .. ":3 (before x = 1)')",
+            "x = 1",
+            "```",
+            "bar",
+        })
+    end)
+
+    it("javascript in html", function()
+        local filename = init_file({
+            "<html>",
+            "<body>",
+            "<script>",
+            "    let x = 3;",
+            "",
+            "    console.log(x);",
+            "</script>",
+            "</body>",
+            "</html>",
+        }, "html", 6, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "<html>",
+            "<body>",
+            "<script>",
+            "    let x = 3;",
+            "",
+            "    console.log(x);",
+            '    console.warn("DEBUGPRINT[1]: '
+                .. filename
+                .. ':6 (after console.log(x);)")',
+            "</script>",
+            "</body>",
+            "</html>",
+        })
+    end)
+
+    it("comment in lua", function()
+        local filename = init_file({
+            "x = 3",
+            "-- abc",
+            "a = 2",
+        }, "lua", 2, 4)
+
+        feedkeys("g?v<CR>")
+
+        check_lines({
+            "x = 3",
+            "-- abc",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: abc=' .. vim.inspect(abc))",
+            "a = 2",
+        })
+    end)
+end)
 
 describe("comment toggle", function()
     after_each(teardown)

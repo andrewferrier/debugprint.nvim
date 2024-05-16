@@ -1,42 +1,21 @@
 local M = {}
 
 local get_node_at_cursor = function()
-    if vim.fn.has("nvim-0.9.0") == 1 then
-        local success, is_node = pcall(vim.treesitter.get_node, {
-            ignore_injections = false,
-        })
+    local success, is_node = pcall(vim.treesitter.get_node, {
+        ignore_injections = false,
+    })
 
-        -- This will fail if this language is not supported by Treesitter, e.g.
-        -- Powershell/ps1
-        if success and is_node then
-            return is_node
-        else
-            return nil
-        end
+    -- This will fail if this language is not supported by Treesitter, e.g.
+    -- Powershell/ps1
+    if success and is_node then
+        return is_node
     else
-        local function requiref(module)
-            require(module)
-        end
-
-        local ts_utils_test = pcall(requiref, "nvim-treesitter.ts_utils")
-
-        if not ts_utils_test then
-            return nil
-        else
-            local ts_utils = require("nvim-treesitter.ts_utils")
-            return ts_utils.get_node_at_cursor()
-        end
+        return nil
     end
 end
 
 local get_node_text = function(node)
-    if vim.treesitter.get_node_text then
-        -- vim.treesitter.query.get_node_text deprecated as of NeoVim
-        -- 0.9
-        return vim.treesitter.get_node_text(node, 0)
-    else
-        return vim.treesitter.query.get_node_text(node, 0)
-    end
+    return vim.treesitter.get_node_text(node, 0)
 end
 
 M.is_modifiable = function()
@@ -155,17 +134,9 @@ M.get_effective_filetypes = function()
             })
             :lang()
 
-        if vim.fn.has("nvim-0.9.0") == 1 then
-            local filetypes =
-                vim.treesitter.language.get_filetypes(treesitter_lang)
-            assert(vim.tbl_count(filetypes) > 0)
-            return filetypes
-        else
-            -- nvim < 0.9 doesn't have get_filetypes; so just return the lang as
-            -- if it were a filetype. This will work for many languages (e.g.
-            -- lua), although not for others (e.g. tsx).
-            return { treesitter_lang }
-        end
+        local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
+        assert(vim.tbl_count(filetypes) > 0)
+        return filetypes
     else
         return {
             vim.api.nvim_get_option_value("filetype", { scope = "local" }),
