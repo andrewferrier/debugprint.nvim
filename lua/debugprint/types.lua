@@ -1,5 +1,7 @@
 -- See https://luals.github.io/wiki/annotations/
 
+---@meta types
+
 ---@class FileTypeConfig
 ---@field left string
 ---@field right string
