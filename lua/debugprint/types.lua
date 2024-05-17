@@ -1,4 +1,4 @@
-local M = {}
+-- See https://luals.github.io/wiki/annotations/
 
 ---@class FileTypeConfig
 ---@field left string
@@ -34,5 +34,3 @@ local M = {}
 ---@field line1 integer
 ---@field line2 integer
 ---@field range 1|2
-
-return M
