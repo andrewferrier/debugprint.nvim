@@ -1,5 +1,6 @@
 local M = {}
 
+---@type GlobalOptions
 local GLOBAL_OPTION_DEFAULTS = {
     keymaps = {
         normal = {
@@ -31,6 +32,8 @@ local GLOBAL_OPTION_DEFAULTS = {
     print_tag = "DEBUGPRINT",
 }
 
+---@param o GlobalOptions
+---@return nil
 local validate_global_opts = function(o)
     local STRING_NIL = { "string", "nil" }
 
@@ -55,7 +58,7 @@ local validate_global_opts = function(o)
         },
 
         commands_toggle_comment_debug_prints = {
-            o.commands_toggle_comment_debug_prints,
+            o.commands.toggle_comment_debug_prints,
             STRING_NIL,
         },
     })
@@ -97,6 +100,8 @@ local FUNCTION_OPTION_DEFAULTS = {
     ignore_treesitter = false,
 }
 
+---@param o FunctionOptions
+---@return nil
 local validate_function_opts = function(o)
     vim.validate({
         above = { o.above, "boolean" },
@@ -105,6 +110,8 @@ local validate_function_opts = function(o)
     })
 end
 
+---@param opts? GlobalOptions
+---@return GlobalOptions
 M.get_and_validate_global_opts = function(opts)
     opts = opts or {}
 
@@ -145,6 +152,8 @@ M.get_and_validate_global_opts = function(opts)
     return global_opts
 end
 
+---@param opts FunctionOptions
+---@return FunctionOptions
 M.get_and_validate_function_opts = function(opts)
     local func_opts = vim.tbl_deep_extend(
         "force",

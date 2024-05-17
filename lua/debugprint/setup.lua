@@ -2,18 +2,26 @@ local M = {}
 
 local debugprint = require("debugprint")
 
+---@param mode string
+---@param lhs string
+---@param opts table
+---@return nil
 local map_key = function(mode, lhs, opts)
     if lhs ~= nil then
         vim.api.nvim_set_keymap(mode, lhs, "", opts)
     end
 end
 
+---@param keys string
+---@return nil
 local feedkeys = function(keys)
     if keys ~= nil and keys ~= "" then
         vim.api.nvim_feedkeys(keys, "xt", true)
     end
 end
 
+---@param global_opts GlobalOptions
+---@return nil
 M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.plain_below, {
         callback = function()

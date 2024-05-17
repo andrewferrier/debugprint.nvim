@@ -7,6 +7,9 @@ local default_counter = 0
 
 MAX_SNIPPET_LENGTH = 40
 
+---@param current_line integer
+---@param above boolean
+---@return string
 local get_snippet = function(current_line, above)
     local line_contents = ""
 
@@ -44,11 +47,14 @@ local get_snippet = function(current_line, above)
     return line_contents
 end
 
+---@return string
 local default_display_counter = function()
     default_counter = default_counter + 1
     return "[" .. tostring(default_counter) .. "]"
 end
 
+---@param opts table
+---@return string
 local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
@@ -77,6 +83,7 @@ local debuginfo = function(opts)
     return line
 end
 
+---@return FileTypeConfig?
 local get_filetype_config = function()
     local effective_filetypes = utils.get_effective_filetypes()
 
@@ -89,6 +96,9 @@ local get_filetype_config = function()
     return nil
 end
 
+---@param opts FunctionOptionsInternal
+---@param fileconfig FileTypeConfig
+---@return nil
 local construct_debugprint_line = function(opts, fileconfig)
     local line_to_insert
 
@@ -114,6 +124,8 @@ local construct_debugprint_line = function(opts, fileconfig)
     return line_to_insert
 end
 
+---@param errormsg string
+---@return nil
 local construct_error_line = function(errormsg)
     local commentstring =
         vim.api.nvim_get_option_value("commentstring", { scope = "local" })
@@ -125,6 +137,8 @@ local construct_error_line = function(errormsg)
     end
 end
 
+---@param opts FunctionOptionsInternal
+---@return nil
 local addline = function(opts)
     local line_to_insert
 
@@ -167,16 +181,22 @@ end
 
 local cache_request = {}
 
+---@param opts FunctionOptionsInternal
+---@return nil
 M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
-        if get_filetype_config() and opts.variable == true then
-            opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter or opts.ignore_treesitter,
-                get_filetype_config()
-            )
+        if opts.variable == true then
+            local filetype_config = get_filetype_config()
 
-            if opts.variable_name == false then
-                return
+            if filetype_config then
+                opts.variable_name = utils.get_variable_name(
+                    global_opts.ignore_treesitter or opts.ignore_treesitter,
+                    filetype_config
+                )
+
+                if not opts.variable_name then
+                    return
+                end
             end
         end
 
@@ -189,9 +209,13 @@ M.debugprint_cache = function(opts)
     utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
+---@param opts FunctionOptions
+---@return nil
 M.debugprint = function(opts)
     local func_opts =
         require("debugprint.options").get_and_validate_function_opts(opts)
+
+    ---@cast func_opts FunctionOptionsInternal
 
     if not utils.is_modifiable() then
         return
@@ -209,12 +233,15 @@ M.debugprint = function(opts)
     end
 end
 
+---@return nil
 M.debugprint_motion_callback = function()
     cache_request.variable_name = utils.get_operator_selection()
     addline(cache_request)
     utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
+---@param opts CommandOpts
+---@return string[],integer
 local get_lines_to_handle = function(opts)
     local lines_to_consider
     local initial_line
@@ -239,6 +266,8 @@ local get_lines_to_handle = function(opts)
     return lines_to_consider, initial_line
 end
 
+---@param opts CommandOpts
+---@return nil
 M.deleteprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local delete_adjust = 0
@@ -276,6 +305,8 @@ M.deleteprints = function(opts)
     end
 end
 
+---@param opts CommandOpts
+---@return nil
 M.toggle_comment_debugprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local toggled_count = 0
@@ -305,6 +336,8 @@ M.toggle_comment_debugprints = function(opts)
     end
 end
 
+---@param opts? GlobalOptions
+---@return nil
 M.setup = function(opts)
     global_opts =
         require("debugprint.options").get_and_validate_global_opts(opts)
@@ -315,6 +348,8 @@ M.setup = function(opts)
     default_counter = 0
 end
 
+---@param filetypes FileTypeConfig[]
+---@return nil
 M.add_custom_filetypes = function(filetypes)
     vim.validate({
         filetypes = { filetypes, "table" },

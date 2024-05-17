@@ -1,5 +1,6 @@
 local M = {}
 
+---@return table?
 local get_node_at_cursor = function()
     local success, is_node = pcall(vim.treesitter.get_node, {
         ignore_injections = false,
@@ -18,6 +19,7 @@ local get_node_text = function(node)
     return vim.treesitter.get_node_text(node, 0)
 end
 
+---@return boolean
 M.is_modifiable = function()
     if
         not vim.api.nvim_get_option_value(
@@ -32,11 +34,14 @@ M.is_modifiable = function()
     end
 end
 
+---@param ignore_treesitter boolean
+---@param filetype_config FileTypeConfig
+---@return string|nil
 M.get_variable_name = function(ignore_treesitter, filetype_config)
     local variable_name = M.get_visual_selection()
 
     if variable_name == false then
-        return false
+        return nil
     end
 
     if variable_name == nil and ignore_treesitter ~= true then
@@ -52,13 +57,15 @@ M.get_variable_name = function(ignore_treesitter, filetype_config)
             -- https://github.com/andrewferrier/debugprint.nvim/issues/91.
             -- Instead just silently end debugprint operation.
             vim.cmd("mode") -- Clear command
-            return false
+            return nil
         end
     end
 
     return variable_name
 end
 
+---@param line_nr integer
+---@return string
 M.get_trimmed_content_of_line = function(line_nr)
     local line_contents =
         vim.api.nvim_buf_get_lines(0, line_nr - 1, line_nr, true)[1]
@@ -73,6 +80,9 @@ M.get_trimmed_content_of_line = function(line_nr)
     return line_contents
 end
 
+---@param line_nr integer
+---@param move_to_indented_line boolean
+---@return nil
 M.indent_line = function(line_nr, move_to_indented_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
@@ -83,6 +93,8 @@ M.indent_line = function(line_nr, move_to_indented_line)
     end
 end
 
+---@param line integer
+---@return nil
 M.toggle_comment_line = function(line)
     if vim.fn.has("nvim-0.10.0") == 1 then
         local pos = vim.api.nvim_win_get_cursor(0)
@@ -103,14 +115,18 @@ M.toggle_comment_line = function(line)
     end
 end
 
+---@return nil
 M.NOOP = function() end
 
+---@param func_name string
+---@return nil
 M.set_callback = function(func_name)
     vim.go.operatorfunc = "v:lua.require'debugprint.utils'.NOOP"
     vim.cmd("normal! g@l")
     vim.go.operatorfunc = func_name
 end
 
+---@return table
 M.get_effective_filetypes = function()
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1] - 1
     -- Looking at the last column is more accurate because there are some
@@ -144,6 +160,8 @@ M.get_effective_filetypes = function()
     end
 end
 
+---@param filetype_config table
+---@return string?
 M.find_treesitter_variable = function(filetype_config)
     local obj = {}
 
@@ -161,6 +179,7 @@ M.find_treesitter_variable = function(filetype_config)
     end
 end
 
+---@return string|false|nil
 M.get_visual_selection = function()
     local mode = vim.fn.mode():lower()
     if not (mode:find("^v") or mode:find("^ctrl-v")) then
@@ -199,6 +218,7 @@ M.get_visual_selection = function()
     return vim.api.nvim_buf_get_text(0, line1, col1, line2, col2, {})[1]
 end
 
+---@return string|false
 M.get_operator_selection = function()
     local first_pos, last_pos = vim.fn.getpos("'["), vim.fn.getpos("']")
 
