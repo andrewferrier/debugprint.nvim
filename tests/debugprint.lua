@@ -98,7 +98,7 @@ end)
 
 describe("can do basic debug statement insertion", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
     end)
 
     after_each(teardown)
