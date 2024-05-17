@@ -27,7 +27,6 @@ local GLOBAL_OPTION_DEFAULTS = {
     display_counter = true,
     display_snippet = true,
     move_to_debugline = false,
-    ignore_treesitter = false,
     filetypes = require("debugprint.filetypes"),
     print_tag = "DEBUGPRINT",
 }
@@ -43,7 +42,6 @@ local validate_global_opts = function(o)
         display_counter = { o.display_counter, { "function", "boolean" } },
         display_snippet = { o.display_snippet, "boolean" },
         move_to_debugline = { o.move_to_debugline, "boolean" },
-        ignore_treesitter = { o.ignore_treesitter, "boolean" },
         filetypes = { o.filetypes, "table" },
         print_tag = { o.print_tag, "string" },
     })
@@ -147,6 +145,16 @@ M.get_and_validate_global_opts = function(opts)
         if opts.create_commands == false then
             global_opts.commands = {}
         end
+    end
+
+    if opts["ignore_treesitter"] ~= nil then
+        vim.deprecate(
+            "`ignore_treesitter` option",
+            "`*_alwaysprompt` keymappings",
+            "4.0, see ':help debugprint.nvim-keymappings-and-commands' for more information",
+            "debugprint.nvim",
+            false
+        )
     end
 
     return global_opts
