@@ -24,8 +24,8 @@ can also be extended to support other languages.
 updated and refreshed for the NeoVim generation. It has these features:
 
 *   It includes reference information in each 'print line' such as file names,
-    line numbers, a monotonic counter, and snippets of other lines to make it easier
-    to cross-reference them in output.
+    line numbers, a monotonic counter (which can be customized), and snippets of
+    other lines to make it easier to cross-reference them in output.
 
 *   It can output the value of variables (or in some cases, expressions).
 
@@ -37,8 +37,8 @@ updated and refreshed for the NeoVim generation. It has these features:
 *   It knows which filetype you are working with when embedded inside another
     filetype, e.g. JavaScript-in-HTML, using Treesitter magic.
 
-*   In addition to normal mode, it provides keymappings for visual and operator-pending
-    modes, so you can select variables visually and using motions respectively.
+*   It provides keymappings for visual and operator-pending modes, so you can select
+    variables visually and using motions respectively.
 
 *   It provides commands to delete all debugging lines added to the current buffer
     as well as comment/uncomment those lines.
