@@ -1,5 +1,32 @@
 # Changelog
 
+## [3.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v2.0.1...v3.0.0) (2024-05-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Deprecate global-level ignore_treesitter option - closes #100
+* Remove support for NeoVim 0.8
+
+### Features
+
+* Add support for AppleScript ([0811b50](https://github.com/andrewferrier/debugprint.nvim/commit/0811b5090990f3b6cc9dce98d0c4603b26c0c22f))
+* Customizable display_counter - closes [#104](https://github.com/andrewferrier/debugprint.nvim/issues/104) ([1400e08](https://github.com/andrewferrier/debugprint.nvim/commit/1400e089ee350c09313046ae889b163a8b1ddd49))
+* Show number of lines on delete/toggle - closes [#101](https://github.com/andrewferrier/debugprint.nvim/issues/101) ([77be09b](https://github.com/andrewferrier/debugprint.nvim/commit/77be09b879756c4c48f7f6af3a2d12ed5427ae5b))
+* Use smarter variable finding - closes [#27](https://github.com/andrewferrier/debugprint.nvim/issues/27) ([052693a](https://github.com/andrewferrier/debugprint.nvim/commit/052693a60afd76dd43903e83e2f3acb482df2e90))
+
+
+### Bug Fixes
+
+* Get node name correctly for default case ([1c93860](https://github.com/andrewferrier/debugprint.nvim/commit/1c938607af581a6ecc850850a51c0f5526c53032))
+* Use tbl_get to support 0.8 ([40fc629](https://github.com/andrewferrier/debugprint.nvim/commit/40fc629ffdfdcc94049bd9809e9b7992cda5fb1d))
+
+
+### Miscellaneous Chores
+
+* Deprecate global-level ignore_treesitter option - closes [#100](https://github.com/andrewferrier/debugprint.nvim/issues/100) ([7d49362](https://github.com/andrewferrier/debugprint.nvim/commit/7d4936251a117c9a9d9e505f12bec9311646c707))
+* Remove support for NeoVim 0.8 ([1f03985](https://github.com/andrewferrier/debugprint.nvim/commit/1f03985c69ed28f17cbdfcfc7baeafe85126ac50))
+
 ## [2.0.1](https://github.com/andrewferrier/debugprint.nvim/compare/v2.0.0...v2.0.1) (2024-04-24)
 
 
