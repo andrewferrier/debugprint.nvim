@@ -508,12 +508,22 @@ describe("can do various file types", function()
 
             feedkeys("g?p")
 
-            check_lines({
-                "(fn print-and-add [a b c]",
-                "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
-                "  (print a)",
-                "  (+ b c))",
-            })
+            if vim.fn.has("nvim-0.11.0") == 1 then
+                -- On NeoVim nightly, this inserts an extra space before the comment
+                check_lines({
+                    "(fn print-and-add [a b c]",
+                    "  ; No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                    "  (print a)",
+                    "  (+ b c))",
+                })
+            else
+                check_lines({
+                    "(fn print-and-add [a b c]",
+                    "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                    "  (print a)",
+                    "  (+ b c))",
+                })
+            end
         end
     )
 
