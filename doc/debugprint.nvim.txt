@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-05-21
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-06-14
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -369,7 +369,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   above/below current                                       config)                                         
   line                                                                                                      
 
-  Supports dot-repeat     :+1:              :x:             :x:            :x:                :x:           :x:
+  Supports dot-repeat     :+1:              :+1:            :x:            :x:                :x:           :x:
 
   Can control whether to  :+1:              :x:             :x:            :x:                :x:           :x:
   move to inserted lines                                                                                    
