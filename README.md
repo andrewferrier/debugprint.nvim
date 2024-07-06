@@ -66,11 +66,8 @@ return {
     "andrewferrier/debugprint.nvim",
     opts = { … },
     dependencies = {
-        "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim 0.9
+        "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
     },
-    -- Remove the following line to use development versions,
-    -- not just the formal releases
-    version = "*"
 }
 ```
 
@@ -86,7 +83,7 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim 0.9
+            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
         }
     })
     …
@@ -157,22 +154,17 @@ return {
         },
     },
     -- The 'keys' and 'cmds' sections of this configuration are only needed if
-    -- you want to take advantage of `lazy.nvim` lazy-loading.
+    -- you want to take advantage of `lazy.nvim` lazy-loading - and you are
+    -- *NOT* using lazy.nvim 0.11+, where they are enabled by default for the
+    -- default keys and commands.
     keys = {
-        { "g?p", mode = 'n' },
-        { "g?P", mode = 'n' },
-        { "g?v", mode = 'n' },
-        { "g?V", mode = 'n' },
-        { "g?o", mode = 'n' },
-        { "g?O", mode = 'n' },
-        { "g?v", mode = 'x' },
-        { "g?V", mode = 'x' },
+        { "g?", mode = 'n' },
+        { "g?", mode = 'x' },
     },
     cmd = {
         "ToggleCommentDebugPrints",
         "DeleteDebugPrints",
     },
-    version = "*"
 }
 ```
 
