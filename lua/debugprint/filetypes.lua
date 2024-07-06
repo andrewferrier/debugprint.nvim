@@ -13,6 +13,7 @@ local shell = {
     right = '"',
     mid_var = "${",
     right_var = '}"',
+    ---@param opts FindTreesitterVariableOpts
     find_treesitter_variable = function(opts)
         if opts.node:type() == "variable_name" then
             return opts.get_node_text(opts.node)
@@ -37,6 +38,7 @@ local js = {
     right = '")',
     mid_var = '", ',
     right_var = ")",
+    ---@param opts FindTreesitterVariableOpts
     find_treesitter_variable = function(opts)
         if opts.node:type() == "property_identifier" then
             return opts.get_node_text(opts.node:parent())
@@ -153,6 +155,7 @@ return {
         right = "')",
         mid_var = "' .. vim.inspect(",
         right_var = "))",
+        ---@param opts FindTreesitterVariableOpts
         find_treesitter_variable = function(opts)
             if opts.node:type() == "dot_index_expression" then
                 return opts.get_node_text(opts.node)

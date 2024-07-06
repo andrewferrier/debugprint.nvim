@@ -32,6 +32,10 @@
 ---@field prerepeat? boolean
 ---@field variable_name? string
 
+---@class FindTreesitterVariableOpts
+---@field node TSNode
+---@field get_node_text function
+
 ---@class CommandOpts
 ---@field line1 integer
 ---@field line2 integer

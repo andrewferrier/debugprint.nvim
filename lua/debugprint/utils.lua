@@ -1,22 +1,18 @@
 local M = {}
 
----@return table?
+---@return TSNode?
 local get_node_at_cursor = function()
-    local success, is_node = pcall(vim.treesitter.get_node, {
+    local success, node = pcall(vim.treesitter.get_node, {
         ignore_injections = false,
     })
 
     -- This will fail if this language is not supported by Treesitter, e.g.
     -- Powershell/ps1
-    if success and is_node then
-        return is_node
+    if success and node then
+        return node
     else
         return nil
     end
-end
-
-local get_node_text = function(node)
-    return vim.treesitter.get_node_text(node, 0)
 end
 
 ---@return boolean
@@ -36,7 +32,7 @@ end
 
 ---@param ignore_treesitter boolean
 ---@param filetype_config FileTypeConfig
----@return string|nil
+---@return string?
 M.get_variable_name = function(ignore_treesitter, filetype_config)
     local variable_name = M.get_visual_selection()
 
@@ -126,7 +122,7 @@ M.set_callback = function(func_name)
     vim.go.operatorfunc = func_name
 end
 
----@return table
+---@return string[]
 M.get_effective_filetypes = function()
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1] - 1
     -- Looking at the last column is more accurate because there are some
@@ -160,17 +156,22 @@ M.get_effective_filetypes = function()
     end
 end
 
----@param filetype_config table
+---@param filetype_config FileTypeConfig
 ---@return string?
 M.find_treesitter_variable = function(filetype_config)
-    local obj = {}
+    local node_at_cursor = get_node_at_cursor()
 
-    obj.get_node_text = get_node_text
-    obj.node = get_node_at_cursor()
-
-    if obj.node == nil then
+    if node_at_cursor == nil then
         return nil
     else
+        ---@type FindTreesitterVariableOpts
+        local obj = {
+            node = node_at_cursor,
+            get_node_text = function(node)
+                return vim.treesitter.get_node_text(node, 0)
+            end,
+        }
+
         if vim.tbl_get(filetype_config, "find_treesitter_variable") then
             return filetype_config.find_treesitter_variable(obj)
         else

@@ -53,7 +53,7 @@ local default_display_counter = function()
     return "[" .. tostring(default_counter) .. "]"
 end
 
----@param opts table
+---@param opts FunctionOptionsInternal
 ---@return string
 local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
