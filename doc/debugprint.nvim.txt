@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-06-14
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-07-06
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -75,11 +75,8 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         "andrewferrier/debugprint.nvim",
         opts = { … },
         dependencies = {
-            "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim 0.9
+            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
         },
-        -- Remove the following line to use development versions,
-        -- not just the formal releases
-        version = "*"
     }
 <
 
@@ -95,7 +92,7 @@ Example for `packer.nvim` <https://github.com/wbthomason/packer.nvim>:
                 require("debugprint").setup(opts)
             end,
             requires = {
-                "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints for NeoVim 0.9
+                "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
             }
         })
         …
@@ -187,22 +184,17 @@ might look like this:
             },
         },
         -- The 'keys' and 'cmds' sections of this configuration are only needed if
-        -- you want to take advantage of `lazy.nvim` lazy-loading.
+        -- you want to take advantage of `lazy.nvim` lazy-loading - and you are
+        -- *NOT* using lazy.nvim 0.11+, where they are enabled by default for the
+        -- default keys and commands.
         keys = {
-            { "g?p", mode = 'n' },
-            { "g?P", mode = 'n' },
-            { "g?v", mode = 'n' },
-            { "g?V", mode = 'n' },
-            { "g?o", mode = 'n' },
-            { "g?O", mode = 'n' },
-            { "g?v", mode = 'x' },
-            { "g?V", mode = 'x' },
+            { "g?", mode = 'n' },
+            { "g?", mode = 'x' },
         },
         cmd = {
             "ToggleCommentDebugPrints",
             "DeleteDebugPrints",
         },
-        version = "*"
     }
 <
 
