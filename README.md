@@ -68,6 +68,17 @@ return {
     dependencies = {
         "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
     },
+    -- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
+    -- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
+    -- customize the keys/commands (see below), you'll need to change these too.
+    keys = {
+        { "g?", mode = 'n' },
+        { "g?", mode = 'x' },
+    },
+    cmd = {
+        "ToggleCommentDebugPrints",
+        "DeleteDebugPrints",
+    },
 }
 ```
 
@@ -152,18 +163,6 @@ return {
             toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
         },
-    },
-    -- The 'keys' and 'cmds' sections of this configuration are only needed if
-    -- you want to take advantage of `lazy.nvim` lazy-loading - and you are
-    -- *NOT* using lazy.nvim 0.11+, where they are enabled by default for the
-    -- default keys and commands.
-    keys = {
-        { "g?", mode = 'n' },
-        { "g?", mode = 'x' },
-    },
-    cmd = {
-        "ToggleCommentDebugPrints",
-        "DeleteDebugPrints",
     },
 }
 ```
