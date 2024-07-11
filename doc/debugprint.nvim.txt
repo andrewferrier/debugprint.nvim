@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-07-10
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-07-11
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -76,6 +76,17 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         opts = { … },
         dependencies = {
             "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+        },
+        -- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
+        -- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
+        -- customize the keys/commands (see below), you'll need to change these too.
+        keys = {
+            { "g?", mode = 'n' },
+            { "g?", mode = 'x' },
+        },
+        cmd = {
+            "ToggleCommentDebugPrints",
+            "DeleteDebugPrints",
         },
     }
 <
@@ -182,18 +193,6 @@ might look like this:
                 toggle_comment_debug_prints = "ToggleCommentDebugPrints",
                 delete_debug_prints = "DeleteDebugPrints",
             },
-        },
-        -- The 'keys' and 'cmds' sections of this configuration are only needed if
-        -- you want to take advantage of `lazy.nvim` lazy-loading - and you are
-        -- *NOT* using lazy.nvim 0.11+, where they are enabled by default for the
-        -- default keys and commands.
-        keys = {
-            { "g?", mode = 'n' },
-            { "g?", mode = 'x' },
-        },
-        cmd = {
-            "ToggleCommentDebugPrints",
-            "DeleteDebugPrints",
         },
     }
 <
