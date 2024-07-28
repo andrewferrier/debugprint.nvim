@@ -122,7 +122,7 @@ M.get_and_validate_global_opts = function(opts)
         vim.deprecate(
             "`create_keymaps` option",
             "`keymaps` option",
-            "3.0, use ':help debugprint.nvim-mapping-deprecation' for more information",
+            "in a future version, use ':help debugprint.nvim-mapping-deprecation' for more information",
             "debugprint.nvim",
             false
         )
@@ -137,7 +137,7 @@ M.get_and_validate_global_opts = function(opts)
         vim.deprecate(
             "`create_commands` option",
             "`commands` option",
-            "3.0, use ':help debugprint.nvim-mapping-deprecation' for more information",
+            "in a future version, use ':help debugprint.nvim-mapping-deprecation' for more information",
             "debugprint.nvim",
             false
         )
@@ -151,7 +151,7 @@ M.get_and_validate_global_opts = function(opts)
         vim.deprecate(
             "`ignore_treesitter` option",
             "`*_alwaysprompt` keymappings",
-            "4.0, see ':help debugprint.nvim-keymappings-and-commands' for more information",
+            "in a future version, see ':help debugprint.nvim-keymappings-and-commands' for more information",
             "debugprint.nvim",
             false
         )
