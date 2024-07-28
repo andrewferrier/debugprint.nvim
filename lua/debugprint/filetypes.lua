@@ -13,10 +13,10 @@ local shell = {
     right = '"',
     mid_var = "${",
     right_var = '}"',
-    ---@param opts FindTreesitterVariableOpts
-    find_treesitter_variable = function(opts)
-        if opts.node:type() == "variable_name" then
-            return opts.get_node_text(opts.node)
+    ---@param node TSNode
+    find_treesitter_variable = function(node)
+        if node:type() == "variable_name" then
+            return vim.treesitter.get_node_text(node, 0)
         else
             return nil
         end
@@ -38,12 +38,14 @@ local js = {
     right = '")',
     mid_var = '", ',
     right_var = ")",
-    ---@param opts FindTreesitterVariableOpts
-    find_treesitter_variable = function(opts)
-        if opts.node:type() == "property_identifier" then
-            return opts.get_node_text(opts.node:parent())
-        elseif opts.node:type() == "identifier" then
-            return opts.get_node_text(opts.node)
+    ---@param node TSNode
+    find_treesitter_variable = function(node)
+        if node:type() == "property_identifier" and node:parent() ~= nil then
+            local parent = node:parent()
+            ---@cast parent TSNode
+            return vim.treesitter.get_node_text(parent, 0)
+        elseif node:type() == "identifier" then
+            return vim.treesitter.get_node_text(node, 0)
         else
             return nil
         end
@@ -155,18 +157,20 @@ return {
         right = "')",
         mid_var = "' .. vim.inspect(",
         right_var = "))",
-        ---@param opts FindTreesitterVariableOpts
-        find_treesitter_variable = function(opts)
-            if opts.node:type() == "dot_index_expression" then
-                return opts.get_node_text(opts.node)
+        ---@param node TSNode
+        find_treesitter_variable = function(node)
+            if node:type() == "dot_index_expression" then
+                return vim.treesitter.get_node_text(node, 0)
             elseif
-                opts.node:parent()
-                and opts.node:parent():type() == "dot_index_expression"
-                and opts.node:prev_named_sibling()
+                node:parent()
+                and node:parent():type() == "dot_index_expression"
+                and node:prev_named_sibling()
             then
-                return opts.get_node_text(opts.node:parent())
-            elseif opts.node:type() == "identifier" then
-                return opts.get_node_text(opts.node)
+                local parent = node:parent()
+                ---@cast parent TSNode
+                return vim.treesitter.get_node_text(parent, 0)
+            elseif node:type() == "identifier" then
+                return vim.treesitter.get_node_text(node, 0)
             else
                 return nil
             end

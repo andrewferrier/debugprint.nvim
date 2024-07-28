@@ -164,18 +164,10 @@ M.find_treesitter_variable = function(filetype_config)
     if node_at_cursor == nil then
         return nil
     else
-        ---@type FindTreesitterVariableOpts
-        local obj = {
-            node = node_at_cursor,
-            get_node_text = function(node)
-                return vim.treesitter.get_node_text(node, 0)
-            end,
-        }
-
         if vim.tbl_get(filetype_config, "find_treesitter_variable") then
-            return filetype_config.find_treesitter_variable(obj)
+            return filetype_config.find_treesitter_variable(node_at_cursor)
         else
-            return obj.get_node_text(obj.node)
+            return vim.treesitter.get_node_text(node_at_cursor, 0)
         end
     end
 end
