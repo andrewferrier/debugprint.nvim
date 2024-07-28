@@ -7,7 +7,7 @@
 -- added/removed standalone, or to ensure that the statements are visible by
 -- default. Explanations are given below in comments below in some cases.
 
----@type FileTypeConfig
+---@type DebugprintFileTypeConfig
 local shell = {
     left = '>&2 echo "',
     right = '"',
@@ -32,7 +32,7 @@ docker.left = "RUN " .. docker.left
 -- NodeJS. See
 -- https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694
 -- for some other discussion on this.
----@type FileTypeConfig
+---@type DebugprintFileTypeConfig
 local js = {
     left = 'console.warn("',
     right = '")',
@@ -52,7 +52,7 @@ local js = {
     end,
 }
 
----@type FileTypeConfig
+---@type DebugprintFileTypeConfig
 local cs = {
     left = 'System.Console.Error.WriteLine($"',
     right = '");',
@@ -60,7 +60,7 @@ local cs = {
     right_var = '}");',
 }
 
----@type FileTypeConfig[]
+---@type DebugprintFileTypeConfig[]
 return {
     ["applescript"] = {
         left = 'log "',

@@ -1,6 +1,6 @@
 local M = {}
 
----@type GlobalOptions
+---@type DebugprintGlobalOptions
 local GLOBAL_OPTION_DEFAULTS = {
     keymaps = {
         normal = {
@@ -31,7 +31,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     print_tag = "DEBUGPRINT",
 }
 
----@param o GlobalOptions
+---@param o DebugprintGlobalOptions
 ---@return nil
 local validate_global_opts = function(o)
     local STRING_NIL = { "string", "nil" }
@@ -98,7 +98,7 @@ local FUNCTION_OPTION_DEFAULTS = {
     ignore_treesitter = false,
 }
 
----@param o FunctionOptions
+---@param o DebugprintFunctionOptions
 ---@return nil
 local validate_function_opts = function(o)
     vim.validate({
@@ -108,8 +108,8 @@ local validate_function_opts = function(o)
     })
 end
 
----@param opts? GlobalOptions
----@return GlobalOptions
+---@param opts? DebugprintGlobalOptions
+---@return DebugprintGlobalOptions
 M.get_and_validate_global_opts = function(opts)
     opts = opts or {}
 
@@ -160,8 +160,8 @@ M.get_and_validate_global_opts = function(opts)
     return global_opts
 end
 
----@param opts FunctionOptions
----@return FunctionOptions
+---@param opts DebugprintFunctionOptions
+---@return DebugprintFunctionOptions
 M.get_and_validate_function_opts = function(opts)
     local func_opts = vim.tbl_deep_extend(
         "force",

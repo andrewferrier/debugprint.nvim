@@ -53,7 +53,7 @@ local default_display_counter = function()
     return "[" .. tostring(default_counter) .. "]"
 end
 
----@param opts FunctionOptionsInternal
+---@param opts DebugprintFunctionOptionsInternal
 ---@return string
 local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -83,7 +83,7 @@ local debuginfo = function(opts)
     return line
 end
 
----@return FileTypeConfig?
+---@return DebugprintFileTypeConfig?
 local get_filetype_config = function()
     local effective_filetypes = utils.get_effective_filetypes()
 
@@ -96,8 +96,8 @@ local get_filetype_config = function()
     return nil
 end
 
----@param opts FunctionOptionsInternal
----@param fileconfig FileTypeConfig
+---@param opts DebugprintFunctionOptionsInternal
+---@param fileconfig DebugprintFileTypeConfig
 ---@return nil
 local construct_debugprint_line = function(opts, fileconfig)
     local line_to_insert
@@ -137,7 +137,7 @@ local construct_error_line = function(errormsg)
     end
 end
 
----@param opts FunctionOptionsInternal
+---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
 local addline = function(opts)
     local line_to_insert
@@ -181,7 +181,7 @@ end
 
 local cache_request = {}
 
----@param opts FunctionOptionsInternal
+---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
 M.debugprint_cache = function(opts)
     if opts and opts.prerepeat == true then
@@ -209,13 +209,13 @@ M.debugprint_cache = function(opts)
     utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
----@param opts FunctionOptions
+---@param opts DebugprintFunctionOptions
 ---@return nil
 M.debugprint = function(opts)
     local func_opts =
         require("debugprint.options").get_and_validate_function_opts(opts)
 
-    ---@cast func_opts FunctionOptionsInternal
+    ---@cast func_opts DebugprintFunctionOptionsInternal
 
     if not utils.is_modifiable() then
         return
@@ -240,7 +240,7 @@ M.debugprint_motion_callback = function()
     utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
----@param opts CommandOpts
+---@param opts DebugprintCommandOpts
 ---@return string[],integer
 local get_lines_to_handle = function(opts)
     local lines_to_consider
@@ -266,7 +266,7 @@ local get_lines_to_handle = function(opts)
     return lines_to_consider, initial_line
 end
 
----@param opts CommandOpts
+---@param opts DebugprintCommandOpts
 ---@return nil
 M.deleteprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
@@ -305,7 +305,7 @@ M.deleteprints = function(opts)
     end
 end
 
----@param opts CommandOpts
+---@param opts DebugprintCommandOpts
 ---@return nil
 M.toggle_comment_debugprints = function(opts)
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
@@ -336,7 +336,7 @@ M.toggle_comment_debugprints = function(opts)
     end
 end
 
----@param opts? GlobalOptions
+---@param opts? DebugprintGlobalOptions
 ---@return nil
 M.setup = function(opts)
     global_opts =
@@ -348,7 +348,7 @@ M.setup = function(opts)
     default_counter = 0
 end
 
----@param filetypes FileTypeConfig[]
+---@param filetypes DebugprintFileTypeConfig[]
 ---@return nil
 M.add_custom_filetypes = function(filetypes)
     vim.validate({

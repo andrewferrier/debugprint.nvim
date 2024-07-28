@@ -20,7 +20,7 @@ local feedkeys = function(keys)
     end
 end
 
----@param global_opts GlobalOptions
+---@param global_opts DebugprintGlobalOptions
 ---@return nil
 M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.plain_below, {

@@ -31,7 +31,7 @@ M.is_modifiable = function()
 end
 
 ---@param ignore_treesitter boolean
----@param filetype_config FileTypeConfig
+---@param filetype_config DebugprintFileTypeConfig
 ---@return string?
 M.get_variable_name = function(ignore_treesitter, filetype_config)
     local variable_name = M.get_visual_selection()
@@ -156,7 +156,7 @@ M.get_effective_filetypes = function()
     end
 end
 
----@param filetype_config FileTypeConfig
+---@param filetype_config DebugprintFileTypeConfig
 ---@return string?
 M.find_treesitter_variable = function(filetype_config)
     local node_at_cursor = get_node_at_cursor()
