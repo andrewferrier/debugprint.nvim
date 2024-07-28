@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.0.0...v3.1.0) (2024-07-28)
+
+
+### Features
+
+* Introduce lazy.nvim package spec - closes [#109](https://github.com/andrewferrier/debugprint.nvim/issues/109) ([7c9b7f0](https://github.com/andrewferrier/debugprint.nvim/commit/7c9b7f0a3ead18f762a02c26869fe6d257edda32))
+
+
+### Bug Fixes
+
+* Change back to not supplying lazy-loading config - closes [#111](https://github.com/andrewferrier/debugprint.nvim/issues/111) ([96e6d32](https://github.com/andrewferrier/debugprint.nvim/commit/96e6d324d83b2c31e67681f2c100260128b0c517))
+* Temporary workaround for lazy-loading issue ([265b070](https://github.com/andrewferrier/debugprint.nvim/commit/265b0706e83a60817bbda7475fc549832a9e467a))
+
 ## [3.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v2.0.1...v3.0.0) (2024-05-18)
 
 
