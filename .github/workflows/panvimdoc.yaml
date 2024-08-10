@@ -16,14 +16,6 @@ jobs:
           titledatepattern: "%Y-%m-%d"
           shiftheadinglevelby: -1
           dedupsubheadings: false
-      - name: showcase
-        uses: kdheepak/panvimdoc@main
-        with:
-          pandoc: SHOWCASE.md
-          vimdoc: debugprint.nvim-showcase
-          titledatepattern: "%Y-%m-%d"
-          shiftheadinglevelby: -1
-          dedupsubheadings: false
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Auto generate Vim docs"
