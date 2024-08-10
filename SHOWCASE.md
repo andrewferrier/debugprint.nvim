@@ -6,7 +6,7 @@ However, you may not like the way this is configured for your language of choice
 
 ## Use `console.info()` rather than `console.warn()` for JavaScript/TypeScript
 
-`debugprint` uses `console.warn()` by default for these languages [explanation here](https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694). However, some folks don't like this. You can change it to use `console.info()` instead like this:
+`debugprint` uses `console.warn()` by default for these languages ([explanation here](https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694)). However, some folks don't like this. You can change it to use `console.info()` instead like this:
 
 ```lua
 local js_like = {
