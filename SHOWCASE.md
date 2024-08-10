@@ -1,6 +1,6 @@
 # debugprint.nvim Configuration Showcase
 
-Out of the box, `debugprint` provides a standard set of language configurations to provide `print-like` logic for over 30 different languages.
+Out of the box, `debugprint` provides a standard set of language configurations to provide 'print-like' logic for over 30 different languages.
 
 However, you may not like the way this is configured for your language of choice. This showcase is designed to collect together useful variations to the `debugprint` configuration which may be useful.
 
