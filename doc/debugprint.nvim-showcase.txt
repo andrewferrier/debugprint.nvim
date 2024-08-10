@@ -15,9 +15,9 @@ choice. This showcase is designed to collect together useful variations to the
 ==============================================================================
 1. Use console.info() rather than console.warn() for JavaScript/TypeScript*debugprint.nvim-showcase-use-console.info()-rather-than-console.warn()-for-javascript/typescript*
 
-`debugprint` uses `console.warn()` by default for these languages explanation
+`debugprint` uses `console.warn()` by default for these languages (explanation
 here
-<https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694>.
+<https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694>).
 However, some folks don’t like this. You can change it to use
 `console.info()` instead like this:
 
