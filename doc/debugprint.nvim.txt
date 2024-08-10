@@ -112,8 +112,8 @@ The sections below detail the allowed options that can appear in the `opts`
 object.
 
 There is a showcase of example `debugprint` configurations
-|debugprint.nvim-here| which can be dropped into your configuration files to
-further enhance your use of debugprint.
+|debugprint.nvim-showcase.txt| which can be dropped into your configuration
+files to further enhance your use of debugprint.
 
 ==============================================================================
 5. Links                                               *debugprint.nvim-links*
