@@ -18,16 +18,32 @@ local js_like = {
 
 return {
     "andrewferrier/debugprint.nvim",
-    config = function()
-        require("debugprint").setup({
-            filetypes = {
-               ["javascript"] = js_like,
-               ["javascriptreact"] = js_like,
-               ["typescript"] = js_like,
-               ["typescriptreact"] = js_like,
+    opts = {
+        filetypes = {
+            ["javascript"] = js_like,
+            ["javascriptreact"] = js_like,
+            ["typescript"] = js_like,
+            ["typescriptreact"] = js_like,
+        },
+    },
+}
+```
+
+## Use `wat-inspector` to fully dump objects in Python
+
+You can use the packages [wat-inspector](https://pypi.org/project/wat-inspector/) to fully dump contents of objects when printing variables in Python. Use configuration that looks like this (you will need to `pip install wat-inspector` and then `import wat` in your script):
+
+```lua
+return {
+    "andrewferrier/debugprint.nvim",
+    opts = {
+        filetypes = {
+            ["python"] = {
+                left_var = "print('",
+                mid_var = "'); wat(",
+                right_var = ')',
             },
-        })
-     end,
-     version = "*",
+        },
+    },
 }
 ```
