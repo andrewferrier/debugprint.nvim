@@ -113,7 +113,7 @@ There is a showcase of example `debugprint` configurations [here](SHOWCASE.md) w
 <!-- panvimdoc-ignore-end -->
 
 <!-- panvimdoc-include-comment
-There is a showcase of example `debugprint` configurations [here](#-showcase.txt) which can be dropped into your configuration files to further enhance your use of debugprint.
+There is a showcase of example `debugprint` configurations [showcase.txt](#showcase.txt) which can be dropped into your configuration files to further enhance your use of debugprint.
 -->
 
 Please subscribe to [this GitHub
