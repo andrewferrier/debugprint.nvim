@@ -109,11 +109,11 @@ The sections below detail the allowed options that can appear in the `opts`
 object.
 
 <!-- panvimdoc-ignore-start -->
-There is a showcase of example `debugprint` configurations [here](SHOWCASE.md) which can be dropped into your configuration files to further enhance your use of debugprint.
+There is a showcase of example debugprint configurations [here](SHOWCASE.md) which can be dropped into your configuration files to further enhance your use of debugprint.
 <!-- panvimdoc-ignore-end -->
 
 <!-- panvimdoc-include-comment
-There is a showcase of example `debugprint` configurations [showcase.txt](#showcase.txt) which can be dropped into your configuration files to further enhance your use of debugprint.
+There is a showcase of example debugprint configurations ([showcase.txt](#showcase.txt)) which can be dropped into your configuration files to further enhance your use of debugprint.
 -->
 
 Please subscribe to [this GitHub
