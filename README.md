@@ -112,12 +112,6 @@ object.
 There is a showcase of example debugprint configurations [here](SHOWCASE.md) which can be dropped into your configuration files to further enhance your use of debugprint.
 <!-- panvimdoc-ignore-end -->
 
-<!-- panvimdoc-include-comment
-
-There is a showcase of example debugprint configurations ([showcase.txt](#showcase.txt)) which can be dropped into your configuration files to further enhance your use of debugprint.
-
--->
-
 Please subscribe to [this GitHub
 issue](https://github.com/andrewferrier/debugprint.nvim/issues/25) to be
 notified of any breaking changes to `debugprint`.
