@@ -47,3 +47,27 @@ return {
     },
 }
 ```
+
+## Use lazy-loading with lazy.nvim
+
+`debugprint` can be configured, when using [lazy.nvim](https://github.com/folke/lazy.nvim) as a plugin manager, to lazy load itself. Use configuration that looks like this:
+
+```lua
+return {
+    "andrewferrier/debugprint.nvim",
+
+    -- opts = { … },
+
+    -- The 'keys' and 'cmds' sections of this configuration will need to be changed if you
+    -- customize the keys/commands.
+
+    keys = {
+        { "g?", mode = 'n' },
+        { "g?", mode = 'x' },
+    },
+    cmd = {
+        "ToggleCommentDebugPrints",
+        "DeleteDebugPrints",
+    },
+}
+```
