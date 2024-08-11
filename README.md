@@ -45,7 +45,9 @@ updated and refreshed for the NeoVim generation. It has these features:
 
 *   It can optionally move to the inserted line (or not).
 
-*   You can add support for languages it doesn't support out of the box.
+*   You can add support for languages it doesn't support out of the box, or
+    customize languages already supported (some ideas for this are show in the
+    [showcase](SHOWCASE.md)).
 
 *   It's [MIT Licensed](LICENSE.txt).
 
