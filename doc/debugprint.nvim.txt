@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-08-10
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-08-11
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -23,8 +23,7 @@ a low-tech approach. Instead of using a sophisticated debugger like nvim-dap
 <https://github.com/mfussenegger/nvim-dap>, some people prefer using a 'print'
 statement to trace the output during execution. With `debugprint`, you can
 insert 'print' statements, with debug information pre-populated, relevant to
-the language you’re editing. These statements include reference information
-for quick output navigation and the ability to output variable values.
+the language you’re editing. These statements can include variable values.
 
 `debugprint` supports 30 filetypes/programming languages out-of-the-box,
 including Python, JavaScript/TypeScript, Java, C/C++ and more. See
@@ -36,26 +35,25 @@ extended to support other languages.
 2. Features                                         *debugprint.nvim-features*
 
 `debugprint` is inspired by vim-debugstring
-<https://github.com/bergercookie/vim-debugstring>, but is updated and refreshed
-for the NeoVim generation. It has these features:
+<https://github.com/bergercookie/vim-debugstring>; updated for the NeoVim
+generation. It:
 
-- It includes reference information in each 'print line' such as file names, line
-    numbers, a monotonic counter (which can be customized), and snippets of other
-    lines to make it easier to cross-reference them in output.
-- It can output the value of variables (or in some cases, expressions).
-- It dot-repeats <https://jovicailic.org/2018/03/vim-the-dot-command/>.
-- It can detect a variable name under the cursor if it’s a supported
-    Treesitter-based language, or will prompt for the variable name with a sensible
-    default if not.
-- It knows which filetype you are working with when embedded inside another
-    filetype, e.g. JavaScript-in-HTML, using Treesitter magic.
-- It provides keymappings for visual and operator-pending modes, so you can
-    select variables visually and using motions respectively.
-- It provides commands to delete all debugging lines added to the current buffer
-    as well as comment/uncomment those lines.
-- It can optionally move to the inserted line (or not).
-- You can add support for languages it doesn’t support out of the box.
-- It’s MIT Licensed <LICENSE.txt>.
+- Includes reference information in each 'print line' such as file names, line
+    numbers, a counter, and snippets of other lines to make it easier to
+    cross-reference them in output.
+- Can output the value of variables (or in some cases, expressions).
+- Dot-repeats <https://jovicailic.org/2018/03/vim-the-dot-command/>.
+- Can detect a Treesitter variable name under the cursor for some languages, or
+    will prompt with a sensible default. It understands Treesitter embedded
+    languages (e.g. JavaScript-in-HTML).
+- Provides keymappings for normal, visual, and operator-pending modes.
+- Provides commands to delete debugging lines added to the current buffer or
+    comment/uncomment those lines.
+- Can optionally move to the inserted line (or not).
+- Can be extended to add support for languages it doesn’t support out of the
+    box, or customize languages already supported (some ideas for this are show in
+    the showcase <SHOWCASE.md>).
+- Is MIT Licensed <LICENSE.txt>.
 
 
 ==============================================================================
@@ -79,19 +77,6 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         dependencies = {
             "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
         },
-    
-        -- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
-        -- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
-        -- customize the keys/commands (see below), you'll need to change these too.
-        --
-        -- keys = {
-        --     { "g?", mode = 'n' },
-        --     { "g?", mode = 'x' },
-        -- },
-        -- cmd = {
-        --     "ToggleCommentDebugPrints",
-        --     "DeleteDebugPrints",
-        -- },
     }
 <
 
