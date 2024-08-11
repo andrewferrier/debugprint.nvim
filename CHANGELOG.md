@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.0...v3.1.1) (2024-08-11)
+
+
+### Bug Fixes
+
+* Remove specific version numbers in deprecation warnings ([31588c4](https://github.com/andrewferrier/debugprint.nvim/commit/31588c410a733606f2cbb046eb1eb1b6df323144))
+
 ## [3.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.0.0...v3.1.0) (2024-07-28)
 
 
