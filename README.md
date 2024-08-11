@@ -9,8 +9,7 @@ low-tech approach. Instead of using a sophisticated debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using a
 'print' statement to trace the output during execution. With `debugprint`, you
 can insert 'print' statements, with debug information pre-populated, relevant to
-the language you're editing. These statements include reference information for
-quick output navigation and the ability to output variable values.
+the language you're editing. These statements can include variable values.
 
 `debugprint` supports 30 filetypes/programming languages out-of-the-box,
 including Python, JavaScript/TypeScript, Java, C/C++ and more. See [the
@@ -20,36 +19,33 @@ can also be extended to support other languages.
 ## Features
 
 `debugprint` is inspired by
-[vim-debugstring](https://github.com/bergercookie/vim-debugstring), but is
-updated and refreshed for the NeoVim generation. It has these features:
+[vim-debugstring](https://github.com/bergercookie/vim-debugstring); updated for
+the NeoVim generation. It:
 
-*   It includes reference information in each 'print line' such as file names,
-    line numbers, a monotonic counter (which can be customized), and snippets of
-    other lines to make it easier to cross-reference them in output.
+*   Includes reference information in each 'print line' such as file names, line
+    numbers, a counter, and snippets of other lines to make it easier to
+    cross-reference them in output.
 
-*   It can output the value of variables (or in some cases, expressions).
+*   Can output the value of variables (or in some cases, expressions).
 
-*   It [dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/).
+*   [Dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/).
 
-*   It can detect a variable name under the cursor if it's a supported Treesitter-based
-    language, or will prompt for the variable name with a sensible default if not.
+*   Can detect a Treesitter variable name under the cursor for some languages,
+    or will prompt with a sensible default. It understands Treesitter embedded
+    languages (e.g. JavaScript-in-HTML).
 
-*   It knows which filetype you are working with when embedded inside another
-    filetype, e.g. JavaScript-in-HTML, using Treesitter magic.
+*   Provides keymappings for normal, visual, and operator-pending modes.
 
-*   It provides keymappings for visual and operator-pending modes, so you can select
-    variables visually and using motions respectively.
+*   Provides commands to delete debugging lines added to the current buffer or
+    comment/uncomment those lines.
 
-*   It provides commands to delete all debugging lines added to the current buffer
-    as well as comment/uncomment those lines.
+*   Can optionally move to the inserted line (or not).
 
-*   It can optionally move to the inserted line (or not).
+*   Can be extended to add support for languages it doesn't support out of the
+    box, or customize languages already supported (some ideas for this are show in
+    the [showcase](SHOWCASE.md)).
 
-*   You can add support for languages it doesn't support out of the box, or
-    customize languages already supported (some ideas for this are show in the
-    [showcase](SHOWCASE.md)).
-
-*   It's [MIT Licensed](LICENSE.txt).
+*   Is [MIT Licensed](LICENSE.txt).
 
 ## Demo
 
