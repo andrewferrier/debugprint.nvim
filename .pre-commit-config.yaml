@@ -1,0 +1,11 @@
+# See https://pre-commit.com for more information
+---
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.6.0
+      hooks:
+          - id: check-added-large-files
+    - repo: https://github.com/JohnnyMorganz/StyLua
+      rev: v0.20.0
+      hooks:
+          - id: stylua-system
