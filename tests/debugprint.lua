@@ -1044,6 +1044,33 @@ describe("can handle treesitter identifiers", function()
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
     end)
 
+    it("special case dot expression - 3 elements (lua)", function()
+        debugprint.setup()
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = {}",
+            "    local xyz.abc = {}",
+            "    xyz.abc.def = 123",
+            "end",
+        }, "lua", 4, 10)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "function x()",
+            "    local xyz = {}",
+            "    local xyz.abc = {}",
+            "    xyz.abc.def = 123",
+            "    print('debugprint[1]: "
+                .. filename
+                .. ":4: xyz.abc.def=' .. vim.inspect(xyz.abc.def))",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 4, 10 })
+    end)
+
     it("special case dot expression (javascript)", function()
         debugprint.setup()
 
