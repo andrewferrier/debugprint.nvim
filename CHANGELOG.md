@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.1...v3.1.2) (2024-08-30)
+
+
+### Bug Fixes
+
+* variable_above_alwaysprompt key - closes [#115](https://github.com/andrewferrier/debugprint.nvim/issues/115) ([9d09893](https://github.com/andrewferrier/debugprint.nvim/commit/9d09893caf62c5182a881fb794e7b12ab1fec090))
+
 ## [3.1.1](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.0...v3.1.1) (2024-08-11)
 
 
