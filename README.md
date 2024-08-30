@@ -1,6 +1,9 @@
 # debugprint.nvim
 
 ![Test status](https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg)
+<a href="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim">
+	<img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" />
+</a>
 
 ## Overview
 
