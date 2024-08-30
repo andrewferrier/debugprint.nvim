@@ -969,7 +969,7 @@ describe("can handle treesitter identifiers", function()
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 9 })
     end)
 
-    it("disabled at function level", function()
+    it("always prompt below", function()
         debugprint.setup({
             keymaps = { normal = { variable_below_alwaysprompt = "zxa" } },
         })
@@ -992,6 +992,31 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
+    end)
+
+    it("always prompt above", function()
+        debugprint.setup({
+            keymaps = { normal = { variable_above_alwaysprompt = "zxb" } },
+        })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 10)
+
+        feedkeys("zxb<BS><BS><BS>apple<CR>")
+
+        check_lines({
+            "function x()",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: apple=' .. vim.inspect(apple))",
+            "    local xyz = 3",
+            "end",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
     end)
 
     it("special case dot expression (lua)", function()

@@ -121,34 +121,6 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Comment/uncomment all debugprint statements in the current buffer",
     })
 
-    map_key("x", global_opts.keymaps.visual.variable_below, {
-        callback = function()
-            feedkeys(debugprint.debugprint({ variable = true }))
-        end,
-        desc = "Variable debug below current line",
-    })
-
-    map_key("x", global_opts.keymaps.visual.variable_above, {
-        callback = function()
-            feedkeys(debugprint.debugprint({
-                above = true,
-                variable = true,
-            }))
-        end,
-        desc = "Variable debug above current line",
-    })
-
-    map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
-        callback = function()
-            return debugprint.debugprint({
-                above = true,
-                variable = true,
-                ignore_treesitter = true,
-            })
-        end,
-        desc = "Variable debug above current line (always prompt})",
-    })
-
     if global_opts.commands.delete_debug_prints then
         vim.api.nvim_create_user_command(
             global_opts.commands.delete_debug_prints,
