@@ -29,7 +29,6 @@
 
 ---@class DebugprintFunctionOptionsInternal: DebugprintFunctionOptions
 ---@field motion? boolean
----@field prerepeat? boolean
 ---@field variable_name? string
 
 ---@class DebugprintCommandOpts

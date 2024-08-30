@@ -181,32 +181,47 @@ end
 
 local cache_request = {}
 
+---@param motion string
+---@return nil
+M.debugprint_operatorfunc_regular = function(motion)
+    addline(cache_request)
+    utils.set_callback(
+        "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+    )
+end
+
+---@param motion string
+---@return nil
+M.debugprint_operatorfunc_motion = function(motion)
+    cache_request.variable_name = utils.get_operator_selection()
+    addline(cache_request)
+    utils.set_callback(
+        "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+    )
+end
+
 ---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
-M.debugprint_cache = function(opts)
-    if opts and opts.prerepeat == true then
-        if opts.variable == true then
-            local filetype_config = get_filetype_config()
+M.debugprint_regular = function(opts)
+    if opts.variable == true then
+        local filetype_config = get_filetype_config()
 
-            if filetype_config then
-                opts.variable_name = utils.get_variable_name(
-                    global_opts.ignore_treesitter or opts.ignore_treesitter,
-                    filetype_config
-                )
+        if filetype_config then
+            opts.variable_name = utils.get_variable_name(
+                global_opts.ignore_treesitter or opts.ignore_treesitter,
+                filetype_config
+            )
 
-                if not opts.variable_name then
-                    return
-                end
+            if not opts.variable_name then
+                return
             end
         end
-
-        cache_request = opts
-        vim.go.operatorfunc = "v:lua.require'debugprint'.debugprint_cache"
-        return "g@l"
     end
 
-    addline(cache_request)
-    utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
+    cache_request = opts
+    vim.go.operatorfunc =
+        "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+    return "g@l"
 end
 
 ---@param opts DebugprintFunctionOptions
@@ -224,20 +239,12 @@ M.debugprint = function(opts)
     if func_opts.motion == true then
         cache_request = func_opts
         vim.go.operatorfunc =
-            "v:lua.require'debugprint'.debugprint_motion_callback"
+            "v:lua.require'debugprint'.debugprint_operatorfunc_motion"
         return "g@"
     else
         cache_request = {}
-        func_opts.prerepeat = true
-        return M.debugprint_cache(func_opts)
+        return M.debugprint_regular(func_opts)
     end
-end
-
----@return nil
-M.debugprint_motion_callback = function()
-    cache_request.variable_name = utils.get_operator_selection()
-    addline(cache_request)
-    utils.set_callback("v:lua.require'debugprint'.debugprint_cache")
 end
 
 ---@param opts DebugprintCommandOpts
