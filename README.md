@@ -321,7 +321,8 @@ If it helps to understand these, you can look at the built-in configurations in
 | Customizable callback formatter                                     | :x:               | :x:                                                            | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Implemented in                                                      | Lua               | Lua                                                            | Lua                                                       | Lua                                                                  | VimL                                                | Lua                                                   |
 
-Other unmaintained plugins (last updated more than 3 years ago):
+Other similar plugins (less popular or unmaintained):
 
+*   [my-neovim-pluglist](https://yutkat.github.io/my-neovim-pluginlist/debugger_repl.html#print-debug)
 *   [vim-debugstring](https://github.com/bergercookie/vim-debugstring)
 *   [vim-printf](https://github.com/mptre/vim-printf)
