@@ -263,6 +263,15 @@ The keys in the configuration are used like this:
 If it helps to understand these, you can look at the built-in configurations in
 [filetypes.lua](lua/debugprint/filetypes.lua).
 
+## Known Limitations
+
+* `debugprint` does not handle deleting reformatted debug lines where a
+  formatter has split them across multiple lines. If you want to be able to easily
+  delete your debug lines using `DeleteDebugPrints` or similar, don't format your
+  file between inserting them and running this command. See [this
+  issue](https://github.com/andrewferrier/debugprint.nvim/issues/119) for
+  discussion on this.
+
 ## Feature Comparison with Similar Plugins
 
 (This table is quite wide, you may need to scroll horizontally)
