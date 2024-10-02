@@ -12,8 +12,9 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 7. Other Options                               |debugprint.nvim-other-options|
   - Customizing Counter Logic      |debugprint.nvim-customizing-counter-logic|
 8. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
-9. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
-10. Links                                              |debugprint.nvim-links|
+9. Known Limitations                       |debugprint.nvim-known-limitations|
+10. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
+11. Links                                              |debugprint.nvim-links|
 
 
 
@@ -314,7 +315,18 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
 ==============================================================================
-9. Feature Comparison with Similar Plugins*debugprint.nvim-feature-comparison-with-similar-plugins*
+9. Known Limitations                       *debugprint.nvim-known-limitations*
+
+- `debugprint` does not handle deleting reformatted debug lines where a
+    formatter has split them across multiple lines. If you want to be able to easily
+    delete your debug lines using `DeleteDebugPrints` or similar, don’t format your
+    file between inserting them and running this command. See this
+    issue <https://github.com/andrewferrier/debugprint.nvim/issues/119> for
+    discussion on this.
+
+
+==============================================================================
+10. Feature Comparison with Similar Plugins*debugprint.nvim-feature-comparison-with-similar-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
@@ -447,7 +459,7 @@ Other similar plugins (less popular or unmaintained):
 - vim-printf <https://github.com/mptre/vim-printf>
 
 ==============================================================================
-10. Links                                              *debugprint.nvim-links*
+11. Links                                              *debugprint.nvim-links*
 
 1. *Test status*: https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg
 
