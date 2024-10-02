@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-08-30
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-10-02
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -440,8 +440,9 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   Implemented in          Lua               Lua             Lua            Lua                VimL          Lua
   ---------------------------------------------------------------------------------------------------------------------
-Other unmaintained plugins (last updated more than 3 years ago):
+Other similar plugins (less popular or unmaintained):
 
+- my-neovim-pluglist <https://yutkat.github.io/my-neovim-pluginlist/debugger_repl.html#print-debug>
 - vim-debugstring <https://github.com/bergercookie/vim-debugstring>
 - vim-printf <https://github.com/mptre/vim-printf>
 
