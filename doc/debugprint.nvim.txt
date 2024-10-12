@@ -28,7 +28,7 @@ statement to trace the output during execution. With `debugprint`, you can
 insert 'print' statements, with debug information pre-populated, relevant to
 the language you’re editing. These statements can include variable values.
 
-`debugprint` supports 30 filetypes/programming languages out-of-the-box,
+`debugprint` supports 31 filetypes/programming languages out-of-the-box,
 including Python, JavaScript/TypeScript, Java, C/C++ and more. See
 |debugprint.nvim-the-comparison-table| for the full list. It can also be
 extended to support other languages.
@@ -384,7 +384,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   Built-in support for:   -                 -               -              -                  -             -
 
-  Apex                    :+1:              :x:             :x:            :x:                :x:           :x:
+  Apex (Salesforce)       :+1:              :x:             :x:            :x:                :x:           :x:
 
   AppleScript             :+1:              :+1:            :x:            :x:                :x:           :x:
 
