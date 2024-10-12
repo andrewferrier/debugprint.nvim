@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.2...v3.2.0) (2024-10-12)
+
+
+### Features
+
+* support Apex language ([0228c0e](https://github.com/andrewferrier/debugprint.nvim/commit/0228c0e94fb52c2406ef33fb0e467efb79760f10))
+
 ## [3.1.2](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.1...v3.1.2) (2024-08-30)
 
 
