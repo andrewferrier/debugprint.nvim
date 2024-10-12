@@ -16,7 +16,7 @@ the language you're editing. These statements can include variable values.
 
 `debugprint` supports 31 filetypes/programming languages out-of-the-box,
 including Python, JavaScript/TypeScript, Java, C/C++ and more. See [the
-comparison table](#feature-comparison-with-other-plugins) for the full list. It
+comparison table](#feature-comparison-with-similar-plugins) for the full list. It
 can also be extended to support other languages.
 
 ## Features
