@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-10-02
+*debugprint.nvim.txt*          For NVIM v0.8.0         Last change: 2024-10-12
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -383,6 +383,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   into default register                                                                                     
 
   Built-in support for:   -                 -               -              -                  -             -
+
+  Apex                    :+1:              :x:             :x:            :x:                :x:           :x:
 
   AppleScript             :+1:              :+1:            :x:            :x:                :x:           :x:
 
