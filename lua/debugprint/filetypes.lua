@@ -62,6 +62,13 @@ local cs = {
 
 ---@type DebugprintFileTypeConfig[]
 return {
+    ["apex"] = {
+        left = "System.debug('",
+        left_var = "System.debug('",
+        right = "');",
+        mid_var = "' + ",
+        right_var = ");",
+    },
     ["applescript"] = {
         left = 'log "',
         right = '"',
