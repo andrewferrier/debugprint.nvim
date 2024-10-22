@@ -58,7 +58,11 @@ end
 local debuginfo = function(opts)
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
 
-    local line = global_opts.print_tag
+    local line
+
+    if global_opts.print_tag then
+        line = global_opts.print_tag
+    end
 
     if global_opts.display_counter == true then
         line = line .. default_display_counter()
@@ -66,7 +70,11 @@ local debuginfo = function(opts)
         line = line .. tostring(global_opts.display_counter())
     end
 
-    line = line .. ": " .. vim.fn.expand("%:t") .. ":" .. current_line
+    if line ~= "" then
+        line = line .. ": "
+    end
+
+    line = line .. vim.fn.expand("%:t") .. ":" .. current_line
 
     if global_opts.display_snippet and opts.variable_name == nil then
         local snippet = get_snippet(current_line, opts.above)
@@ -276,6 +284,15 @@ end
 ---@param opts DebugprintCommandOpts
 ---@return nil
 M.deleteprints = function(opts)
+    if global_opts.print_tag == "" then
+        vim.notify(
+            "WARNING: no print_tag set, cannot delete lines.",
+            vim.log.levels.WARN
+        )
+
+        return
+    end
+
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local delete_adjust = 0
     local deleted_count = 0
@@ -315,6 +332,15 @@ end
 ---@param opts DebugprintCommandOpts
 ---@return nil
 M.toggle_comment_debugprints = function(opts)
+    if global_opts.print_tag == "" then
+        vim.notify(
+            "WARNING: no print_tag set, cannot comment-toggle lines.",
+            vim.log.levels.WARN
+        )
+
+        return
+    end
+
     local lines_to_consider, initial_line = get_lines_to_handle(opts)
     local toggled_count = 0
 

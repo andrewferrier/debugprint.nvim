@@ -2062,3 +2062,112 @@ describe("custom counter", function()
         })
     end)
 end)
+
+describe("check for variations of printtag/display_counter", function()
+    after_each(teardown)
+
+    it("regular printtag", function()
+        debugprint.setup({ display_counter = false })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("empty printtag with display_counter=false", function()
+        debugprint.setup({ print_tag = "", display_counter = false })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('" .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("empty printtag with display_counter=true", function()
+        debugprint.setup({ print_tag = "" })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("basic DeleteDebugPrints", function()
+        assert.equals(notify_message, nil)
+
+        debugprint.setup({ print_tag = "" })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("DeleteDebugPrints")
+
+        assert.equals(
+            notify_message,
+            "WARNING: no print_tag set, cannot delete lines."
+        )
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "    print('[1]: " .. filename .. ":2 (after local xyz = 3)')",
+            "end",
+        })
+    end)
+
+    it("basic ToggleCommentDebugPrint", function()
+        assert.equals(notify_message, nil)
+
+        debugprint.setup({ print_tag = "" })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 1)
+
+        feedkeys("g?p")
+        vim.cmd("ToggleCommentDebugPrints")
+
+        assert.equals(
+            notify_message,
+            "WARNING: no print_tag set, cannot comment-toggle lines."
+        )
+
+        check_lines({
+            "function x()",
+            "    print('[1]: " .. filename .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+end)
