@@ -1,6 +1,6 @@
 local M = {}
 
-local utils = require("lua.debugprint.utils")
+local utils = require("debugprint.utils")
 local utils_buffer = require("debugprint.utils.buffer")
 local utils_errors = require("debugprint.utils.errors")
 local utils_operator = require("debugprint.utils.operator")
