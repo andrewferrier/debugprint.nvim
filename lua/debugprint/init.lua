@@ -1,6 +1,9 @@
 local M = {}
 
-local utils = require("debugprint.utils")
+local utils = require("lua.debugprint.utils")
+local utils_buffer = require("debugprint.utils.buffer")
+local utils_errors = require("debugprint.utils.errors")
+local utils_operator = require("debugprint.utils.operator")
 
 local global_opts
 local default_counter = 0
@@ -14,7 +17,7 @@ local get_snippet = function(current_line, above)
     local line_contents = ""
 
     while line_contents == "" do
-        line_contents = utils.get_trimmed_content_of_line(current_line)
+        line_contents = utils_buffer.get_trimmed_content_of_line(current_line)
 
         if line_contents == "" then
             if above then
@@ -132,19 +135,6 @@ local construct_debugprint_line = function(opts, fileconfig)
     return line_to_insert
 end
 
----@param errormsg string
----@return nil
-local construct_error_line = function(errormsg)
-    local commentstring =
-        vim.api.nvim_get_option_value("commentstring", { scope = "local" })
-
-    if string.find(commentstring, "%%s") then
-        return vim.fn.substitute(commentstring, "%s", errormsg, "")
-    else
-        return errormsg
-    end
-end
-
 ---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
 local addline = function(opts)
@@ -155,7 +145,7 @@ local addline = function(opts)
     if fileconfig ~= nil then
         line_to_insert = construct_debugprint_line(opts, fileconfig)
     else
-        line_to_insert = construct_error_line(
+        line_to_insert = utils_errors.construct_error_line(
             "No debugprint configuration for filetype "
                 .. utils.get_effective_filetypes()[1]
                 .. "; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes"
@@ -184,7 +174,10 @@ local addline = function(opts)
         { leading_space .. line_to_insert }
     )
 
-    utils.indent_line(line_to_insert_linenr, global_opts.move_to_debugline)
+    utils_buffer.indent_line(
+        line_to_insert_linenr,
+        global_opts.move_to_debugline
+    )
 end
 
 local cache_request = {}
@@ -193,7 +186,7 @@ local cache_request = {}
 ---@return nil
 M.debugprint_operatorfunc_regular = function(motion)
     addline(cache_request)
-    utils.set_callback(
+    utils_operator.set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )
 end
@@ -201,11 +194,8 @@ end
 ---@param motion string
 ---@return nil
 M.debugprint_operatorfunc_motion = function(motion)
-    cache_request.variable_name = utils.get_operator_selection()
-    addline(cache_request)
-    utils.set_callback(
-        "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
-    )
+    cache_request.variable_name = utils_buffer.get_operator_selection()
+    M.debugprint_operatorfunc_regular(motion)
 end
 
 ---@param opts DebugprintFunctionOptionsInternal
@@ -240,7 +230,7 @@ M.debugprint = function(opts)
 
     ---@cast func_opts DebugprintFunctionOptionsInternal
 
-    if not utils.is_modifiable() then
+    if not utils_buffer.is_modifiable() then
         return
     end
 
@@ -256,32 +246,6 @@ M.debugprint = function(opts)
 end
 
 ---@param opts DebugprintCommandOpts
----@return string[],integer
-local get_lines_to_handle = function(opts)
-    local lines_to_consider
-    local initial_line
-
-    -- opts.range appears to be the magic value that indicates a range is passed
-    -- in and valid.
-
-    if
-        opts
-        and (opts.range == 1 or opts.range == 2)
-        and opts.line1
-        and opts.line2
-    then
-        lines_to_consider =
-            vim.api.nvim_buf_get_lines(0, opts.line1 - 1, opts.line2, false)
-        initial_line = opts.line1
-    else
-        lines_to_consider = vim.api.nvim_buf_get_lines(0, 0, -1, true)
-        initial_line = 1
-    end
-
-    return lines_to_consider, initial_line
-end
-
----@param opts DebugprintCommandOpts
 ---@return nil
 M.deleteprints = function(opts)
     if global_opts.print_tag == "" then
@@ -293,11 +257,12 @@ M.deleteprints = function(opts)
         return
     end
 
-    local lines_to_consider, initial_line = get_lines_to_handle(opts)
+    local lines_to_consider, initial_line =
+        utils_buffer.get_command_lines_to_handle(opts)
     local delete_adjust = 0
     local deleted_count = 0
 
-    if not utils.is_modifiable() then
+    if not utils_buffer.is_modifiable() then
         return
     end
 
@@ -341,17 +306,18 @@ M.toggle_comment_debugprints = function(opts)
         return
     end
 
-    local lines_to_consider, initial_line = get_lines_to_handle(opts)
+    local lines_to_consider, initial_line =
+        utils_buffer.get_command_lines_to_handle(opts)
     local toggled_count = 0
 
-    if not utils.is_modifiable() then
+    if not utils_buffer.is_modifiable() then
         return
     end
 
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             local line_to_toggle = count + initial_line - 1
-            utils.toggle_comment_line(line_to_toggle)
+            utils_buffer.toggle_comment_line(line_to_toggle)
             toggled_count = toggled_count + 1
         end
     end
