@@ -202,7 +202,7 @@ end)
 describe("snippet handling", function()
     after_each(teardown)
 
-    it("can insert a basic statement below", function()
+    it("don't display snippet", function()
         debugprint.setup({ display_snippet = false })
 
         local filename = init_file({
