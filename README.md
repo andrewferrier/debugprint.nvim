@@ -186,13 +186,13 @@ reason, please open an
 
 `debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default      | Purpose                                                                                                                                |
-| ------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                |
-| `display_counter`   | `true`       | Whether to display/include the increasing integer counter in each debug message. Can also be set to a function to customize, see below |
-| `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                              |
-| `filetypes`         | See below    | Custom filetypes - see below                                                                                                           |
-| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`.             |
+| Option              | Default      | Purpose                                                                                                                                                                                                                                                                     |
+| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                     |
+| `display_counter`   | `true`       | Whether to display/include the increasing integer counter in each debug message. Can also be set to a function to customize, see below                                                                                                                                      |
+| `display_snippet`   | `true`       | Whether to include a snippet of the line above/below in plain debug lines                                                                                                                                                                                                   |
+| `filetypes`         | See below    | Custom filetypes - see below                                                                                                                                                                                                                                                |
+| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''`, no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
 
 ### Customizing Counter Logic
 
