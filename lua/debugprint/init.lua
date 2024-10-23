@@ -56,39 +56,73 @@ local default_display_counter = function()
     return "[" .. tostring(default_counter) .. "]"
 end
 
----@param opts DebugprintFunctionOptionsInternal
 ---@return string
-local debuginfo = function(opts)
-    local current_line = vim.api.nvim_win_get_cursor(0)[1]
-
-    local line
+local debuginfo_tag_and_counter = function()
+    local tag_and_counter = ""
 
     if global_opts.print_tag then
-        line = global_opts.print_tag
+        tag_and_counter = global_opts.print_tag
     end
 
     if global_opts.display_counter == true then
-        line = line .. default_display_counter()
+        tag_and_counter = tag_and_counter .. default_display_counter()
     elseif type(global_opts.display_counter) == "function" then
-        line = line .. tostring(global_opts.display_counter())
+        tag_and_counter = tag_and_counter
+            .. tostring(global_opts.display_counter())
     end
 
-    if line ~= "" then
-        line = line .. ": "
+    return tag_and_counter
+end
+
+---@param opts DebugprintFunctionOptionsInternal
+---@return string
+local debuginfo = function(opts)
+    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
+
+    local line_components = {}
+    local force_snippet_for_plain = false
+
+    if
+        not global_opts.display_location
+        and not global_opts.display_snippet
+        and not global_opts.display_counter
+        and global_opts.print_tag == ""
+    then
+        force_snippet_for_plain = true
     end
 
-    line = line .. vim.fn.expand("%:t") .. ":" .. current_line
+    local tag_and_counter = debuginfo_tag_and_counter()
 
-    if global_opts.display_snippet and opts.variable_name == nil then
-        local snippet = get_snippet(current_line, opts.above)
+    if tag_and_counter ~= "" then
+        table.insert(line_components, tag_and_counter .. ":")
+    end
+
+    if global_opts.display_location then
+        table.insert(
+            line_components,
+            vim.fn.expand("%:t") .. ":" .. current_line_nr
+        )
+    end
+
+    if
+        (global_opts.display_snippet or force_snippet_for_plain)
+        and opts.variable_name == nil
+    then
+        local snippet = get_snippet(current_line_nr, opts.above)
 
         if snippet then
-            line = line .. " " .. snippet
+            table.insert(line_components, snippet)
         end
     end
 
+    local line = vim.fn.trim(table.concat(line_components, " "), ":")
+
     if opts.variable_name ~= nil then
-        line = line .. ": " .. opts.variable_name .. "="
+        if line ~= "" then
+            line = line .. ": "
+        end
+
+        line = line .. opts.variable_name .. "="
     end
 
     return line

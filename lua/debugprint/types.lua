@@ -13,6 +13,7 @@
 ---@field keymaps? table
 ---@field commands? table
 ---@field display_counter? boolean
+---@field display_location? boolean
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
 ---@field filetypes? DebugprintFileTypeConfig[]

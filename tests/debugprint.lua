@@ -2171,3 +2171,150 @@ describe("check for variations of printtag/display_counter", function()
         })
     end)
 end)
+
+describe("variations of display_* options", function()
+    after_each(teardown)
+
+    it("no display_location", function()
+        debugprint.setup({ display_location = false })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("no display_location, counter", function()
+        debugprint.setup({
+            display_location = false,
+            display_counter = false,
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT: (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("no display_location, counter, snippet", function()
+        debugprint.setup({
+            display_location = false,
+            display_counter = false,
+            display_snippet = false,
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT')",
+            "bar",
+        })
+    end)
+
+    it("no display_location, counter, snippet, print_tag", function()
+        debugprint.setup({
+            display_location = false,
+            display_counter = false,
+            display_snippet = false,
+            print_tag = "",
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        -- In this case we print the snippet anyway, because otherwise this makes no sense and the plain print statement will print nothing.
+        check_lines({
+            "foo",
+            "print('(after foo)')",
+            "bar",
+        })
+    end)
+
+    it("variable, no display_location", function()
+        debugprint.setup({
+            display_location = false,
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: foo=' .. vim.inspect(foo))",
+            "bar",
+        })
+    end)
+
+    it("variable, no display_location, counter, snippet", function()
+        debugprint.setup({
+            display_location = false,
+            display_counter = false,
+            display_snippet = false,
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT: foo=' .. vim.inspect(foo))",
+            "bar",
+        })
+    end)
+
+    it("variable, no display_location, counter, snippet, print_tag", function()
+        debugprint.setup({
+            display_location = false,
+            display_counter = false,
+            display_snippet = false,
+            print_tag = "",
+        })
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "foo",
+            "print('foo=' .. vim.inspect(foo))",
+            "bar",
+        })
+    end)
+end)
