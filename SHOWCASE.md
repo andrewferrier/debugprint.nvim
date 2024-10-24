@@ -71,3 +71,18 @@ return {
     },
 }
 ```
+
+## Use a custom `display_counter` counter
+
+The `display_counter` option can be set to a custom callback function to implement custom counter logic. In this case you are responsible for implementing your own counter. For example, this logic will implement essentially the same as the default counter:
+
+```lua
+local counter = 0
+
+local counter_func = function()
+    counter = counter + 1
+    return '[' .. tostring(counter) .. ']'
+end
+
+debugprint.setup({display_counter = counter_func})
+```
