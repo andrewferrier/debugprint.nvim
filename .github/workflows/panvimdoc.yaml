@@ -13,6 +13,7 @@ jobs:
         uses: kdheepak/panvimdoc@main
         with:
           vimdoc: debugprint.nvim
+          version: ""
           titledatepattern: "%Y-%m-%d"
           shiftheadinglevelby: -1
           dedupsubheadings: false
