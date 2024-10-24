@@ -8,48 +8,6 @@ local utils_operator = require("debugprint.utils.operator")
 local global_opts
 local default_counter = 0
 
-MAX_SNIPPET_LENGTH = 40
-
----@param current_line integer
----@param above boolean
----@return string
-local get_snippet = function(current_line, above)
-    local line_contents = ""
-
-    while line_contents == "" do
-        line_contents = utils_buffer.get_trimmed_content_of_line(current_line)
-
-        if line_contents == "" then
-            if above then
-                current_line = current_line + 1
-            else
-                current_line = current_line - 1
-            end
-
-            if current_line < 1 then
-                return "(start of file)"
-            end
-
-            if current_line > vim.api.nvim_buf_line_count(0) then
-                return "(end of file)"
-            end
-        end
-    end
-
-    if line_contents:len() > MAX_SNIPPET_LENGTH then
-        line_contents = string.sub(line_contents, 0, MAX_SNIPPET_LENGTH)
-            .. "…"
-    end
-
-    if above then
-        line_contents = "(before " .. line_contents .. ")"
-    else
-        line_contents = "(after " .. line_contents .. ")"
-    end
-
-    return line_contents
-end
-
 ---@return string
 local default_display_counter = function()
     default_counter = default_counter + 1
@@ -108,7 +66,7 @@ local debuginfo = function(opts)
         (global_opts.display_snippet or force_snippet_for_plain)
         and opts.variable_name == nil
     then
-        local snippet = get_snippet(current_line_nr, opts.above)
+        local snippet = utils.get_snippet(current_line_nr, opts.above)
 
         if snippet then
             table.insert(line_components, snippet)
