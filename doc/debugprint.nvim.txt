@@ -10,7 +10,6 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
 6. Mapping Deprecation                   |debugprint.nvim-mapping-deprecation|
 7. Other Options                               |debugprint.nvim-other-options|
-  - Customizing Counter Logic      |debugprint.nvim-customizing-counter-logic|
 8. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
 9. Known Limitations                       |debugprint.nvim-known-limitations|
 10. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
@@ -229,7 +228,8 @@ for some reason, please open an issue
                                    in the debug message
 
   display_counter     true         Include the increasing integer counter in the debug message.
-                                   Can also be set to a function to customize, see below
+                                   Can also be set to a function to customize, see the showcase)
+                                   for an example
 
   display_snippet     true         Include a snippet of the line above/below in the debug message
                                    (plain debug lines only) for context
@@ -242,25 +242,6 @@ for some reason, please open an issue
                                    will disable the ability to delete or comment print statements
                                    via debugprint
   ------------------------------------------------------------------------------------------------
-
-CUSTOMIZING COUNTER LOGIC          *debugprint.nvim-customizing-counter-logic*
-
-`display_counter` can also be set to a custom callback function to implement
-custom counter logic. In this case you are responsible for implementing your
-own counter. For example, this logic will implement essentially the same as the
-default counter:
-
->lua
-    local counter = 0
-    
-    local counter_func = function()
-        counter = counter + 1
-        return '[' .. tostring(counter) .. ']'
-    end
-    
-    debugprint.setup({display_counter = counter_func})
-<
-
 
 ==============================================================================
 8. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
