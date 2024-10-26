@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/andrewferrier/debugprint.nvim/compare/v3.2.0...v3.2.1) (2024-10-26)
+
+
+### Bug Fixes
+
+* Trigger for luarocks ([6083ff3](https://github.com/andrewferrier/debugprint.nvim/commit/6083ff3a3d8e2faccbe15f10be348208693bea94))
+* Try using 'published' instead for luarocks ([600746d](https://github.com/andrewferrier/debugprint.nvim/commit/600746d90f9eec90b026302662b5b1883cae7457))
+
 ## [3.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.2...v3.2.0) (2024-10-26)
 
 
