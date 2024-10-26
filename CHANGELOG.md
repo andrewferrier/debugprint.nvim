@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.2.1...v3.3.0) (2024-10-26)
+
+
+### Features
+
+* Dummy ([e02ca84](https://github.com/andrewferrier/debugprint.nvim/commit/e02ca840e4fdd47c9ccdfa75d07f334d9fb4ac59))
+
 ## [3.2.1](https://github.com/andrewferrier/debugprint.nvim/compare/v3.2.0...v3.2.1) (2024-10-26)
 
 
