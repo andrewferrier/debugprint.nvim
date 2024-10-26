@@ -1,7 +1,9 @@
 ---
 name: LuaRocks release
 
-on: [push]
+on:
+  release:
+    types: [published]
 
 jobs:
   luarocks-release:
