@@ -17,8 +17,6 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 <https://luarocks.org/modules/andrewferrier/debugprint.nvim>
 
 
-
-
 ==============================================================================
 1. Overview                                         *debugprint.nvim-overview*
 
