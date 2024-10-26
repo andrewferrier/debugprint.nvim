@@ -1,7 +1,6 @@
 # debugprint.nvim
 
 ![Test status](https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg)
-[![LuaRocks](https://img.shields.io/luarocks/v/andrewferrier/debugprint.nvim?logo=lua&color=purple)](https://luarocks.org/modules/andrewferrier/debugprint.nvim)
 <a href="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim">
 	<img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" />
 </a>
