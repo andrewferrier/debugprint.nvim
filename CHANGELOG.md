@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.2...v3.2.0) (2024-10-26)
+
+
+### Features
+
+* Add display_location and enhance tests - closes [#122](https://github.com/andrewferrier/debugprint.nvim/issues/122) ([0a2a860](https://github.com/andrewferrier/debugprint.nvim/commit/0a2a8607179062326131080ba8da7fef922a45e1))
+* Add luarocks support ([7358de8](https://github.com/andrewferrier/debugprint.nvim/commit/7358de804a1b796f072d88bf6607ce34f3d06078))
+* support Apex language ([0228c0e](https://github.com/andrewferrier/debugprint.nvim/commit/0228c0e94fb52c2406ef33fb0e467efb79760f10))
+
+
+### Bug Fixes
+
+* Handle empty print_tag ([4e84b47](https://github.com/andrewferrier/debugprint.nvim/commit/4e84b47836ebd527efd3f341e090cb9b2c0e6e26))
+* Remove redundant 'lua' ([f71c14e](https://github.com/andrewferrier/debugprint.nvim/commit/f71c14e8b6a3b276ca2fcc0963cbdf599f06b443))
+
 ## [3.1.2](https://github.com/andrewferrier/debugprint.nvim/compare/v3.1.1...v3.1.2) (2024-08-30)
 
 
