@@ -174,20 +174,18 @@ end
 
 local cache_request = {}
 
----@param motion string
 ---@return nil
-M.debugprint_operatorfunc_regular = function(motion)
+M.debugprint_operatorfunc_regular = function()
     addline(cache_request)
     utils_operator.set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )
 end
 
----@param motion string
 ---@return nil
-M.debugprint_operatorfunc_motion = function(motion)
+M.debugprint_operatorfunc_motion = function()
     cache_request.variable_name = utils_buffer.get_operator_selection()
-    M.debugprint_operatorfunc_regular(motion)
+    M.debugprint_operatorfunc_regular()
 end
 
 ---@param opts DebugprintFunctionOptionsInternal
@@ -209,8 +207,9 @@ M.debugprint_regular = function(opts)
     end
 
     cache_request = opts
-    vim.go.operatorfunc =
+    utils_operator.set_operatorfunc(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+    )
     return "g@l"
 end
 
@@ -228,8 +227,9 @@ M.debugprint = function(opts)
 
     if func_opts.motion == true then
         cache_request = func_opts
-        vim.go.operatorfunc =
+        utils_operator.set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_motion"
+        )
         return "g@"
     else
         cache_request = {}
