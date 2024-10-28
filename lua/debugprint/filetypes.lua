@@ -249,8 +249,8 @@ return {
     },
     ["zig"] = {
         left = 'std.debug.print("',
-        right = '", .{});',
-        mid_var = '{any}", .{',
+        right = '\\n", .{});',
+        mid_var = '{any}\\n", .{',
         right_var = '});',
     },
     ["zsh"] = shell,
