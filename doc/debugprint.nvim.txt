@@ -429,6 +429,8 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
   VimL (vimscript)        :+1:              :x:             :+1:           :x:                :+1:          :x:
 
+  Zig                     :+1:              :x:             :x:            :x:                :x:           :x:
+
   zsh                     :+1:              :x:             :+1:           :x:                :+1:          :x:
 
   Add custom filetypes    :+1:              :+1:            :+1:           :x:                :x:           :+1:
