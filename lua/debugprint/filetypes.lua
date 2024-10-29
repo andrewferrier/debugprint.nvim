@@ -247,5 +247,11 @@ return {
         mid_var = '" .. ',
         right_var = "",
     },
+    ["zig"] = {
+        left = 'std.debug.print("',
+        right = '\\n", .{});',
+        mid_var = '{any}\\n", .{',
+        right_var = '});',
+    },
     ["zsh"] = shell,
 }
