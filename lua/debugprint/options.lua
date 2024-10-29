@@ -66,32 +66,36 @@ local validate_global_opts = function(o)
     local normal = o.keymaps.normal
     local visual = o.keymaps.visual
 
-    vim.validate({
-        plain_below = { normal.plain_below, STRING_NIL },
-        plain_above = { normal.plain_above, STRING_NIL },
-        variable_below = { normal.variable_below, STRING_NIL },
-        variable_above = { normal.variable_above, STRING_NIL },
-        variable_below_alwaysprompt = {
-            normal.variable_below_alwaysprompt,
-            STRING_NIL,
-        },
-        variable_above_alwaysprompt = {
-            normal.variable_above_alwaysprompt,
-            STRING_NIL,
-        },
-        textobj_below = { normal.textobj_below, STRING_NIL },
-        textobj_above = { normal.textobj_above, STRING_NIL },
-        delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
-        toggle_comment_debug_prints = {
-            normal.toggle_comment_debug_prints,
-            STRING_NIL,
-        },
-    })
+    if normal ~= nil then
+        vim.validate({
+            plain_below = { normal.plain_below, STRING_NIL },
+            plain_above = { normal.plain_above, STRING_NIL },
+            variable_below = { normal.variable_below, STRING_NIL },
+            variable_above = { normal.variable_above, STRING_NIL },
+            variable_below_alwaysprompt = {
+                normal.variable_below_alwaysprompt,
+                STRING_NIL,
+            },
+            variable_above_alwaysprompt = {
+                normal.variable_above_alwaysprompt,
+                STRING_NIL,
+            },
+            textobj_below = { normal.textobj_below, STRING_NIL },
+            textobj_above = { normal.textobj_above, STRING_NIL },
+            delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
+            toggle_comment_debug_prints = {
+                normal.toggle_comment_debug_prints,
+                STRING_NIL,
+            },
+        })
+    end
 
-    vim.validate({
-        variable_below = { visual.variable_below, STRING_NIL },
-        variable_above = { visual.variable_above, STRING_NIL },
-    })
+    if visual ~= nil then
+        vim.validate({
+            variable_below = { visual.variable_below, STRING_NIL },
+            variable_above = { visual.variable_above, STRING_NIL },
+        })
+    end
 end
 
 local FUNCTION_OPTION_DEFAULTS = {

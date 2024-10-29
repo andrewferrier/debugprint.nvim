@@ -214,7 +214,7 @@ M.debugprint_regular = function(opts)
 end
 
 ---@param opts? DebugprintFunctionOptions
----@return string | nil
+---@return string?
 M.debugprint = function(opts)
     local func_opts =
         require("debugprint.options").get_and_validate_function_opts(opts)

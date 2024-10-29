@@ -48,9 +48,9 @@
 ---@field toggle_comment_debug_prints? string
 
 ---@class DebugprintFunctionOptions
----@field above boolean
----@field variable boolean
----@field ignore_treesitter boolean
+---@field above? boolean
+---@field variable? boolean
+---@field ignore_treesitter? boolean
 
 ---@class DebugprintFunctionOptionsInternal: DebugprintFunctionOptions
 ---@field motion? boolean

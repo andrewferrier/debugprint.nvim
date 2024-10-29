@@ -12,7 +12,7 @@ local map_key = function(mode, lhs, opts)
     end
 end
 
----@param keys string
+---@param keys string?
 ---@return nil
 local feedkeys = function(keys)
     if keys ~= nil and keys ~= "" then
