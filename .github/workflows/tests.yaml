@@ -36,6 +36,14 @@ jobs:
       - name: Lint
         run: luacheck lua/
 
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: stevearc/nvim-typecheck-action@v2
+        with:
+          path: lua/
+
   unit_test:
     runs-on: ubuntu-latest
 
