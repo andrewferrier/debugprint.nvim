@@ -171,7 +171,6 @@ end)
 describe("can do basic debug statement insertion (custom keys)", function()
     before_each(function()
         debugprint.setup({
-            ---@diagnostic disable-next-line: missing-fields
             keymaps = {
                 normal = { plain_below = "zdp" },
             },
@@ -976,7 +975,6 @@ describe("can handle treesitter identifiers", function()
 
     it("always prompt below", function()
         debugprint.setup({
-            ---@diagnostic disable-next-line: missing-fields
             keymaps = {
                 normal = { variable_below_alwaysprompt = "zxa" },
             },
@@ -1004,7 +1002,6 @@ describe("can handle treesitter identifiers", function()
 
     it("always prompt above", function()
         debugprint.setup({
-            ---@diagnostic disable-next-line: missing-fields
             keymaps = { normal = { variable_above_alwaysprompt = "zxb" } },
         })
 
@@ -1608,7 +1605,6 @@ describe("delete lines command", function()
 
     it("basic - with key binding", function()
         debugprint.setup({
-            ---@diagnostic disable-next-line: missing-fields
             keymaps = { normal = { delete_debug_prints = "g?x" } },
         })
 
@@ -1924,7 +1920,6 @@ describe("comment toggle", function()
 
     it("basic with keymaps", function()
         debugprint.setup({
-            ---@diagnostic disable-next-line: missing-fields
             keymaps = { normal = { toggle_comment_debug_prints = "g?x" } },
         })
         assert.equals(notify_message, nil)

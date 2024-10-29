@@ -25,7 +25,6 @@ end
 M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.plain_below, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({}))
         end,
         desc = "Plain debug below current line",
@@ -33,7 +32,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.plain_above, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({ above = true }))
         end,
         desc = "Plain debug above current line",
@@ -41,7 +39,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.variable_below, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({ variable = true }))
         end,
         desc = "Variable debug below current line",
@@ -49,7 +46,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.variable_above, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({
                 above = true,
                 variable = true,
@@ -60,7 +56,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.variable_below_alwaysprompt, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({
                 variable = true,
                 ignore_treesitter = true,
@@ -71,7 +66,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({
                 above = true,
                 variable = true,
@@ -83,7 +77,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.textobj_below, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             return debugprint.debugprint({ motion = true })
         end,
         expr = true,
@@ -92,7 +85,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.textobj_above, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             return debugprint.debugprint({
                 motion = true,
                 above = true,
@@ -104,7 +96,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("x", global_opts.keymaps.visual.variable_below, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({ variable = true }))
         end,
         desc = "Variable debug below current line",
@@ -112,7 +103,6 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("x", global_opts.keymaps.visual.variable_above, {
         callback = function()
-            ---@diagnostic disable-next-line: missing-fields
             feedkeys(debugprint.debugprint({
                 above = true,
                 variable = true,

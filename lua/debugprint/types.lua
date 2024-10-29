@@ -24,8 +24,8 @@
 ---@field ignore_treesitter? boolean
 
 ---@class DebugprintKeymapOptions
----@field normal DebugprintKeymapNormalOptions
----@field visual DebugprintKeymapVisualOptions
+---@field normal? DebugprintKeymapNormalOptions
+---@field visual? DebugprintKeymapVisualOptions
 
 ---@class DebugprintKeymapNormalOptions
 ---@field plain_below? string
