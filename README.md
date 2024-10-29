@@ -10,20 +10,21 @@
 `debugprint` is a NeoVim plugin that simplifies debugging for those who prefer a
 low-tech approach. Instead of using a sophisticated debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using a
-'print' statement to trace the output during execution. With `debugprint`, you
-can insert 'print' statements, with debug information pre-populated, relevant to
-the language you're editing. These statements can include variable values.
-
-`debugprint` supports 31 filetypes/programming languages out-of-the-box,
-including Python, JavaScript/TypeScript, Java, C/C++ and more. See [the
-comparison table](#feature-comparison-with-similar-plugins) for the full list. It
-can also be extended to support other languages.
+'print'-like statement to trace the output during execution. With `debugprint`,
+you can insert these statements, including the values of variables, relevant to
+the language you're editing.
 
 ## Features
 
 `debugprint` is inspired by
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring); updated for
 the NeoVim generation. It:
+
+*   Supports 32 filetypes/programming languages out-of-the-box, including
+    Python, JavaScript/TypeScript, Java, C/C++ and
+    [more](#feature-comparison-with-similar-plugins). It can also be extended to
+    add support for additional languages, or customize languages already supported
+    (see [showcase](SHOWCASE.md) for ideas).
 
 *   Includes reference information in each 'print line' such as file names, line
     numbers, a counter, and snippets of other lines to make it easier to
@@ -43,10 +44,6 @@ the NeoVim generation. It:
     comment/uncomment those lines.
 
 *   Can optionally move to the inserted line (or not).
-
-*   Can be extended to add support for languages it doesn't support out of the
-    box, or customize languages already supported (some ideas for this are show in
-    the [showcase](SHOWCASE.md)).
 
 *   Is [MIT Licensed](LICENSE.txt).
 
@@ -309,6 +306,7 @@ If it helps to understand these, you can look at the built-in configurations in
 | Rust                                                                | :+1:              | :+1:                                                           | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
 | Swift                                                               | :+1:              | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | VimL (vimscript)                                                    | :+1:              | :x:                                                            | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
+| Zig                                                                 | :+1:              | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | zsh                                                                 | :+1:              | :x:                                                            | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
 | Add custom filetypes (doced/supported)                              | :+1:              | :+1:                                                           | :+1:                                                      | :x:                                                                  | :x:                                                 | :+1:                                                  |
 | Customizable callback formatter                                     | :x:               | :x:                                                            | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |

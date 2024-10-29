@@ -34,7 +34,7 @@ M.map_keys_and_commands = function(global_opts)
         callback = function()
             feedkeys(debugprint.debugprint({ above = true }))
         end,
-        desc = "Plain debug below current line",
+        desc = "Plain debug above current line",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_below, {

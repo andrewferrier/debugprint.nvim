@@ -82,8 +82,8 @@ local validate_global_opts = function(o)
         textobj_below = { normal.textobj_below, STRING_NIL },
         textobj_above = { normal.textobj_above, STRING_NIL },
         delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
-        commands_toggle_comment_debug_prints = {
-            normal.commands_toggle_comment_debug_prints,
+        toggle_comment_debug_prints = {
+            normal.toggle_comment_debug_prints,
             STRING_NIL,
         },
     })
