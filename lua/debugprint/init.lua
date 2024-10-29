@@ -195,10 +195,15 @@ M.debugprint_regular = function(opts)
         local filetype_config = get_filetype_config()
 
         if filetype_config then
-            opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter or opts.ignore_treesitter,
-                filetype_config
-            )
+            local ignore_treesitter
+
+            if global_opts.ignore_treesitter or opts.ignore_treesitter then
+                -- Works around issue with optional types
+                ignore_treesitter = true
+            end
+
+            opts.variable_name =
+                utils.get_variable_name(ignore_treesitter, filetype_config)
 
             if not opts.variable_name then
                 return
