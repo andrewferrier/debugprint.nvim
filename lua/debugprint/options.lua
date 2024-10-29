@@ -162,7 +162,7 @@ M.get_and_validate_global_opts = function(opts)
     return global_opts
 end
 
----@param opts DebugprintFunctionOptions
+---@param opts? DebugprintFunctionOptions
 ---@return DebugprintFunctionOptions
 M.get_and_validate_function_opts = function(opts)
     local func_opts = vim.tbl_deep_extend(
