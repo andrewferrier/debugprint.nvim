@@ -213,8 +213,8 @@ M.debugprint_regular = function(opts)
     return "g@l"
 end
 
----@param opts DebugprintFunctionOptions
----@return nil
+---@param opts? DebugprintFunctionOptions
+---@return string | nil
 M.debugprint = function(opts)
     local func_opts =
         require("debugprint.options").get_and_validate_function_opts(opts)

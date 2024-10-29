@@ -170,7 +170,11 @@ end)
 
 describe("can do basic debug statement insertion (custom keys)", function()
     before_each(function()
-        debugprint.setup({ keymaps = { normal = { plain_below = "zdp" } } })
+        debugprint.setup({
+            keymaps = {
+                normal = { plain_below = "zdp" },
+            },
+        })
     end)
 
     after_each(teardown)
@@ -971,7 +975,9 @@ describe("can handle treesitter identifiers", function()
 
     it("always prompt below", function()
         debugprint.setup({
-            keymaps = { normal = { variable_below_alwaysprompt = "zxa" } },
+            keymaps = {
+                normal = { variable_below_alwaysprompt = "zxa" },
+            },
         })
 
         local filename = init_file({
