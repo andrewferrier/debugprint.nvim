@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.4.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.3.0...v3.4.0) (2024-10-29)
+
+
+### Features
+
+* Add support for Zig ([424d367](https://github.com/andrewferrier/debugprint.nvim/commit/424d36714491c21b364ac96cb01522acad935b86))
+
+
+### Bug Fixes
+
+* typo in plain above desc ([daf79f3](https://github.com/andrewferrier/debugprint.nvim/commit/daf79f38f30049a4eaed04952c305922f42c55d1))
+
 ## [3.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.2.1...v3.3.0) (2024-10-26)
 
 
