@@ -11,7 +11,7 @@
 
 ---@class DebugprintGlobalOptions
 ---@field keymaps? DebugprintKeymapOptions
----@field commands? table
+---@field commands? DebugprintCommandOptions
 ---@field display_counter? boolean
 ---@field display_location? boolean
 ---@field display_snippet? boolean
@@ -42,6 +42,10 @@
 ---@class DebugprintKeymapVisualOptions
 ---@field variable_below? string
 ---@field variable_above? string
+
+---@class DebugprintCommandOptions
+---@field delete_debug_prints? string
+---@field toggle_comment_debug_prints? string
 
 ---@class DebugprintFunctionOptions
 ---@field above boolean
