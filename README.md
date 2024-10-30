@@ -22,9 +22,8 @@ the NeoVim generation. It:
 
 *   Supports 32 filetypes/programming languages out-of-the-box, including
     Python, JavaScript/TypeScript, Java, C/C++ and
-    [more](#feature-comparison-with-similar-plugins). It can also be extended to
-    add support for additional languages, or customize languages already supported
-    (see [showcase](SHOWCASE.md) for ideas).
+    [more](#feature-comparison-with-similar-plugins). [It can also be extended to
+    support other languages or customize existing ones](SHOWCASE.md).
 
 *   Includes reference information in each 'print line' such as file names, line
     numbers, a counter, and snippets of other lines to make it easier to
@@ -94,7 +93,7 @@ The sections below detail the allowed options that can appear in the `opts`
 object.
 
 There is a showcase of example debugprint configurations
-[here](https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md)
+[here](SHOWCASE.md)
 which can be dropped into your configuration files to further enhance your use
 of debugprint.
 
@@ -157,6 +156,7 @@ return {
             toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
         },
+        -- … Other options
     },
 }
 ```
@@ -183,65 +183,14 @@ reason, please open an
 
 `debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default      | Purpose                                                                                                                                                                                                                                                                     |
-| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `move_to_debugline` | `false`      | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                     |
-| `display_location`  | `true`       | Include the filename and linenumber of the line being debugged in the debug message                                                                                                                                                                                         |
-| `display_counter`   | `true`       | Include the increasing integer counter in the debug message. Can also be set to a function to customize, see the [showcase](SHOWCASE.md)) for an example                                                                                                                    |
-| `display_snippet`   | `true`       | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                         |
-| `filetypes`         | See below    | Custom filetypes - see below                                                                                                                                                                                                                                                |
-| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
-
-## Add Custom Filetypes
-
-*Note: If you work out a configuration for a filetype not supported
-out-of-the-box, it would be appreciated if you can open an
-[issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it
-supported out-of-the-box in `debugprint` so others can benefit. Similarly, if
-you spot any issues with, or improvements to, the language configurations
-out-of-the-box, please open an issue also.*
-
-If `debugprint` doesn't support your filetype, you can add it as a custom
-filetype in one of two ways:
-
-*   In the `opts.filetypes` object in `setup()`.
-
-*   Using the `require('debugprint').add_custom_filetypes()` method (designed for
-    use from `ftplugin/` directories, etc.
-
-In either case, the format is the same. For example, if adding via `setup()`:
-
-```lua
-local my_fileformat = {
-    left = 'print "',
-    left_var = 'print "', -- `left_var` is optional, for 'variable' lines only; `left` will be used if it's not present
-    right = '"',
-    mid_var = "${",
-    right_var = '}"',
-}
-
-require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat, ["another_filetype"] = another_of_my_fileformats, ... }})
-```
-
-or `add_custom_filetypes()`:
-
-```lua
-require('debugprint').add_custom_filetypes({ my_fileformat, ... })
-```
-
-Your new file format will be *merged* in with those that already exist. If you
-pass in one that already exists, your configuration will override the built-in
-configuration.
-
-The keys in the configuration are used like this:
-
-| Debug line type     | Default keys            | How debug line is constructed                                                                                                                           |
-| ------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                                                  |
-| Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left_var (or my_fileformat.left) .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
-
-If it helps to understand these, you can look at the built-in configurations in
-[filetypes.lua](lua/debugprint/filetypes.lua).
+| Option              | Default                      | Purpose                                                                                                                                                                                                                                                                                        |
+| ------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `move_to_debugline` | `false`                      | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                                        |
+| `display_location`  | `true`                       | Include the filename and linenumber of the line being debugged in the debug message                                                                                                                                                                                                            |
+| `display_counter`   | `true`                       | Include the increasing integer counter in the debug message. Can also be set to a function to customize, see the [showcase](SHOWCASE.md)) for an example                                                                                                                                       |
+| `display_snippet`   | `true`                       | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                                            |
+| `filetypes`         | See [showcase](SHOWCASE.md)  | Custom filetypes - see [showcase](SHOWCASE.md)                                                                                                                                                                                                                                                 |
+| `print_tag`         | `DEBUGPRINT`                 | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
 
 ## Known Limitations
 
@@ -308,7 +257,7 @@ If it helps to understand these, you can look at the built-in configurations in
 | VimL (vimscript)                                                    | :+1:              | :x:                                                            | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
 | Zig                                                                 | :+1:              | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | zsh                                                                 | :+1:              | :x:                                                            | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
-| Add custom filetypes (doced/supported)                              | :+1:              | :+1:                                                           | :+1:                                                      | :x:                                                                  | :x:                                                 | :+1:                                                  |
+| [Add custom filetypes](SHOWCASE.md)                                 | :+1:              | :+1:                                                           | :+1:                                                      | :x:                                                                  | :x:                                                 | :+1:                                                  |
 | Customizable callback formatter                                     | :x:               | :x:                                                            | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Implemented in                                                      | Lua               | Lua                                                            | Lua                                                       | Lua                                                                  | VimL                                                | Lua                                                   |
 

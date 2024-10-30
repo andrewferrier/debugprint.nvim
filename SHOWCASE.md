@@ -1,8 +1,47 @@
 # debugprint.nvim Configuration Showcase
 
-Out of the box, `debugprint` provides a standard set of language configurations to provide 'print-like' logic for over 30 different languages.
+Out of the box, `debugprint` provides a standard set of language configurations, but you may want to customize it or do something a bit different. This showcase is designed to collect together useful advanced tips, tricks, and changes to the `debugprint` configuration which may be useful.
 
-However, you may not like the way this is configured for your language of choice. This showcase is designed to collect together variations to the `debugprint` configuration which may be useful.
+## Modifying or Adding Filetypes
+
+*Note: If you add a configuration for a filetype not supported out-of-the-box, or any issues or improvements for the ones that are, it would be appreciated if you can open an [issue](https://github.com/andrewferrier/debugprint.nvim/issues/new) to have it supported in `debugprint` so others can benefit.*
+
+If `debugprint` doesn't support your filetype, you can add it as a custom filetype in one of two ways:
+
+*   In the `opts.filetypes` object in `setup()`.
+
+*   Using the `require('debugprint').add_custom_filetypes()` method (designed for use from `ftplugin/` directories, etc.)
+
+In either case, the format is the same. For example, if adding via `setup()`:
+
+```lua
+local my_fileformat = {
+    left = 'print "',
+    left_var = 'print "', -- `left_var` is optional, for 'variable' lines only; `left` will be used if it's not present
+    right = '"',
+    mid_var = "${",
+    right_var = '}"',
+}
+
+require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat, ["another_filetype"] = another_of_my_fileformats, ... }})
+```
+
+or `add_custom_filetypes()`:
+
+```lua
+require('debugprint').add_custom_filetypes({ my_fileformat, ... })
+```
+
+Your new file format will be *merged* in with those that already exist. If you pass in a filetype with the same name as one that already exists, your configuration will override the built-in configuration.
+
+The keys in the configuration are used like this:
+
+| Debug line type     | Default keys            | How debug line is constructed                                                                                                                           |
+| ------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plain debug line    | `g?p`/`g?P`             | `my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right`                                                                                  |
+| Variable debug line | `g?v`/`g?V`/`g?o`/`g?O` | `my_fileformat.left_var (or my_fileformat.left) .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var` |
+
+To see some examples, you can look at the [built-in configurations](lua/debugprint/filetypes.lua).
 
 ## Use `console.info()` rather than `console.warn()` for JavaScript/TypeScript
 
