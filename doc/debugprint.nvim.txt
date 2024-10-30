@@ -10,10 +10,9 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 5. Keymappings and Commands         |debugprint.nvim-keymappings-and-commands|
 6. Mapping Deprecation                   |debugprint.nvim-mapping-deprecation|
 7. Other Options                               |debugprint.nvim-other-options|
-8. Add Custom Filetypes                 |debugprint.nvim-add-custom-filetypes|
-9. Known Limitations                       |debugprint.nvim-known-limitations|
-10. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
-11. Links                                              |debugprint.nvim-links|
+8. Known Limitations                       |debugprint.nvim-known-limitations|
+9. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
+10. Links                                              |debugprint.nvim-links|
 
 
 
@@ -37,8 +36,7 @@ generation. It:
 
 - Supports 32 filetypes/programming languages out-of-the-box, including Python,
     JavaScript/TypeScript, Java, C/C++ and |debugprint.nvim-more|. It can also be
-    extended to add support for additional languages, or customize languages
-    already supported (see showcase <SHOWCASE.md> for ideas).
+    extended to support other languages or customize existing ones <SHOWCASE.md>.
 - Includes reference information in each 'print line' such as file names, line
     numbers, a counter, and snippets of other lines to make it easier to
     cross-reference them in output.
@@ -100,10 +98,9 @@ Example for `packer.nvim` <https://github.com/wbthomason/packer.nvim>:
 The sections below detail the allowed options that can appear in the `opts`
 object.
 
-There is a showcase of example debugprint configurations here
-<https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md> which
-can be dropped into your configuration files to further enhance your use of
-debugprint.
+There is a showcase of example debugprint configurations here <SHOWCASE.md>
+which can be dropped into your configuration files to further enhance your use
+of debugprint.
 
 Please subscribe to this GitHub issue
 <https://github.com/andrewferrier/debugprint.nvim/issues/25> to be notified of
@@ -185,6 +182,7 @@ might look like this:
                 toggle_comment_debug_prints = "ToggleCommentDebugPrints",
                 delete_debug_prints = "DeleteDebugPrints",
             },
+            -- … Other options
         },
     }
 <
@@ -215,88 +213,32 @@ for some reason, please open an issue
 
 `debugprint` supports the following options in its global `opts` object:
 
-  ------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------
   Option              Default      Purpose
-  ------------------- ------------ ---------------------------------------------------------------
+  ------------------- ------------ ------------------------------------------------------------
   move_to_debugline   false        When adding a debug line, moves the cursor to that line
 
-  display_location    true         Include the filename and linenumber of the line being debugged
-                                   in the debug message
+  display_location    true         Include the filename and linenumber of the line being
+                                   debugged in the debug message
 
   display_counter     true         Include the increasing integer counter in the debug message.
-                                   Can also be set to a function to customize, see the showcase)
-                                   for an example
+                                   Can also be set to a function to customize, see the
+                                   showcase) for an example
 
-  display_snippet     true         Include a snippet of the line above/below in the debug message
-                                   (plain debug lines only) for context
+  display_snippet     true         Include a snippet of the line above/below in the debug
+                                   message (plain debug lines only) for context
 
-  filetypes           See below    Custom filetypes - see below
+  filetypes           See showcase Custom filetypes - see showcase
 
   print_tag           DEBUGPRINT   The string inserted into each print statement, which can be
-                                   used to uniquely identify statements inserted by debugprint. If
-                                   you set this to '' (the empty string), no print tag will be
-                                   included, but this will disable the ability to delete or
+                                   used to uniquely identify statements inserted by debugprint.
+                                   If you set this to '' (the empty string), no print tag will
+                                   be included, but this will disable the ability to delete or
                                    comment print statements via debugprint
-  ------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------
 
 ==============================================================================
-8. Add Custom Filetypes                 *debugprint.nvim-add-custom-filetypes*
-
-_Note: If you work out a configuration for a filetype not supported
-out-of-the-box, it would be appreciated if you can open an issue to have it
-supported out-of-the-box in debugprint so others can benefit. Similarly, if you
-spot any issues with, or improvements to, the language configurations
-out-of-the-box, please open an issue also._
-
-If `debugprint` doesn’t support your filetype, you can add it as a custom
-filetype in one of two ways:
-
-- In the `opts.filetypes` object in `setup()`.
-- Using the `require('debugprint').add_custom_filetypes()` method (designed for
-    use from `ftplugin/` directories, etc.
-
-In either case, the format is the same. For example, if adding via `setup()`:
-
->lua
-    local my_fileformat = {
-        left = 'print "',
-        left_var = 'print "', -- `left_var` is optional, for 'variable' lines only; `left` will be used if it's not present
-        right = '"',
-        mid_var = "${",
-        right_var = '}"',
-    }
-    
-    require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat, ["another_filetype"] = another_of_my_fileformats, ... }})
-<
-
-or `add_custom_filetypes()`:
-
->lua
-    require('debugprint').add_custom_filetypes({ my_fileformat, ... })
-<
-
-Your new file format will be _merged_ in with those that already exist. If you
-pass in one that already exists, your configuration will override the built-in
-configuration.
-
-The keys in the configuration are used like this:
-
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Debug line Default keys      How debug line is constructed
-  type                         
-  ---------- ----------------- -------------------------------------------------------------------------------------------------------------------------------------------------------
-  Plain      g?p/g?P           my_fileformat.left .. "auto-gen DEBUG string" .. my_fileformat.right
-  debug line                   
-
-  Variable   g?v/g?V/g?o/g?O   my_fileformat.left_var (or my_fileformat.left) .. "auto-gen DEBUG string, variable=" .. my_file_format.mid_var .. variable .. my_fileformat.right_var
-  debug line                   
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-If it helps to understand these, you can look at the built-in configurations in
-filetypes.lua <lua/debugprint/filetypes.lua>.
-
-
-==============================================================================
-9. Known Limitations                       *debugprint.nvim-known-limitations*
+8. Known Limitations                       *debugprint.nvim-known-limitations*
 
 - `debugprint` does not handle deleting reformatted debug lines where a
     formatter has split them across multiple lines. If you want to be able to easily
@@ -307,7 +249,7 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
 
 
 ==============================================================================
-10. Feature Comparison with Similar Plugins*debugprint.nvim-feature-comparison-with-similar-plugins*
+9. Feature Comparison with Similar Plugins*debugprint.nvim-feature-comparison-with-similar-plugins*
 
 (This table is quite wide, you may need to scroll horizontally)
 
@@ -430,7 +372,6 @@ filetypes.lua <lua/debugprint/filetypes.lua>.
   zsh                     :+1:              :x:             :+1:           :x:                :+1:          :x:
 
   Add custom filetypes    :+1:              :+1:            :+1:           :x:                :x:           :+1:
-  (doced/supported)                                                                                         
 
   Customizable callback   :x:               :x:             :+1:           :x:                :x:           :x:
   formatter                                                                                                 
@@ -444,7 +385,7 @@ Other similar plugins (less popular or unmaintained):
 - vim-printf <https://github.com/mptre/vim-printf>
 
 ==============================================================================
-11. Links                                              *debugprint.nvim-links*
+10. Links                                              *debugprint.nvim-links*
 
 1. *Test status*: https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg
 
