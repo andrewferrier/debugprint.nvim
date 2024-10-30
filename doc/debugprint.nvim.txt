@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-10-29
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-10-30
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -234,9 +234,9 @@ for some reason, please open an issue
 
   print_tag           DEBUGPRINT   The string inserted into each print statement, which can be
                                    used to uniquely identify statements inserted by debugprint. If
-                                   you set this to '', no print tag will be included, but this
-                                   will disable the ability to delete or comment print statements
-                                   via debugprint
+                                   you set this to '' (the empty string), no print tag will be
+                                   included, but this will disable the ability to delete or
+                                   comment print statements via debugprint
   ------------------------------------------------------------------------------------------------
 
 ==============================================================================
