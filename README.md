@@ -190,7 +190,7 @@ reason, please open an
 | `display_counter`   | `true`       | Include the increasing integer counter in the debug message. Can also be set to a function to customize, see the [showcase](SHOWCASE.md)) for an example                                                                                                                    |
 | `display_snippet`   | `true`       | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                         |
 | `filetypes`         | See below    | Custom filetypes - see below                                                                                                                                                                                                                                                |
-| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''`, no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
+| `print_tag`         | `DEBUGPRINT` | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
 
 ## Add Custom Filetypes
 
