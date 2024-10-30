@@ -1,4 +1,8 @@
-.PHONY: test
+.PHONY: init test
+
+init:
+	luarocks init --no-gitignore
+	luarocks install busted 2.2.0-1
 
 test:
-	nvim --headless --clean -u tests/minimal.vim -c "PlenaryBustedFile tests/debugprint.lua"
+	luarocks test --local
