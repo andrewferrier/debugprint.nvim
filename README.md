@@ -170,15 +170,16 @@ they are used to convert sections to ROT-13, which most folks don't use.
 
 ## Mapping Deprecation
 
-*Note*: as of version 2.0.0, the old mechanism of configuring keymaps/commands
-which specifically allowed for mapping directly to
-`require('debugprint').debugprint(...)` is no longer officially supported or
-documented. This is primarily because of confusion which arose over how to do
-this mapping. Existing mappings performed this way are likely to continue to
-work for some time. You should, however, migrate over to the new method outlined
-above. If this doesn't give you the flexibility to map how you wish for some
-reason, please open an
-[issue](https://github.com/andrewferrier/debugprint.nvim/issues/new).
+> [!WARNING]
+> *Note*: as of version 2.0.0, the old mechanism of configuring keymaps/commands
+> which specifically allowed for mapping directly to
+> `require('debugprint').debugprint(...)` is no longer officially supported or
+> documented. This is primarily because of confusion which arose over how to do
+> this mapping. Existing mappings performed this way are likely to continue to
+> work for some time. You should, however, migrate over to the new method outlined
+> above. If this doesn't give you the flexibility to map how you wish for some
+> reason, please open an
+> [issue](https://github.com/andrewferrier/debugprint.nvim/issues/new).
 
 ## Other Options
 
