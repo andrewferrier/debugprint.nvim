@@ -120,14 +120,29 @@ end
 ---@return DebugprintFileTypeConfig?
 local get_filetype_config = function()
     local effective_filetypes = utils.get_effective_filetypes()
+    local config = {}
+    local found_config = false
 
     for _, effective_filetype in ipairs(effective_filetypes) do
         if global_opts.filetypes[effective_filetype] ~= nil then
-            return global_opts.filetypes[effective_filetype]
+            found_config = true
+            -- Combine all valid configs into the same object. This seems to
+            -- make sense as an approach; the only case where I've found where
+            -- this applies so far is ["bash", "sh"]. If this causes problems we
+            -- may need to come up with something more sophisticated.
+            config = vim.tbl_deep_extend(
+                "keep",
+                vim.deepcopy(global_opts.filetypes[effective_filetype]),
+                config
+            )
         end
     end
 
-    return nil
+    if not found_config then
+        return nil
+    else
+        return config
+    end
 end
 
 ---@param opts DebugprintFunctionOptionsInternal

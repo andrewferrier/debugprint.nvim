@@ -88,6 +88,10 @@ M.get_effective_filetypes = function()
             :lang()
 
         local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
+        -- The order in which filetypes are provided seems to be semi-random
+        -- (esp on NeoVim 0.9.5) so we are sorting them to at least give some
+        -- stability.
+        table.sort(filetypes)
         assert(vim.tbl_count(filetypes) > 0)
         return filetypes
     else
