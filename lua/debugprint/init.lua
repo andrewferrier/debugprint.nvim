@@ -188,7 +188,7 @@ local insert_debugprint_line = function(opts)
         line_to_insert = utils_errors.construct_error_line(
             "No debugprint configuration for filetype "
                 .. utils.get_effective_filetypes()[1]
-                .. "; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes"
+                .. "; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes"
         )
     end
 
