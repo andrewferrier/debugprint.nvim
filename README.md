@@ -71,24 +71,6 @@ return {
 }
 ```
 
-Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
-
-```lua
-packer.startup(function(use)
-    …
-    use({
-        "andrewferrier/debugprint.nvim",
-        config = function()
-            opts = { … }
-            require("debugprint").setup(opts)
-        end,
-        requires = {
-            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
-        }
-    })
-    …
-end)
-```
 
 The sections below detail the allowed options that can appear in the `opts`
 object.

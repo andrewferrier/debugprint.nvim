@@ -139,3 +139,33 @@ end
 
 debugprint.setup({display_counter = counter_func})
 ```
+
+## Using package managers other than lazy.nvim
+
+Example for [`packer.nvim`](https://github.com/wbthomason/packer.nvim):
+
+```lua
+packer.startup(function(use)
+    …
+    use({
+        "andrewferrier/debugprint.nvim",
+        config = function()
+            opts = { … }
+            require("debugprint").setup(opts)
+        end,
+        requires = {
+            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+        }
+    })
+    …
+end)
+```
+
+Example for [`mini.deps`](https://github.com/echasnovski/mini.nvim):
+
+```lua
+add({
+    source = 'andrewferrier/debugprint.nvim',
+    depends = { 'echasnovski/mini.nvim' }, -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+})
+```
