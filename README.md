@@ -71,14 +71,13 @@ return {
 }
 ```
 
+(Examples for other package managers
+[here](SHOWCASE.md#using-package-managers-other-than-lazynvim).)
 
 The sections below detail the allowed options that can appear in the `opts`
-object.
-
-There is a showcase of example debugprint configurations
-[here](SHOWCASE.md)
-which can be dropped into your configuration files to further enhance your use
-of debugprint.
+object. There is also a showcase of example and advanced debugprint
+configurations [here](SHOWCASE.md) which can be dropped into your configuration
+files to further enhance your use of debugprint.
 
 Please subscribe to [this GitHub
 issue](https://github.com/andrewferrier/debugprint.nvim/issues/25) to be
