@@ -496,7 +496,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
             "bar",
         })
     end)
@@ -516,14 +516,14 @@ describe("can do various file types", function()
                 -- On NeoVim nightly, this inserts an extra space before the comment
                 check_lines({
                     "(fn print-and-add [a b c]",
-                    "  ; No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                    "  ; No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
                     "  (print a)",
                     "  (+ b c))",
                 })
             else
                 check_lines({
                     "(fn print-and-add [a b c]",
-                    "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+                    "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
                     "  (print a)",
                     "  (+ b c))",
                 })
@@ -542,7 +542,7 @@ describe("can do various file types", function()
 
         check_lines({
             "foo",
-            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#add-custom-filetypes",
+            "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
             "bar",
         })
     end)
