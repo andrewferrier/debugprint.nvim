@@ -14,48 +14,79 @@ local default_display_counter = function()
     return "[" .. tostring(default_counter) .. "]"
 end
 
+---@param display_counter? boolean|function
 ---@return string
-local get_debugline_tag_and_counter = function()
+local get_debugline_tag_and_counter = function(display_counter)
     local tag_and_counter = ""
 
     if global_opts.print_tag then
         tag_and_counter = global_opts.print_tag
     end
 
-    if global_opts.display_counter == true then
+    if display_counter == true then
         tag_and_counter = tag_and_counter .. default_display_counter()
-    elseif type(global_opts.display_counter) == "function" then
-        tag_and_counter = tag_and_counter
-            .. tostring(global_opts.display_counter())
+    elseif type(display_counter) == "function" then
+        tag_and_counter = tag_and_counter .. tostring(display_counter())
     end
 
     return tag_and_counter
 end
 
+---@param fileconfig DebugprintFileTypeConfig
+---@return function|boolean?, boolean?, boolean?
+local get_display_options = function(fileconfig)
+    local display_counter
+    if fileconfig.display_counter ~= nil then
+        display_counter = fileconfig.display_counter
+    else
+        display_counter = global_opts.display_counter
+    end
+
+    local display_location
+    if fileconfig.display_location ~= nil then
+        display_location = fileconfig.display_location
+    else
+        display_location = global_opts.display_location
+    end
+
+    local display_snippet
+    if fileconfig.display_snippet ~= nil then
+        display_snippet = fileconfig.display_snippet
+    else
+        display_snippet = global_opts.display_snippet
+    end
+
+    return display_counter, display_location, display_snippet
+end
+
 ---@param opts DebugprintFunctionOptionsInternal
+---@param fileconfig DebugprintFileTypeConfig
 ---@return string
-local get_debugline_textcontent = function(opts)
+local get_debugline_textcontent = function(opts, fileconfig)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
 
     local line_components = {}
     local force_snippet_for_plain = false
 
+    local display_counter, display_location, display_snippet =
+        get_display_options(fileconfig)
+
     if
-        not global_opts.display_location
-        and not global_opts.display_snippet
-        and not global_opts.display_counter
+        not display_location
+        and not display_snippet
+        and not display_counter
         and global_opts.print_tag == ""
     then
         force_snippet_for_plain = true
     end
 
-    local tag_and_counter = get_debugline_tag_and_counter()
+    local tag_and_counter = get_debugline_tag_and_counter(display_counter)
 
     if tag_and_counter ~= "" then
         table.insert(line_components, tag_and_counter .. ":")
     end
 
-    if global_opts.display_location then
+    if display_location then
         table.insert(
             line_components,
             vim.fn.expand("%:t") .. ":" .. current_line_nr
@@ -63,7 +94,7 @@ local get_debugline_textcontent = function(opts)
     end
 
     if
-        (global_opts.display_snippet or force_snippet_for_plain)
+        (display_snippet or force_snippet_for_plain)
         and opts.variable_name == nil
     then
         local snippet = utils.get_snippet(current_line_nr, opts.above)
@@ -115,14 +146,14 @@ local construct_debugprint_line = function(opts, fileconfig)
         end
 
         line_to_insert = left
-            .. get_debugline_textcontent(opts)
+            .. get_debugline_textcontent(opts, fileconfig)
             .. fileconfig.mid_var
             .. opts.variable_name
             .. fileconfig.right_var
     else
         opts.variable_name = nil
         line_to_insert = fileconfig.left
-            .. get_debugline_textcontent(opts)
+            .. get_debugline_textcontent(opts, fileconfig)
             .. fileconfig.right
     end
 

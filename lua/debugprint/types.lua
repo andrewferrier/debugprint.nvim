@@ -8,6 +8,9 @@
 ---@field mid_var string
 ---@field right_var string
 ---@field find_treesitter_variable? function
+---@field display_counter? boolean|function
+---@field display_location? boolean
+---@field display_snippet? boolean
 
 ---@class DebugprintGlobalOptions
 ---@field keymaps? DebugprintKeymapOptions

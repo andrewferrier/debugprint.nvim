@@ -2324,3 +2324,91 @@ describe("variations of display_* options", function()
         })
     end)
 end)
+
+describe("allow display_* to be set in filetypes", function()
+    after_each(teardown)
+
+    it("display_counter", function()
+        debugprint.setup({ filetypes = { bash = { display_counter = false } } })
+
+        local lua_filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. lua_filename .. ":1 (after foo)')",
+            "bar",
+        })
+
+        local sh_filename = init_file({
+            "XYZ=123",
+        }, "bash", 1, 1)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "XYZ=123",
+            '>&2 echo "DEBUGPRINT: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
+        })
+    end)
+
+    it("display_location", function()
+        debugprint.setup({ filetypes = { lua = { display_location = false } } })
+
+        local lua_filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: (after foo)')",
+            "bar",
+        })
+
+        local sh_filename = init_file({
+            "XYZ=123",
+        }, "bash", 1, 1)
+
+        feedkeys("g?v")
+
+        check_lines({
+            "XYZ=123",
+            '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
+        })
+    end)
+
+    it("display_snippet", function()
+        debugprint.setup({ filetypes = { lua = { display_snippet = false } } })
+
+        local lua_filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. lua_filename .. ":1')",
+            "bar",
+        })
+
+        local sh_filename = init_file({
+            "XYZ=123",
+        }, "bash", 1, 1)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "XYZ=123",
+            '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1 (after XYZ=123)"',
+        })
+    end)
+end)

@@ -27,7 +27,8 @@ the NeoVim generation. It:
 
 *   Includes reference information in each 'print line' such as file names, line
     numbers, a counter, and snippets of other lines to make it easier to
-    cross-reference them in output (each of these can be [optionally disabled](#other-options)).
+    cross-reference them in output (each of these can be optionally
+    disabled [globally](#other-options) or on a per-filetype basis).
 
 *   Can output the value of variables (or in some cases, expressions).
 

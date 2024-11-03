@@ -87,6 +87,20 @@ return {
 }
 ```
 
+## Setting `display_*` options on per-filetype basis
+
+The three `display_*` options [supported on a global basis](README.md#other-options) by `debugprint` can also be overridden on a per-filetype basis so you can show and hide differently for different filetypes. Filetypes without these set (which is the default for all filetypes) will continue to use the values set globally. Pass them into the `setup()` method or the `add_custom_filetypes()` method like this:
+
+```lua
+require('debugprint').setup({ filetypes = { ["filetype"] = { display_counter = false }}})
+```
+
+or
+
+```lua
+require('debugprint').add_custom_filetypes({ ["filetype"] = { display_counter = false }, … })
+```
+
 ## Use lazy-loading with lazy.nvim
 
 `debugprint` can be configured, when using [lazy.nvim](https://github.com/folke/lazy.nvim) as a plugin manager, to lazy load itself. Use configuration that looks like this:
