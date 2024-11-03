@@ -38,9 +38,9 @@ the NeoVim generation. It:
     or will prompt with a sensible default. It understands Treesitter embedded
     languages (e.g. JavaScript-in-HTML).
 
-*   Provides keymappings for normal, visual, and operator-pending modes.
+*   Provides [keymappings](#keymappings-and-commands) for normal, visual, and operator-pending modes.
 
-*   Provides commands to delete debugging lines added to the current buffer or
+*   Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
     comment/uncomment those lines.
 
 *   Can optionally move to the inserted line (or not).
