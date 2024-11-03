@@ -230,7 +230,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   display_snippet     true         Include a snippet of the line above/below in the debug
                                    message (plain debug lines only) for context
 
-  filetypes           See showcase Custom filetypes - see showcase
+  filetypes           See (the     Custom filetypes - see showcase
+                      code)        
 
   print_tag           DEBUGPRINT   The string inserted into each print statement, which can be
                                    used to uniquely identify statements inserted by debugprint.
