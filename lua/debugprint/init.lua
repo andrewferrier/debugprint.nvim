@@ -15,7 +15,7 @@ local default_display_counter = function()
 end
 
 ---@return string
-local debuginfo_tag_and_counter = function()
+local get_debugline_tag_and_counter = function()
     local tag_and_counter = ""
 
     if global_opts.print_tag then
@@ -34,7 +34,7 @@ end
 
 ---@param opts DebugprintFunctionOptionsInternal
 ---@return string
-local debuginfo = function(opts)
+local get_debugline_textcontent = function(opts)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
 
     local line_components = {}
@@ -49,7 +49,7 @@ local debuginfo = function(opts)
         force_snippet_for_plain = true
     end
 
-    local tag_and_counter = debuginfo_tag_and_counter()
+    local tag_and_counter = get_debugline_tag_and_counter()
 
     if tag_and_counter ~= "" then
         table.insert(line_components, tag_and_counter .. ":")
@@ -115,13 +115,15 @@ local construct_debugprint_line = function(opts, fileconfig)
         end
 
         line_to_insert = left
-            .. debuginfo(opts)
+            .. get_debugline_textcontent(opts)
             .. fileconfig.mid_var
             .. opts.variable_name
             .. fileconfig.right_var
     else
         opts.variable_name = nil
-        line_to_insert = fileconfig.left .. debuginfo(opts) .. fileconfig.right
+        line_to_insert = fileconfig.left
+            .. get_debugline_textcontent(opts)
+            .. fileconfig.right
     end
 
     return line_to_insert
@@ -129,7 +131,7 @@ end
 
 ---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
-local addline = function(opts)
+local insert_debugprint_line = function(opts)
     local line_to_insert
 
     local fileconfig = get_filetype_config()
@@ -176,7 +178,7 @@ local cache_request = {}
 
 ---@return nil
 M.debugprint_operatorfunc_regular = function()
-    addline(cache_request)
+    insert_debugprint_line(cache_request)
     utils_operator.set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )
