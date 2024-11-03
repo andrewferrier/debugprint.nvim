@@ -12,7 +12,7 @@
 ---@class DebugprintGlobalOptions
 ---@field keymaps? DebugprintKeymapOptions
 ---@field commands? DebugprintCommandOptions
----@field display_counter? boolean
+---@field display_counter? boolean|function
 ---@field display_location? boolean
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
