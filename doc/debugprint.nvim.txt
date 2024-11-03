@@ -47,9 +47,10 @@ generation. It:
 - Can detect a Treesitter variable name under the cursor for some languages, or
     will prompt with a sensible default. It understands Treesitter embedded
     languages (e.g. JavaScript-in-HTML).
-- Provides keymappings for normal, visual, and operator-pending modes.
-- Provides commands to delete debugging lines added to the current buffer or
-    comment/uncomment those lines.
+- Provides |debugprint.nvim-keymappings| for normal, visual, and operator-pending
+    modes.
+- Provides |debugprint.nvim-commands| to delete debugging lines added to the
+    current buffer or comment/uncomment those lines.
 - Can optionally move to the inserted line (or not).
 - Is MIT Licensed <LICENSE.txt>.
 
