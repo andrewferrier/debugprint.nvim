@@ -40,7 +40,8 @@ generation. It:
 - Includes reference information in each 'print line' such as file names, line
     numbers, a counter, and snippets of other lines to make it easier to
     cross-reference them in output (each of these can be optionally disabled
-    |debugprint.nvim-globally| or on a per-filetype basis).
+    |debugprint.nvim-globally| or on a per-filetype basis
+    <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>).
 - Can output the value of variables (or in some cases, expressions).
 - Dot-repeats <https://jovicailic.org/2018/03/vim-the-dot-command/>.
 - Can detect a Treesitter variable name under the cursor for some languages, or
