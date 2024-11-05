@@ -111,12 +111,13 @@ return {
 
     -- opts = { … },
 
-    -- The 'keys' and 'cmds' sections of this configuration will need to be changed if you
+    -- The 'keys' and 'cmds' sections of this configuration will need to be adjusted if you
     -- customize the keys/commands.
 
     keys = {
         { "g?", mode = 'n' },
         { "g?", mode = 'x' },
+        { "<C-G>", mode = 'i' },
     },
     cmd = {
         "ToggleCommentDebugPrints",

@@ -94,6 +94,26 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Text-obj-selected variable debug above current line",
     })
 
+    map_key("i", global_opts.keymaps.insert.plain, {
+        callback = function()
+            return debugprint.debugprint({ insert = true })
+        end,
+        expr = true,
+        desc = "Plain debug in-place",
+    })
+
+    map_key("i", global_opts.keymaps.insert.variable, {
+        callback = function()
+            return debugprint.debugprint({
+                insert = true,
+                variable = true,
+                ignore_treesitter = true,
+            })
+        end,
+        expr = true,
+        desc = "Variable debug in-place (always prompt)",
+    })
+
     map_key("x", global_opts.keymaps.visual.variable_below, {
         callback = function()
             feedkeys(debugprint.debugprint({ variable = true }))

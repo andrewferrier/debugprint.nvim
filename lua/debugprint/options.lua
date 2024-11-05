@@ -15,6 +15,10 @@ local GLOBAL_OPTION_DEFAULTS = {
             toggle_comment_debug_prints = nil,
             delete_debug_prints = nil,
         },
+        insert = {
+            plain = "<C-G>p",
+            variable = "<C-G>v",
+        },
         visual = {
             variable_below = "g?v",
             variable_above = "g?V",

@@ -38,7 +38,8 @@ the NeoVim generation. It:
     or will prompt with a sensible default. It understands Treesitter embedded
     languages (e.g. JavaScript-in-HTML).
 
-*   Provides [keymappings](#keymappings-and-commands) for normal, visual, and operator-pending modes.
+*   Provides [keymappings](#keymappings-and-commands) for normal, insert,
+    visual, and operator-pending modes.
 
 *   Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
     comment/uncomment those lines.
@@ -100,6 +101,8 @@ following table.
 | Normal     | None                        | Variable debug (always prompt for variable) | Above            |
 | Normal     | None                        | Delete debug lines in buffer                | -                |
 | Normal     | None                        | Comment/uncomment debug lines in buffer     | -                |
+| Insert     | `Ctrl-G p`                  | Plain debug                                 | In-place         |
+| Insert     | `Ctrl-G v`                  | Variable debug (always prompt for variable) | In-place         |
 | Visual     | `g?v`                       | Variable debug                              | Below            |
 | Visual     | `g?V`                       | Variable debug                              | Above            |
 | Op-pending | `g?o`                       | Variable debug                              | Below            |
@@ -128,6 +131,10 @@ return {
                 textobj_above = "g?O",
                 toggle_comment_debug_prints = nil,
                 delete_debug_prints = nil,
+            },
+            insert = {
+                plain = "<C-G>p",
+                variable = "<C-G>v",
             },
             visual = {
                 variable_below = "g?v",
@@ -196,7 +203,8 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Print variables using treesitter                                    | :+1:              | :+1:                                                           | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
 | Print variables/expressions using prompts                           | :+1:              | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Print variables using motions                                       | :+1:              | :x:                                                            | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
-| Print variables using visual mode                                   | :+1:              | :+1:                                                           | :+1:                                                      | :+1:                                                                 | :+1:                                                | :x:                                                   |
+| Add plain or variable debug lines in insert mode                    | :+1:              | :x:                                                            | :x::                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Add variable debug lines in visual mode                             | :+1:              | :+1:                                                           | :+1:                                                      | :+1:                                                                 | :+1:                                                | :x:                                                   |
 | Print assertions                                                    | :x:               | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Print stack traces                                                  | :x:               | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Add time-tracking logic                                             | :x:               | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |

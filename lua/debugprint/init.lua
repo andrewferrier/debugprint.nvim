@@ -176,8 +176,8 @@ local construct_debugprint_line = function(opts, fileconfig)
 end
 
 ---@param opts DebugprintFunctionOptionsInternal
----@return nil
-local insert_debugprint_line = function(opts)
+---@return string
+local get_debugprint_line = function(opts)
     local line_to_insert
 
     local fileconfig = get_filetype_config()
@@ -192,6 +192,14 @@ local insert_debugprint_line = function(opts)
                 .. "blob/main/SHOWCASE.md#modifying-or-adding-filetypes"
         )
     end
+
+    return line_to_insert
+end
+
+---@param opts DebugprintFunctionOptionsInternal
+---@return nil
+local insert_debugprint_line = function(opts)
+    local line_to_insert = get_debugprint_line(opts)
 
     -- Inserting the leading space from the current line effectively acts as a
     -- 'default' indent for languages like Python, where the NeoVim or Treesitter
@@ -260,11 +268,15 @@ M.debugprint_regular = function(opts)
         end
     end
 
-    cache_request = opts
-    utils_operator.set_operatorfunc(
-        "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
-    )
-    return "g@l"
+    if opts.insert == true then
+        return get_debugprint_line(opts)
+    else
+        cache_request = opts
+        utils_operator.set_operatorfunc(
+            "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+        )
+        return "g@l"
+    end
 end
 
 ---@param opts? DebugprintFunctionOptions

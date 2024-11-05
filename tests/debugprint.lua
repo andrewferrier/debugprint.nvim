@@ -2412,3 +2412,64 @@ describe("allow display_* to be set in filetypes", function()
         })
     end)
 end)
+
+describe("can support insert mode", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(teardown)
+
+    it("can insert a basic statement below", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("o<C-G>p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":2 (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("can insert a variable statement below", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("o<C-G>vwibble<CR>")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: wibble=' .. vim.inspect(wibble))",
+            "bar",
+        })
+    end)
+
+    it("don't insert when skipping variable name", function()
+        assert.equals(notify_message, nil)
+
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("o<C-G>v<CR>")
+
+        check_lines({
+            "foo",
+            "",
+            "bar",
+        })
+    end)
+end)

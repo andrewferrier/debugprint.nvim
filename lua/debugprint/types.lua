@@ -28,6 +28,7 @@
 
 ---@class DebugprintKeymapOptions
 ---@field normal? DebugprintKeymapNormalOptions
+---@field insert? DebugprintKeymapInsertOptions
 ---@field visual? DebugprintKeymapVisualOptions
 
 ---@class DebugprintKeymapNormalOptions
@@ -42,6 +43,10 @@
 ---@field delete_debug_prints? string
 ---@field toggle_comment_debug_prints? string
 
+---@class DebugprintKeymapInsertOptions
+---@field plain? string
+---@field variable? string
+
 ---@class DebugprintKeymapVisualOptions
 ---@field variable_below? string
 ---@field variable_above? string
@@ -54,6 +59,7 @@
 ---@field above? boolean
 ---@field variable? boolean
 ---@field ignore_treesitter? boolean
+---@field insert? boolean
 
 ---@class DebugprintFunctionOptionsInternal: DebugprintFunctionOptions
 ---@field motion? boolean
