@@ -147,7 +147,7 @@ end
 
 ---@param opts DebugprintFunctionOptionsInternal
 ---@param fileconfig DebugprintFileTypeConfig
----@return nil
+---@return string
 local construct_debugprint_line = function(opts, fileconfig)
     local line_to_insert
 

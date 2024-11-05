@@ -1,7 +1,7 @@
 local M = {}
 
 ---@param errormsg string
----@return nil
+---@return string
 M.construct_error_line = function(errormsg)
     local commentstring =
         vim.api.nvim_get_option_value("commentstring", { scope = "local" })
