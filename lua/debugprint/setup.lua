@@ -61,7 +61,7 @@ M.map_keys_and_commands = function(global_opts)
                 ignore_treesitter = true,
             }))
         end,
-        desc = "Variable debug below current line (always prompt})",
+        desc = "Variable debug below current line (always prompt)",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
@@ -72,7 +72,7 @@ M.map_keys_and_commands = function(global_opts)
                 ignore_treesitter = true,
             }))
         end,
-        desc = "Variable debug above current line (always prompt})",
+        desc = "Variable debug above current line (always prompt)",
     })
 
     map_key("n", global_opts.keymaps.normal.textobj_below, {
