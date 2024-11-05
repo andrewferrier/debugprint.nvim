@@ -47,8 +47,8 @@ generation. It:
 - Can detect a Treesitter variable name under the cursor for some languages, or
     will prompt with a sensible default. It understands Treesitter embedded
     languages (e.g. JavaScript-in-HTML).
-- Provides |debugprint.nvim-keymappings| for normal, visual, and operator-pending
-    modes.
+- Provides |debugprint.nvim-keymappings| for normal, insert, visual, and
+    operator-pending modes.
 - Provides |debugprint.nvim-commands| to delete debugging lines added to the
     current buffer or comment/uncomment those lines.
 - Can optionally move to the inserted line (or not).
@@ -123,6 +123,11 @@ following table.
   Normal       None                        Comment/uncomment debug lines   -
                                            in buffer                       
 
+  Insert       Ctrl-G p                    Plain debug                     In-place
+
+  Insert       Ctrl-G v                    Variable debug (always prompt   In-place
+                                           for variable)                   
+
   Visual       g?v                         Variable debug                  Below
 
   Visual       g?V                         Variable debug                  Above
@@ -157,6 +162,10 @@ might look like this:
                     textobj_above = "g?O",
                     toggle_comment_debug_prints = nil,
                     delete_debug_prints = nil,
+                },
+                insert = {
+                    plain = "<C-G>p",
+                    variable = "<C-G>v",
                 },
                 visual = {
                     variable_below = "g?v",
@@ -245,7 +254,7 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   ----------------------- ----------------- --------------- -------------- ------------------ ------------- -----------
   Auto-generation of      :+1:              :x:             :+1:           :+1:               :x:           :+1:
   debug line,                                                                                               
-  incl. locator info                                                                                        
+  incl. location                                                                                            
 
   Print plain debug lines :+1:              :+1:            :x:            :+1:               :x:           :x:
 
@@ -262,8 +271,12 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Print variables using   :+1:              :x:             :+1:           :x:                :x:           :x:
   motions                                                                                                   
 
-  Print variables using   :+1:              :+1:            :+1:           :+1:               :+1:          :x:
-  visual mode                                                                                               
+  Add plain or variable   :+1:              :x:             :x::           :x:                :x:           :x:
+  debug lines in insert                                                                                     
+  mode                                                                                                      
+
+  Add variable debug      :+1:              :+1:            :+1:           :+1:               :+1:          :x:
+  lines in visual mode                                                                                      
 
   Print assertions        :x:               :+1:            :x:            :x:                :x:           :x:
 
