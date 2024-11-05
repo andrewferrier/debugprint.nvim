@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.5.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.4.0...v3.5.0) (2024-11-03)
+
+
+### Features
+
+* Override display_* on a per-filetype basis - closes [#135](https://github.com/andrewferrier/debugprint.nvim/issues/135) ([30e3fb3](https://github.com/andrewferrier/debugprint.nvim/commit/30e3fb35a91f2f82a4d4eb9a8bbbd04a7ac8ffd3))
+
+
+### Bug Fixes
+
+* Add missing function to display_counter ([c14ac8d](https://github.com/andrewferrier/debugprint.nvim/commit/c14ac8d1a72cf14c23bf400efadceda3c6aa5cc3))
+* Correct link for adding filetypes ([358340a](https://github.com/andrewferrier/debugprint.nvim/commit/358340a38ade149df8bc097f19336dac1f10b4f2))
+* Failing test on earlier NeoVim versions ([f8b1f2f](https://github.com/andrewferrier/debugprint.nvim/commit/f8b1f2fbc52d3c012b2bdb157224140ebcac985e))
+* Remove 'commands' from validate name also ([90764e4](https://github.com/andrewferrier/debugprint.nvim/commit/90764e464c7504bb1723b9ca0465824d61d1735a))
+* Typing issue ([3859e21](https://github.com/andrewferrier/debugprint.nvim/commit/3859e219a98fcdea94a0b558bcf849368e9d8488))
+* Typing issues ([52ced26](https://github.com/andrewferrier/debugprint.nvim/commit/52ced26fe43160853989b34d2684dbdc27c0995b))
+* validating nonexistent field `commands_toggle_comment_debug_prints` ([943afa6](https://github.com/andrewferrier/debugprint.nvim/commit/943afa65569458146388b9cd0572b6664f62b22c))
+
 ## [3.4.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.3.0...v3.4.0) (2024-10-29)
 
 
