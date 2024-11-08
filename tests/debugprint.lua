@@ -2456,6 +2456,25 @@ describe("can support insert mode", function()
         })
     end)
 
+    it("can insert a variable statement below - indented", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "    foo",
+            "    bar",
+        }, "lua", 1, 0)
+
+        feedkeys("o<C-G>vwibble<CR>")
+
+        check_lines({
+            "    foo",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: wibble=' .. vim.inspect(wibble))",
+            "    bar",
+        })
+    end)
+
     it("don't insert when skipping variable name", function()
         assert.equals(notify_message, nil)
 

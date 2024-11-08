@@ -13,10 +13,15 @@ local map_key = function(mode, lhs, opts)
 end
 
 ---@param keys string?
+---@param insert_mode boolean
 ---@return nil
-local feedkeys = function(keys)
+local feedkeys = function(keys, insert_mode)
     if keys ~= nil and keys ~= "" then
-        vim.api.nvim_feedkeys(keys, "xt", true)
+        if insert_mode then
+            vim.api.nvim_put({ keys }, "c", true, true)
+        else
+            vim.api.nvim_feedkeys(keys, "xt", true)
+        end
     end
 end
 
@@ -104,13 +109,15 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("i", global_opts.keymaps.insert.variable, {
         callback = function()
-            return debugprint.debugprint({
-                insert = true,
-                variable = true,
-                ignore_treesitter = true,
-            })
+            feedkeys(
+                debugprint.debugprint({
+                    insert = true,
+                    variable = true,
+                    ignore_treesitter = true,
+                }),
+                true
+            )
         end,
-        expr = true,
         desc = "Variable debug in-place (always prompt)",
     })
 
