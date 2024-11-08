@@ -101,9 +101,8 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("i", global_opts.keymaps.insert.plain, {
         callback = function()
-            return debugprint.debugprint({ insert = true })
+            feedkeys(debugprint.debugprint({ insert = true }), true)
         end,
-        expr = true,
         desc = "Plain debug in-place",
     })
 
