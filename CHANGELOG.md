@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.6.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.5.0...v3.6.0) (2024-11-08)
+
+
+### Features
+
+* Support insert mode - closes [#86](https://github.com/andrewferrier/debugprint.nvim/issues/86) ([bb47042](https://github.com/andrewferrier/debugprint.nvim/commit/bb470420456907e5c58e2656bbe20a2739640ba4))
+
+
+### Bug Fixes
+
+* Correct key descriptions ([575f2e3](https://github.com/andrewferrier/debugprint.nvim/commit/575f2e320770e342894e2a53701bd8e38189809e))
+* get insert mode variable working with noice - closes [#86](https://github.com/andrewferrier/debugprint.nvim/issues/86) ([6a08653](https://github.com/andrewferrier/debugprint.nvim/commit/6a08653800e5f29483c44c43e90c37c25241c4e6))
+* Type annotations ([3bdd861](https://github.com/andrewferrier/debugprint.nvim/commit/3bdd8619198811ce0ad173ba91ddd9b6b85096ca))
+* typecheck issue ([7b7a02c](https://github.com/andrewferrier/debugprint.nvim/commit/7b7a02c76d372818ed21f9d0755e342a25a64d31))
+
 ## [3.5.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.4.0...v3.5.0) (2024-11-03)
 
 
