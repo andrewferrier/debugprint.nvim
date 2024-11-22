@@ -20,7 +20,7 @@ the language you're editing.
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring); updated for
 the NeoVim generation. It:
 
-*   Supports 32 filetypes/programming languages out-of-the-box, including
+*   Supports 34 filetypes/programming languages out-of-the-box, including
     Python, JavaScript/TypeScript, Java, C/C++ and
     [more](#feature-comparison-with-similar-plugins). [It can also be extended to
     support other languages or customize existing ones](SHOWCASE.md).
