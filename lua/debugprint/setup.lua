@@ -12,6 +12,16 @@ local map_key = function(mode, lhs, opts)
     end
 end
 
+---@param name string
+---@param command function
+---@param opts table
+---@return nil
+local create_command = function(name, command, opts)
+    if name then
+        vim.api.nvim_create_user_command(name, command, opts)
+    end
+end
+
 ---@param keys string?
 ---@param insert_mode boolean
 ---@return nil
@@ -159,31 +169,23 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Comment/uncomment all debugprint statements in the current buffer",
     })
 
-    if global_opts.commands.delete_debug_prints then
-        vim.api.nvim_create_user_command(
-            global_opts.commands.delete_debug_prints,
-            function(cmd_opts)
-                debugprint.deleteprints(cmd_opts)
-            end,
-            {
-                range = true,
-                desc = "Delete all debugprint statements in the current buffer",
-            }
-        )
-    end
+    create_command(
+        global_opts.commands.delete_debug_prints,
+        debugprint.deleteprints,
+        {
+            range = true,
+            desc = "Delete all debugprint statements in the current buffer",
+        }
+    )
 
-    if global_opts.commands.toggle_comment_debug_prints then
-        vim.api.nvim_create_user_command(
-            global_opts.commands.toggle_comment_debug_prints,
-            function(cmd_opts)
-                debugprint.toggle_comment_debugprints(cmd_opts)
-            end,
-            {
-                range = true,
-                desc = "Comment/uncomment all debugprint statements in the current buffer",
-            }
-        )
-    end
+    create_command(
+        global_opts.commands.toggle_comment_debug_prints,
+        debugprint.toggle_comment_debugprints,
+        {
+            range = true,
+            desc = "Comment/uncomment all debugprint statements in the current buffer",
+        }
+    )
 end
 
 return M
