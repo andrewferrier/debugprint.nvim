@@ -10,4 +10,4 @@ if vim.fn.has("nvim-0.10.0") ~= 1 then
     vim.opt.runtimepath:append("../mini.nvim")
 end
 
-vim.cmd("runtime! plugin/plenary.vim")
+require("plenary.test_harness").test_file("tests/debugprint.lua")
