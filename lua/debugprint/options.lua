@@ -68,6 +68,7 @@ local validate_global_opts = function(o)
     })
 
     local normal = o.keymaps.normal
+    local insert = o.keymaps.insert
     local visual = o.keymaps.visual
 
     if normal ~= nil then
@@ -91,6 +92,13 @@ local validate_global_opts = function(o)
                 normal.toggle_comment_debug_prints,
                 STRING_NIL,
             },
+        })
+    end
+
+    if insert ~= nil then
+        vim.validate({
+            variable_below = { insert.plain, STRING_NIL },
+            variable_above = { insert.variable, STRING_NIL },
         })
     end
 
