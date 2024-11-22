@@ -245,6 +245,12 @@ return {
         mid_var = "\\(",
         right_var = ')")',
     },
+    ["tcl"] = {
+        left = 'puts "',
+        right = '"',
+        mid_var = "$",
+        right_var = '"',
+    },
     ["typescript"] = js,
     ["typescriptreact"] = js,
     ["vim"] = {
