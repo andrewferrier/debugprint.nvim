@@ -158,6 +158,12 @@ return {
         mid_var = "{",
         right_var = '}"',
     },
+    ["lisp"] = {
+        left = '(format t "',
+        right = '")',
+        mid_var = '~D" ',
+        right_var = ")",
+    },
     ["lua"] = {
         left = "print('",
         right = "')",
