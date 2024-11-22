@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-11-21
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-11-22
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -217,7 +217,7 @@ they are used to convert sections to ROT-13, which most folks don’t use.
                                    debugged in the debug message
 
   display_counter     true         Include the increasing integer counter in the debug message.
-                                   Can also be set to a function to customize, see the
+                                   (Can also be set to a function to customize, see the
                                    showcase) for an example
 
   display_snippet     true         Include a snippet of the line above/below in the debug
