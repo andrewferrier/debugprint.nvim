@@ -13,6 +13,13 @@ Table of Contents                          *debugprint.nvim-table-of-contents*
 8. Known Limitations                       |debugprint.nvim-known-limitations|
 9. Feature Comparison with Similar Plugins|debugprint.nvim-feature-comparison-with-similar-plugins|
 10. Links                                              |debugprint.nvim-links|
+>
+    ▗▄▄▄ ▗▄▄▄▖▗▄▄▖ ▗▖ ▗▖ ▗▄▄▖▗▄▄▖ ▗▄▄▖ ▗▄▄▄▖▗▖  ▗▖▗▄▄▄▖
+    ▐▌  █▐▌   ▐▌ ▐▌▐▌ ▐▌▐▌   ▐▌ ▐▌▐▌ ▐▌  █  ▐▛▚▖▐▌  █  
+    ▐▌  █▐▛▀▀▘▐▛▀▚▖▐▌ ▐▌▐▌▝▜▌▐▛▀▘ ▐▛▀▚▖  █  ▐▌ ▝▜▌  █  
+    ▐▙▄▄▀▐▙▄▄▖▐▙▄▞▘▝▚▄▞▘▝▚▄▞▘▐▌   ▐▌ ▐▌▗▄█▄▖▐▌  ▐▌  █  
+<
+
 
 
 
