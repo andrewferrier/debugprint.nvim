@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.7.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.6.0...v3.7.0) (2024-11-24)
+
+
+### Features
+
+* Add support for Lisp ([391f013](https://github.com/andrewferrier/debugprint.nvim/commit/391f01348d26d3d1d5bf96a21fe7402eb5090928))
+* Add support for tcl ([efbce12](https://github.com/andrewferrier/debugprint.nvim/commit/efbce12f0f7c59133aa583913bbc117302089a08))
+
+
+### Bug Fixes
+
+* Add missing validation for insert mode ([392bd6c](https://github.com/andrewferrier/debugprint.nvim/commit/392bd6c2a093d2272df6aa6fff0da6eae8da5208))
+
 ## [3.6.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.5.0...v3.6.0) (2024-11-08)
 
 
