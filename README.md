@@ -35,16 +35,14 @@ the NeoVim generation. It:
     cross-reference them in output (each of these can be optionally
     disabled [globally](#other-options) or [on a per-filetype basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
 
-*   Can output the value of variables (or in some cases, expressions).
-
-*   [Dot-repeats](https://jovicailic.org/2018/03/vim-the-dot-command/).
-
-*   Can detect a Treesitter variable name under the cursor for some languages,
-    or will prompt with a sensible default. It understands Treesitter embedded
+*   Can output the value of variables (or in some cases, expressions) - it will
+    detect a variable name under the cursor for some languages using Treesitter, or
+    will prompt with a sensible default. It understands Treesitter embedded
     languages (e.g. JavaScript-in-HTML).
 
 *   Provides [keymappings](#keymappings-and-commands) for normal, insert,
-    visual, and operator-pending modes.
+    visual, and operator-pending modes. Supports
+    [dot-repeat](https://jovicailic.org/2018/03/vim-the-dot-command/).
 
 *   Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
     comment/uncomment those lines.
