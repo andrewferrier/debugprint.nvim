@@ -261,8 +261,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   ------------------------------------------------------------------------------------------------------------------------------------
   Feature                 debugprint.nvim   timber.nvim_   nvim-chainsaw   printer.nvim   refactoring.nvim   vim-printer   logsitter
   ----------------------- ----------------- -------------- --------------- -------------- ------------------ ------------- -----------
-  Include location        :+1:              :x:            :x:             :+1:           :+1:               :x:           :+1:
-  information in log                                                                                                       
+  Include location        :+1:              :x:            :+1: (via user  :+1:           :+1:               :x:           :+1:
+  information in log                                       config)                                                         
   lines                                                                                                                    
 
   Print plain debug lines :+1:              :x:            :+1:            :x:            :+1:               :x:           :x:
@@ -352,7 +352,7 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
   Fortran                 :+1:              :x:            :x:             :x:            :x:                :+1:          :x:
 
-  Golang                  :+1:              :+1:           :x:             :+1:           :+1:               :+1:          :+1:
+  Golang                  :+1:              :+1:           :+1:            :+1:           :+1:               :+1:          :+1:
 
   Haskell                 :+1:              :x:            :x:             :x:            :x:                :x:           :x:
 
@@ -392,7 +392,7 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
   Zig                     :+1:              :x:            :x:             :x:            :x:                :x:           :x:
 
-  zsh                     :+1:              :x:            :x:             :+1:           :x:                :+1:          :x:
+  zsh                     :+1:              :x:            :+1:            :+1:           :x:                :+1:          :x:
 
   Add custom filetypes    :+1:              :+1:           :+1:            :+1:           :x:                :x:           :+1:
 
