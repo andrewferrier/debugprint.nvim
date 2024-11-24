@@ -318,6 +318,12 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can put debugprint text :x:               :x:            :x:             :+1:           :x:                :x:           :x:
   into default register                                                                                                    
 
+  Flashes to highlight    :x:               :+1:           :x:             :x:            :x:                :x:           :x:
+  lines when inserted                                                                                                      
+
+  Can insert logs in      :x:               :+1:           :x:             :x:            :x:                :x:           :x:
+  batches                                                                                                                  
+
   Built-in support for:   -                 -              -               -              -                  -             -
 
   Apex (Salesforce)       :+1:              :x:            :x:             :x:            :x:                :x:           :x:
