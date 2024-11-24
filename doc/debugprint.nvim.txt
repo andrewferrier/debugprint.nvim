@@ -273,10 +273,9 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Print variables using   :+1:              :+1:           :+1:            :x:            :+1:               :x:           :x:
   treesitter                                                                                                               
 
-  Use sophisticated       :x:               :x:            :x:             :x:            :x:                :x:           :x:
-  treesitter to locate                                                                                                     
-  log targets and insert                                                                                                   
-  them                                                                                                                     
+  Use treesitter queries  :x:               :+1:           :x:             :x:            :x:                :x:           :x:
+  to locate log targets                                                                                                    
+  and insert them                                                                                                          
 
   Print                   :+1:              :x:            :x:             :x:            :x:                :x:           :x:
   variables/expressions                                                                                                    
