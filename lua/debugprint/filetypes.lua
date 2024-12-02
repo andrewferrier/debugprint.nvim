@@ -87,6 +87,12 @@ return {
         mid_var = "${",
         right_var = '}")',
     },
+    ["cobol"] = {
+        left = 'DISPLAY "',
+        right = '".',
+        mid_var = '" ',
+        right_var = ".",
+    },
     ["cpp"] = {
         left = 'std::cerr << "',
         right = '" << std::endl;',
