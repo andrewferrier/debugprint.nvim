@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-11-25
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-02
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -335,6 +335,11 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can insert logs in      :x:               :+1:          :x:             :x:            :x:                :x:           :x:
   batches                                                                                                                 
 
+  Log watcher mechanism   :x:               :+1:          :x:             :x:            :x:                :x:           :x:
+
+  Completely customizable :x:               :+1:          :x:             :+1:           :x:                :x:           :x:
+  log lines                                                                                                               
+
   Built-in support for:   -                 -             -               -              -                  -             -
 
   Apex (Salesforce)       :+1:              :x:           :x:             :x:            :x:                :x:           :x:
@@ -406,9 +411,6 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   zsh                     :+1:              :x:           :+1:            :+1:           :x:                :+1:          :x:
 
   Add custom filetypes    :+1:              :+1:          :+1:            :+1:           :x:                :x:           :+1:
-
-  Customizable callback   :x:               :x:           :x:             :+1:           :x:                :x:           :x:
-  formatter                                                                                                               
 
   Implemented in          Lua               Lua           Lua             Lua            Lua                VimL          Lua
   -----------------------------------------------------------------------------------------------------------------------------------
