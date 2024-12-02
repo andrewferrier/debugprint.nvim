@@ -21,4 +21,4 @@ jobs:
         with:
           commit_message: "chore: Auto generate Vim docs"
           branch: ${{ github.head_ref }}
-          file_pattern: 'doc/*'
+          file_pattern: "doc/*"
