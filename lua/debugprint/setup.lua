@@ -3,21 +3,21 @@ local M = {}
 local debugprint = require("debugprint")
 
 ---@param mode string
----@param lhs string
+---@param lhs string|false
 ---@param opts table
 ---@return nil
 local map_key = function(mode, lhs, opts)
-    if lhs ~= nil and lhs ~= '' then
+    if lhs ~= nil and lhs ~= "" and lhs ~= false then
         vim.api.nvim_set_keymap(mode, lhs, "", opts)
     end
 end
 
----@param name string
+---@param name string|false
 ---@param command function
 ---@param opts table
 ---@return nil
 local create_command = function(name, command, opts)
-    if name then
+    if name ~= nil and name ~= "" and name ~= false then
         vim.api.nvim_create_user_command(name, command, opts)
     end
 end

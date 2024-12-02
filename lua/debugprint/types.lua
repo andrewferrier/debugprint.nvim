@@ -32,28 +32,28 @@
 ---@field visual? DebugprintKeymapVisualOptions
 
 ---@class DebugprintKeymapNormalOptions
----@field plain_below? string
----@field plain_above? string
----@field variable_below? string
----@field variable_above? string
----@field variable_below_alwaysprompt? string
----@field variable_above_alwaysprompt? string
----@field textobj_below? string
----@field textobj_above? string
----@field delete_debug_prints? string
----@field toggle_comment_debug_prints? string
+---@field plain_below? string|false
+---@field plain_above? string|false
+---@field variable_below? string|false
+---@field variable_above? string|false
+---@field variable_below_alwaysprompt? string|false
+---@field variable_above_alwaysprompt? string|false
+---@field textobj_below? string|false
+---@field textobj_above? string|false
+---@field delete_debug_prints? string|false
+---@field toggle_comment_debug_prints? string|false
 
 ---@class DebugprintKeymapInsertOptions
----@field plain? string
----@field variable? string
+---@field plain? string|false
+---@field variable? string|false
 
 ---@class DebugprintKeymapVisualOptions
----@field variable_below? string
----@field variable_above? string
+---@field variable_below? string|false
+---@field variable_above? string|false
 
 ---@class DebugprintCommandOptions
----@field delete_debug_prints? string
----@field toggle_comment_debug_prints? string
+---@field delete_debug_prints? string|false
+---@field toggle_comment_debug_prints? string|false
 
 ---@class DebugprintFunctionOptions
 ---@field above? boolean

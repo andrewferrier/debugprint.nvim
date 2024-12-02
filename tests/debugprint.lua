@@ -85,7 +85,15 @@ local teardown = function()
     pcall(vim.keymap.del, { "n", "x" }, "g?V")
     pcall(vim.keymap.del, "n", "g?o")
     pcall(vim.keymap.del, "n", "g?O")
+    pcall(vim.api.nvim_del_user_command, "DeleteDebugPrints")
+    pcall(vim.api.nvim_del_user_command, "ToggleCommentDebugPrints")
     vim.cmd("set modifiable")
+end
+
+---@param name string
+local command_exists = function(name)
+    local commands = vim.api.nvim_get_commands({})
+    return commands[name] ~= nil
 end
 
 describe("can do setup()", function()
@@ -2490,5 +2498,100 @@ describe("can support insert mode", function()
             "",
             "bar",
         })
+    end)
+end)
+
+describe("can disable built-in keymaps/commands", function()
+    after_each(teardown)
+
+    it("with nil - does NOT disable", function()
+        debugprint.setup({
+            keymaps = { normal = { plain_below = nil } },
+        })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+    end)
+
+    it("with false - does disable", function()
+        debugprint.setup({
+            keymaps = { normal = { plain_below = false } },
+        })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
+
+    it("with empty string - does disable", function()
+        debugprint.setup({
+            keymaps = { normal = { plain_below = "" } },
+        })
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+    end)
+
+    it("custom command nil - does NOT disable", function()
+        assert.equals(notify_message, nil)
+
+        debugprint.setup({ commands = { delete_debug_prints = nil } })
+        assert.equals(command_exists("DeleteDebugPrints"), true)
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("DeleteDebugPrint")
+
+        assert.equals(notify_message, "1 debug line deleted.")
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    -- These cannot be tested directly because there doesn't seem to be a way to
+    -- intercept a Vim-level error
+    it("custom command false - does disable", function()
+        debugprint.setup({ commands = { delete_debug_prints = false } })
+        assert.equals(command_exists("DeleteDebugPrints"), false)
+    end)
+
+    it("custom command zero-length string - does disable", function()
+        debugprint.setup({ commands = { delete_debug_prints = "" } })
+        assert.equals(command_exists("DeleteDebugPrints"), false)
     end)
 end)

@@ -8,12 +8,12 @@ local GLOBAL_OPTION_DEFAULTS = {
             plain_above = "g?P",
             variable_below = "g?v",
             variable_above = "g?V",
-            variable_below_alwaysprompt = nil,
-            variable_above_alwaysprompt = nil,
+            variable_below_alwaysprompt = "",
+            variable_above_alwaysprompt = "",
             textobj_below = "g?o",
             textobj_above = "g?O",
-            toggle_comment_debug_prints = nil,
-            delete_debug_prints = nil,
+            toggle_comment_debug_prints = "",
+            delete_debug_prints = "",
         },
         insert = {
             plain = "<C-G>p",
@@ -39,7 +39,7 @@ local GLOBAL_OPTION_DEFAULTS = {
 ---@param o DebugprintGlobalOptions
 ---@return nil
 local validate_global_opts = function(o)
-    local STRING_NIL = { "string", "nil" }
+    local STRING_FALSE_NIL = { "string", "boolean", "nil" }
 
     vim.validate({
         keymaps = { o.keymaps, "table" },
@@ -58,12 +58,12 @@ local validate_global_opts = function(o)
 
         commands_delete_debug_prints = {
             o.commands.delete_debug_prints,
-            STRING_NIL,
+            STRING_FALSE_NIL,
         },
 
         commands_toggle_comment_debug_prints = {
             o.commands.toggle_comment_debug_prints,
-            STRING_NIL,
+            STRING_FALSE_NIL,
         },
     })
 
@@ -73,39 +73,42 @@ local validate_global_opts = function(o)
 
     if normal ~= nil then
         vim.validate({
-            plain_below = { normal.plain_below, STRING_NIL },
-            plain_above = { normal.plain_above, STRING_NIL },
-            variable_below = { normal.variable_below, STRING_NIL },
-            variable_above = { normal.variable_above, STRING_NIL },
+            plain_below = { normal.plain_below, STRING_FALSE_NIL },
+            plain_above = { normal.plain_above, STRING_FALSE_NIL },
+            variable_below = { normal.variable_below, STRING_FALSE_NIL },
+            variable_above = { normal.variable_above, STRING_FALSE_NIL },
             variable_below_alwaysprompt = {
                 normal.variable_below_alwaysprompt,
-                STRING_NIL,
+                STRING_FALSE_NIL,
             },
             variable_above_alwaysprompt = {
                 normal.variable_above_alwaysprompt,
-                STRING_NIL,
+                STRING_FALSE_NIL,
             },
-            textobj_below = { normal.textobj_below, STRING_NIL },
-            textobj_above = { normal.textobj_above, STRING_NIL },
-            delete_debug_prints = { normal.delete_debug_prints, STRING_NIL },
+            textobj_below = { normal.textobj_below, STRING_FALSE_NIL },
+            textobj_above = { normal.textobj_above, STRING_FALSE_NIL },
+            delete_debug_prints = {
+                normal.delete_debug_prints,
+                STRING_FALSE_NIL,
+            },
             toggle_comment_debug_prints = {
                 normal.toggle_comment_debug_prints,
-                STRING_NIL,
+                STRING_FALSE_NIL,
             },
         })
     end
 
     if insert ~= nil then
         vim.validate({
-            variable_below = { insert.plain, STRING_NIL },
-            variable_above = { insert.variable, STRING_NIL },
+            variable_below = { insert.plain, STRING_FALSE_NIL },
+            variable_above = { insert.variable, STRING_FALSE_NIL },
         })
     end
 
     if visual ~= nil then
         vim.validate({
-            variable_below = { visual.variable_below, STRING_NIL },
-            variable_above = { visual.variable_above, STRING_NIL },
+            variable_below = { visual.variable_below, STRING_FALSE_NIL },
+            variable_above = { visual.variable_above, STRING_FALSE_NIL },
         })
     end
 end
