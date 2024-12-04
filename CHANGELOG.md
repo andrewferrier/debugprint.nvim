@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.8.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.7.0...v3.8.0) (2024-12-04)
+
+
+### Features
+
+* Add COBOL support ([357117c](https://github.com/andrewferrier/debugprint.nvim/commit/357117c435597bbd50a907072d298df0cd847daa))
+
+
+### Bug Fixes
+
+* Support empty or false to remove default keybindings ([bf6c457](https://github.com/andrewferrier/debugprint.nvim/commit/bf6c457d6dc5b1c7b053361ead34954714618983))
+
 ## [3.7.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.6.0...v3.7.0) (2024-11-24)
 
 
