@@ -22,7 +22,10 @@ end
 M.indent_line = function(line_nr, move_to_indented_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
-    vim.cmd(line_nr + 1 .. "normal! ==")
+    vim.api.nvim_cmd(
+        { range = { line_nr + 1 }, cmd = "normal", bang = true, args = { "==" } },
+        {}
+    )
 
     if not move_to_indented_line then
         vim.api.nvim_win_set_cursor(0, pos)
@@ -34,7 +37,10 @@ end
 M.toggle_comment_line = function(line)
     if vim.fn.has("nvim-0.10.0") == 1 then
         local pos = vim.api.nvim_win_get_cursor(0)
-        vim.cmd(line .. "norm gcc")
+        vim.api.nvim_cmd(
+            { range = { line }, cmd = "normal", args = { "gcc" } },
+            {}
+        )
         vim.api.nvim_win_set_cursor(0, pos)
     else
         local status, comment = pcall(require, "mini.comment")

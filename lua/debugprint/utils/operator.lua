@@ -12,7 +12,7 @@ end
 ---@return nil
 M.set_callback = function(func_name)
     M.set_operatorfunc("v:lua.require'debugprint.utils.operator'.NOOP")
-    vim.cmd("normal! g@l")
+    vim.api.nvim_cmd({ cmd = "normal", bang = true, args = { "g@l" } }, {})
     M.set_operatorfunc(func_name)
 end
 

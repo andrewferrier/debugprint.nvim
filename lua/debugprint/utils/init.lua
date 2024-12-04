@@ -55,7 +55,7 @@ M.get_variable_name = function(ignore_treesitter, filetype_config)
             -- Don't show a warning because of this issue:
             -- https://github.com/andrewferrier/debugprint.nvim/issues/91.
             -- Instead just silently end debugprint operation.
-            vim.cmd("mode") -- Clear command
+            vim.api.nvim_cmd({ cmd = "mode" }, {}) -- Clear command
             return nil
         end
     end
