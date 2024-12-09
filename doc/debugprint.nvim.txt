@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-04
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-09
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -45,10 +45,10 @@ generation. It:
     JavaScript/TypeScript, Java, C/C++ and |debugprint.nvim-more|. It can also be
     extended to support other languages or customize existing ones <SHOWCASE.md>.
 - Includes reference information in each 'print line' such as file names, line
-    numbers, a counter, and snippets of other lines to make it easier to
-    cross-reference them in output (each of these can be optionally disabled
-    |debugprint.nvim-globally| or on a per-filetype basis
-    <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>).
+    numbers, a counter (which persists between NeoVim sessions), and snippets of
+    other lines to make it easier to cross-reference them in output (each of these
+    can be optionally disabled |debugprint.nvim-globally| or on a per-filetype
+    basis <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>).
 - Can output the value of variables (or in some cases, expressions) - it will
     detect a variable name under the cursor for some languages using Treesitter, or
     will prompt with a sensible default. It understands Treesitter embedded
@@ -149,6 +149,10 @@ following table.
 
   Command      :ToggleCommentDebugPrints   Comment/uncomment debug lines   -
                                            in buffer                       
+
+  Command      :ResetDebugPrintsCounter    Reset debug print persistent    -
+                                           counter (only for built-in      
+                                           counter implementation)         
   --------------------------------------------------------------------------------------
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
@@ -184,6 +188,7 @@ might look like this:
             commands = {
                 toggle_comment_debug_prints = "ToggleCommentDebugPrints",
                 delete_debug_prints = "DeleteDebugPrints",
+                reset_debug_prints_counter = "ResetDebugPrintsCounter",
             },
             -- … Other options
         },
@@ -268,6 +273,10 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Include other location  :+1:              :x:           :+1: (via user  :+1:           :+1:               :x:           :+1:
   information in log                                      config)                                                         
   lines                                                                                                                   
+
+  Persistent location     :+1:              :x:           :x:             :x:            :x:                :x:           :x:
+  counter between NeoVim                                                                                                  
+  sessions                                                                                                                
 
   Print plain debug lines :+1:              :+1: (via     :+1:            :x:            :+1:               :x:           :x:
                                             user config)                                                                  
