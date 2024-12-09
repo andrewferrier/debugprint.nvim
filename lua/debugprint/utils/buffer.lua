@@ -22,10 +22,12 @@ end
 M.indent_line = function(line_nr, move_to_indented_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
-    vim.api.nvim_cmd(
-        { range = { line_nr + 1 }, cmd = "normal", bang = true, args = { "==" } },
-        {}
-    )
+    vim.api.nvim_cmd({
+        range = { line_nr + 1 },
+        cmd = "normal",
+        bang = true,
+        args = { "==" },
+    }, {})
 
     if not move_to_indented_line then
         vim.api.nvim_win_set_cursor(0, pos)
