@@ -2,8 +2,9 @@ local M = {}
 
 local default_counter
 
-local DATA_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "debugprint")
-local COUNTER_FILE = vim.fs.joinpath(DATA_PATH, "counter")
+-- FIXME: Switch to joinpath for more elegance once we stop supporting <0.10
+local DATA_PATH = vim.fn.stdpath("data") .. "/debugprint"
+local COUNTER_FILE = DATA_PATH .. "/counter"
 
 ---@return string
 M.default_display_counter = function()
