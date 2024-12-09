@@ -4,13 +4,13 @@ vim.o.swapfile = false
 -- These must be prepended because of this:
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/3092#issue-1288690088
 vim.opt.runtimepath:prepend(
-    "~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter"
+    vim.fn.stdpath("data") .. "/site/pack/vendor/start/nvim-treesitter"
 )
 vim.opt.runtimepath:prepend("../nvim-treesitter")
 
 if vim.fn.has("nvim-0.10.0") == 0 then
     vim.opt.runtimepath:prepend(
-        "~/.local/share/nvim/site/pack/vendor/start/mini.nvim"
+        vim.fn.stdpath("data") .. "/site/pack/vendor/start/mini.nvim"
     )
     vim.opt.runtimepath:prepend("../mini.nvim")
 end
