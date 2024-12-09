@@ -33,7 +33,7 @@ end
 ---@return nil
 M.reset_debug_prints_counter = function()
     if vim.fn.filewritable(COUNTER_FILE) == 1 then
-        vim.fs.rm(COUNTER_FILE)
+        vim.fn.delete(COUNTER_FILE)
     end
 
     default_counter = nil
