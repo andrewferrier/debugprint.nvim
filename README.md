@@ -31,9 +31,10 @@ the NeoVim generation. It:
     support other languages or customize existing ones](SHOWCASE.md).
 
 *   Includes reference information in each 'print line' such as file names, line
-    numbers, a counter, and snippets of other lines to make it easier to
-    cross-reference them in output (each of these can be optionally
-    disabled [globally](#other-options) or [on a per-filetype basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
+    numbers, a counter (which persists between NeoVim sessions), and snippets of
+    other lines to make it easier to cross-reference them in output (each of these
+    can be optionally disabled [globally](#other-options) or [on a per-filetype
+    basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
 
 *   Can output the value of variables (or in some cases, expressions) - it will
     detect a variable name under the cursor for some languages using Treesitter, or
@@ -114,6 +115,7 @@ following table.
 | Op-pending | `g?O`                       | Variable debug                              | Above            |
 | Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                | -                |
 | Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer     | -                |
+| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -         |
 
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
@@ -149,6 +151,7 @@ return {
         commands = {
             toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
+            reset_debug_prints_counter = "ResetDebugPrintsCounter",
         },
         -- … Other options
     },
@@ -183,7 +186,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | ------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `move_to_debugline` | `false`                      | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                                        |
 | `display_location`  | `true`                       | Include the filename and linenumber of the line being debugged in the debug message                                                                                                                                                                                                            |
-| `display_counter`   | `true`                       | Include the increasing integer counter in the debug message. (Can also be set to a function to customize, see the [showcase](SHOWCASE.md#use-a-custom-display_counter-counter)) for an example                                                                                                                                       |
+| `display_counter`   | `true`                       | Include the increasing integer counter in the debug message. (Can also be set to a function to customize, see the [showcase](SHOWCASE.md#restoring-non-persistent-display_counter-counter)) for an example                                                                                                                                       |
 | `display_snippet`   | `true`                       | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                                            |
 | `filetypes`         | See ([the code](lua/debugprint/filetypes.lua))  | Custom filetypes - see [showcase](SHOWCASE.md)                                                                                                                                                                                                                                                 |
 | `print_tag`         | `DEBUGPRINT`                 | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
@@ -205,6 +208,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | ------------------------------------------------------------------- | ----------------- | ------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
 | Include line numbers in log lines                                   | :+1:              | :+1: (via user config)                                  | :+1: (via user config)                                         | :+1:                                                      | :+1:                                                                 | :x:                                                 | :+1:                                                  |
 | Include other location information in log lines                     | :+1:              | :x:                                                     | :+1: (via user config)                                         | :+1:                                                      | :+1:                                                                 | :x:                                                 | :+1:                                                  |
+| Persistent location counter between NeoVim sessions                 | :+1:              | :x:                                                     | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Print plain debug lines                                             | :+1:              | :+1: (via user config)                                  | :+1:                                                           | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
 | Print variables using treesitter                                    | :+1:              | :+1:                                                    | :+1:                                                           | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
 | Use treesitter to locate log targets                                | (some languages)  | :+1:                                                    | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |

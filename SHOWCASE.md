@@ -126,9 +126,9 @@ return {
 }
 ```
 
-## Use a custom `display_counter` counter
+## Restoring non-persistent `display_counter` counter
 
-The `display_counter` option can be set to a custom callback function to implement custom counter logic. In this case you are responsible for implementing your own counter. For example, this logic will implement essentially the same as the default counter:
+In older versions, `debugprint` used a `display_counter` which was only local to a particular NeoVim session; it was reset when exiting NeoVim and wasn't common between NeoVim sessions in different terminals. If you don't like the new 'persistent' counter, you can restore this old behaviour by setting a custom `display_counter`. This will recreate the old logic:
 
 ```lua
 local counter = 0
@@ -140,6 +140,8 @@ end
 
 debugprint.setup({display_counter = counter_func})
 ```
+
+You can also set `display_counter` to any other function you wish.
 
 ## Using package managers other than lazy.nvim
 

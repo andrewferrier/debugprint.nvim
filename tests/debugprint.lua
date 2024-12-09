@@ -77,7 +77,12 @@ vim.notify = function(msg, _)
     notify_message = msg
 end
 
-local teardown = function()
+local DATA_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "debugprint")
+local COUNTER_FILE = vim.fs.joinpath(DATA_PATH, "counter")
+
+local teardown = function(opts)
+    opts = vim.tbl_extend("keep", opts or {}, { reset_counter = true })
+
     notify_message = nil
     pcall(vim.keymap.del, "n", "g?p")
     pcall(vim.keymap.del, "n", "g?P")
@@ -88,6 +93,10 @@ local teardown = function()
     pcall(vim.api.nvim_del_user_command, "DeleteDebugPrints")
     pcall(vim.api.nvim_del_user_command, "ToggleCommentDebugPrints")
     vim.cmd("set modifiable")
+
+    if opts.reset_counter then
+        require("debugprint.counter").reset_debug_prints_counter()
+    end
 end
 
 ---@param name string
@@ -2593,5 +2602,53 @@ describe("can disable built-in keymaps/commands", function()
     it("custom command zero-length string - does disable", function()
         debugprint.setup({ commands = { delete_debug_prints = "" } })
         assert.equals(command_exists("DeleteDebugPrints"), false)
+    end)
+end)
+
+describe("check that counter persistence works", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(function()
+        teardown({ reset_counter = false })
+    end)
+
+    it("statement 1", function()
+        assert.equals(vim.fn.filereadable(COUNTER_FILE), 0)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+
+        assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
+    end)
+
+    it("statement 2", function()
+        assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?P")
+
+        check_lines({
+            "print('DEBUGPRINT[2]: " .. filename .. ":1 (before foo)')",
+            "foo",
+            "bar",
+        })
+
+        assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
     end)
 end)

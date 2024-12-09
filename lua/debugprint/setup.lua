@@ -186,6 +186,14 @@ M.map_keys_and_commands = function(global_opts)
             desc = "Comment/uncomment all debugprint statements in the current buffer",
         }
     )
+
+    create_command(
+        global_opts.commands.reset_debug_prints_counter,
+        require("debugprint.counter").reset_debug_prints_counter,
+        {
+            desc = "Reset the debugprint counter to 0",
+        }
+    )
 end
 
 return M

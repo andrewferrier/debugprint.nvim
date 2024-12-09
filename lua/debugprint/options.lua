@@ -27,6 +27,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     commands = {
         toggle_comment_debug_prints = "ToggleCommentDebugPrints",
         delete_debug_prints = "DeleteDebugPrints",
+        reset_debug_prints_counter = "ResetDebugPrintsCounter",
     },
     display_counter = true,
     display_location = true,
@@ -63,6 +64,11 @@ local validate_global_opts = function(o)
 
         commands_toggle_comment_debug_prints = {
             o.commands.toggle_comment_debug_prints,
+            STRING_FALSE_NIL,
+        },
+
+        commands_reset_debug_prints_counter = {
+            o.commands.reset_debug_prints_counter,
             STRING_FALSE_NIL,
         },
     })

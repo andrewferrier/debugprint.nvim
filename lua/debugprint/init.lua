@@ -6,13 +6,6 @@ local utils_errors = require("debugprint.utils.errors")
 local utils_operator = require("debugprint.utils.operator")
 
 local global_opts
-local default_counter = 0
-
----@return string
-local default_display_counter = function()
-    default_counter = default_counter + 1
-    return "[" .. tostring(default_counter) .. "]"
-end
 
 ---@param display_counter? boolean|function
 ---@return string
@@ -24,7 +17,8 @@ local get_debugline_tag_and_counter = function(display_counter)
     end
 
     if display_counter == true then
-        tag_and_counter = tag_and_counter .. default_display_counter()
+        tag_and_counter = tag_and_counter
+            .. require("debugprint.counter").default_display_counter()
     elseif type(display_counter) == "function" then
         tag_and_counter = tag_and_counter .. tostring(display_counter())
     end
@@ -400,9 +394,6 @@ M.setup = function(opts)
         require("debugprint.options").get_and_validate_global_opts(opts)
 
     require("debugprint.setup").map_keys_and_commands(global_opts)
-
-    -- Because we want to be idempotent, re-running setup() resets the counter
-    default_counter = 0
 end
 
 ---@param filetypes DebugprintFileTypeConfig[]

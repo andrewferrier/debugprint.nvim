@@ -54,6 +54,7 @@
 ---@class DebugprintCommandOptions
 ---@field delete_debug_prints? string|false
 ---@field toggle_comment_debug_prints? string|false
+---@field reset_debug_prints_counter? string|false
 
 ---@class DebugprintFunctionOptions
 ---@field above? boolean
