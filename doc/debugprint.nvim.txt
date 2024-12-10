@@ -41,7 +41,7 @@ the language you’re editing.
 <https://github.com/bergercookie/vim-debugstring>; updated for the NeoVim
 generation. It:
 
-- Supports 35 filetypes/programming languages out-of-the-box, including Python,
+- Supports 38 filetypes/programming languages out-of-the-box, including Python,
     JavaScript/TypeScript, Java, C/C++ and |debugprint.nvim-more|. It can also be
     extended to support other languages or customize existing ones <SHOWCASE.md>.
 - Includes reference information in each 'print line' such as file names, line
@@ -412,15 +412,21 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
   R                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
+  React                   :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+
   Ruby                    :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
 
   Rust                    :+1:              :+1:          :+1:              :+1:           :x:                :+1:          :x:
 
   Swift                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
+  Svelte                  :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+
   tcl                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   VimL (vimscript)        :+1:              :x:           :x:               :+1:           :x:                :+1:          :x:
+
+  Vue                     :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
   Zig                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
