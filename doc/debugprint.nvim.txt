@@ -340,8 +340,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can put debugprint text :x:               :x:           :x:               :+1:           :x:                :x:           :x:
   into default register                                                                                                     
 
-  visual emphasis of log  :x:               Flashes to    status line       :x:            :x:                :x:           :x:
-  statements                                highlight     counter,                                                          
+  Extra visual emphasis   :x:               Flashes to    status line       :x:            :x:                :x:           :x:
+  of log statements                         highlight     counter,                                                          
                                             lines when    signcolumn,                                                       
                                             inserted      line-highlight,                                                   
                                                           scrollbar                                                         
