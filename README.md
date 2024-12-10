@@ -271,6 +271,8 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | [Add custom filetypes](SHOWCASE.md)                                 | :+1:              | :+1:                                                  | :+1:                                                           | :+1:                                                      | :x:                                                                  | :x:                                                 | :+1:                                                  |
 | Implemented in                                                      | Lua               | Lua                                                   | Lua                                                            | Lua                                                       | Lua                                                                  | VimL                                                | Lua                                                   |
 
+There is also [a similar table in the nvim-chainsaw documentation](https://github.com/chrisgrieser/nvim-chainsaw?tab=readme-ov-file#comparison-with-similar-plugins).
+
 Other similar plugins (less popular or unmaintained):
 
 *   [my-neovim-pluglist](https://yutkat.github.io/my-neovim-pluginlist/debugger_repl.html#print-debug)
