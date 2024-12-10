@@ -251,6 +251,7 @@ return {
         mid_var = "\\(",
         right_var = ')")',
     },
+    ["svelte"] = js,
     ["tcl"] = {
         left = 'puts "',
         right = '"',
@@ -265,6 +266,7 @@ return {
         mid_var = '" .. ',
         right_var = "",
     },
+    ["vue"] = js,
     ["zig"] = {
         left = 'std.debug.print("',
         right = '\\n", .{});',
