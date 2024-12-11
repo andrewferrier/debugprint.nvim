@@ -6,15 +6,15 @@ repos:
           - id: check-hooks-apply
           - id: check-useless-excludes
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.6.0
+      rev: v5.0.0
       hooks:
           - id: check-added-large-files
     - repo: https://github.com/gitleaks/gitleaks
-      rev: v8.18.4
+      rev: v8.21.2
       hooks:
           - id: gitleaks
     - repo: https://github.com/JohnnyMorganz/StyLua
-      rev: v0.20.0
+      rev: v2.0.2
       hooks:
           - id: stylua-system
     - repo: https://github.com/igorshubovych/markdownlint-cli
