@@ -8,9 +8,9 @@ Out of the box, `debugprint` provides a standard set of language configurations,
 
 If `debugprint` doesn't support your filetype, you can add it as a custom filetype in one of two ways:
 
-*   In the `opts.filetypes` object in `setup()`.
+- In the `opts.filetypes` object in `setup()`.
 
-*   Using the `require('debugprint').add_custom_filetypes()` method (designed for use from `ftplugin/` directories, etc.)
+- Using the `require('debugprint').add_custom_filetypes()` method (designed for use from `ftplugin/` directories, etc.)
 
 In either case, the format is the same. For example, if adding via `setup()`:
 

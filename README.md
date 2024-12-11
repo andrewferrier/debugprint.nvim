@@ -7,7 +7,7 @@
 
 ![Test status](https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg)
 <a href="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim">
-<img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" />
+<img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" alt="debugprint dotfyle shield"/>
 </a>
 
 ## Overview
@@ -25,32 +25,32 @@ the language you're editing.
 [vim-debugstring](https://github.com/bergercookie/vim-debugstring); updated for
 the NeoVim generation. It:
 
-*   Supports 38 filetypes/programming languages out-of-the-box, including
-    Python, JavaScript/TypeScript, Java, C/C++ and
-    [more](#feature-comparison-with-similar-plugins). [It can also be extended to
-    support other languages or customize existing ones](SHOWCASE.md).
+- Supports 38 filetypes/programming languages out-of-the-box, including
+  Python, JavaScript/TypeScript, Java, C/C++ and
+  [more](#feature-comparison-with-similar-plugins). [It can also be extended to
+  support other languages or customize existing ones](SHOWCASE.md).
 
-*   Includes reference information in each 'print line' such as file names, line
-    numbers, a counter (which persists between NeoVim sessions), and snippets of
-    other lines to make it easier to cross-reference them in output (each of these
-    can be optionally disabled [globally](#other-options) or [on a per-filetype
-    basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
+- Includes reference information in each 'print line' such as file names, line
+  numbers, a counter (which persists between NeoVim sessions), and snippets of
+  other lines to make it easier to cross-reference them in output (each of these
+  can be optionally disabled [globally](#other-options) or [on a per-filetype
+  basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
 
-*   Can output the value of variables (or in some cases, expressions) - it will
-    detect a variable name under the cursor for some languages using Treesitter, or
-    will prompt with a sensible default. It understands Treesitter embedded
-    languages (e.g. JavaScript-in-HTML).
+- Can output the value of variables (or in some cases, expressions) - it will
+  detect a variable name under the cursor for some languages using Treesitter, or
+  will prompt with a sensible default. It understands Treesitter embedded
+  languages (e.g. JavaScript-in-HTML).
 
-*   Provides [keymappings](#keymappings-and-commands) for normal, insert,
-    visual, and operator-pending modes. Supports
-    [dot-repeat](https://jovicailic.org/2018/03/vim-the-dot-command/).
+- Provides [keymappings](#keymappings-and-commands) for normal, insert,
+  visual, and operator-pending modes. Supports
+  [dot-repeat](https://jovicailic.org/2018/03/vim-the-dot-command/).
 
-*   Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
-    comment/uncomment those lines.
+- Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
+  comment/uncomment those lines.
 
-*   Can optionally move to the inserted line (or not).
+- Can optionally move to the inserted line (or not).
 
-*   Is [MIT Licensed](LICENSE.txt).
+- Is [MIT Licensed](LICENSE.txt).
 
 ## Demo
 
@@ -97,25 +97,25 @@ the box'. There are also some function invocations which are not mapped to any
 keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-| Mode       | Default Key / Cmd           | Purpose                                     | Above/Below Line |
-| ---------- | --------------------------- | ------------------------------------------- | ---------------- |
-| Normal     | `g?p`                       | Plain debug                                 | Below            |
-| Normal     | `g?P`                       | Plain debug                                 | Above            |
-| Normal     | `g?v`                       | Variable debug                              | Below            |
-| Normal     | `g?V`                       | Variable debug                              | Above            |
-| Normal     | None                        | Variable debug (always prompt for variable) | Below            |
-| Normal     | None                        | Variable debug (always prompt for variable) | Above            |
-| Normal     | None                        | Delete debug lines in buffer                | -                |
-| Normal     | None                        | Comment/uncomment debug lines in buffer     | -                |
-| Insert     | `Ctrl-G p`                  | Plain debug                                 | In-place         |
-| Insert     | `Ctrl-G v`                  | Variable debug (always prompt for variable) | In-place         |
-| Visual     | `g?v`                       | Variable debug                              | Below            |
-| Visual     | `g?V`                       | Variable debug                              | Above            |
-| Op-pending | `g?o`                       | Variable debug                              | Below            |
-| Op-pending | `g?O`                       | Variable debug                              | Above            |
-| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                | -                |
-| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer     | -                |
-| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -         |
+| Mode       | Default Key / Cmd           | Purpose                                                                         | Above/Below Line |
+| ---------- | --------------------------- | ------------------------------------------------------------------------------- | ---------------- |
+| Normal     | `g?p`                       | Plain debug                                                                     | Below            |
+| Normal     | `g?P`                       | Plain debug                                                                     | Above            |
+| Normal     | `g?v`                       | Variable debug                                                                  | Below            |
+| Normal     | `g?V`                       | Variable debug                                                                  | Above            |
+| Normal     | None                        | Variable debug (always prompt for variable)                                     | Below            |
+| Normal     | None                        | Variable debug (always prompt for variable)                                     | Above            |
+| Normal     | None                        | Delete debug lines in buffer                                                    | -                |
+| Normal     | None                        | Comment/uncomment debug lines in buffer                                         | -                |
+| Insert     | `Ctrl-G p`                  | Plain debug                                                                     | In-place         |
+| Insert     | `Ctrl-G v`                  | Variable debug (always prompt for variable)                                     | In-place         |
+| Visual     | `g?v`                       | Variable debug                                                                  | Below            |
+| Visual     | `g?V`                       | Variable debug                                                                  | Above            |
+| Op-pending | `g?o`                       | Variable debug                                                                  | Below            |
+| Op-pending | `g?O`                       | Variable debug                                                                  | Above            |
+| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                |
+| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                |
+| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                |
 
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
@@ -182,18 +182,18 @@ they are used to convert sections to ROT-13, which most folks don't use.
 
 `debugprint` supports the following options in its global `opts` object:
 
-| Option              | Default                      | Purpose                                                                                                                                                                                                                                                                                        |
-| ------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `move_to_debugline` | `false`                      | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                                        |
-| `display_location`  | `true`                       | Include the filename and linenumber of the line being debugged in the debug message                                                                                                                                                                                                            |
-| `display_counter`   | `true`                       | Include the increasing integer counter in the debug message. (If you want to customize this counter, or make it non-persistent, see instructions in the [showcase](SHOWCASE.md#restoring-non-persistent-display_counter-counter) for an example).                                                                                                                                       |
-| `display_snippet`   | `true`                       | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                                            |
-| `filetypes`         | See ([the code](lua/debugprint/filetypes.lua))  | Custom filetypes - see [showcase](SHOWCASE.md)                                                                                                                                                                                                                                                 |
-| `print_tag`         | `DEBUGPRINT`                 | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
+| Option              | Default                                        | Purpose                                                                                                                                                                                                                                                                                        |
+| ------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `move_to_debugline` | `false`                                        | When adding a debug line, moves the cursor to that line                                                                                                                                                                                                                                        |
+| `display_location`  | `true`                                         | Include the filename and linenumber of the line being debugged in the debug message                                                                                                                                                                                                            |
+| `display_counter`   | `true`                                         | Include the increasing integer counter in the debug message. (If you want to customize this counter, or make it non-persistent, see instructions in the [showcase](SHOWCASE.md#restoring-non-persistent-display_counter-counter) for an example).                                              |
+| `display_snippet`   | `true`                                         | Include a snippet of the line above/below in the debug message (plain debug lines only) for context                                                                                                                                                                                            |
+| `filetypes`         | See ([the code](lua/debugprint/filetypes.lua)) | Custom filetypes - see [showcase](SHOWCASE.md)                                                                                                                                                                                                                                                 |
+| `print_tag`         | `DEBUGPRINT`                                   | The string inserted into each print statement, which can be used to uniquely identify statements inserted by `debugprint`. If you set this to `''` (the empty string), no print tag will be included, but this will disable the ability to delete or comment print statements via `debugprint` |
 
 ## Known Limitations
 
-* `debugprint` does not handle deleting reformatted debug lines where a
+- `debugprint` does not handle deleting reformatted debug lines where a
   formatter has split them across multiple lines. If you want to be able to easily
   delete your debug lines using `DeleteDebugPrints` or similar, don't format your
   file between inserting them and running this command. See [this
@@ -261,14 +261,14 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Powershell/ps1                                                      | :+1:              | :x:                                                   | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Python                                                              | :+1:              | :x:                                                   | :+1:                                                           | :+1:                                                      | :+1:                                                                 | :+1:                                                | :x:                                                   |
 | R                                                                   | :+1:              | :x:                                                   | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
-| React                                                               | :+1:              | :x:                                                     | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| React                                                               | :+1:              | :x:                                                   | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Ruby                                                                | :+1:              | :+1:                                                  | :+1:                                                           | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
 | Rust                                                                | :+1:              | :+1:                                                  | :+1:                                                           | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
 | Swift                                                               | :+1:              | :x:                                                   | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
-| Svelte                                                              | :+1:              | :x:                                                     | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Svelte                                                              | :+1:              | :x:                                                   | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | tcl                                                                 | :+1:              | :x:                                                   | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | VimL (vimscript)                                                    | :+1:              | :x:                                                   | :x:                                                            | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
-| Vue                                                                 | :+1:              | :x:                                                     | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Vue                                                                 | :+1:              | :x:                                                   | :+1:                                                           | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Zig                                                                 | :+1:              | :x:                                                   | :x:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | zsh                                                                 | :+1:              | :x:                                                   | :+1:                                                           | :+1:                                                      | :x:                                                                  | :+1:                                                | :x:                                                   |
 | [Add custom filetypes](SHOWCASE.md)                                 | :+1:              | :+1:                                                  | :+1:                                                           | :+1:                                                      | :x:                                                                  | :x:                                                 | :+1:                                                  |
@@ -278,6 +278,6 @@ There is also [a similar table in the nvim-chainsaw documentation](https://githu
 
 Other similar plugins (less popular or unmaintained):
 
-*   [my-neovim-pluglist](https://yutkat.github.io/my-neovim-pluginlist/debugger_repl.html#print-debug)
-*   [vim-debugstring](https://github.com/bergercookie/vim-debugstring)
-*   [vim-printf](https://github.com/mptre/vim-printf)
+- [my-neovim-pluglist](https://yutkat.github.io/my-neovim-pluginlist/debugger_repl.html#print-debug)
+- [vim-debugstring](https://github.com/bergercookie/vim-debugstring)
+- [vim-printf](https://github.com/mptre/vim-printf)
