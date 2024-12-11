@@ -1,5 +1,26 @@
 # Changelog
 
+## [4.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.7.0...v4.0.0) (2024-12-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use persistent counter - closes #143
+
+### Features
+
+* Add COBOL support ([357117c](https://github.com/andrewferrier/debugprint.nvim/commit/357117c435597bbd50a907072d298df0cd847daa))
+* Add support for svelte and vue ([0480f2f](https://github.com/andrewferrier/debugprint.nvim/commit/0480f2fc3fc93249f9f90336d840360c2ae40b6c))
+* Use persistent counter - closes [#143](https://github.com/andrewferrier/debugprint.nvim/issues/143) ([26ba69f](https://github.com/andrewferrier/debugprint.nvim/commit/26ba69f06d126eaa09eaea9ae872611b2b86ebcf))
+
+
+### Bug Fixes
+
+* Don't use vim.fs.rm(), it's not in stable yet ([3b7d34c](https://github.com/andrewferrier/debugprint.nvim/commit/3b7d34c37ecc4737f998498b10432e7538536627))
+* simpler implementation of vim.fs.joinpath() ([4a798ae](https://github.com/andrewferrier/debugprint.nvim/commit/4a798ae5f5bb65131334e4d9b8cafa52c858c8ab))
+* Stop using joinpath() ([8a54467](https://github.com/andrewferrier/debugprint.nvim/commit/8a544678a950809cf07ae03dd019dfa98751aa6a))
+* Support empty or false to remove default keybindings ([bf6c457](https://github.com/andrewferrier/debugprint.nvim/commit/bf6c457d6dc5b1c7b053361ead34954714618983))
+
 ## [3.7.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.6.0...v3.7.0) (2024-11-24)
 
 
