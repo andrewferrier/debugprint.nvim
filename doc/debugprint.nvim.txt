@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-10
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-11
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -109,51 +109,48 @@ of the box'. There are also some function invocations which are not mapped to
 any keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-  --------------------------------------------------------------------------------------
-  Mode         Default Key / Cmd           Purpose                         Above/Below
-                                                                           Line
-  ------------ --------------------------- ------------------------------- -------------
-  Normal       g?p                         Plain debug                     Below
+  -------------------------------------------------------------------------------------------------
+  Mode         Default Key / Cmd           Purpose                                    Above/Below
+                                                                                      Line
+  ------------ --------------------------- ------------------------------------------ -------------
+  Normal       g?p                         Plain debug                                Below
 
-  Normal       g?P                         Plain debug                     Above
+  Normal       g?P                         Plain debug                                Above
 
-  Normal       g?v                         Variable debug                  Below
+  Normal       g?v                         Variable debug                             Below
 
-  Normal       g?V                         Variable debug                  Above
+  Normal       g?V                         Variable debug                             Above
 
-  Normal       None                        Variable debug (always prompt   Below
-                                           for variable)                   
+  Normal       None                        Variable debug (always prompt for          Below
+                                           variable)                                  
 
-  Normal       None                        Variable debug (always prompt   Above
-                                           for variable)                   
+  Normal       None                        Variable debug (always prompt for          Above
+                                           variable)                                  
 
-  Normal       None                        Delete debug lines in buffer    -
+  Normal       None                        Delete debug lines in buffer               -
 
-  Normal       None                        Comment/uncomment debug lines   -
-                                           in buffer                       
+  Normal       None                        Comment/uncomment debug lines in buffer    -
 
-  Insert       Ctrl-G p                    Plain debug                     In-place
+  Insert       Ctrl-G p                    Plain debug                                In-place
 
-  Insert       Ctrl-G v                    Variable debug (always prompt   In-place
-                                           for variable)                   
+  Insert       Ctrl-G v                    Variable debug (always prompt for          In-place
+                                           variable)                                  
 
-  Visual       g?v                         Variable debug                  Below
+  Visual       g?v                         Variable debug                             Below
 
-  Visual       g?V                         Variable debug                  Above
+  Visual       g?V                         Variable debug                             Above
 
-  Op-pending   g?o                         Variable debug                  Below
+  Op-pending   g?o                         Variable debug                             Below
 
-  Op-pending   g?O                         Variable debug                  Above
+  Op-pending   g?O                         Variable debug                             Above
 
-  Command      :DeleteDebugPrints          Delete debug lines in buffer    -
+  Command      :DeleteDebugPrints          Delete debug lines in buffer               -
 
-  Command      :ToggleCommentDebugPrints   Comment/uncomment debug lines   -
-                                           in buffer                       
+  Command      :ToggleCommentDebugPrints   Comment/uncomment debug lines in buffer    -
 
-  Command      :ResetDebugPrintsCounter    Reset debug print persistent    -
-                                           counter (only for built-in      
-                                           counter implementation)         
-  --------------------------------------------------------------------------------------
+  Command      :ResetDebugPrintsCounter    Reset debug print persistent counter (only -
+                                           for built-in counter implementation)       
+  -------------------------------------------------------------------------------------------------
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
 configuration of debugprint. For example, if configuring via `lazy.nvim`, it
@@ -223,18 +220,18 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
 `debugprint` supports the following options in its global `opts` object:
 
-  ---------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------
   Option              Default      Purpose
-  ------------------- ------------ ------------------------------------------------------------
+  ------------------- ------------ ---------------------------------------------------------
   move_to_debugline   false        When adding a debug line, moves the cursor to that line
 
   display_location    true         Include the filename and linenumber of the line being
                                    debugged in the debug message
 
-  display_counter     true         Include the increasing integer counter in the debug message.
-                                   (If you want to customize this counter, or make it
-                                   non-persistent, see instructions in the showcase for an
-                                   example).
+  display_counter     true         Include the increasing integer counter in the debug
+                                   message. (If you want to customize this counter, or make
+                                   it non-persistent, see instructions in the showcase for
+                                   an example).
 
   display_snippet     true         Include a snippet of the line above/below in the debug
                                    message (plain debug lines only) for context
@@ -242,12 +239,13 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   filetypes           See (the     Custom filetypes - see showcase
                       code)        
 
-  print_tag           DEBUGPRINT   The string inserted into each print statement, which can be
-                                   used to uniquely identify statements inserted by debugprint.
-                                   If you set this to '' (the empty string), no print tag will
-                                   be included, but this will disable the ability to delete or
-                                   comment print statements via debugprint
-  ---------------------------------------------------------------------------------------------
+  print_tag           DEBUGPRINT   The string inserted into each print statement, which can
+                                   be used to uniquely identify statements inserted by
+                                   debugprint. If you set this to '' (the empty string), no
+                                   print tag will be included, but this will disable the
+                                   ability to delete or comment print statements via
+                                   debugprint
+  ------------------------------------------------------------------------------------------
 
 ==============================================================================
 8. Known Limitations                       *debugprint.nvim-known-limitations*
