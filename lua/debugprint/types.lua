@@ -65,6 +65,7 @@
 
 ---@class DebugprintFunctionOptionsInternal: DebugprintFunctionOptions
 ---@field variable_name? string
+---@field register? string
 
 ---@class DebugprintCommandOpts
 ---@field line1 integer

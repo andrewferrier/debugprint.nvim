@@ -22,79 +22,57 @@ local create_command = function(name, command, opts)
     end
 end
 
----@param keys string?
----@param insert_mode boolean
----@return nil
-local feedkeys = function(keys, insert_mode)
-    if keys ~= nil and keys ~= "" then
-        if insert_mode then
-            vim.api.nvim_put({ keys }, "c", true, true)
-        else
-            vim.api.nvim_feedkeys(keys, "xt", true)
-        end
-    end
-end
-
 ---@param global_opts DebugprintGlobalOptions
 ---@return nil
 M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.plain_below, {
         callback = function()
-            feedkeys(debugprint.debugprint({}), false)
+            debugprint.debugprint({})
         end,
         desc = "Plain debug below current line",
     })
 
     map_key("n", global_opts.keymaps.normal.plain_above, {
         callback = function()
-            feedkeys(debugprint.debugprint({ above = true }), false)
+            debugprint.debugprint({ above = true })
         end,
         desc = "Plain debug above current line",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_below, {
         callback = function()
-            feedkeys(debugprint.debugprint({ variable = true }), false)
+            debugprint.debugprint({ variable = true })
         end,
         desc = "Variable debug below current line",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_above, {
         callback = function()
-            feedkeys(
-                debugprint.debugprint({
-                    above = true,
-                    variable = true,
-                }),
-                false
-            )
+            debugprint.debugprint({
+                above = true,
+                variable = true,
+            })
         end,
         desc = "Variable debug above current line",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_below_alwaysprompt, {
         callback = function()
-            feedkeys(
-                debugprint.debugprint({
-                    variable = true,
-                    ignore_treesitter = true,
-                }),
-                false
-            )
+            debugprint.debugprint({
+                variable = true,
+                ignore_treesitter = true,
+            })
         end,
         desc = "Variable debug below current line (always prompt)",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
         callback = function()
-            feedkeys(
-                debugprint.debugprint({
-                    above = true,
-                    variable = true,
-                    ignore_treesitter = true,
-                }),
-                false
-            )
+            debugprint.debugprint({
+                above = true,
+                variable = true,
+                ignore_treesitter = true,
+            })
         end,
         desc = "Variable debug above current line (always prompt)",
     })
@@ -120,41 +98,35 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("i", global_opts.keymaps.insert.plain, {
         callback = function()
-            feedkeys(debugprint.debugprint({ insert = true }), true)
+            debugprint.debugprint({ insert = true })
         end,
         desc = "Plain debug in-place",
     })
 
     map_key("i", global_opts.keymaps.insert.variable, {
         callback = function()
-            feedkeys(
-                debugprint.debugprint({
-                    insert = true,
-                    variable = true,
-                    ignore_treesitter = true,
-                }),
-                true
-            )
+            debugprint.debugprint({
+                insert = true,
+                variable = true,
+                ignore_treesitter = true,
+            })
         end,
         desc = "Variable debug in-place (always prompt)",
     })
 
     map_key("x", global_opts.keymaps.visual.variable_below, {
         callback = function()
-            feedkeys(debugprint.debugprint({ variable = true }), false)
+            debugprint.debugprint({ variable = true })
         end,
         desc = "Variable debug below current line",
     })
 
     map_key("x", global_opts.keymaps.visual.variable_above, {
         callback = function()
-            feedkeys(
-                debugprint.debugprint({
-                    above = true,
-                    variable = true,
-                }),
-                false
-            )
+            debugprint.debugprint({
+                above = true,
+                variable = true,
+            })
         end,
         desc = "Variable debug above current line",
     })

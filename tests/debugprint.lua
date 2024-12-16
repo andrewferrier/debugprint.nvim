@@ -98,6 +98,12 @@ local teardown = function(opts)
     if opts.reset_counter then
         require("debugprint.counter").reset_debug_prints_counter()
     end
+
+    for c in
+        ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"):gmatch(".")
+    do
+        vim.fn.setreg(c, "empty register content")
+    end
 end
 
 ---@param name string
@@ -2651,5 +2657,213 @@ describe("check that counter persistence works", function()
         })
 
         assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
+    end)
+end)
+
+describe("register support", function()
+    before_each(function()
+        teardown()
+        debugprint.setup()
+    end)
+
+    after_each(function()
+        teardown()
+    end)
+
+    it("can capture one plain statement", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?p')
+        assert.equals(notify_message, "Written plain debug line to register a")
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+        })
+    end)
+
+    it("can capture one plain statement above", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?P')
+        assert.equals(notify_message, "Written plain debug line to register a")
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+        })
+    end)
+
+    it("can capture two plain statements", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "    bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?p')
+        assert.equals(notify_message, "Written plain debug line to register a")
+        feedkeys("j")
+        feedkeys('"Ag?p')
+        assert.equals(notify_message, "Appended plain debug line to register A")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo",
+            "    bar",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "    print('DEBUGPRINT[2]: " .. filename .. ":2 (after bar)')",
+        })
+    end)
+
+    it("can reset after two statements", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?p')
+        feedkeys("j")
+        feedkeys('"Ag?p')
+        feedkeys("k")
+        feedkeys('"ag?p')
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUGPRINT[3]: " .. filename .. ":1 (after foo)')",
+        })
+    end)
+
+    it("can capture variable statement", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo = 123",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?v')
+        assert.equals(
+            notify_message,
+            "Written variable debug line (foo) to register a"
+        )
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo = 123",
+            "bar",
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+        })
+    end)
+
+    it("can capture prompt", function()
+        debugprint.setup({
+            keymaps = {
+                normal = { variable_below_alwaysprompt = "zxa" },
+            },
+        })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 10)
+
+        feedkeys('"azxa<BS><BS><BS>apple<CR>')
+        assert.equals(
+            notify_message,
+            "Written variable debug line (apple) to register a"
+        )
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: apple=' .. vim.inspect(apple))",
+        })
+    end)
+
+    it("motion", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 10)
+
+        feedkeys('"ag?o2l')
+        assert.equals(
+            notify_message,
+            "Written variable debug line (xy) to register a"
+        )
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xy=' .. vim.inspect(xy))",
+        })
+    end)
+
+    it("visual", function()
+        debugprint.setup({ ignore_treesitter = true })
+
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 10)
+
+        feedkeys("vll")
+        feedkeys('"ag?v')
+        assert.equals(
+            notify_message,
+            "Written variable debug line (xyz) to register a"
+        )
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+            "    print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":2: xyz=' .. vim.inspect(xyz))",
+        })
     end)
 end)

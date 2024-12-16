@@ -4,6 +4,7 @@ local utils = require("debugprint.utils")
 local utils_buffer = require("debugprint.utils.buffer")
 local utils_errors = require("debugprint.utils.errors")
 local utils_operator = require("debugprint.utils.operator")
+local utils_register = require("debugprint.utils.register")
 
 local global_opts
 
@@ -191,36 +192,60 @@ local get_debugprint_line = function(opts)
 end
 
 ---@param opts DebugprintFunctionOptionsInternal
+---@param keys string
+local add_to_register = function(opts, keys)
+    utils_register.set_register(keys)
+
+    local content
+
+    if opts.variable_name then
+        content = "variable debug line (" .. opts.variable_name .. ")"
+    else
+        content = "plain debug line"
+    end
+
+    if utils_register.register_append() then
+        vim.notify("Appended " .. content .. " to register " .. opts.register)
+    else
+        vim.notify("Written " .. content .. " to register " .. opts.register)
+    end
+end
+
+---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
 local insert_debugprint_line = function(opts)
-    local line_to_insert = get_debugprint_line(opts)
-
     -- Inserting the leading space from the current line effectively acts as a
     -- 'default' indent for languages like Python, where the NeoVim or Treesitter
     -- indenter doesn't know how to indent them.
     local leading_space = vim.api.nvim_get_current_line():match("^(%s+)") or ""
 
-    local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-    local line_to_insert_linenr
+    local line_to_insert = leading_space .. get_debugprint_line(opts)
 
-    if opts.above then
-        line_to_insert_linenr = current_line_nr - 1
+    if opts.register then
+        add_to_register(opts, line_to_insert)
     else
-        line_to_insert_linenr = current_line_nr
+        local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
+        local line_to_insert_linenr
+
+        if opts.above then
+            line_to_insert_linenr = current_line_nr - 1
+        else
+            line_to_insert_linenr = current_line_nr
+        end
+
+        vim.api.nvim_buf_set_lines(
+            0,
+            line_to_insert_linenr,
+            line_to_insert_linenr,
+            true,
+            { line_to_insert }
+        )
+
+        utils_buffer.indent_line(
+            line_to_insert_linenr,
+            global_opts.move_to_debugline
+        )
     end
-
-    vim.api.nvim_buf_set_lines(
-        0,
-        line_to_insert_linenr,
-        line_to_insert_linenr,
-        true,
-        { leading_space .. line_to_insert }
-    )
-
-    utils_buffer.indent_line(
-        line_to_insert_linenr,
-        global_opts.move_to_debugline
-    )
 end
 
 local cache_request = {}
@@ -239,50 +264,64 @@ M.debugprint_operatorfunc_motion = function()
     M.debugprint_operatorfunc_regular()
 end
 
----@param opts? DebugprintFunctionOptions
----@return string?
-M.debugprint = function(opts)
-    local func_opts =
-        require("debugprint.options").get_and_validate_function_opts(opts)
+---@param keys string
+---@param insert boolean
+local debugprint_insertkeys = function(keys, insert)
+    if keys ~= nil and keys ~= "" then
+        if insert then
+            vim.api.nvim_put({ keys }, "c", true, true)
+        else
+            vim.api.nvim_feedkeys(keys, "xt", true)
+        end
+    end
+end
 
-    ---@cast func_opts DebugprintFunctionOptionsInternal
+---@param opts? DebugprintFunctionOptions
+---@return nil
+M.debugprint = function(opts)
+    opts = require("debugprint.options").get_and_validate_function_opts(opts)
+    ---@cast opts DebugprintFunctionOptionsInternal
+
+    opts.register = require("debugprint.utils.register").register_named()
+
+    assert(not (opts.insert and opts.register))
 
     if not utils_buffer.is_modifiable() then
         return
     end
 
-    if func_opts.variable == true then
+    if opts.variable == true then
         local filetype_config = get_filetype_config()
 
         if filetype_config then
-            func_opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter
-                    or func_opts.ignore_treesitter
-                    or false,
+            opts.variable_name = utils.get_variable_name(
+                global_opts.ignore_treesitter or opts.ignore_treesitter or false,
                 filetype_config
             )
 
-            if not func_opts.variable_name then
+            if not opts.variable_name then
                 return
             end
         end
     end
 
-    if func_opts.insert == true then
-        cache_request = {}
-        return get_debugprint_line(func_opts)
-    elseif func_opts.motion == true then
-        cache_request = func_opts
+    if opts.motion == true then
+        cache_request = opts
         utils_operator.set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_motion"
         )
         return "g@"
+    end
+
+    if opts.insert == true then
+        cache_request = {}
+        debugprint_insertkeys(get_debugprint_line(opts), opts.insert)
     else
-        cache_request = func_opts
+        cache_request = opts
         utils_operator.set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
         )
-        return "g@l"
+        debugprint_insertkeys("g@l", opts.insert)
     end
 end
 

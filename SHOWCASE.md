@@ -172,3 +172,23 @@ add({
     depends = { 'echasnovski/mini.nvim' }, -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
 })
 ```
+
+## Register Usage
+
+Each of the standard keymappings (except the ones for insert mode) can be [prefixed with a register](https://neovim.io/doc/user/change.html#registers) in the same way as the standard 'y' (yank), 'd' (delete) keys, etc. When doing this, the content that would normally be inserted into the buffer is instead set into the register (lowercase register names) or appended to the register (uppercase register name). This means you can 'capture' several debugprint lines into a register, than insert them elsewhere in the buffer. This is particularly useful for 'variable' debugprint lines.
+
+For example, given this buffer:
+
+```lua
+foo = 123
+bar = 456
+```
+
+You can put your cursor on `foo`, and type `"ag?v`. Then put your cursor on `bar`, and type `"Ag?v`. Then you can move to the end of the buffer and type `"ap`. The end result will look like this:
+
+```lua
+foo = 123
+bar = 456
+print('DEBUGPRINT[1]: filename.lua:1: foo=' .. vim.inspect(foo))
+print('DEBUGPRINT[2]: filename.lua:2: bar=' .. vim.inspect(bar))
+```
