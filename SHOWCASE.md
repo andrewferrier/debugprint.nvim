@@ -70,7 +70,7 @@ return {
 
 ## Use `wat-inspector` to fully dump objects in Python
 
-You can use the packages [wat-inspector](https://pypi.org/project/wat-inspector/) to fully dump contents of objects when printing variables in Python. Use configuration that looks like this (you will need to `pip install wat-inspector`):
+You can use the package [wat-inspector](https://pypi.org/project/wat-inspector/) to fully dump contents of objects when printing variables in Python. Use configuration that looks like this (you will need to `pip install wat-inspector`):
 
 ```lua
 return {
