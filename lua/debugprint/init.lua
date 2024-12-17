@@ -213,36 +213,25 @@ end
 
 ---@param opts DebugprintFunctionOptionsInternal
 ---@return nil
-local insert_debugprint_line = function(opts)
+local handle_debugprint_line = function(opts)
     -- Inserting the leading space from the current line effectively acts as a
     -- 'default' indent for languages like Python, where the NeoVim or Treesitter
     -- indenter doesn't know how to indent them.
     local leading_space = vim.api.nvim_get_current_line():match("^(%s+)") or ""
-
-    local line_to_insert = leading_space .. get_debugprint_line(opts)
+    local line_content = leading_space .. get_debugprint_line(opts)
 
     if opts.register then
-        add_to_register(opts, line_to_insert)
+        add_to_register(opts, line_content)
     else
-        local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
-        local line_to_insert_linenr
+        local line_nr = vim.api.nvim_win_get_cursor(0)[1]
 
         if opts.above then
-            line_to_insert_linenr = current_line_nr - 1
-        else
-            line_to_insert_linenr = current_line_nr
+            line_nr = line_nr - 1
         end
 
-        vim.api.nvim_buf_set_lines(
-            0,
-            line_to_insert_linenr,
-            line_to_insert_linenr,
-            true,
-            { line_to_insert }
-        )
-
-        utils_buffer.indent_line(
-            line_to_insert_linenr,
+        utils_buffer.insert_and_indent_line(
+            line_nr,
+            line_content,
             global_opts.move_to_debugline
         )
     end
@@ -252,7 +241,7 @@ local cache_request = {}
 
 ---@return nil
 M.debugprint_operatorfunc_regular = function()
-    insert_debugprint_line(cache_request)
+    handle_debugprint_line(cache_request)
     utils_operator.set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )

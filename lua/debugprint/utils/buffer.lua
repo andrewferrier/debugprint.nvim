@@ -19,7 +19,7 @@ end
 ---@param line_nr integer
 ---@param move_to_indented_line boolean
 ---@return nil
-M.indent_line = function(line_nr, move_to_indented_line)
+local indent_line = function(line_nr, move_to_indented_line)
     local pos = vim.api.nvim_win_get_cursor(0)
     -- There's probably a better way to do this indent, but I don't know what it is
     vim.api.nvim_cmd({
@@ -32,6 +32,20 @@ M.indent_line = function(line_nr, move_to_indented_line)
     if not move_to_indented_line then
         vim.api.nvim_win_set_cursor(0, pos)
     end
+end
+
+---@param line_nr integer
+---@param line_content string
+---@param move_to_indented_line boolean
+---@return nil
+M.insert_and_indent_line = function(
+    line_nr,
+    line_content,
+    move_to_indented_line
+)
+    vim.api.nvim_buf_set_lines(0, line_nr, line_nr, true, { line_content })
+
+    indent_line(line_nr, move_to_indented_line)
 end
 
 ---@param line integer
