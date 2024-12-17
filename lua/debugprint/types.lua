@@ -61,9 +61,9 @@
 ---@field variable? boolean
 ---@field ignore_treesitter? boolean
 ---@field insert? boolean
+---@field motion? boolean
 
 ---@class DebugprintFunctionOptionsInternal: DebugprintFunctionOptions
----@field motion? boolean
 ---@field variable_name? string
 
 ---@class DebugprintCommandOpts

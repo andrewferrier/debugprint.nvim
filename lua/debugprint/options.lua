@@ -123,6 +123,8 @@ local FUNCTION_OPTION_DEFAULTS = {
     above = false,
     variable = false,
     ignore_treesitter = false,
+    motion = false,
+    insert = false,
 }
 
 ---@param o DebugprintFunctionOptions
@@ -132,6 +134,8 @@ local validate_function_opts = function(o)
         above = { o.above, "boolean" },
         variable = { o.above, "boolean" },
         ignore_treesitter = { o.ignore_treesitter, "boolean" },
+        motion = { o.motion, "boolean" },
+        insert = { o.motion, "boolean" },
     })
 end
 
@@ -197,6 +201,9 @@ M.get_and_validate_function_opts = function(opts)
     )
 
     validate_function_opts(func_opts)
+
+    assert(not (func_opts.motion and func_opts.insert))
+    assert(not (func_opts.motion and func_opts.variable))
 
     return func_opts
 end

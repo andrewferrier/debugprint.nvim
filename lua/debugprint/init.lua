@@ -239,35 +239,6 @@ M.debugprint_operatorfunc_motion = function()
     M.debugprint_operatorfunc_regular()
 end
 
----@param opts DebugprintFunctionOptionsInternal
----@return nil
-M.debugprint_regular = function(opts)
-    if opts.variable == true then
-        local filetype_config = get_filetype_config()
-
-        if filetype_config then
-            opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter or opts.ignore_treesitter or false,
-                filetype_config
-            )
-
-            if not opts.variable_name then
-                return
-            end
-        end
-    end
-
-    if opts.insert == true then
-        return get_debugprint_line(opts)
-    else
-        cache_request = opts
-        utils_operator.set_operatorfunc(
-            "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
-        )
-        return "g@l"
-    end
-end
-
 ---@param opts? DebugprintFunctionOptions
 ---@return string?
 M.debugprint = function(opts)
@@ -280,15 +251,38 @@ M.debugprint = function(opts)
         return
     end
 
-    if func_opts.motion == true then
+    if func_opts.variable == true then
+        local filetype_config = get_filetype_config()
+
+        if filetype_config then
+            func_opts.variable_name = utils.get_variable_name(
+                global_opts.ignore_treesitter
+                    or func_opts.ignore_treesitter
+                    or false,
+                filetype_config
+            )
+
+            if not func_opts.variable_name then
+                return
+            end
+        end
+    end
+
+    if func_opts.insert == true then
+        cache_request = {}
+        return get_debugprint_line(func_opts)
+    elseif func_opts.motion == true then
         cache_request = func_opts
         utils_operator.set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_motion"
         )
         return "g@"
     else
-        cache_request = {}
-        return M.debugprint_regular(func_opts)
+        cache_request = func_opts
+        utils_operator.set_operatorfunc(
+            "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
+        )
+        return "g@l"
     end
 end
 
