@@ -2690,6 +2690,27 @@ describe("register support", function()
         })
     end)
 
+    it("can capture one plain statement - no notification", function()
+        debugprint.setup({ notify_for_registers = false })
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys('"ag?p')
+        assert.equals(notify_message, nil)
+        feedkeys("j")
+        feedkeys('"ap')
+
+        check_lines({
+            "foo",
+            "bar",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+        })
+    end)
+
     it("can capture one plain statement above", function()
         assert.equals(notify_message, nil)
 

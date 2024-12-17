@@ -196,18 +196,24 @@ end
 local add_to_register = function(opts, keys)
     utils_register.set_register(keys)
 
-    local content
+    if global_opts.notify_for_registers then
+        local content
 
-    if opts.variable_name then
-        content = "variable debug line (" .. opts.variable_name .. ")"
-    else
-        content = "plain debug line"
-    end
+        if opts.variable_name then
+            content = "variable debug line (" .. opts.variable_name .. ")"
+        else
+            content = "plain debug line"
+        end
 
-    if utils_register.register_append() then
-        vim.notify("Appended " .. content .. " to register " .. opts.register)
-    else
-        vim.notify("Written " .. content .. " to register " .. opts.register)
+        if utils_register.register_append() then
+            vim.notify(
+                "Appended " .. content .. " to register " .. opts.register
+            )
+        else
+            vim.notify(
+                "Written " .. content .. " to register " .. opts.register
+            )
+        end
     end
 end
 

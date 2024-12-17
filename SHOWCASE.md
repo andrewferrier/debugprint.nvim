@@ -192,3 +192,5 @@ bar = 456
 print('DEBUGPRINT[1]: filename.lua:1: foo=' .. vim.inspect(foo))
 print('DEBUGPRINT[2]: filename.lua:2: bar=' .. vim.inspect(bar))
 ```
+
+The notifications that happen when you add content to a register can be disabled with the global [`notify_for_registers` option](README.md#other-options), should you wish.

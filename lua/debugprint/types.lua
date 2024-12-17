@@ -19,6 +19,7 @@
 ---@field display_location? boolean
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
+---@field notify_for_registers? boolean
 ---@field filetypes? DebugprintFileTypeConfig[]
 ---@field print_tag? string
 ---Deprecated
