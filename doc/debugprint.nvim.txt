@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-16
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-17
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -56,6 +56,8 @@ generation. It:
 - Provides |debugprint.nvim-keymappings| for normal, insert, visual, and
     operator-pending modes. Supports dot-repeat
     <https://jovicailic.org/2018/03/vim-the-dot-command/>.
+- Supports direct writing to NeoVim registers for batch insert of debugprint
+    lines.
 - Provides |debugprint.nvim-commands| to delete debugging lines added to the
     current buffer or comment/uncomment those lines.
 - Can optionally move to the inserted line (or not).
@@ -151,6 +153,10 @@ following table.
   Command      :ResetDebugPrintsCounter    Reset debug print persistent counter (only -
                                            for built-in counter implementation)       
   -------------------------------------------------------------------------------------------------
+Each of the keymappings (except for insert mode) can also be prefixed with a
+register, see the showcase <SHOWCASE.md#register-usage> for an example of how
+to use this to insert debugprint lines in batches.
+
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
 configuration of debugprint. For example, if configuring via `lazy.nvim`, it
@@ -329,14 +335,18 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can control whether to  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
   move to inserted lines                                                                                                    
 
-  Clean up all debug      :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
-  lines                                                                                                                     
+  Clean up/delete all     :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
+  debug lines in buffer                                                                                                     
+
+  Comment/uncomment all   :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  debug lines in buffer                                                                                                     
 
   Comment/uncomment all   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  debug lines                                                                                                               
+  debug lines in selected                                                                                                   
+  range                                                                                                                     
 
-  Can put debugprint text :x:               :x:           :x:               :+1:           :x:                :x:           :x:
-  into default register                                                                                                     
+  Can put debugprint text :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
+  into register                                                                                                             
 
   Extra visual emphasis   :x:               Flashes to    status line       :x:            :x:                :x:           :x:
   of log statements                         highlight     counter,                                                          
@@ -344,8 +354,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
                                             inserted      line-highlight,                                                   
                                                           scrollbar                                                         
 
-  Can insert logs in      :x:               :+1:          :x:               :x:            :x:                :x:           :x:
-  batches                                                                                                                   
+  Can insert logs in      :+1: (using       :+1:          :x:               :x:            :x:                :x:           :x:
+  batches                 registers)                                                                                        
 
   Log watcher mechanism   :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
