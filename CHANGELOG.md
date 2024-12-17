@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v4.0.0...v4.1.0) (2024-12-17)
+
+
+### Features
+
+* Support `notify_for_registers` option ([88398b0](https://github.com/andrewferrier/debugprint.nvim/commit/88398b02ae2c4cbb879ca6a9ecbfa72c9c933ec7))
+* support registers - closes [#148](https://github.com/andrewferrier/debugprint.nvim/issues/148) ([3ad3f73](https://github.com/andrewferrier/debugprint.nvim/commit/3ad3f7372ff6241a20f5f4f931d989d07bf3883f))
+
 ## [4.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.7.0...v4.0.0) (2024-12-11)
 
 
