@@ -78,8 +78,61 @@ return {
     ["c"] = {
         left = 'fprintf(stderr, "',
         right = '\\n");',
-        mid_var = '%d\\n", ',
+        mid_var = function()
+            local d_fmt = '%d\\n", '
+            local s_fmt = '%s\\n", '
+
+            local lsp = vim.lsp
+            local client = lsp.get_clients({ bufnr = 0, name = "clangd" })[1]
+            if not client then
+                return d_fmt
+            end
+
+            local res, err = client:request_sync(
+                lsp.protocol.Methods.textDocument_hover,
+                lsp.util.make_position_params(
+                    vim.api.nvim_get_current_win(),
+                    client.offset_encoding
+                ),
+                1000
+            )
+
+            if err or not res then
+                return d_fmt
+            end
+
+            local content = vim.tbl_get(res, "result", "contents", "value")
+            if not content then
+                return d_fmt
+            end
+
+            local typeinfo = content:match("### variable.-\nType: `(.-)`")
+                or content:match("### field.-\nType: `(.-)`")
+                or content:match("### param.-\nType: `(.-)`")
+            if
+                typeinfo
+                and (typeinfo:find("char %*") or typeinfo:find("char const%*"))
+            then
+                return s_fmt
+            end
+            return d_fmt
+        end,
         right_var = ");",
+        find_treesitter_variable = function(node)
+            if node:type() == "field_expression" then
+                return vim.treesitter.get_node_text(node, 0)
+            elseif
+                node:parent()
+                and node:parent():type() == "field_expression"
+                and node:prev_named_sibling()
+            then
+                return vim.treesitter.get_node_text(node:parent(), 0)
+            elseif node:type() == "identifier" then
+                return vim.treesitter.get_node_text(node, 0)
+            else
+                return nil
+            end
+        end,
     },
     ["cmake"] = {
         left = 'message(DEBUG "',
