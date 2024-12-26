@@ -7,15 +7,15 @@
 ---@field right string
 ---@field mid_var string
 ---@field right_var string
----@field find_treesitter_variable? function
----@field display_counter? boolean|function
+---@field find_treesitter_variable? function(node:TSNode):string
+---@field display_counter? boolean|function():string
 ---@field display_location? boolean
 ---@field display_snippet? boolean
 
 ---@class DebugprintGlobalOptions
 ---@field keymaps? DebugprintKeymapOptions
 ---@field commands? DebugprintCommandOptions
----@field display_counter? boolean|function
+---@field display_counter? boolean|function():string
 ---@field display_location? boolean
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
