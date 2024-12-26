@@ -81,6 +81,13 @@ end
 local DATA_PATH = vim.fn.stdpath("data") .. "/debugprint"
 local COUNTER_FILE = DATA_PATH .. "/counter"
 
+local ALWAYS_PROMPT_KEYMAP = {
+    normal = {
+        variable_below_alwaysprompt = "g?q",
+        variable_above_alwaysprompt = "g?Q",
+    },
+}
+
 local teardown = function(opts)
     opts = vim.tbl_extend("keep", opts or {}, { reset_counter = true })
 
@@ -142,6 +149,8 @@ describe("can do basic debug statement insertion", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement above first line", function()
@@ -157,6 +166,8 @@ describe("can do basic debug statement insertion", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement above first line twice", function()
@@ -174,6 +185,8 @@ describe("can do basic debug statement insertion", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement below last line", function()
@@ -189,6 +202,8 @@ describe("can do basic debug statement insertion", function()
             "bar",
             "print('DEBUGPRINT[1]: " .. filename .. ":2 (after bar)')",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -224,6 +239,8 @@ describe("can do basic debug statement insertion (custom keys)", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -245,6 +262,8 @@ describe("snippet handling", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can handle long lines", function()
@@ -264,12 +283,14 @@ describe("snippet handling", function()
                 .. ":1 (after very_long_function_name_that_goes_on_for…)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("will ignore blank lines when calculating snippet", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
     end)
 
     after_each(teardown)
@@ -291,6 +312,8 @@ describe("will ignore blank lines when calculating snippet", function()
             "",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement below", function()
@@ -310,6 +333,8 @@ describe("will ignore blank lines when calculating snippet", function()
             "",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement above first line", function()
@@ -327,6 +352,8 @@ describe("will ignore blank lines when calculating snippet", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement below last line", function()
@@ -344,6 +371,8 @@ describe("will ignore blank lines when calculating snippet", function()
             "",
             "print('DEBUGPRINT[1]: " .. filename .. ":3 (after bar)')",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement before first line", function()
@@ -361,6 +390,8 @@ describe("will ignore blank lines when calculating snippet", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement above last line", function()
@@ -378,12 +409,16 @@ describe("will ignore blank lines when calculating snippet", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":3 (end of file)')",
             "",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("can do variable debug statement insertion", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup({
+            keymaps = ALWAYS_PROMPT_KEYMAP,
+        })
     end)
 
     after_each(teardown)
@@ -394,7 +429,7 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<CR>")
+        feedkeys("g?q<CR>")
 
         check_lines({
             "foo",
@@ -403,6 +438,8 @@ describe("can do variable debug statement insertion", function()
                 .. ":1: foo=' .. vim.inspect(foo))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a variable statement below", function()
@@ -411,7 +448,7 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<BS><BS><BS>banana<CR>")
+        feedkeys("g?q<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
@@ -420,6 +457,8 @@ describe("can do variable debug statement insertion", function()
                 .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a variable statement above", function()
@@ -428,7 +467,7 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?V<BS><BS><BS>banana<CR>")
+        feedkeys("g?Q<BS><BS><BS>banana<CR>")
 
         check_lines({
             "print('DEBUGPRINT[1]: "
@@ -437,6 +476,8 @@ describe("can do variable debug statement insertion", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("entering no name silently ends debugprint operation", function()
@@ -445,18 +486,22 @@ describe("can do variable debug statement insertion", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<BS><BS><BS><CR>")
+        feedkeys("g?q<BS><BS><BS><CR>")
 
         check_lines({
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("can do various file types", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup({
+            keymaps = ALWAYS_PROMPT_KEYMAP,
+        })
     end)
 
     after_each(teardown)
@@ -474,6 +519,8 @@ describe("can do various file types", function()
             'echo "DEBUGPRINT[1]: ' .. filename .. ':1 (after foo)"',
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can handle a .vim file variable", function()
@@ -482,13 +529,15 @@ describe("can do various file types", function()
             "bar",
         }, "vim", 1, 0)
 
-        feedkeys("g?v<BS><BS><BS>banana<CR>")
+        feedkeys("g?q<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
             'echo "DEBUGPRINT[1]: ' .. filename .. ':1: banana=" .. banana',
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can handle a file where ext != filetype", function()
@@ -508,6 +557,8 @@ describe("can do various file types", function()
             "    return <div>Hello World!</div>;",
             "};",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can gracefully handle unknown filetypes", function()
@@ -523,6 +574,8 @@ describe("can do various file types", function()
             "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it(
@@ -552,6 +605,8 @@ describe("can do various file types", function()
                     "  (+ b c))",
                 })
             end
+
+            assert.equals(notify_message, nil)
         end
     )
 
@@ -561,7 +616,7 @@ describe("can do various file types", function()
             "bar",
         }, "foo", 1, 0, { filetype = "foo" })
 
-        feedkeys("g?v")
+        feedkeys("g?q")
         feedkeys("<CR>")
 
         check_lines({
@@ -569,12 +624,14 @@ describe("can do various file types", function()
             "No debugprint configuration for filetype foo; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("can do indenting correctly", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
     end)
 
     after_each(teardown)
@@ -594,6 +651,8 @@ describe("can do indenting correctly", function()
                 .. ":1 (after function())')",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("lua - inside function from below", function()
@@ -609,6 +668,8 @@ describe("can do indenting correctly", function()
             "    print('DEBUGPRINT[1]: " .. filename .. ":2 (before end)')",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("lua - above function", function()
@@ -624,6 +685,8 @@ describe("can do indenting correctly", function()
             "function()",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("lua - inside function using tabs", function()
@@ -641,13 +704,15 @@ describe("can do indenting correctly", function()
             "\tprint('DEBUGPRINT[1]: " .. filename .. ":1 (after function())')",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("add custom filetype with setup()", function()
     before_each(function()
         debugprint.setup({
-            ignore_treesitter = true,
+            keymaps = ALWAYS_PROMPT_KEYMAP,
             filetypes = {
                 ["wibble"] = {
                     left = "foo('",
@@ -676,6 +741,8 @@ describe("add custom filetype with setup()", function()
             "foo('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can handle variable", function()
@@ -684,19 +751,21 @@ describe("add custom filetype with setup()", function()
             "bar",
         }, "wibble", 1, 0, { filetype = "wibble" })
 
-        feedkeys("g?v<BS><BS><BS>apple<CR>")
+        feedkeys("g?q<BS><BS><BS>apple<CR>")
 
         check_lines({
             "foo",
             "foo('DEBUGPRINT[1]: " .. filename .. ":1: apple=' .. apple)",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("add custom filetype with add_custom_filetypes()", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         vim.api.nvim_set_option_value("expandtab", true, {})
     end)
@@ -725,6 +794,8 @@ describe("add custom filetype with add_custom_filetypes()", function()
             "bar('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -737,7 +808,6 @@ describe("move to new line", function()
 
     it("true below", function()
         debugprint.setup({
-            ignore_treesitter = true,
             move_to_debugline = true,
         })
 
@@ -755,11 +825,12 @@ describe("move to new line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 0 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("true above", function()
         debugprint.setup({
-            ignore_treesitter = true,
             move_to_debugline = true,
         })
 
@@ -777,11 +848,12 @@ describe("move to new line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("false", function()
         debugprint.setup({
-            ignore_treesitter = true,
             move_to_debugline = false,
         })
 
@@ -799,13 +871,15 @@ describe("move to new line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("can repeat", function()
     before_each(function()
         debugprint.setup({
-            ignore_treesitter = true,
+            keymaps = ALWAYS_PROMPT_KEYMAP,
         })
     end)
 
@@ -826,6 +900,8 @@ describe("can repeat", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a basic statement and repeat above", function()
@@ -843,6 +919,8 @@ describe("can repeat", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it(
@@ -866,6 +944,8 @@ describe("can repeat", function()
                 "print('DEBUGPRINT[4]: " .. filename .. ":4 (after bar)')",
                 "print('DEBUGPRINT[3]: " .. filename .. ":4 (after bar)')",
             })
+
+            assert.equals(notify_message, nil)
         end
     )
 
@@ -875,9 +955,9 @@ describe("can repeat", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<BS><BS><BS>banana<CR>")
+        feedkeys("g?q<BS><BS><BS>banana<CR>")
         feedkeys(".")
-        feedkeys("g?V<BS><BS><BS>apple<CR>")
+        feedkeys("g?Q<BS><BS><BS>apple<CR>")
         feedkeys(".")
 
         check_lines({
@@ -896,6 +976,8 @@ describe("can repeat", function()
                 .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -904,7 +986,6 @@ describe("can repeat with move to line", function()
 
     it("true below", function()
         debugprint.setup({
-            ignore_treesitter = true,
             move_to_debugline = true,
         })
 
@@ -928,6 +1009,8 @@ describe("can repeat with move to line", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 0 })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -955,6 +1038,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("standard (bash)", function()
@@ -972,6 +1057,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 1 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("non-identifier", function()
@@ -995,6 +1082,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 9 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("always prompt below", function()
@@ -1022,6 +1111,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("always prompt above", function()
@@ -1047,6 +1138,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("special case dot expression (lua)", function()
@@ -1072,6 +1165,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 3, 10 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("special case dot expression (javascript)", function()
@@ -1093,6 +1188,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 4 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("non-special case variable (python)", function()
@@ -1110,6 +1207,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+
+        assert.equals(notify_message, nil)
     end)
 
     -- These two test cases based on https://github.com/andrewferrier/debugprint.nvim/issues/89
@@ -1134,6 +1233,8 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 3 })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("non-special case variable (php cursor-on-dollar)", function()
@@ -1157,15 +1258,19 @@ describe("can handle treesitter identifiers", function()
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 1 })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("visual selection", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
     after_each(teardown)
 
     it("standard", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1182,11 +1287,11 @@ describe("visual selection", function()
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("repeat", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1208,11 +1313,11 @@ describe("visual selection", function()
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("standard line extremes", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "    xyz",
@@ -1229,11 +1334,11 @@ describe("visual selection", function()
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("reverse", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1250,11 +1355,11 @@ describe("visual selection", function()
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("reverse extremes", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "    local xyz = 3",
@@ -1271,11 +1376,11 @@ describe("visual selection", function()
                 .. ":2: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("above", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         local filename = init_file({
             "function x()",
             "local xyz = 3",
@@ -1292,11 +1397,11 @@ describe("visual selection", function()
             "local xyz = 3",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("ignore multiline", function()
-        debugprint.setup({ ignore_treesitter = true })
-
         init_file({
             "function x()",
             "local xyz = 3",
@@ -1310,6 +1415,8 @@ describe("visual selection", function()
             "local xyz = 3",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -1317,7 +1424,7 @@ describe("motion mode", function()
     after_each(teardown)
 
     it("standard", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         local filename = init_file({
             "function x()",
@@ -1335,10 +1442,12 @@ describe("motion mode", function()
                 .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("repeat", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         local filename = init_file({
             "function x()",
@@ -1359,10 +1468,12 @@ describe("motion mode", function()
                 .. ":2: xy=' .. vim.inspect(xy))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("above", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         local filename = init_file({
             "function x()",
@@ -1380,10 +1491,12 @@ describe("motion mode", function()
             "local xyz = 3",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("repeat below inside word", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         local filename = init_file({
             "function x()",
@@ -1405,10 +1518,12 @@ describe("motion mode", function()
                 .. ":3: xyz=' .. vim.inspect(xyz))",
             "end",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("ignore multiline", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup()
 
         init_file({
             "function x()",
@@ -1656,7 +1771,10 @@ describe("don't display counter", function()
     after_each(teardown)
 
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true, display_counter = false })
+        debugprint.setup({
+            keymaps = ALWAYS_PROMPT_KEYMAP,
+            display_counter = false,
+        })
     end)
 
     it("basic statement", function()
@@ -1672,6 +1790,8 @@ describe("don't display counter", function()
             "print('DEBUGPRINT: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a variable statement below", function()
@@ -1680,7 +1800,7 @@ describe("don't display counter", function()
             "bar",
         }, "lua", 1, 0)
 
-        feedkeys("g?v<BS><BS><BS>banana<CR>")
+        feedkeys("g?q<BS><BS><BS>banana<CR>")
 
         check_lines({
             "foo",
@@ -1689,12 +1809,14 @@ describe("don't display counter", function()
                 .. ":1: banana=' .. vim.inspect(banana))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("check python indenting", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup({ keymaps = ALWAYS_PROMPT_KEYMAP })
         vim.api.nvim_set_option_value("expandtab", true, {})
     end)
 
@@ -1713,6 +1835,8 @@ describe("check python indenting", function()
             'print("DEBUGPRINT[1]: ' .. filename .. ':1 (after x = 1)")',
             "y = 2",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("just below def()", function()
@@ -1730,6 +1854,8 @@ describe("check python indenting", function()
                 .. ':1 (after def xyz():)")',
             "    pass",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("in the middle of a statement block", function()
@@ -1747,6 +1873,8 @@ describe("check python indenting", function()
             '    print("DEBUGPRINT[1]: ' .. filename .. ':2 (after x = 1)")',
             "    y = 2",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("variable", function()
@@ -1756,7 +1884,7 @@ describe("check python indenting", function()
             "    y = 2",
         }, "py", 2, 4)
 
-        feedkeys("g?v<CR>")
+        feedkeys("g?q<CR>")
 
         check_lines({
             "def xyz():",
@@ -1764,12 +1892,14 @@ describe("check python indenting", function()
             '    print(f"DEBUGPRINT[1]: ' .. filename .. ':2: x={x}")',
             "    y = 2",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
 describe("embedded treesitter langs", function()
     before_each(function()
-        debugprint.setup({ ignore_treesitter = false })
+        debugprint.setup({ keymaps = ALWAYS_PROMPT_KEYMAP })
     end)
 
     after_each(teardown)
@@ -1793,6 +1923,8 @@ describe("embedded treesitter langs", function()
             "```",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("lua in markdown above", function()
@@ -1814,6 +1946,8 @@ describe("embedded treesitter langs", function()
             "```",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("javascript in html", function()
@@ -1845,6 +1979,8 @@ describe("embedded treesitter langs", function()
             "</body>",
             "</html>",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("comment in lua", function()
@@ -1854,7 +1990,7 @@ describe("embedded treesitter langs", function()
             "a = 2",
         }, "lua", 2, 4)
 
-        feedkeys("g?v<CR>")
+        feedkeys("g?q<CR>")
 
         check_lines({
             "x = 3",
@@ -1864,6 +2000,8 @@ describe("embedded treesitter langs", function()
                 .. ":2: abc=' .. vim.inspect(abc))",
             "a = 2",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2033,7 +2171,7 @@ end)
 
 describe("unmodifiable buffer", function()
     before_each(function()
-        debugprint.setup({ create_keymaps = true })
+        debugprint.setup()
     end)
 
     after_each(teardown)
@@ -2090,6 +2228,8 @@ describe("custom counter", function()
             "print('DEBUGPRINT-2x: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2111,6 +2251,8 @@ describe("check for variations of printtag/display_counter", function()
             "print('DEBUGPRINT: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("empty printtag with display_counter=false", function()
@@ -2128,6 +2270,8 @@ describe("check for variations of printtag/display_counter", function()
             "print('" .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("empty printtag with display_counter=true", function()
@@ -2145,6 +2289,8 @@ describe("check for variations of printtag/display_counter", function()
             "print('[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("basic DeleteDebugPrints", function()
@@ -2220,6 +2366,8 @@ describe("variations of display_* options", function()
             "print('DEBUGPRINT[1]: (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("no display_location, counter", function()
@@ -2240,6 +2388,8 @@ describe("variations of display_* options", function()
             "print('DEBUGPRINT: (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("no display_location, counter, snippet", function()
@@ -2261,6 +2411,8 @@ describe("variations of display_* options", function()
             "print('DEBUGPRINT')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("no display_location, counter, snippet, print_tag", function()
@@ -2284,6 +2436,8 @@ describe("variations of display_* options", function()
             "print('(after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("variable, no display_location", function()
@@ -2303,6 +2457,8 @@ describe("variations of display_* options", function()
             "print('DEBUGPRINT[1]: foo=' .. vim.inspect(foo))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("variable, no display_location, counter, snippet", function()
@@ -2324,6 +2480,8 @@ describe("variations of display_* options", function()
             "print('DEBUGPRINT: foo=' .. vim.inspect(foo))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("variable, no display_location, counter, snippet, print_tag", function()
@@ -2346,6 +2504,8 @@ describe("variations of display_* options", function()
             "print('foo=' .. vim.inspect(foo))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2378,6 +2538,8 @@ describe("allow display_* to be set in filetypes", function()
             "XYZ=123",
             '>&2 echo "DEBUGPRINT: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("display_location", function()
@@ -2406,6 +2568,8 @@ describe("allow display_* to be set in filetypes", function()
             "XYZ=123",
             '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("display_snippet", function()
@@ -2434,6 +2598,8 @@ describe("allow display_* to be set in filetypes", function()
             "XYZ=123",
             '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1 (after XYZ=123)"',
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2459,6 +2625,8 @@ describe("can support insert mode", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":2 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a variable statement below", function()
@@ -2478,6 +2646,8 @@ describe("can support insert mode", function()
                 .. ":2: wibble=' .. vim.inspect(wibble))",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("can insert a variable statement below - indented", function()
@@ -2497,6 +2667,8 @@ describe("can support insert mode", function()
                 .. ":2: wibble=' .. vim.inspect(wibble))",
             "    bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("don't insert when skipping variable name", function()
@@ -2514,6 +2686,8 @@ describe("can support insert mode", function()
             "",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2537,6 +2711,8 @@ describe("can disable built-in keymaps/commands", function()
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("with false - does disable", function()
@@ -2555,6 +2731,8 @@ describe("can disable built-in keymaps/commands", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("with empty string - does disable", function()
@@ -2573,6 +2751,8 @@ describe("can disable built-in keymaps/commands", function()
             "foo",
             "bar",
         })
+
+        assert.equals(notify_message, nil)
     end)
 
     it("custom command nil - does NOT disable", function()
@@ -2638,6 +2818,8 @@ describe("check that counter persistence works", function()
         })
 
         assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
+
+        assert.equals(notify_message, nil)
     end)
 
     it("statement 2", function()
@@ -2657,6 +2839,8 @@ describe("check that counter persistence works", function()
         })
 
         assert.equals(vim.fn.filereadable(COUNTER_FILE), 1)
+
+        assert.equals(notify_message, nil)
     end)
 end)
 
@@ -2834,7 +3018,7 @@ describe("register support", function()
     end)
 
     it("motion", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup({})
 
         local filename = init_file({
             "function x()",
@@ -2861,7 +3045,7 @@ describe("register support", function()
     end)
 
     it("visual", function()
-        debugprint.setup({ ignore_treesitter = true })
+        debugprint.setup({})
 
         local filename = init_file({
             "function x()",
