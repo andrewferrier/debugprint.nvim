@@ -419,6 +419,11 @@ M.setup = function(opts)
     require("debugprint.setup").map_keys_and_commands(global_opts)
 end
 
+---@return DebugprintGlobalOptions
+M.get_global_opts = function()
+    return global_opts
+end
+
 ---@param filetypes DebugprintFileTypeConfig[]
 ---@return nil
 M.add_custom_filetypes = function(filetypes)
