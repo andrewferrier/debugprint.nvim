@@ -209,7 +209,9 @@ M.get_and_validate_function_opts = function(opts)
 
     if not func_opts._skip_warning then
         vim.notify_once(
-            "debugprint.nvim: mapping directly to the debugprint() function is deprecated and no longer supported. You are *STRONGLY RECOMMENDED* to use the inbuilt mapping approach: https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#mapping-deprecation",
+            "debugprint.nvim: mapping directly to the debugprint() function is deprecated and no longer supported."
+                .. "You are *STRONGLY RECOMMENDED* to use the inbuilt mapping approach: "
+                .. "https://github.com/andrewferrier/debugprint.nvim?tab=readme-ov-file#mapping-deprecation",
             vim.log.levels.WARN
         )
     end
