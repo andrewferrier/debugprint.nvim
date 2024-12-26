@@ -77,6 +77,10 @@ vim.notify = function(msg, _)
     notify_message = msg
 end
 
+-- This also overrides the behaviour of vim.deprecate to only show warnings once
+-- within one NeoVim session
+vim.notify_once = vim.notify
+
 -- FIXME: Switch to joinpath for more elegance once we stop supporting <0.10
 local DATA_PATH = vim.fn.stdpath("data") .. "/debugprint"
 local COUNTER_FILE = DATA_PATH .. "/counter"
@@ -2146,13 +2150,9 @@ describe("handle deprecated options, create_keymaps=true", function()
     after_each(teardown)
 
     it("basic", function()
-        -- This deprecation message will not be shown again after the test above
-        -- because these tests are run inside the same NeoVim instance and
-        -- vim.deprecate won't show the same notification twice.
-        --
-        -- assert.True(
-        --     notify_message:find("^`create_keymaps` option is deprecated") == 1
-        -- )
+        assert.True(
+            notify_message:find("^`create_keymaps` option is deprecated") == 1
+        )
 
         local filename = init_file({
             "foo",
