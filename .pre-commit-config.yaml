@@ -22,3 +22,8 @@ repos:
       hooks:
           - id: markdownlint
             exclude: "CHANGELOG.md"
+    - repo: https://github.com/Calinou/pre-commit-luacheck
+      rev: v1.0.0
+      hooks:
+          - id: luacheck
+            files: lua/
