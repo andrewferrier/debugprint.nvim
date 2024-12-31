@@ -101,31 +101,6 @@ or
 require('debugprint').add_custom_filetypes({ ["filetype"] = { display_counter = false }, … })
 ```
 
-## Use lazy-loading with lazy.nvim
-
-`debugprint` can be configured, when using [lazy.nvim](https://github.com/folke/lazy.nvim) as a plugin manager, to lazy load itself. Use configuration that looks like this:
-
-```lua
-return {
-    "andrewferrier/debugprint.nvim",
-
-    -- opts = { … },
-
-    -- The 'keys' and 'cmds' sections of this configuration will need to be adjusted if you
-    -- customize the keys/commands.
-
-    keys = {
-        { "g?", mode = 'n' },
-        { "g?", mode = 'x' },
-        { "<C-G>", mode = 'i' },
-    },
-    cmd = {
-        "ToggleCommentDebugPrints",
-        "DeleteDebugPrints",
-    },
-}
-```
-
 ## Restoring non-persistent `display_counter` counter
 
 In older versions, `debugprint` used a `display_counter` which was only local to a particular NeoVim session; it was reset when exiting NeoVim and wasn't common between NeoVim sessions in different terminals. If you don't like the new 'persistent' counter, you can restore this old behaviour by setting a custom `display_counter`. This will recreate the old logic:
@@ -194,3 +169,24 @@ print('DEBUGPRINT[2]: filename.lua:2: bar=' .. vim.inspect(bar))
 ```
 
 The notifications that happen when you add content to a register can be disabled with the global [`notify_for_registers` option](README.md#other-options), should you wish.
+
+## Highlighting Lines
+
+By default, if and only if you have [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns) installed, `debugprint` will highlight lines that are inserted (strictly, it is highlighting lines that include the `print_tag` value). If you don't like this behaviour, you can disable it by setting the global `highlight_lines` option to `false`:
+
+```lua
+return {
+    "andrewferrier/debugprint.nvim",
+    opts = {
+        highlight_lines = false
+    }
+}
+```
+
+You can customize the color of the highlighting used by customizing the `DebugPrintLine` highlight group (if you use a colorscheme plugin it may have a different way of customizing colours):
+
+```lua
+vim.api.nvim_set_hl(0, 'DebugPrintLine', { fg = "#ff0000", bg = "#333333" })
+```
+
+Note that if you use `lazy.nvim` or some other plugin manager that uses lazy-loading to load `debugprint`, the line highlighting will not work until you have used `debugprint` the first time (called `setup()`) and reloaded the current file. Switching off lazy-loading for `debugprint` is recommended.

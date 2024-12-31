@@ -20,6 +20,7 @@
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
 ---@field notify_for_registers? boolean
+---@field highlight_lines? boolean
 ---@field filetypes? DebugprintFileTypeConfig[]
 ---@field print_tag? string
 ---Deprecated

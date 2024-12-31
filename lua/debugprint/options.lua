@@ -34,6 +34,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     display_snippet = true,
     move_to_debugline = false,
     notify_for_registers = true,
+    highlight_lines = true,
     filetypes = require("debugprint.filetypes"),
     print_tag = "DEBUGPRINT",
 }
@@ -51,6 +52,7 @@ local validate_global_opts = function(o)
         display_snippet = { o.display_snippet, "boolean" },
         move_to_debugline = { o.move_to_debugline, "boolean" },
         notify_for_registers = { o.notify_for_registers, "boolean" },
+        highlight_lines = { o.highlight_lines, "boolean" },
         filetypes = { o.filetypes, "table" },
         print_tag = { o.print_tag, "string" },
     })
