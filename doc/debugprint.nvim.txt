@@ -362,8 +362,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can put debugprint text :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
   into register                                                                                                             
 
-  Extra visual emphasis   Highlights        Flashes to    status line       :x:            :x:                :x:           :x:
-  of log statements       inserted lines    highlight     counter,                                                          
+  Extra visual emphasis   :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
+  of log statements       inserted lines    to highlight  counter,                                                          
                                             lines on      signcolumn,                                                       
                                             insertion     line-highlight,                                                   
                                                           scrollbar                                                         
