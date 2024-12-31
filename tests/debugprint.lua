@@ -2195,8 +2195,6 @@ describe("handle deprecated options, direct mapping", function()
             "bar",
         })
 
-        print(notify_message)
-
         assert.True(notify_message:find("mapping directly") > 0)
         assert.True(notify_message:find("is deprecated") > 0)
     end)
