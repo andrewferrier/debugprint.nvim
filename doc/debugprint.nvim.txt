@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-26
+*debugprint.nvim.txt*             For NVIM             Last change: 2024-12-31
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
