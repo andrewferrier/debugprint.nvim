@@ -5,7 +5,7 @@
 ---@class DebugprintFileTypeConfig
 ---@field left string
 ---@field right string
----@field mid_var string
+---@field mid_var string|fun():string
 ---@field right_var string
 ---@field find_treesitter_variable? function(node:TSNode):string
 ---@field display_counter? boolean|function():string

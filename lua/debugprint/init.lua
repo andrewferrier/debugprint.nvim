@@ -157,7 +157,7 @@ local construct_debugprint_line = function(opts, fileconfig)
 
         line_to_insert = left
             .. get_debugline_textcontent(opts, fileconfig)
-            .. fileconfig.mid_var
+            .. (type(fileconfig.mid_var) == 'function' and fileconfig.mid_var() or fileconfig.mid_var)
             .. opts.variable_name
             .. fileconfig.right_var
     else
