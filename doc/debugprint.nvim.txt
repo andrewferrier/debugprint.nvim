@@ -263,8 +263,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
                                       be used to uniquely identify statements inserted by
                                       debugprint. If you set this to '' (the empty string), no
                                       print tag will be included, but this will disable the
-                                      ability to delete or comment print statements via
-                                      debugprint
+                                      ability to delete, comment, or highlight print statements
+                                      via debugprint
   ---------------------------------------------------------------------------------------------
 
 ==============================================================================
