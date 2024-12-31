@@ -113,7 +113,8 @@ local teardown = function(opts)
     for c in
         ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"):gmatch(".")
     do
-        vim.fn.setreg(c, "empty register content")
+        -- Empty register
+        vim.cmd.call("setreg ('" .. c .. "', [])")
     end
 end
 
