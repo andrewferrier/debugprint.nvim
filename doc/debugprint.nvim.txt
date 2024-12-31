@@ -49,6 +49,8 @@ generation. It:
     other lines to make it easier to cross-reference them in output (each of these
     can be optionally disabled |debugprint.nvim-globally| or on a per-filetype
     basis <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>).
+- Will highlight inserted lines to make them easier to find in your code (depends
+    on mini.hipatterns <https://github.com/echasnovski/mini.hipatterns>).
 - Can output the value of variables (or in some cases, expressions) - it will
     detect a variable name under the cursor for some languages using Treesitter, or
     will prompt with a sensible default. It understands Treesitter embedded
@@ -83,9 +85,11 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         -- opts = { … },
     
         dependencies = {
-            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints(NeoVim 0.9 only)
+                                    -- and line highlighting (optional)
         },
     
+        lazy = false, -- Required to make line highlighting work before debugprint is first used
         version = "*", -- Remove if you DON'T want to use the stable version
     }
 <
@@ -249,6 +253,9 @@ they are used to convert sections to ROT-13, which most folks don’t use.
                                       when debugprint lines are inserted or appended to
                                       registers
 
+  highlight_lines        true         Apply highlighting to debugprint lines. See showcase for
+                                      more information on customization and limitations
+
   filetypes              See (the     Custom filetypes - see showcase
                          code)        
 
@@ -355,10 +362,10 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can put debugprint text :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
   into register                                                                                                             
 
-  Extra visual emphasis   :x:               Flashes to    status line       :x:            :x:                :x:           :x:
-  of log statements                         highlight     counter,                                                          
-                                            lines when    signcolumn,                                                       
-                                            inserted      line-highlight,                                                   
+  Extra visual emphasis   Highlights        Flashes to    status line       :x:            :x:                :x:           :x:
+  of log statements       inserted lines    highlight     counter,                                                          
+                                            lines on      signcolumn,                                                       
+                                            insertion     line-highlight,                                                   
                                                           scrollbar                                                         
 
   Can insert logs in      :+1: (using       :+1:          :x:               :x:            :x:                :x:           :x:
