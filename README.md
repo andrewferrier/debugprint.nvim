@@ -32,9 +32,9 @@ the NeoVim generation. It:
 
 - Includes reference information in each 'print line' such as file names, line
   numbers, a counter (which persists between NeoVim sessions), and snippets of
-  other lines to make it easier to cross-reference them in output (each of these
+  other lines to make it easier to cross-reference them in output. Each of these
   can be optionally disabled [globally](#other-options) or [on a per-filetype
-  basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis)).
+  basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis).
 
 - Will highlight inserted lines to make them easier to find in your code
   (depends on [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns)).
