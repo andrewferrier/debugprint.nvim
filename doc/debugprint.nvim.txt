@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2025-01-01
+*debugprint.nvim.txt*             For NVIM             Last change: 2025-01-04
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -46,9 +46,9 @@ generation. It:
     extended to support other languages or customize existing ones <SHOWCASE.md>.
 - Includes reference information in each 'print line' such as file names, line
     numbers, a counter (which persists between NeoVim sessions), and snippets of
-    other lines to make it easier to cross-reference them in output (each of these
+    other lines to make it easier to cross-reference them in output. Each of these
     can be optionally disabled |debugprint.nvim-globally| or on a per-filetype
-    basis <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>).
+    basis <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>.
 - Will highlight inserted lines to make them easier to find in your code (depends
     on mini.hipatterns <https://github.com/echasnovski/mini.hipatterns>).
 - Can output the value of variables (or in some cases, expressions) - it will
