@@ -12,8 +12,8 @@
 
 ## Overview
 
-`debugprint` is a NeoVim plugin that simplifies debugging for those who prefer a
-low-tech approach. Instead of using a sophisticated debugger like
+`debugprint` is a NeoVim plugin that simplifies debugging [for those who prefer a low-tech approach](https://www.polymonster.co.uk/blog/printf-debugging-is-ok).
+Instead of using a sophisticated debugger like
 [nvim-dap](https://github.com/mfussenegger/nvim-dap), some people prefer using a
 'print'-like statement to trace the output during execution. With `debugprint`,
 you can insert these statements, including the values of variables, relevant to
