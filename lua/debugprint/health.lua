@@ -8,10 +8,11 @@ M.check = function()
     if global_opts ~= nil then
         vim.health.ok("debugprint has been setup")
 
-        local success, config = pcall(require, "lazy.core.config")
+        local success_lazyconfig, module_lazyconfig =
+            pcall(require, "lazy.core.config")
 
-        if success then
-            local plugin = config.spec.plugins["debugprint.nvim"]
+        if success_lazyconfig then
+            local plugin = module_lazyconfig.spec.plugins["debugprint.nvim"]
 
             if
                 plugin
@@ -29,6 +30,19 @@ M.check = function()
                     )
                 end
             end
+        end
+
+        local success_hipatterns, module_hipatterns =
+            pcall(require, "mini.hipatterns")
+
+        if success_hipatterns and module_hipatterns then
+            vim.health.ok(
+                "mini.hipatterns is available and lines can be highlighted"
+            )
+        else
+            vim.health.warn(
+                "mini.hipatterns is not available; lines cannot be highlighted"
+            )
         end
 
         vim.health.info("debugprint opts = " .. vim.inspect(global_opts))
