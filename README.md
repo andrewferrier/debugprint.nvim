@@ -6,10 +6,10 @@
 ```
 
 ![Test status](https://github.com/andrewferrier/debugprint.nvim/actions/workflows/tests.yaml/badge.svg)
+![GitHub License](https://img.shields.io/github/license/andrewferrier/debugprint.nvim)
 <a href="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim">
 <img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" alt="debugprint dotfyle shield"/>
 </a>
-![GitHub License](https://img.shields.io/github/license/andrewferrier/debugprint.nvim)
 
 ## Overview
 
