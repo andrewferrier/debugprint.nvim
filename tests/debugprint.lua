@@ -2170,36 +2170,6 @@ describe("handle deprecated options, create_keymaps=true", function()
     end)
 end)
 
-describe("handle deprecated options, direct mapping", function()
-    before_each(function()
-        debugprint.setup()
-
-        vim.keymap.set("n", "g?t", function()
-            debugprint.debugprint({})
-        end)
-    end)
-
-    after_each(teardown)
-
-    it("basic", function()
-        local filename = init_file({
-            "foo",
-            "bar",
-        }, "lua", 1, 0)
-
-        feedkeys("g?t")
-
-        check_lines({
-            "foo",
-            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
-            "bar",
-        })
-
-        assert.True(notify_message:find("mapping directly") > 0)
-        assert.True(notify_message:find("is deprecated") > 0)
-    end)
-end)
-
 describe("unmodifiable buffer", function()
     before_each(function()
         debugprint.setup()

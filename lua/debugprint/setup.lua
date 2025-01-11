@@ -27,21 +27,21 @@ end
 M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.plain_below, {
         callback = function()
-            debugprint.debugprint({ _skip_warning = true })
+            debugprint.debugprint({})
         end,
         desc = "Plain debug below current line",
     })
 
     map_key("n", global_opts.keymaps.normal.plain_above, {
         callback = function()
-            debugprint.debugprint({ _skip_warning = true, above = true })
+            debugprint.debugprint({ above = true })
         end,
         desc = "Plain debug above current line",
     })
 
     map_key("n", global_opts.keymaps.normal.variable_below, {
         callback = function()
-            debugprint.debugprint({ _skip_warning = true, variable = true })
+            debugprint.debugprint({ variable = true })
         end,
         desc = "Variable debug below current line",
     })
@@ -49,7 +49,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.variable_above, {
         callback = function()
             debugprint.debugprint({
-                _skip_warning = true,
                 above = true,
                 variable = true,
             })
@@ -60,7 +59,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.variable_below_alwaysprompt, {
         callback = function()
             debugprint.debugprint({
-                _skip_warning = true,
                 variable = true,
                 ignore_treesitter = true,
             })
@@ -71,7 +69,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.variable_above_alwaysprompt, {
         callback = function()
             debugprint.debugprint({
-                _skip_warning = true,
                 above = true,
                 variable = true,
                 ignore_treesitter = true,
@@ -82,10 +79,7 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("n", global_opts.keymaps.normal.textobj_below, {
         callback = function()
-            return debugprint.debugprint({
-                _skip_warning = true,
-                motion = true,
-            })
+            return debugprint.debugprint({ motion = true })
         end,
         expr = true,
         desc = "Text-obj-selected variable debug below current line",
@@ -94,7 +88,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("n", global_opts.keymaps.normal.textobj_above, {
         callback = function()
             return debugprint.debugprint({
-                _skip_warning = true,
                 motion = true,
                 above = true,
             })
@@ -105,7 +98,7 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("i", global_opts.keymaps.insert.plain, {
         callback = function()
-            debugprint.debugprint({ _skip_warning = true, insert = true })
+            debugprint.debugprint({ insert = true })
         end,
         desc = "Plain debug in-place",
     })
@@ -113,7 +106,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("i", global_opts.keymaps.insert.variable, {
         callback = function()
             debugprint.debugprint({
-                _skip_warning = true,
                 insert = true,
                 variable = true,
                 ignore_treesitter = true,
@@ -124,7 +116,7 @@ M.map_keys_and_commands = function(global_opts)
 
     map_key("x", global_opts.keymaps.visual.variable_below, {
         callback = function()
-            debugprint.debugprint({ _skip_warning = true, variable = true })
+            debugprint.debugprint({ variable = true })
         end,
         desc = "Variable debug below current line",
     })
@@ -132,7 +124,6 @@ M.map_keys_and_commands = function(global_opts)
     map_key("x", global_opts.keymaps.visual.variable_above, {
         callback = function()
             debugprint.debugprint({
-                _skip_warning = true,
                 above = true,
                 variable = true,
             })
