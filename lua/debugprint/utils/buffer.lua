@@ -66,8 +66,7 @@ M.toggle_comment_line = function(line)
         else
             vim.notify_once(
                 "mini.nvim is required to toggle comment debugprint lines prior to NeoVim 0.10",
-                vim.log.levels.ERROR,
-                {}
+                vim.log.levels.ERROR
             )
         end
     end
