@@ -9,6 +9,7 @@
 <a href="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim">
 <img src="https://dotfyle.com/plugins/andrewferrier/debugprint.nvim/shield?style=flat" alt="debugprint dotfyle shield"/>
 </a>
+![GitHub License](https://img.shields.io/github/license/:andrewferrier/:debugprint.nvim)
 
 ## Overview
 
@@ -55,8 +56,6 @@ the NeoVim generation. It:
   comment/uncomment those lines.
 
 - Can optionally move to the inserted line (or not).
-
-- Is [MIT Licensed](LICENSE.txt).
 
 ## Demo
 
