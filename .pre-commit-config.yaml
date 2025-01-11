@@ -27,3 +27,7 @@ repos:
       hooks:
           - id: luacheck
             files: lua/
+    - repo: https://github.com/jeffzi/llscheck
+      rev: v0.6.0
+      hooks:
+        - id: llscheck

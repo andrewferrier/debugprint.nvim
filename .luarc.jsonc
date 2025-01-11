@@ -1,0 +1,14 @@
+{
+    "diagnostics.globals": [
+        "after_each",
+        "before_each",
+        "describe",
+        "it",
+        "vim"
+    ],
+    // FIXME: Quick fix to disable these
+    "diagnostics.disable": [
+        "undefined-doc-name",
+        "undefined-field"
+    ]
+}
