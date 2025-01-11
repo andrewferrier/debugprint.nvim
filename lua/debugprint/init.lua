@@ -433,7 +433,7 @@ M.setup = function(opts)
 end
 
 ---@return DebugprintGlobalOptions
-M.get_global_opts = function()
+M._get_global_opts = function()
     return global_opts
 end
 
