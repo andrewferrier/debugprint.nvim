@@ -1,5 +1,28 @@
 # Changelog
 
+## [5.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v4.0.0...v5.0.0) (2025-01-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Line highlighting using mini.hipatterns - closes #147
+* Deprecation warning calling debugprint() directly - closes #99
+
+### Features
+
+* Add health check - closes [#154](https://github.com/andrewferrier/debugprint.nvim/issues/154) ([69c13fc](https://github.com/andrewferrier/debugprint.nvim/commit/69c13fc3e6975a4967c870304167b2db0b0cab2a))
+* Add healthcheck for lazy loading and print_tag ([4f3ded4](https://github.com/andrewferrier/debugprint.nvim/commit/4f3ded4ae88913c17cc83a465ccd00c218af85b2))
+* Check health - look for mini.hipatterns ([bba532b](https://github.com/andrewferrier/debugprint.nvim/commit/bba532b6bd1dda712acb5e59e00903602fa02122))
+* Line highlighting using mini.hipatterns - closes [#147](https://github.com/andrewferrier/debugprint.nvim/issues/147) ([7cc6888](https://github.com/andrewferrier/debugprint.nvim/commit/7cc6888fff0dea4597c6a40bb19aebc6d0f8642c))
+* Support `notify_for_registers` option ([88398b0](https://github.com/andrewferrier/debugprint.nvim/commit/88398b02ae2c4cbb879ca6a9ecbfa72c9c933ec7))
+* support registers - closes [#148](https://github.com/andrewferrier/debugprint.nvim/issues/148) ([3ad3f73](https://github.com/andrewferrier/debugprint.nvim/commit/3ad3f7372ff6241a20f5f4f931d989d07bf3883f))
+
+
+### Bug Fixes
+
+* Deprecation warning calling debugprint() directly - closes [#99](https://github.com/andrewferrier/debugprint.nvim/issues/99) ([48505a2](https://github.com/andrewferrier/debugprint.nvim/commit/48505a274d4facec8d2d952c270d1b3ff53345ba))
+* Remove unnecessary parameter ([2ae1289](https://github.com/andrewferrier/debugprint.nvim/commit/2ae12895653133782311bdba5bc2c1c4622a9c8e))
+
 ## [4.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v3.7.0...v4.0.0) (2024-12-11)
 
 
