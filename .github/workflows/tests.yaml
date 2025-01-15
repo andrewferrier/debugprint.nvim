@@ -36,6 +36,15 @@ jobs:
       - name: Lint
         run: luacheck lua/
 
+  selene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install selene
+        run: cargo install selene
+      - name: Run selene
+        run: selene lua/ tests/
+
   typecheck:
     runs-on: ubuntu-latest
     steps:

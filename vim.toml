@@ -1,0 +1,38 @@
+[selene]
+base = "lua51"
+name = "vim"
+
+[vim]
+any = true
+
+[[describe.args]]
+type = "string"
+[[describe.args]]
+type = "function"
+
+[[it.args]]
+type = "string"
+[[it.args]]
+type = "function"
+
+[[before_each.args]]
+type = "function"
+
+[[after_each.args]]
+type = "function"
+
+[[assert.args]]
+type = "any"
+
+[[assert.equals.args]]
+type = "any"
+[[assert.equals.args]]
+type = "any"
+
+[[assert.are.same.args]]
+type = "any"
+[[assert.are.same.args]]
+type = "any"
+
+[[assert.True.args]]
+type = "any"
