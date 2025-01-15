@@ -73,7 +73,7 @@ M.get_effective_filetypes = function()
 
     local success, parser = pcall(vim.treesitter.get_parser, 0)
 
-    if success then
+    if success and parser then
         -- For some reason I don't understand, this parse line is necessary to
         -- make embedded languages work
         parser:parse(true)
