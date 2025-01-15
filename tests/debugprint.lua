@@ -2203,7 +2203,7 @@ describe("custom counter", function()
 
     before_each(function()
         debugprint.setup({
-            display_counter = function(opts)
+            display_counter = function(_)
                 count = count + 2
                 return "-" .. tostring(count) .. "x"
             end,
@@ -2546,7 +2546,7 @@ describe("allow display_* to be set in filetypes", function()
     it("display_location", function()
         debugprint.setup({ filetypes = { lua = { display_location = false } } })
 
-        local lua_filename = init_file({
+        init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
@@ -2721,7 +2721,7 @@ describe("can disable built-in keymaps/commands", function()
             keymaps = { normal = { plain_below = false } },
         })
 
-        local filename = init_file({
+        init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
@@ -2741,7 +2741,7 @@ describe("can disable built-in keymaps/commands", function()
             keymaps = { normal = { plain_below = "" } },
         })
 
-        local filename = init_file({
+        init_file({
             "foo",
             "bar",
         }, "lua", 1, 0)
