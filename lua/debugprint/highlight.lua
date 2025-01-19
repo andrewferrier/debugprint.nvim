@@ -21,8 +21,9 @@ local setup_highlight_buffer = function(print_tag, bufnr)
     end
 end
 
+---@param filetypes DebugprintFileTypeConfig[]
 ---@param print_tag string
-M.setup_highlight = function(print_tag)
+M.setup_highlight = function(filetypes, print_tag)
     vim.api.nvim_set_hl(0, "DebugPrintLine", { link = "Debug", default = true })
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -32,7 +33,10 @@ M.setup_highlight = function(print_tag)
             -- Automatically ignore 'bigfiles' as detected by snacks' bigfile
             -- support:
             -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
-            if buffer_filetype ~= "bigfile" then
+            if
+                buffer_filetype ~= "bigfile"
+                and filetypes[buffer_filetype] ~= nil
+            then
                 setup_highlight_buffer(print_tag, opts.buf)
             end
         end,

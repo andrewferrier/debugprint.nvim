@@ -421,6 +421,7 @@ M.setup = function(opts)
     if global_opts.highlight_lines then
         if global_opts.print_tag then
             require("debugprint.highlight").setup_highlight(
+                global_opts.filetypes,
                 global_opts.print_tag
             )
         else
