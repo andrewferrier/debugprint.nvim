@@ -27,7 +27,12 @@ M.setup_highlight = function(print_tag)
 
     vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         callback = function(opts)
-            setup_highlight_buffer(print_tag, opts.buf)
+            -- Automatically ignore 'bigfiles' as detected by snacks' bigfile
+            -- support:
+            -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
+            if vim.bo[opts.buf].filetype ~= "bigfile" then
+                setup_highlight_buffer(print_tag, opts.buf)
+            end
         end,
     })
 end
