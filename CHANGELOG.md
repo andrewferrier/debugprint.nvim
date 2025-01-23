@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.0.1](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.0...v5.0.1) (2025-01-23)
+
+
+### Bug Fixes
+
+* Don't hang highlighting when editing a big file ([e5a8874](https://github.com/andrewferrier/debugprint.nvim/commit/e5a8874a74ee6b0ee070b7513a47696052277ba9))
+* Don't set up highlights if filetype not supported ([91a1acf](https://github.com/andrewferrier/debugprint.nvim/commit/91a1acf430b6792903b8059e8aa9b4676ef60ea8))
+* Remove opts from healthcheck - closes [#159](https://github.com/andrewferrier/debugprint.nvim/issues/159) ([4f52d81](https://github.com/andrewferrier/debugprint.nvim/commit/4f52d812fb6c4d63aedc862c6e25e4362e2ab778))
+* Selene issues ([7fe56b6](https://github.com/andrewferrier/debugprint.nvim/commit/7fe56b64e70b50871ebfdff6bc9be6b260924ea6))
+
 ## [5.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v4.0.0...v5.0.0) (2025-01-11)
 
 
