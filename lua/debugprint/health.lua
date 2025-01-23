@@ -44,8 +44,6 @@ M.check = function()
                 "mini.hipatterns is not available; lines cannot be highlighted"
             )
         end
-
-        vim.health.info("debugprint opts = " .. vim.inspect(global_opts))
     else
         vim.health.warn(
             "debugprint is not yet setup, checkhealth cannot fully run"
