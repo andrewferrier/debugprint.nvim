@@ -371,8 +371,12 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
   Log watcher mechanism   :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
+  Dynamic filetype        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  configuration/log                                                                                                         
+  templates                                                                                                                 
+
   Completely customizable :x:               :+1:          :+1:              :+1:           :x:                :x:           :x:
-  log lines                                                                                                                 
+  log templates                                                                                                             
 
   Built-in support for:   -                 -             -                 -              -                  -             -
 
