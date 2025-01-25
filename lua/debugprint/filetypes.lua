@@ -80,6 +80,21 @@ return {
         right = '\\n");',
         mid_var = '%d\\n", ',
         right_var = ");",
+        find_treesitter_variable = function(node)
+            if node:type() == "field_expression" then
+                return vim.treesitter.get_node_text(node, 0)
+            elseif
+                node:parent()
+                and node:parent():type() == "field_expression"
+                and node:prev_named_sibling()
+            then
+                return vim.treesitter.get_node_text(node:parent(), 0)
+            elseif node:type() == "identifier" then
+                return vim.treesitter.get_node_text(node, 0)
+            else
+                return nil
+            end
+        end,
     },
     ["cmake"] = {
         left = 'message(DEBUG "',
