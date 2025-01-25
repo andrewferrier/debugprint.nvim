@@ -12,6 +12,14 @@
 ---@field display_location? boolean
 ---@field display_snippet? boolean
 
+---@class DebugprintFileTypeConfigParams
+---@field effective_filetypes string[]
+---@field file_path string
+---@field bufnr integer
+
+---@alias DebugprintFileTypeConfigOrDynamic DebugprintFileTypeConfig |
+---                                         function(DebugprintFileTypeConfigParams):DebugprintFileTypeConfig)
+
 ---@class DebugprintGlobalOptions
 ---@field keymaps? DebugprintKeymapOptions
 ---@field commands? DebugprintCommandOptions
@@ -21,7 +29,7 @@
 ---@field move_to_debugline? boolean
 ---@field notify_for_registers? boolean
 ---@field highlight_lines? boolean
----@field filetypes? DebugprintFileTypeConfig[]
+---@field filetypes? DebugprintFileTypeConfigOrDynamic[]
 ---@field print_tag? string
 ---Deprecated
 ---@field create_keymaps? boolean

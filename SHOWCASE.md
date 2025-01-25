@@ -43,6 +43,29 @@ The keys in the configuration are used like this:
 
 To see some examples, you can look at the [built-in configurations](lua/debugprint/filetypes.lua).
 
+### Dynamically creating filetype configurations
+
+It is also possible to dynamically create filetype configurations by specifying filetype configurations as callback functions that pass back the contents of the table above, rather than the contents of the table directly. For example:
+
+```lua
+local my_fileformat = function(opts)
+    -- Do some dynamic stuff to calculate my_left, my_right, my_mid_var etc...
+
+    return {
+        left = my_left,
+        right = my_right,
+        mid_var = my_mid_var,
+        right_var = my_right
+    }
+end
+
+require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat }})
+```
+
+The function you specify is invoked each time that a debug line is inserted. In the example above, `opts` is of type `DebugprintFileTypeFunctionParams`. This can be found documented in `lua/debugprint/types.lua`. This type is not stable and the contents are not guaranteed to stay the same between versions, although we'll try not to remove fields from it.
+
+Further documentation on this technique is not provided as this is an advanced approach and is left for the user.
+
 ## Use `console.info()` rather than `console.warn()` for JavaScript/TypeScript
 
 `debugprint` uses `console.warn()` by default for these languages ([explanation here](https://github.com/andrewferrier/debugprint.nvim/issues/72#issuecomment-1902469694)). However, some folks don't like this. You can change it to use `console.info()` instead like this:

@@ -112,34 +112,6 @@ local get_debugline_textcontent = function(opts, fileconfig)
     return line
 end
 
----@return DebugprintFileTypeConfig?
-local get_filetype_config = function()
-    local effective_filetypes = utils.get_effective_filetypes()
-    local config = {}
-    local found_config = false
-
-    for _, effective_filetype in ipairs(effective_filetypes) do
-        if global_opts.filetypes[effective_filetype] ~= nil then
-            found_config = true
-            -- Combine all valid configs into the same object. This seems to
-            -- make sense as an approach; the only case where I've found where
-            -- this applies so far is ["bash", "sh"]. If this causes problems we
-            -- may need to come up with something more sophisticated.
-            config = vim.tbl_deep_extend(
-                "keep",
-                vim.deepcopy(global_opts.filetypes[effective_filetype]),
-                config
-            )
-        end
-    end
-
-    if not found_config then
-        return nil
-    else
-        return config
-    end
-end
-
 ---@param opts DebugprintFunctionOptionsInternal
 ---@param fileconfig DebugprintFileTypeConfig
 ---@return string
@@ -175,10 +147,11 @@ end
 local get_debugprint_line = function(opts)
     local line_to_insert
 
-    local fileconfig = get_filetype_config()
+    local filetype_config =
+        require("debugprint.filetype_config").get(global_opts.filetypes)
 
-    if fileconfig ~= nil then
-        line_to_insert = construct_debugprint_line(opts, fileconfig)
+    if filetype_config ~= nil then
+        line_to_insert = construct_debugprint_line(opts, filetype_config)
     else
         line_to_insert = utils_errors.construct_error_line(
             "No debugprint configuration for filetype "
@@ -286,7 +259,8 @@ M.debugprint = function(opts)
     end
 
     if opts.variable == true then
-        local filetype_config = get_filetype_config()
+        local filetype_config =
+            require("debugprint.filetype_config").get(global_opts.filetypes)
 
         if filetype_config then
             opts.variable_name = utils.get_variable_name(
@@ -438,7 +412,7 @@ M._get_global_opts = function()
     return global_opts
 end
 
----@param filetypes DebugprintFileTypeConfig[]
+---@param filetypes DebugprintFileTypeConfigOrDynamic[]
 ---@return nil
 M.add_custom_filetypes = function(filetypes)
     vim.validate({
