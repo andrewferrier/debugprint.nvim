@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.1...v5.1.0) (2025-01-25)
+
+
+### Features
+
+* Support dynamic filetype config evaluation - closes [#21](https://github.com/andrewferrier/debugprint.nvim/issues/21) ([9165c70](https://github.com/andrewferrier/debugprint.nvim/commit/9165c70c088ad52b2121289e0328b70e2dcd07c5))
+* Support field_expression special case for C ([40ddd36](https://github.com/andrewferrier/debugprint.nvim/commit/40ddd36d95d1355b1747fa0dae6eac7e75e94cec))
+
 ## [5.0.1](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.0...v5.0.1) (2025-01-23)
 
 
