@@ -65,7 +65,7 @@ the NeoVim generation. It:
 
 ## Installation
 
-**Requires NeoVim 0.9+.**
+**Requires NeoVim 0.10+.**
 
 Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 
@@ -76,8 +76,7 @@ return {
     -- opts = { … },
 
     dependencies = {
-        "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints(NeoVim 0.9 only)
-                                -- and line highlighting (optional)
+        "echasnovski/mini.nvim" -- Needed for line highlighting (optional)
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used

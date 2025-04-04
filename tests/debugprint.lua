@@ -8,13 +8,6 @@ vim.opt.runtimepath:prepend(
 )
 vim.opt.runtimepath:prepend("../nvim-treesitter")
 
-if vim.fn.has("nvim-0.10.0") == 0 then
-    vim.opt.runtimepath:prepend(
-        vim.fn.stdpath("data") .. "/site/pack/vendor/start/mini.nvim"
-    )
-    vim.opt.runtimepath:prepend("../mini.nvim")
-end
-
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
 
 local install_parser_if_needed = function(filetype)

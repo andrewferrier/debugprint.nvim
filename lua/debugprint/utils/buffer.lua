@@ -51,25 +51,9 @@ end
 ---@param line integer
 ---@return nil
 M.toggle_comment_line = function(line)
-    if vim.fn.has("nvim-0.10.0") == 1 then
-        local pos = vim.api.nvim_win_get_cursor(0)
-        vim.api.nvim_cmd(
-            { range = { line }, cmd = "normal", args = { "gcc" } },
-            {}
-        )
-        vim.api.nvim_win_set_cursor(0, pos)
-    else
-        local status, comment = pcall(require, "mini.comment")
-
-        if status == true then
-            comment.toggle_lines(line, line, {})
-        else
-            vim.notify_once(
-                "mini.nvim is required to toggle comment debugprint lines prior to NeoVim 0.10",
-                vim.log.levels.ERROR
-            )
-        end
-    end
+    local pos = vim.api.nvim_win_get_cursor(0)
+    vim.api.nvim_cmd({ range = { line }, cmd = "normal", args = { "gcc" } }, {})
+    vim.api.nvim_win_set_cursor(0, pos)
 end
 
 ---@return string|false|nil
