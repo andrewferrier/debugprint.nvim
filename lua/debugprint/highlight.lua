@@ -21,7 +21,7 @@ local setup_highlight_buffer = function(print_tag, bufnr)
     end
 end
 
----@param filetypes DebugprintFileTypeConfig[]
+---@param filetypes debugprint.FileTypeConfig[]
 ---@param print_tag string
 M.setup_highlight = function(filetypes, print_tag)
     vim.api.nvim_set_hl(0, "DebugPrintLine", { link = "Debug", default = true })

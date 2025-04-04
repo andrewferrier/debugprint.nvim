@@ -17,7 +17,7 @@ local get_node_at_cursor = function()
     end
 end
 
----@param filetype_config DebugprintFileTypeConfig
+---@param filetype_config debugprint.FileTypeConfig
 ---@return string?
 local find_treesitter_variable = function(filetype_config)
     local node_at_cursor = get_node_at_cursor()
@@ -34,7 +34,7 @@ local find_treesitter_variable = function(filetype_config)
 end
 
 ---@param ignore_treesitter boolean
----@param filetype_config DebugprintFileTypeConfig
+---@param filetype_config debugprint.FileTypeConfig
 ---@return string?
 M.get_variable_name = function(ignore_treesitter, filetype_config)
     local variable_name = utils_buffer.get_visual_selection()

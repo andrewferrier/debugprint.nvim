@@ -2,8 +2,8 @@ local M = {}
 
 local utils = require("debugprint.utils")
 
----@param fn function(DebugprintFileTypeConfigParams):DebugprintFileTypeConfig
----@return DebugprintFileTypeConfig
+---@param fn function(debugprint.FileTypeConfigParams):debugprint.FileTypeConfig
+---@return debugprint.FileTypeConfig
 local get_function_wrapped_config = function(fn)
     local bufnr = vim.fn.bufnr()
 
@@ -16,15 +16,15 @@ local get_function_wrapped_config = function(fn)
     return result
 end
 
----@param filetypes DebugprintFileTypeConfigOrDynamic[]
----@return DebugprintFileTypeConfig?
+---@param filetypes debugprint.FileTypeConfigOrDynamic[]
+---@return debugprint.FileTypeConfig?
 M.get = function(filetypes)
     local effective_filetypes = utils.get_effective_filetypes()
     local config = {}
     local found_config = false
 
     for _, effective_filetype in ipairs(effective_filetypes) do
-        ---@type DebugprintFileTypeConfigOrDynamic
+        ---@type debugprint.FileTypeConfigOrDynamic
         local entry = filetypes[effective_filetype]
 
         if entry ~= nil then
@@ -37,7 +37,7 @@ M.get = function(filetypes)
             else
                 filetype_contents = entry
             end
-            ---@cast filetype_contents DebugprintFileTypeConfig
+            ---@cast filetype_contents debugprint.FileTypeConfig
 
             -- Combine all valid configs into the same object. This seems to
             -- make sense as an approach; the only case where I've found where

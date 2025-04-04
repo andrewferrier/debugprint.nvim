@@ -132,7 +132,7 @@ M.is_modifiable = function()
     end
 end
 
----@param opts DebugprintCommandOpts
+---@param opts debugprint.CommandOpts
 ---@return string[],integer
 M.get_command_lines_to_handle = function(opts)
     local lines_to_consider

@@ -27,7 +27,7 @@ local get_debugline_tag_and_counter = function(display_counter)
     return tag_and_counter
 end
 
----@param fileconfig DebugprintFileTypeConfig
+---@param fileconfig debugprint.FileTypeConfig
 ---@return function|boolean?, boolean?, boolean?
 local get_display_options = function(fileconfig)
     local display_counter
@@ -54,8 +54,8 @@ local get_display_options = function(fileconfig)
     return display_counter, display_location, display_snippet
 end
 
----@param opts DebugprintFunctionOptionsInternal
----@param fileconfig DebugprintFileTypeConfig
+---@param opts debugprint.FunctionOptionsInternal
+---@param fileconfig debugprint.FileTypeConfig
 ---@return string
 local get_debugline_textcontent = function(opts, fileconfig)
     local current_line_nr = vim.api.nvim_win_get_cursor(0)[1]
@@ -112,8 +112,8 @@ local get_debugline_textcontent = function(opts, fileconfig)
     return line
 end
 
----@param opts DebugprintFunctionOptionsInternal
----@param fileconfig DebugprintFileTypeConfig
+---@param opts debugprint.FunctionOptionsInternal
+---@param fileconfig debugprint.FileTypeConfig
 ---@return string
 local construct_debugprint_line = function(opts, fileconfig)
     local line_to_insert
@@ -142,7 +142,7 @@ local construct_debugprint_line = function(opts, fileconfig)
     return line_to_insert
 end
 
----@param opts DebugprintFunctionOptionsInternal
+---@param opts debugprint.FunctionOptionsInternal
 ---@return string
 local get_debugprint_line = function(opts)
     local line_to_insert
@@ -164,7 +164,7 @@ local get_debugprint_line = function(opts)
     return line_to_insert
 end
 
----@param opts DebugprintFunctionOptionsInternal
+---@param opts debugprint.FunctionOptionsInternal
 ---@param keys string
 local add_to_register = function(opts, keys)
     utils_register.set_register(keys)
@@ -190,7 +190,7 @@ local add_to_register = function(opts, keys)
     end
 end
 
----@param opts DebugprintFunctionOptionsInternal
+---@param opts debugprint.FunctionOptionsInternal
 ---@return nil
 local handle_debugprint_line = function(opts)
     -- Inserting the leading space from the current line effectively acts as a
@@ -244,11 +244,11 @@ local debugprint_insertkeys = function(keys, insert)
     end
 end
 
----@param opts? DebugprintFunctionOptions
+---@param opts? debugprint.FunctionOptions
 ---@return nil
 M.debugprint = function(opts)
     opts = require("debugprint.options").get_and_validate_function_opts(opts)
-    ---@cast opts DebugprintFunctionOptionsInternal
+    ---@cast opts debugprint.FunctionOptionsInternal
 
     opts.register = require("debugprint.utils.register").register_named()
 
@@ -294,7 +294,7 @@ M.debugprint = function(opts)
     end
 end
 
----@param opts DebugprintCommandOpts
+---@param opts debugprint.CommandOpts
 ---@return nil
 M.deleteprints = function(opts)
     if global_opts.print_tag == "" then
@@ -343,7 +343,7 @@ M.deleteprints = function(opts)
     end
 end
 
----@param opts DebugprintCommandOpts
+---@param opts debugprint.CommandOpts
 ---@return nil
 M.toggle_comment_debugprints = function(opts)
     if global_opts.print_tag == "" then
@@ -384,7 +384,7 @@ M.toggle_comment_debugprints = function(opts)
     end
 end
 
----@param opts? DebugprintGlobalOptions
+---@param opts? debugprint.GlobalOptions
 ---@return nil
 M.setup = function(opts)
     global_opts =
@@ -407,12 +407,12 @@ M.setup = function(opts)
     end
 end
 
----@return DebugprintGlobalOptions
+---@return debugprint.GlobalOptions
 M._get_global_opts = function()
     return global_opts
 end
 
----@param filetypes DebugprintFileTypeConfigOrDynamic[]
+---@param filetypes debugprint.FileTypeConfigOrDynamic[]
 ---@return nil
 M.add_custom_filetypes = function(filetypes)
     vim.validate({
