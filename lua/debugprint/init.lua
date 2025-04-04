@@ -299,7 +299,7 @@ end
 M.deleteprints = function(opts)
     if global_opts.print_tag == "" then
         vim.notify(
-            "WARNING: no print_tag set, cannot delete lines.",
+            "No print_tag set, cannot delete lines.",
             vim.log.levels.WARN
         )
 
@@ -348,7 +348,7 @@ end
 M.toggle_comment_debugprints = function(opts)
     if global_opts.print_tag == "" then
         vim.notify(
-            "WARNING: no print_tag set, cannot comment-toggle lines.",
+            "No print_tag set, cannot comment-toggle lines.",
             vim.log.levels.WARN
         )
 
@@ -425,7 +425,7 @@ end
 
 if vim.fn.has("nvim-0.10.0") ~= 1 then
     vim.notify_once(
-        "WARNING: debugprint.nvim is only compatible with NeoVim 0.10+",
+        "debugprint.nvim is only compatible with NeoVim 0.10+",
         vim.log.levels.WARN
     )
 

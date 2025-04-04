@@ -2324,10 +2324,7 @@ describe("check for variations of printtag/display_counter", function()
         feedkeys("g?p")
         vim.cmd("DeleteDebugPrints")
 
-        assert.equals(
-            notify_message,
-            "WARNING: no print_tag set, cannot delete lines."
-        )
+        assert.equals(notify_message, "No print_tag set, cannot delete lines.")
 
         check_lines({
             "function x()",
@@ -2353,7 +2350,7 @@ describe("check for variations of printtag/display_counter", function()
 
         assert.equals(
             notify_message,
-            "WARNING: no print_tag set, cannot comment-toggle lines."
+            "No print_tag set, cannot comment-toggle lines."
         )
 
         check_lines({
