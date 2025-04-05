@@ -74,8 +74,7 @@ end
 -- within one NeoVim session
 vim.notify_once = vim.notify
 
--- FIXME: Switch to joinpath for more elegance once we stop supporting <0.10
-local DATA_PATH = vim.fn.stdpath("data") .. "/debugprint"
+local DATA_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "debugprint")
 local COUNTER_FILE = DATA_PATH .. "/counter"
 
 local ALWAYS_PROMPT_KEYMAP = {
