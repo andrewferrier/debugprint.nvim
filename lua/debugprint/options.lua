@@ -140,6 +140,7 @@ local FUNCTION_OPTION_DEFAULTS = {
     ignore_treesitter = false,
     motion = false,
     insert = false,
+    surround = false,
 }
 
 ---@param o debugprint.FunctionOptions
@@ -147,10 +148,11 @@ local FUNCTION_OPTION_DEFAULTS = {
 local validate_function_opts = function(o)
     vim.validate({
         above = { o.above, "boolean" },
-        variable = { o.above, "boolean" },
+        variable = { o.variable, "boolean" },
         ignore_treesitter = { o.ignore_treesitter, "boolean" },
         motion = { o.motion, "boolean" },
-        insert = { o.motion, "boolean" },
+        insert = { o.insert, "boolean" },
+        surround = { o.surround, "boolean" },
     })
 end
 
