@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.1.0...v6.0.0) (2025-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use namespace-prefixed type names - closes #161
+
+### Features
+
+* Add debugprint 'surrounding' - closes [#162](https://github.com/andrewferrier/debugprint.nvim/issues/162) ([17939a5](https://github.com/andrewferrier/debugprint.nvim/commit/17939a573617ed4563b2fb19f3197310840b3cc0))
+
+
+### Code Refactoring
+
+* Use namespace-prefixed type names - closes [#161](https://github.com/andrewferrier/debugprint.nvim/issues/161) ([bf82426](https://github.com/andrewferrier/debugprint.nvim/commit/bf82426e466fd2079025b7b240ea53d0ae841eda))
+
 ## [5.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.1...v5.1.0) (2025-01-25)
 
 
