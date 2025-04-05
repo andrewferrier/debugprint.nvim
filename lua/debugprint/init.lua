@@ -245,7 +245,7 @@ local debugprint_insertkeys = function(keys, insert)
 end
 
 ---@param opts? debugprint.FunctionOptions
----@return nil
+---@return string|nil
 M.debugprint = function(opts)
     opts = require("debugprint.options").get_and_validate_function_opts(opts)
     ---@cast opts debugprint.FunctionOptionsInternal
