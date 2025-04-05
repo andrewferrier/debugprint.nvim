@@ -6,7 +6,7 @@ M.check = function()
     local global_opts = require("debugprint")._get_global_opts()
 
     if global_opts ~= nil then
-        vim.health.ok("debugprint has been setup")
+        vim.health.ok("debugprint has been set up")
 
         local success_lazyconfig, module_lazyconfig =
             pcall(require, "lazy.core.config")
@@ -30,6 +30,10 @@ M.check = function()
                     )
                 end
             end
+        else
+            vim.health.warn(
+                "lazy.nvim is not being used as plugin manager, cannot check lazy-loading status"
+            )
         end
 
         local success_hipatterns, module_hipatterns =
@@ -46,7 +50,7 @@ M.check = function()
         end
     else
         vim.health.warn(
-            "debugprint is not yet setup, checkhealth cannot fully run"
+            "debugprint is not yet setup, checkhealth cannot be run"
         )
     end
 end
