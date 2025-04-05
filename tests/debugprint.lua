@@ -88,6 +88,9 @@ local ALWAYS_PROMPT_KEYMAP = {
 local teardown = function(opts)
     opts = vim.tbl_extend("keep", opts or {}, { reset_counter = true })
 
+    -- Reset filetypes
+    debugprint.setup({ filetypes = require("debugprint.filetypes") })
+
     notify_message = nil
     pcall(vim.keymap.del, "n", "g?p")
     pcall(vim.keymap.del, "n", "g?P")
@@ -3159,5 +3162,200 @@ describe("dynamic filetype configuration", function()
                 .. ":1: foo=lua' .. vim.inspect(foo))",
             "bar = 456",
         })
+    end)
+end)
+
+describe("double statement insertion", function()
+    after_each(teardown)
+
+    it("plain", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?sp")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "foo",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2 (after foo)')",
+            "bar",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("plain - undo is atomic", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?sp")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "foo",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2 (after foo)')",
+            "bar",
+        })
+
+        feedkeys("u")
+
+        check_lines({
+            "foo",
+            "bar",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("plain - repeat", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?sp")
+        feedkeys("jj")
+        feedkeys("g?sp")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before foo)')",
+            "foo",
+            "print('DEBUGPRINT[2]: " .. filename .. ":2 (after foo)')",
+            "print('DEBUGPRINT[3]: " .. filename .. ":4 (before bar)')",
+            "bar",
+            "print('DEBUGPRINT[4]: " .. filename .. ":5 (after bar)')",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("plain - complex indentation", function()
+        assert.equals(notify_message, nil)
+
+        local filename = init_file({
+            "function()",
+            "    foo = 1",
+            "end",
+        }, "lua", 1, 0)
+
+        feedkeys("g?sp")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (before function())')",
+            "function()",
+            "    print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2 (after function())')",
+            "    foo = 1",
+            "end",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("variable", function()
+        local filename = init_file({
+            "local foo = 1",
+            "local bar = 2",
+        }, "lua", 1, 7)
+
+        feedkeys("g?sv")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+            "local foo = 1",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: foo=' .. vim.inspect(foo))",
+            "local bar = 2",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("variable (prompt)", function()
+        local filename = init_file({
+            "-- local foo = 1",
+            "local bar = 2",
+        }, "lua", 1, 10)
+
+        feedkeys("g?sv<CR>")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+            "-- local foo = 1",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: foo=' .. vim.inspect(foo))",
+            "local bar = 2",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("variable (always prompt)", function()
+        debugprint.setup({
+            keymaps = {
+                normal = {
+                    surround_variable_alwaysprompt = "g?sz",
+                },
+            },
+        })
+
+        local filename = init_file({
+            "local foo = 1",
+            "local bar = 2",
+        }, "lua", 1, 7)
+
+        feedkeys("g?sz<CR>")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+            "local foo = 1",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: foo=' .. vim.inspect(foo))",
+            "local bar = 2",
+        })
+
+        assert.equals(notify_message, nil)
+    end)
+
+    it("variable (textobj)", function()
+        local filename = init_file({
+            "local foo = 1",
+            "local bar = 2",
+        }, "lua", 1, 7)
+
+        feedkeys("g?soiw")
+
+        check_lines({
+            "print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1: foo=' .. vim.inspect(foo))",
+            "local foo = 1",
+            "print('DEBUGPRINT[2]: "
+                .. filename
+                .. ":2: foo=' .. vim.inspect(foo))",
+            "local bar = 2",
+        })
+
+        assert.equals(notify_message, nil)
     end)
 end)

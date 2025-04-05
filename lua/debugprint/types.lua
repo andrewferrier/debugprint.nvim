@@ -48,8 +48,12 @@
 ---@field variable_above? string|false
 ---@field variable_below_alwaysprompt? string|false
 ---@field variable_above_alwaysprompt? string|false
+---@field surround_plain? string|false
+---@field surround_variable? string|false
+---@field surround_variable_alwaysprompt? string|false
 ---@field textobj_below? string|false
 ---@field textobj_above? string|false
+---@field textobj_surround? string|false
 ---@field delete_debug_prints? string|false
 ---@field toggle_comment_debug_prints? string|false
 
@@ -72,6 +76,7 @@
 ---@field ignore_treesitter? boolean
 ---@field insert? boolean
 ---@field motion? boolean
+---@field surround? boolean
 
 ---@class debugprint.FunctionOptionsInternal: debugprint.FunctionOptions
 ---@field variable_name? string

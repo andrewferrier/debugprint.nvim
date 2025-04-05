@@ -208,10 +208,16 @@ local handle_debugprint_line = function(opts)
             line_nr = line_nr - 1
         end
 
+        local move_to_debugline = global_opts.move_to_debugline
+
+        if opts.surround == true then
+            move_to_debugline = false
+        end
+
         utils_buffer.insert_and_indent_line(
             line_nr,
             line_content,
-            global_opts.move_to_debugline
+            move_to_debugline
         )
     end
 end
@@ -220,7 +226,18 @@ local cache_request = {}
 
 ---@return nil
 M.debugprint_operatorfunc_regular = function()
-    handle_debugprint_line(cache_request)
+    if cache_request.surround then
+        local cache_request_copy = vim.deepcopy(cache_request)
+
+        cache_request_copy.above = true
+        handle_debugprint_line(cache_request_copy)
+
+        cache_request_copy.above = false
+        handle_debugprint_line(cache_request_copy)
+    else
+        handle_debugprint_line(cache_request)
+    end
+
     utils_operator.set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )
@@ -252,6 +269,7 @@ M.debugprint = function(opts)
 
     opts.register = require("debugprint.utils.register").register_named()
 
+    assert(not (opts.surround and opts.register))
     assert(not (opts.insert and opts.register))
 
     if not utils_buffer.is_modifiable() then

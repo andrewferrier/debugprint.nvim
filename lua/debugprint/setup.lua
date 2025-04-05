@@ -77,6 +77,31 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Variable debug above current line (always prompt)",
     })
 
+    map_key("n", global_opts.keymaps.normal.surround_plain, {
+        callback = function()
+            debugprint.debugprint({ surround = true })
+        end,
+        desc = "Surround plain debug",
+    })
+
+    map_key("n", global_opts.keymaps.normal.surround_variable, {
+        callback = function()
+            debugprint.debugprint({ surround = true, variable = true })
+        end,
+        desc = "Surround variable debug",
+    })
+
+    map_key("n", global_opts.keymaps.normal.surround_variable_alwaysprompt, {
+        callback = function()
+            debugprint.debugprint({
+                surround = true,
+                variable = true,
+                ignore_treesitter = true,
+            })
+        end,
+        desc = "Surround variable debug (always prompt)",
+    })
+
     map_key("n", global_opts.keymaps.normal.textobj_below, {
         callback = function()
             return debugprint.debugprint({ motion = true })
@@ -94,6 +119,17 @@ M.map_keys_and_commands = function(global_opts)
         end,
         expr = true,
         desc = "Text-obj-selected variable debug above current line",
+    })
+
+    map_key("n", global_opts.keymaps.normal.textobj_surround, {
+        callback = function()
+            return debugprint.debugprint({
+                motion = true,
+                surround = true,
+            })
+        end,
+        expr = true,
+        desc = "Text-obj-selected variable debug surrounded",
     })
 
     map_key("i", global_opts.keymaps.insert.plain, {
