@@ -209,7 +209,7 @@ M.get_and_validate_global_opts = function(opts)
 end
 
 ---@param opts? debugprint.FunctionOptions
----@return debugprint.FunctionOptions
+---@return debugprint.FunctionOptionsInternal
 M.get_and_validate_function_opts = function(opts)
     local func_opts = vim.tbl_deep_extend(
         "force",
@@ -219,10 +219,19 @@ M.get_and_validate_function_opts = function(opts)
 
     validate_function_opts(func_opts)
 
-    assert(not (func_opts.motion and func_opts.insert))
-    assert(not (func_opts.motion and func_opts.variable))
+    ---@cast func_opts debugprint.FunctionOptionsInternal
 
     return func_opts
+end
+
+---@param opts debugprint.FunctionOptionsInternal
+---@return nil
+M.check_function_opts_compatibility = function(opts)
+    assert(not (opts.register and opts.insert))
+    assert(not (opts.register and opts.surround))
+
+    assert(not (opts.motion and opts.insert))
+    assert(not (opts.motion and opts.variable))
 end
 
 return M

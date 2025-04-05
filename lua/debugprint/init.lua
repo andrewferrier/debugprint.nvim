@@ -265,12 +265,9 @@ end
 ---@return string|nil
 M.debugprint = function(opts)
     opts = require("debugprint.options").get_and_validate_function_opts(opts)
-    ---@cast opts debugprint.FunctionOptionsInternal
+    opts.register = utils_register.register_named()
 
-    opts.register = require("debugprint.utils.register").register_named()
-
-    assert(not (opts.surround and opts.register))
-    assert(not (opts.insert and opts.register))
+    require("debugprint.options").check_function_opts_compatibility(opts)
 
     if not utils_buffer.is_modifiable() then
         return
