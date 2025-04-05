@@ -75,7 +75,7 @@ end
 vim.notify_once = vim.notify
 
 local DATA_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "debugprint")
-local COUNTER_FILE = DATA_PATH .. "/counter"
+local COUNTER_FILE = vim.fs.joinpath(DATA_PATH, "counter")
 
 local ALWAYS_PROMPT_KEYMAP = {
     normal = {
