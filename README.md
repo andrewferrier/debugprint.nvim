@@ -48,6 +48,7 @@ the NeoVim generation. It:
 - Provides [keymappings](#keymappings-and-commands) for normal, insert,
   visual, and operator-pending modes. Supports
   [dot-repeat](https://jovicailic.org/2018/03/vim-the-dot-command/).
+  Can insert two 'surrounding' lines at the same time.
 
 - Supports direct writing to NeoVim registers for batch insert of debugprint
   lines.
@@ -103,29 +104,33 @@ the box'. There are also some function invocations which are not mapped to any
 keymappings or commands by default, but could be. This is all shown in the
 following table.
 
-| Mode       | Default Key / Cmd           | Purpose                                                                         | Above/Below Line |
-| ---------- | --------------------------- | ------------------------------------------------------------------------------- | ---------------- |
-| Normal     | `g?p`                       | Plain debug                                                                     | Below            |
-| Normal     | `g?P`                       | Plain debug                                                                     | Above            |
-| Normal     | `g?v`                       | Variable debug                                                                  | Below            |
-| Normal     | `g?V`                       | Variable debug                                                                  | Above            |
-| Normal     | None                        | Variable debug (always prompt for variable)                                     | Below            |
-| Normal     | None                        | Variable debug (always prompt for variable)                                     | Above            |
-| Normal     | None                        | Delete debug lines in buffer                                                    | -                |
-| Normal     | None                        | Comment/uncomment debug lines in buffer                                         | -                |
-| Insert     | `Ctrl-G p`                  | Plain debug                                                                     | In-place         |
-| Insert     | `Ctrl-G v`                  | Variable debug (always prompt for variable)                                     | In-place         |
-| Visual     | `g?v`                       | Variable debug                                                                  | Below            |
-| Visual     | `g?V`                       | Variable debug                                                                  | Above            |
-| Op-pending | `g?o`                       | Variable debug                                                                  | Below            |
-| Op-pending | `g?O`                       | Variable debug                                                                  | Above            |
-| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                |
-| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                |
-| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                |
+| Mode       | Default Key / Cmd           | Purpose                                                                         | Above/Below Line           |
+| ---------- | --------------------------- | ------------------------------------------------------------------------------- | -------------------------- |
+| Normal     | `g?p`                       | Plain debug                                                                     | Below                      |
+| Normal     | `g?P`                       | Plain debug                                                                     | Above                      |
+| Normal     | `g?v`                       | Variable debug                                                                  | Below                      |
+| Normal     | `g?V`                       | Variable debug                                                                  | Above                      |
+| Normal     | None                        | Variable debug (always prompt for variable)                                     | Below                      |
+| Normal     | None                        | Variable debug (always prompt for variable)                                     | Above                      |
+| Normal     | `g?sp`                      | Plain debug                                                                     | Above and below (surround) |
+| Normal     | `g?sv`                      | Variable debug                                                                  | Above and below (surround) |
+| Normal     | None                        | Variable debug (always prompt for variable)                                     | Above and below (surround) |
+| Normal     | None                        | Delete debug lines in buffer                                                    | -                          |
+| Normal     | None                        | Comment/uncomment debug lines in buffer                                         | -                          |
+| Insert     | `Ctrl-G p`                  | Plain debug                                                                     | In-place                   |
+| Insert     | `Ctrl-G v`                  | Variable debug (always prompt for variable)                                     | In-place                   |
+| Visual     | `g?v`                       | Variable debug                                                                  | Below                      |
+| Visual     | `g?V`                       | Variable debug                                                                  | Above                      |
+| Op-pending | `g?o`                       | Variable debug                                                                  | Below                      |
+| Op-pending | `g?O`                       | Variable debug                                                                  | Above                      |
+| Op-pending | `g?so`                      | Variable debug                                                                  | Above and below (surround) |
+| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                          |
+| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                          |
+| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                          |
 
-Each of the keymappings (except for insert mode) can also be prefixed with a
-register, see the [showcase](SHOWCASE.md#register-usage) for an example of how
-to use this to insert debugprint lines in batches.
+Each of the keymappings (except for 'surround' keys and insert modes) can also
+be prefixed with a register, see the [showcase](SHOWCASE.md#register-usage) for
+an example of how to use this to insert debugprint lines in batches.
 
 The keys and commands outlined above can be specifically overridden using the
 `keymaps` and `commands` objects inside the `opts` object used above during
@@ -144,8 +149,12 @@ return {
                 variable_above = "g?V",
                 variable_below_alwaysprompt = "",
                 variable_above_alwaysprompt = "",
+                surround_plain = "g?sp",
+                surround_variable = "g?sv",
+                surround_variable_alwaysprompt = "",
                 textobj_below = "g?o",
                 textobj_above = "g?O",
+                textobj_surround = "g?so",
                 toggle_comment_debug_prints = "",
                 delete_debug_prints = "",
             },
@@ -223,6 +232,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Persistent location counter between NeoVim sessions                 | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Print plain debug lines                                             | :+1:                           | :+1: (via user config)                                | :+1:                                                            | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
 | Print variables using treesitter                                    | :+1:                           | :+1:                                                  | :+1:                                                            | :x:                                                       | :+1:                                                                 | :x:                                                 | :x:                                                   |
+| 'Surround' lines with debugging above and below                     | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Use treesitter to locate log targets                                | (some languages)               | :+1:                                                  | :+1:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Use treesitter to intelligently insert log lines                    | :x:                            | :+1:                                                  | :+1:                                                            | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Enter variables/expressions using prompts                           | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
