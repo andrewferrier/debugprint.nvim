@@ -310,11 +310,13 @@ M.debugprint = function(opts)
 end
 
 ---@param opts debugprint.CommandOpts
----@return nil
-M.deleteprints = function(opts)
+---@param action function(integer, integer)
+---@param action_present string
+---@param action_past string
+local buffer_action = function(opts, action, action_present, action_past)
     if global_opts.print_tag == "" then
         vim.notify(
-            "No print_tag set, cannot delete lines.",
+            "No print_tag set, cannot " .. action_present .. " lines.",
             vim.log.levels.WARN
         )
 
@@ -323,8 +325,7 @@ M.deleteprints = function(opts)
 
     local lines_to_consider, initial_line =
         utils_buffer.get_command_lines_to_handle(opts)
-    local delete_adjust = 0
-    local deleted_count = 0
+    local actioned_count = 0
 
     if not utils_buffer.is_modifiable() then
         return
@@ -332,71 +333,49 @@ M.deleteprints = function(opts)
 
     for count, line in ipairs(lines_to_consider) do
         if string.find(line, global_opts.print_tag, 1, true) ~= nil then
-            local line_to_delete = count
-                - 1
-                - delete_adjust
-                + (initial_line - 1)
-            vim.api.nvim_buf_set_lines(
-                0,
-                line_to_delete,
-                line_to_delete + 1,
-                false,
-                {}
-            )
-            delete_adjust = delete_adjust + 1
-            deleted_count = deleted_count + 1
+            action(count, initial_line)
+            actioned_count = actioned_count + 1
         end
     end
 
-    if deleted_count == 1 then
-        vim.notify(deleted_count .. " debug line deleted.", vim.log.levels.INFO)
+    local linestring
+    if actioned_count == 1 then
+        linestring = "line"
     else
-        vim.notify(
-            deleted_count .. " debug lines deleted.",
-            vim.log.levels.INFO
-        )
+        linestring = "lines"
     end
+
+    vim.notify(
+        actioned_count .. " debug " .. linestring .. " " .. action_past .. ".",
+        vim.log.levels.INFO
+    )
+end
+
+---@param opts debugprint.CommandOpts
+---@return nil
+M.deleteprints = function(opts)
+    local delete_adjust = 0
+
+    buffer_action(opts, function(count, initial_line)
+        local line_to_delete = count - 1 - delete_adjust + (initial_line - 1)
+        vim.api.nvim_buf_set_lines(
+            0,
+            line_to_delete,
+            line_to_delete + 1,
+            false,
+            {}
+        )
+        delete_adjust = delete_adjust + 1
+    end, "delete", "deleted")
 end
 
 ---@param opts debugprint.CommandOpts
 ---@return nil
 M.toggle_comment_debugprints = function(opts)
-    if global_opts.print_tag == "" then
-        vim.notify(
-            "No print_tag set, cannot comment-toggle lines.",
-            vim.log.levels.WARN
-        )
-
-        return
-    end
-
-    local lines_to_consider, initial_line =
-        utils_buffer.get_command_lines_to_handle(opts)
-    local toggled_count = 0
-
-    if not utils_buffer.is_modifiable() then
-        return
-    end
-
-    for count, line in ipairs(lines_to_consider) do
-        if string.find(line, global_opts.print_tag, 1, true) ~= nil then
-            local line_to_toggle = count + initial_line - 1
-            utils_buffer.toggle_comment_line(line_to_toggle)
-            toggled_count = toggled_count + 1
-        end
-    end
-
-    if toggled_count == 1 then
-        vim.notify(
-            toggled_count .. " debug line comment-toggled.",
-            vim.log.levels.INFO
-        )
-    else
-        vim.notify(
-            toggled_count .. " debug lines comment-toggled.",
-            vim.log.levels.INFO
-        )
-    end
+    buffer_action(opts, function(count, initial_line)
+        local line_to_toggle = count + initial_line - 1
+        utils_buffer.toggle_comment_line(line_to_toggle)
+    end, "comment-toggle", "comment-toggled")
 end
 
 ---@param opts? debugprint.GlobalOptions
