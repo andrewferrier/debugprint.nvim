@@ -24,23 +24,34 @@ end
 ---@param filetypes debugprint.FileTypeConfig[]
 ---@param print_tag string
 M.setup_highlight = function(filetypes, print_tag)
-    vim.api.nvim_set_hl(0, "DebugPrintLine", { link = "Debug", default = true })
+    if print_tag then
+        vim.api.nvim_set_hl(
+            0,
+            "DebugPrintLine",
+            { link = "Debug", default = true }
+        )
 
-    vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-        callback = function(opts)
-            local buffer_filetype = vim.bo[opts.buf].filetype
+        vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+            callback = function(opts)
+                local buffer_filetype = vim.bo[opts.buf].filetype
 
-            -- Automatically ignore 'bigfiles' as detected by snacks' bigfile
-            -- support:
-            -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
-            if
-                buffer_filetype ~= "bigfile"
-                and filetypes[buffer_filetype] ~= nil
-            then
-                setup_highlight_buffer(print_tag, opts.buf)
-            end
-        end,
-    })
+                -- Automatically ignore 'bigfiles' as detected by snacks' bigfile
+                -- support:
+                -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
+                if
+                    buffer_filetype ~= "bigfile"
+                    and filetypes[buffer_filetype] ~= nil
+                then
+                    setup_highlight_buffer(print_tag, opts.buf)
+                end
+            end,
+        })
+    else
+        vim.notify_once(
+            "debugprint: highlight_lines is set, but there is no printtag, so nothing will be highlighted.",
+            vim.log.levels.WARN
+        )
+    end
 end
 
 return M

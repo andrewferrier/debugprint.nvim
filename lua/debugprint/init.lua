@@ -408,17 +408,10 @@ M.setup = function(opts)
     require("debugprint.setup").map_keys_and_commands(global_opts)
 
     if global_opts.highlight_lines then
-        if global_opts.print_tag then
-            require("debugprint.highlight").setup_highlight(
-                global_opts.filetypes,
-                global_opts.print_tag
-            )
-        else
-            vim.notify_once(
-                "debugprint: highlight_lines is set, but there is no printtag, so nothing will be highlighted.",
-                vim.log.levels.WARN
-            )
-        end
+        require("debugprint.highlight").setup_highlight(
+            global_opts.filetypes,
+            global_opts.print_tag
+        )
     end
 end
 
