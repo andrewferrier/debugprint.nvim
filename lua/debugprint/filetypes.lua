@@ -94,6 +94,7 @@ return {
         mid_var = "' + ",
         right_var = ");",
     },
+    ["astro"] = js,
     ["applescript"] = {
         left = 'log "',
         right = '"',
