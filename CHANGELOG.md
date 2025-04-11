@@ -1,5 +1,29 @@
 # Changelog
 
+## [6.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.1.0...v6.0.0) (2025-04-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use namespace-prefixed type names - closes #161
+
+### Features
+
+* Add astro support - closes [#165](https://github.com/andrewferrier/debugprint.nvim/issues/165) ([1cba9ac](https://github.com/andrewferrier/debugprint.nvim/commit/1cba9ac0a048b7ee203fa526c8b01e4d3b3861c7))
+* Add debugprint 'surrounding' - closes [#162](https://github.com/andrewferrier/debugprint.nvim/issues/162) ([17939a5](https://github.com/andrewferrier/debugprint.nvim/commit/17939a573617ed4563b2fb19f3197310840b3cc0))
+* Add luau support - closes [#164](https://github.com/andrewferrier/debugprint.nvim/issues/164) ([1d395ba](https://github.com/andrewferrier/debugprint.nvim/commit/1d395baf52a515dce144f6d78f8fb00fe06ed574))
+* Improve checkhealth messages ([ac58cff](https://github.com/andrewferrier/debugprint.nvim/commit/ac58cff93bf8533eb721245d2d5a91d902de59f3))
+
+
+### Bug Fixes
+
+* Add missing defaults and correct validation ([ff594cc](https://github.com/andrewferrier/debugprint.nvim/commit/ff594ccb71b5c51a153e4032e3977ff4fccb2496))
+
+
+### Code Refactoring
+
+* Use namespace-prefixed type names - closes [#161](https://github.com/andrewferrier/debugprint.nvim/issues/161) ([bf82426](https://github.com/andrewferrier/debugprint.nvim/commit/bf82426e466fd2079025b7b240ea53d0ae841eda))
+
 ## [5.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.1...v5.1.0) (2025-01-25)
 
 
