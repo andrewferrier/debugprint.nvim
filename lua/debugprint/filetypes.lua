@@ -60,6 +60,32 @@ local cs = {
     right_var = '}");',
 }
 
+---@type debugprint.FileTypeConfig
+local lua = {
+    left = "print('",
+    right = "')",
+    mid_var = "' .. vim.inspect(",
+    right_var = "))",
+    ---@param node TSNode
+    find_treesitter_variable = function(node)
+        if node:type() == "dot_index_expression" then
+            return vim.treesitter.get_node_text(node, 0)
+        elseif
+            node:parent()
+            and node:parent():type() == "dot_index_expression"
+            and node:prev_named_sibling()
+        then
+            local parent = node:parent()
+            ---@cast parent TSNode
+            return vim.treesitter.get_node_text(parent, 0)
+        elseif node:type() == "identifier" then
+            return vim.treesitter.get_node_text(node, 0)
+        else
+            return nil
+        end
+    end,
+}
+
 ---@type debugprint.FileTypeConfig[]
 return {
     ["apex"] = {
@@ -185,30 +211,8 @@ return {
         mid_var = '~D" ',
         right_var = ")",
     },
-    ["lua"] = {
-        left = "print('",
-        right = "')",
-        mid_var = "' .. vim.inspect(",
-        right_var = "))",
-        ---@param node TSNode
-        find_treesitter_variable = function(node)
-            if node:type() == "dot_index_expression" then
-                return vim.treesitter.get_node_text(node, 0)
-            elseif
-                node:parent()
-                and node:parent():type() == "dot_index_expression"
-                and node:prev_named_sibling()
-            then
-                local parent = node:parent()
-                ---@cast parent TSNode
-                return vim.treesitter.get_node_text(parent, 0)
-            elseif node:type() == "identifier" then
-                return vim.treesitter.get_node_text(node, 0)
-            else
-                return nil
-            end
-        end,
-    },
+    ["lua"] = lua,
+    ["luau"] = lua,
     ["make"] = {
         left = '\t@echo >&2 "',
         right = '"',
