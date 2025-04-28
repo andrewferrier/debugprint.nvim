@@ -70,6 +70,7 @@
 ---@field toggle_comment_debug_prints? string|false
 ---@field reset_debug_prints_counter? string|false
 ---@field search_debug_prints? string|false
+---@field debug_print_qf_list? string|false
 
 ---@class debugprint.FunctionOptions
 ---@field above? boolean

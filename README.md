@@ -54,8 +54,9 @@ the NeoVim generation. It:
   lines.
 
 - Provides [commands](#keymappings-and-commands) to delete or comment debugging
-  lines added to the current buffer, and search for those lines in the current directory
-  (project) using fzf-lua or telescope.
+  lines added to the current buffer, search for those lines in the current directory
+  (project) using fzf-lua or telescope, and add those lines to the quickfix
+  list.
 
 - Can optionally move to the inserted line (or not).
 
@@ -131,6 +132,7 @@ following table.
 | Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                          |
 | Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                          |
 | Command    | `:SearchDebugPrints`        | Search for all debug print lines in the current directory using fzf-lua or telescope.nvim | -                |
+| Command    | `:DebugPrintQFList`         | Search for all debug print lines in the current directory and populate quickfix list | -                |
 
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the [showcase](SHOWCASE.md#register-usage) for
@@ -256,7 +258,8 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Comment/uncomment all debug lines in buffer                         | :+1:                           | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Comment/uncomment all debug lines in selected range                 | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can put debugprint text into register                               | :+1:                           | :x:                                                   | :x:                                                             | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
-| Search for debugprint lines in the current directory using fzf-lua  | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Search for debugprint lines using fzf-lua or telescope              | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Search for debugprint lines and populate quickfix list              | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Extra visual emphasis of log statements                             | :+1: Highlights inserted lines | :+1: Flashes to highlight lines on insertion          | :+1: status line counter, signcolumn, line-highlight, scrollbar | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can insert logs in batches                                          | :+1: (using registers)         | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Log watcher mechanism                                               | :x:                            | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |

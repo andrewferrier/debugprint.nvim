@@ -210,6 +210,14 @@ M.map_keys_and_commands = function(global_opts)
             desc = "Search for debug prints using fzf-lua or telescope.nvim",
         }
     )
+
+    create_command(
+        global_opts.commands.debug_print_qf_list,
+        require("debugprint").debug_print_qf_list,
+        {
+            desc = "Search for debug prints and populate quickfix list",
+        }
+    )
 end
 
 return M

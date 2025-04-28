@@ -48,7 +48,17 @@ end
 local init_file = function(lines, extension, row, col, opts)
     opts = opts or {}
 
-    local tempfile = vim.fn.tempname() .. "." .. extension
+    local tempfile
+
+    if opts.create_in_dir then
+        local dir = vim.fn.tempname()
+        vim.fn.mkdir(dir, "p")
+        tempfile = vim.fs.joinpath(dir, "tmpfile." .. extension)
+        vim.cmd("cd " .. dir)
+    else
+        tempfile = vim.fn.tempname() .. "." .. extension
+    end
+
     vim.cmd("split " .. tempfile)
     vim.cmd("only")
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
@@ -2132,6 +2142,36 @@ describe("comment toggle", function()
                 .. ":3 (after local xyz = 3)')",
             "end",
         })
+    end)
+end)
+
+describe("quickfix list", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(teardown)
+
+    it("can use DebugPrintQFList command", function()
+        local filename = init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0, { create_in_dir = true })
+
+        feedkeys("g?p")
+        vim.cmd("write!")
+
+        check_lines({
+            "foo",
+            "print('DEBUGPRINT[1]: " .. filename .. ":1 (after foo)')",
+            "bar",
+        })
+
+        vim.cmd("DebugPrintQFList")
+
+        local qflist = vim.fn.getqflist()
+        assert.equals(#qflist, 1)
+        assert.True(string.find(qflist[1].text, "DEBUGPRINT") > 0)
     end)
 end)
 

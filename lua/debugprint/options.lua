@@ -33,6 +33,7 @@ local GLOBAL_OPTION_DEFAULTS = {
         delete_debug_prints = "DeleteDebugPrints",
         reset_debug_prints_counter = "ResetDebugPrintsCounter",
         search_debug_prints = "SearchDebugPrints",
+        debug_print_qf_list = "DebugPrintQFList",
     },
     display_counter = true,
     display_location = true,
