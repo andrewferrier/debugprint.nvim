@@ -32,6 +32,7 @@ local GLOBAL_OPTION_DEFAULTS = {
         toggle_comment_debug_prints = "ToggleCommentDebugPrints",
         delete_debug_prints = "DeleteDebugPrints",
         reset_debug_prints_counter = "ResetDebugPrintsCounter",
+        search_debug_prints_fzflua = "SearchDebugPrintsFzfLua",
     },
     display_counter = true,
     display_location = true,

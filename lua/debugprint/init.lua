@@ -410,6 +410,24 @@ M.add_custom_filetypes = function(filetypes)
         vim.tbl_deep_extend("force", global_opts.filetypes, filetypes)
 end
 
+---@return nil
+M.show_debug_prints_fzf = function()
+    local ok, fzf = pcall(require, "fzf-lua")
+
+    if not ok then
+        vim.notify(
+            "fzf-lua is required for :SearchDebugPrintsFzfLua but could not be loaded",
+            vim.log.levels.WARN
+        )
+        return
+    end
+
+    fzf.grep({
+        prompt = "Debug Prints> ",
+        search = global_opts.print_tag,
+    })
+end
+
 if vim.fn.has("nvim-0.10.0") ~= 1 then
     vim.notify_once(
         "debugprint.nvim is only compatible with NeoVim 0.10+",

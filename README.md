@@ -77,7 +77,8 @@ return {
     -- opts = { … },
 
     dependencies = {
-        "echasnovski/mini.nvim" -- Needed for line highlighting (optional)
+        "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
+        "ibhagwan/fzf-lua" -- If you want to use the :SearchDebugPrintsFzfLua command
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -127,6 +128,7 @@ following table.
 | Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                          |
 | Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                          |
 | Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                          |
+| Command    | `:SearchDebugPrintsFzfLua`  | Search for all debug print lines in the current directory using fzf-lua         | -                          |
 
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the [showcase](SHOWCASE.md#register-usage) for
@@ -251,6 +253,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Comment/uncomment all debug lines in buffer                         | :+1:                           | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Comment/uncomment all debug lines in selected range                 | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can put debugprint text into register                               | :+1:                           | :x:                                                   | :x:                                                             | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Search for debugprint lines in the current directory using fzf-lua  | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Extra visual emphasis of log statements                             | :+1: Highlights inserted lines | :+1: Flashes to highlight lines on insertion          | :+1: status line counter, signcolumn, line-highlight, scrollbar | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can insert logs in batches                                          | :+1: (using registers)         | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Log watcher mechanism                                               | :x:                            | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
