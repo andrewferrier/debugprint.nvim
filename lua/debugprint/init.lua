@@ -440,15 +440,37 @@ end
 
 ---@return nil
 M.debug_print_qf_list = function()
+    local grep_cmd = vim.o.grepprg
+    local search_args = '"' .. global_opts.print_tag .. '" ' .. vim.fn.getcwd()
+
+    local cannot_run = function()
+        vim.notify(
+            "Warning: grepprg does not contain $* placeholder, cannot run command",
+            vim.log.levels.WARN
+        )
+    end
+
+    -- The standard setups for 'rg' and 'grep' for grepprg seem to be
+    -- incompatible for recursive searches, which is very annoying - FIXME:
+    -- raise a NeoVim bug on this.
+    if grep_cmd:find("^rg") then
+        grep_cmd = grep_cmd .. " " .. search_args
+    else
+        if not grep_cmd:find("%$%*") then
+            cannot_run()
+            return
+        end
+
+        if grep_cmd:find("^grep") then
+            grep_cmd = grep_cmd:gsub("%$%*", "-r " .. search_args)
+        else
+            grep_cmd = grep_cmd:gsub("%$%*", search_args)
+        end
+    end
+
     vim.fn.setqflist({}, " ", {
         title = "Debug Prints",
-        lines = vim.fn.systemlist(
-            vim.o.grepprg
-                .. ' "'
-                .. global_opts.print_tag
-                .. '" '
-                .. vim.fn.getcwd()
-        ),
+        lines = vim.fn.systemlist(grep_cmd),
         efm = "%f:%l:%m",
     })
     vim.cmd("copen")
