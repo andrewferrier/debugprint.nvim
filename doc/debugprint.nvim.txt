@@ -64,8 +64,8 @@ generation. It:
 - Supports direct writing to NeoVim registers for batch insert of debugprint
     lines.
 - Provides |debugprint.nvim-commands| to delete or comment debugging lines added
-    to the current buffer, and search for those lines in the current directory
-    (project) using fzf-lua or telescope.
+    to the current buffer, search for those lines in the current directory
+    (project) using fzf-lua or telescope, and add those lines to the quickfix list.
 - Can optionally move to the inserted line (or not).
 
 
@@ -181,6 +181,10 @@ following table.
   Command      :SearchDebugPrints          Search for all debug print lines in the -
                                            current directory using fzf-lua or      
                                            telescope.nvim                          
+
+  Command      :DebugPrintQFList           Search for all debug print lines in the -
+                                           current directory and populate quickfix 
+                                           list                                    
   ----------------------------------------------------------------------------------------------
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the showcase <SHOWCASE.md#register-usage> for
@@ -394,8 +398,12 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   into register                                                                                                             
 
   Search for debugprint   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  lines in the current                                                                                                      
-  directory using fzf-lua                                                                                                   
+  lines using fzf-lua or                                                                                                    
+  telescope                                                                                                                 
+
+  Search for debugprint   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  lines and populate                                                                                                        
+  quickfix list                                                                                                             
 
   Extra visual emphasis   :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
   of log statements       inserted lines    to highlight  counter,                                                          
