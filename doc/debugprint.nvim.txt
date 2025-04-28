@@ -1,4 +1,4 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2025-04-27
+*debugprint.nvim.txt*             For NVIM             Last change: 2025-04-28
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -87,7 +87,8 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
         -- opts = { … },
     
         dependencies = {
-            "echasnovski/mini.nvim" -- Needed for line highlighting (optional)
+            "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
+            "ibhagwan/fzf-lua" -- If you want to use the :SearchDebugPrintsFzfLua command
         },
     
         lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -174,6 +175,9 @@ following table.
   Command      :ResetDebugPrintsCounter    Reset debug print persistent counter    -
                                            (only for built-in counter              
                                            implementation)                         
+
+  Command      :SearchDebugPrintsFzfLua    Search for all debug print lines in the -
+                                           current directory using fzf-lua         
   ----------------------------------------------------------------------------------------------
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the showcase <SHOWCASE.md#register-usage> for
@@ -385,6 +389,10 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Can put debugprint text :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
   into register                                                                                                             
 
+  Search for debugprint   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  lines in the current                                                                                                      
+  directory using fzf-lua                                                                                                   
+
   Extra visual emphasis   :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
   of log statements       inserted lines    to highlight  counter,                                                          
                                             lines on      signcolumn,                                                       
@@ -409,13 +417,13 @@ they are used to convert sections to ROT-13, which most folks don’t use.
 
   AppleScript             :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
-  Astro                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Astro                   :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
   bash/sh                 :+1:              :x:           :+1:              :+1:           :x:                :+1:          :x:
 
   C                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  C#                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  C# (C Sharp)            :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   C++                     :+1:              :x:           :x:               :+1:           :+1:               :+1:          :x:
 
@@ -454,6 +462,8 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   luau                    :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
   GNU Make                :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+
+  Odin                    :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
   Perl                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
