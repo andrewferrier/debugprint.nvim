@@ -77,9 +77,9 @@ return {
     -- opts = { … },
 
     dependencies = {
-        "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
-        "ibhagwan/fzf-lua", -- If you want to use the :SearchDebugPrints command with fzf-lua
-        "nvim-telescope/telescope.nvim" -- If you want to use the :SearchDebugPrints command with telescope.nvim
+        "echasnovski/mini.nvim",        -- Optional: Needed for line highlighting
+        "ibhagwan/fzf-lua",             -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
+        "nvim-telescope/telescope.nvim" -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used
