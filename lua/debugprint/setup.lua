@@ -204,10 +204,10 @@ M.map_keys_and_commands = function(global_opts)
     )
 
     create_command(
-        global_opts.commands.search_debug_prints_fzflua,
+        global_opts.commands.search_debug_prints,
         require("debugprint").show_debug_prints_fzf,
         {
-            desc = "Search for debug prints using fzf-lua",
+            desc = "Search for debug prints using fzf-lua or telescope.nvim",
         }
     )
 end

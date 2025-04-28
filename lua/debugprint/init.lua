@@ -414,18 +414,28 @@ end
 M.show_debug_prints_fzf = function()
     local ok, fzf = pcall(require, "fzf-lua")
 
-    if not ok then
-        vim.notify(
-            "fzf-lua is required for :SearchDebugPrintsFzfLua but could not be loaded",
-            vim.log.levels.WARN
-        )
+    if ok then
+        fzf.grep({
+            prompt = "Debug Prints> ",
+            search = global_opts.print_tag,
+        })
         return
     end
 
-    fzf.grep({
-        prompt = "Debug Prints> ",
-        search = global_opts.print_tag,
-    })
+    local ok_telescope, telescope = pcall(require, "telescope.builtin")
+
+    if ok_telescope then
+        telescope.live_grep({
+            prompt_title = "Debug Prints> ",
+            default_text = global_opts.print_tag,
+        })
+        return
+    end
+
+    vim.notify(
+        "Neither fzf-lua nor telescope.nvim is available for :SearchDebugPrints",
+        vim.log.levels.ERROR
+    )
 end
 
 if vim.fn.has("nvim-0.10.0") ~= 1 then

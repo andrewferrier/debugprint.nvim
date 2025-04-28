@@ -78,7 +78,8 @@ return {
 
     dependencies = {
         "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
-        "ibhagwan/fzf-lua" -- If you want to use the :SearchDebugPrintsFzfLua command
+        "ibhagwan/fzf-lua", -- If you want to use the :SearchDebugPrints command with fzf-lua
+        "nvim-telescope/telescope.nvim" -- If you want to use the :SearchDebugPrints command with telescope.nvim
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -128,7 +129,7 @@ following table.
 | Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                          |
 | Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                          |
 | Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                          |
-| Command    | `:SearchDebugPrintsFzfLua`  | Search for all debug print lines in the current directory using fzf-lua         | -                          |
+| Command    | `:SearchDebugPrints`        | Search for all debug print lines in the current directory using fzf-lua or telescope.nvim | -                |
 
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the [showcase](SHOWCASE.md#register-usage) for
@@ -173,6 +174,7 @@ return {
             toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
             reset_debug_prints_counter = "ResetDebugPrintsCounter",
+            search_debug_prints = "SearchDebugPrints",
         },
         -- … Other options
     },
