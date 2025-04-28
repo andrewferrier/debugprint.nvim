@@ -2170,6 +2170,7 @@ describe("quickfix list", function()
         vim.cmd("DebugPrintQFList")
 
         local qflist = vim.fn.getqflist()
+        print('DEBUGPRINT[1]: debugprint.lua:2172: qflist=' .. vim.inspect(qflist))
         assert.equals(#qflist, 1)
         assert.True(string.find(qflist[1].text, "DEBUGPRINT") > 0)
     end)
