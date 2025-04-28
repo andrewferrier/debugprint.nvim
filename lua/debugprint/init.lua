@@ -440,12 +440,18 @@ end
 
 ---@return nil
 M.debug_print_qf_list = function()
-    vim.fn.setqflist({}, ' ', {
-        title = 'Debug Prints',
-        lines = vim.fn.systemlist(vim.o.grepprg .. ' "' .. global_opts.print_tag .. '" ' .. vim.fn.getcwd()),
-        efm = '%f:%l:%m'
+    vim.fn.setqflist({}, " ", {
+        title = "Debug Prints",
+        lines = vim.fn.systemlist(
+            vim.o.grepprg
+                .. ' "'
+                .. global_opts.print_tag
+                .. '" '
+                .. vim.fn.getcwd()
+        ),
+        efm = "%f:%l:%m",
     })
-    vim.cmd('copen')
+    vim.cmd("copen")
 end
 
 if vim.fn.has("nvim-0.10.0") ~= 1 then
