@@ -53,8 +53,9 @@ the NeoVim generation. It:
 - Supports direct writing to NeoVim registers for batch insert of debugprint
   lines.
 
-- Provides [commands](#keymappings-and-commands) to delete debugging lines added to the current buffer or
-  comment/uncomment those lines.
+- Provides [commands](#keymappings-and-commands) to delete or comment debugging
+  lines added to the current buffer, and search for those lines in the current directory
+  (project) using fzf-lua or telescope.
 
 - Can optionally move to the inserted line (or not).
 
