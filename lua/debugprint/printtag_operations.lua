@@ -2,6 +2,7 @@ local M = {}
 
 local utils_buffer = require("debugprint.utils.buffer")
 
+---@type string
 local print_tag
 
 ---@param tag string
@@ -39,6 +40,7 @@ local buffer_action = function(opts, action, action_present, action_past)
         end
     end
 
+    ---@type string
     local linestring
     if actioned_count == 1 then
         linestring = "line"

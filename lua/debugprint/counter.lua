@@ -1,5 +1,6 @@
 local M = {}
 
+---@type integer?
 local default_counter
 
 local DATA_PATH = vim.fs.joinpath(vim.fn.stdpath("data"), "debugprint")

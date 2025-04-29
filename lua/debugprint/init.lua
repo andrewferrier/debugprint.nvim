@@ -6,6 +6,7 @@ local utils_errors = require("debugprint.utils.errors")
 local utils_operator = require("debugprint.utils.operator")
 local utils_register = require("debugprint.utils.register")
 
+---@type debugprint.GlobalOptions
 local global_opts
 
 ---@param display_counter? boolean|function
@@ -24,6 +25,7 @@ local get_debugline_tag_and_counter = function(display_counter)
         tag_and_counter = tag_and_counter .. tostring(display_counter())
     end
 
+    ---@cast tag_and_counter string
     return tag_and_counter
 end
 
@@ -116,6 +118,7 @@ end
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
 local construct_debugprint_line = function(opts, fileconfig)
+    ---@type string
     local line_to_insert
 
     if opts.variable_name then
@@ -145,6 +148,7 @@ end
 ---@param opts debugprint.FunctionOptionsInternal
 ---@return string
 local get_debugprint_line = function(opts)
+    ---@type string
     local line_to_insert
 
     local filetype_config =
@@ -170,6 +174,7 @@ local add_to_register = function(opts, keys)
     utils_register.set_register(keys)
 
     if global_opts.notify_for_registers then
+        ---@type string
         local content
 
         if opts.variable_name then
@@ -208,6 +213,7 @@ local handle_debugprint_line = function(opts)
             line_nr = line_nr - 1
         end
 
+        ---@type boolean
         local move_to_debugline = global_opts.move_to_debugline
 
         if opts.surround == true then
