@@ -1,6 +1,7 @@
 local M = {}
 
 local debugprint = require("debugprint")
+local debugprint_printtag_operations = require("debugprint.printtag_operations")
 
 ---@param mode string
 ---@param lhs string|false
@@ -168,18 +169,18 @@ M.map_keys_and_commands = function(global_opts)
     })
 
     map_key("n", global_opts.keymaps.normal.delete_debug_prints, {
-        callback = debugprint.deleteprints,
+        callback = debugprint_printtag_operations.deleteprints,
         desc = "Delete all debugprint statements in the current buffer",
     })
 
     map_key("n", global_opts.keymaps.normal.toggle_comment_debug_prints, {
-        callback = debugprint.toggle_comment_debugprints,
+        callback = debugprint_printtag_operations.toggle_comment_debugprints,
         desc = "Comment/uncomment all debugprint statements in the current buffer",
     })
 
     create_command(
         global_opts.commands.delete_debug_prints,
-        debugprint.deleteprints,
+        debugprint_printtag_operations.deleteprints,
         {
             range = true,
             desc = "Delete all debugprint statements in the current buffer",
@@ -188,7 +189,7 @@ M.map_keys_and_commands = function(global_opts)
 
     create_command(
         global_opts.commands.toggle_comment_debug_prints,
-        debugprint.toggle_comment_debugprints,
+        debugprint_printtag_operations.toggle_comment_debugprints,
         {
             range = true,
             desc = "Comment/uncomment all debugprint statements in the current buffer",
@@ -205,7 +206,7 @@ M.map_keys_and_commands = function(global_opts)
 
     create_command(
         global_opts.commands.search_debug_prints,
-        require("debugprint").show_debug_prints_fzf,
+        debugprint_printtag_operations.show_debug_prints_fzf,
         {
             desc = "Search for debug prints using fzf-lua or telescope.nvim",
         }
@@ -213,7 +214,7 @@ M.map_keys_and_commands = function(global_opts)
 
     create_command(
         global_opts.commands.debug_print_qf_list,
-        require("debugprint").debug_print_qf_list,
+        debugprint_printtag_operations.debug_print_qf_list,
         {
             desc = "Search for debug prints and populate quickfix list",
         }
