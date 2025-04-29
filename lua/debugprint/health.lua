@@ -1,9 +1,16 @@
 local M = {}
 
+---@type debugprint.GlobalOptions
+local global_opts
+
+---@param opts debugprint.GlobalOptions
+---@return nil
+M.set_global_opts = function(opts)
+    global_opts = opts
+end
+
 M.check = function()
     vim.health.start("debugprint.nvim report")
-
-    local global_opts = require("debugprint")._get_global_opts()
 
     if global_opts ~= nil then
         vim.health.ok("debugprint has been set up")

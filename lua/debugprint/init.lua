@@ -384,6 +384,8 @@ M.setup = function(opts)
     global_opts =
         require("debugprint.options").get_and_validate_global_opts(opts)
 
+    require("debugprint.health").set_global_opts(global_opts)
+
     require("debugprint.setup").map_keys_and_commands(global_opts)
 
     if global_opts.highlight_lines then
@@ -392,11 +394,6 @@ M.setup = function(opts)
             global_opts.print_tag
         )
     end
-end
-
----@return debugprint.GlobalOptions
-M._get_global_opts = function()
-    return global_opts
 end
 
 ---@param filetypes debugprint.FileTypeConfigOrDynamic[]
