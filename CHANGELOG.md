@@ -1,5 +1,35 @@
 # Changelog
 
+## [6.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.1.0...v6.0.0) (2025-04-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support telescope in addition to fzf-lua - closes #166
+* Use namespace-prefixed type names - closes #161
+
+### Features
+
+* Add astro support - closes [#165](https://github.com/andrewferrier/debugprint.nvim/issues/165) ([1cba9ac](https://github.com/andrewferrier/debugprint.nvim/commit/1cba9ac0a048b7ee203fa526c8b01e4d3b3861c7))
+* Add debugprint 'surrounding' - closes [#162](https://github.com/andrewferrier/debugprint.nvim/issues/162) ([17939a5](https://github.com/andrewferrier/debugprint.nvim/commit/17939a573617ed4563b2fb19f3197310840b3cc0))
+* Add luau support - closes [#164](https://github.com/andrewferrier/debugprint.nvim/issues/164) ([1d395ba](https://github.com/andrewferrier/debugprint.nvim/commit/1d395baf52a515dce144f6d78f8fb00fe06ed574))
+* Implement SearchDebugPrintsFzfLua command ([0a8205b](https://github.com/andrewferrier/debugprint.nvim/commit/0a8205befbaad9f97c56b920b0b84e77fffb60b9))
+* Improve checkhealth messages ([ac58cff](https://github.com/andrewferrier/debugprint.nvim/commit/ac58cff93bf8533eb721245d2d5a91d902de59f3))
+* Support DebugPrintQFList ([6274055](https://github.com/andrewferrier/debugprint.nvim/commit/62740555f63be35355c19217485f9c2b340ad1be))
+* Support telescope in addition to fzf-lua - closes [#166](https://github.com/andrewferrier/debugprint.nvim/issues/166) ([efb4b4d](https://github.com/andrewferrier/debugprint.nvim/commit/efb4b4d124b1363870bd6fec1e3de969a61103eb))
+
+
+### Bug Fixes
+
+* Add missing defaults and correct validation ([ff594cc](https://github.com/andrewferrier/debugprint.nvim/commit/ff594ccb71b5c51a153e4032e3977ff4fccb2496))
+* Add missing search_debug_prints field to types ([161e519](https://github.com/andrewferrier/debugprint.nvim/commit/161e51955dcf80c6a17187a527dd6d14e3cc1f6e))
+* Attempt to fix incompatibility with grepprg values ([8adb3bc](https://github.com/andrewferrier/debugprint.nvim/commit/8adb3bc655324841f29dbdaa800d19e7a059d186))
+
+
+### Code Refactoring
+
+* Use namespace-prefixed type names - closes [#161](https://github.com/andrewferrier/debugprint.nvim/issues/161) ([bf82426](https://github.com/andrewferrier/debugprint.nvim/commit/bf82426e466fd2079025b7b240ea53d0ae841eda))
+
 ## [5.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.0.1...v5.1.0) (2025-01-25)
 
 
