@@ -82,7 +82,7 @@ M.toggle_comment_debugprints = function(opts)
 end
 
 ---@return nil
-M.show_debug_prints_fzf = function()
+M.show_debug_prints_fuzzy_finder = function()
     local ok, fzf = pcall(require, "fzf-lua")
 
     if ok then
