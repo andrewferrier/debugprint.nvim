@@ -72,6 +72,11 @@ generation. It:
 ==============================================================================
 3. Demo                                                 *debugprint.nvim-demo*
 
+Recent interview video showing most of the key features of debugprint:
+
+
+
+Older, shorter demo video showing basic features.
 
 
 ==============================================================================
