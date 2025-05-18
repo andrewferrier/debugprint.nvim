@@ -62,9 +62,13 @@ the NeoVim generation. It:
 
 ## Demo
 
-<div align="center">
-  <video src="https://github.com/andrewferrier/debugprint.nvim/assets/107015/e1a8b93b-0c8f-4f02-86e8-cbe1d476940c" type="video/mp4"></video>
-</div>
+Recent interview video showing most of the key features of debugprint:
+
+<a href="https://www.youtube.com/watch?v=ae-C0hXsZ0g">
+  <img src="https://img.youtube.com/vi/ae-C0hXsZ0g/maxresdefault.jpg" alt="Recent interview video showing most of the key features of debugprint" width="50%"/>
+</a>
+
+<a href="https://github.com/andrewferrier/debugprint.nvim/assets/107015/e1a8b93b-0c8f-4f02-86e8-cbe1d476940c">Older, shorter demo video showing basic features.</a>
 
 ## Installation
 
