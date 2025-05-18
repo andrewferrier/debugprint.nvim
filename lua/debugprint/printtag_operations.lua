@@ -83,9 +83,9 @@ end
 
 ---@return nil
 M.show_debug_prints_fuzzy_finder = function()
-    local ok, fzf = pcall(require, "fzf-lua")
+    local ok_fzf, fzf = pcall(require, "fzf-lua")
 
-    if ok then
+    if ok_fzf then
         fzf.grep({
             prompt = "Debug Prints> ",
             search = print_tag,
@@ -104,6 +104,7 @@ M.show_debug_prints_fuzzy_finder = function()
     end
 
     local ok_snacks, snacks = pcall(require, "snacks")
+
     if ok_snacks then
         snacks.picker.grep({
             title = "Debug Prints> ",
@@ -113,7 +114,7 @@ M.show_debug_prints_fuzzy_finder = function()
     end
 
     vim.notify(
-        "Neither fzf-lua,telescope.nvim or snacks.nvim is available for :SearchDebugPrints",
+        "None of fzf-lua,telescope.nvim or snacks.nvim is available for :SearchDebugPrints",
         vim.log.levels.ERROR
     )
 end
