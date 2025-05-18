@@ -55,7 +55,7 @@ the NeoVim generation. It:
 
 - Provides [commands](#keymappings-and-commands) to delete or comment debugging
   lines added to the current buffer, search for those lines in the current directory
-  (project) using fzf-lua or telescope, and add those lines to the quickfix
+  (project) using fzf-lua ,telescope or snacks.nvim, and add those lines to the quickfix
   list.
 
 - Can optionally move to the inserted line (or not).
@@ -83,9 +83,10 @@ return {
     -- opts = { … },
 
     dependencies = {
-        "echasnovski/mini.nvim",        -- Optional: Needed for line highlighting
-        "ibhagwan/fzf-lua",             -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
-        "nvim-telescope/telescope.nvim" -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
+        "echasnovski/mini.nvim", -- Optional: Needed for line highlighting
+        "ibhagwan/fzf-lua", -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
+        "nvim-telescope/telescope.nvim", -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
+        "folke/snacks.nvim", -- Optional: If you want to use the :SearchDebugPrints command with snacks.nvim
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -135,7 +136,7 @@ following table.
 | Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                    | -                          |
 | Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                         | -                          |
 | Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation) | -                          |
-| Command    | `:SearchDebugPrints`        | Search for all debug print lines in the current directory using fzf-lua or telescope.nvim | -                |
+| Command    | `:SearchDebugPrints`        | Search for all debug print lines in the current directory using fzf-lua, telescope.nvim or snacks.nvim | -                |
 | Command    | `:DebugPrintQFList`         | Search for all debug print lines in the current directory and populate quickfix list | -                |
 
 Each of the keymappings (except for 'surround' keys and insert modes) can also
@@ -262,7 +263,7 @@ they are used to convert sections to ROT-13, which most folks don't use.
 | Comment/uncomment all debug lines in buffer                         | :+1:                           | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Comment/uncomment all debug lines in selected range                 | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can put debugprint text into register                               | :+1:                           | :x:                                                   | :x:                                                             | :+1:                                                      | :x:                                                                  | :x:                                                 | :x:                                                   |
-| Search for debugprint lines using fzf-lua or telescope              | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
+| Search for debugprint lines using fzf-lua, telescope.nvim or snacks.nvim              | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Search for debugprint lines and populate quickfix list              | :+1:                           | :x:                                                   | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Extra visual emphasis of log statements                             | :+1: Highlights inserted lines | :+1: Flashes to highlight lines on insertion          | :+1: status line counter, signcolumn, line-highlight, scrollbar | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |
 | Can insert logs in batches                                          | :+1: (using registers)         | :+1:                                                  | :x:                                                             | :x:                                                       | :x:                                                                  | :x:                                                 | :x:                                                   |

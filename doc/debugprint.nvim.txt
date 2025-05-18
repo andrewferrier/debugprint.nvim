@@ -65,7 +65,7 @@ generation. It:
     lines.
 - Provides |debugprint.nvim-commands| to delete or comment debugging lines added
     to the current buffer, search for those lines in the current directory
-    (project) using fzf-lua or telescope, and add those lines to the quickfix list.
+    (project) using fzf-lua,telescope or snacks.nvim and add those lines to the quickfix list.
 - Can optionally move to the inserted line (or not).
 
 
@@ -89,15 +89,16 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
 >lua
     return {
         "andrewferrier/debugprint.nvim",
-    
+
         -- opts = { … },
-    
+
         dependencies = {
             "echasnovski/mini.nvim",        -- Optional: Needed for line highlighting
             "ibhagwan/fzf-lua",             -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
             "nvim-telescope/telescope.nvim" -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
+            "folke/snacks.nvim",            -- Optional: If you want to use the :SearchDebugPrints command with snacks.nvim
         },
-    
+
         lazy = false, -- Required to make line highlighting work before debugprint is first used
         version = "*", -- Remove if you DON'T want to use the stable version
     }
@@ -137,10 +138,10 @@ following table.
   Normal       g?V                         Variable debug                          Above
 
   Normal       None                        Variable debug (always prompt for       Below
-                                           variable)                               
+                                           variable)
 
   Normal       None                        Variable debug (always prompt for       Above
-                                           variable)                               
+                                           variable)
 
   Normal       g?sp                        Plain debug                             Above and
                                                                                    below
@@ -161,7 +162,7 @@ following table.
   Insert       Ctrl-G p                    Plain debug                             In-place
 
   Insert       Ctrl-G v                    Variable debug (always prompt for       In-place
-                                           variable)                               
+                                           variable)
 
   Visual       g?v                         Variable debug                          Below
 
@@ -180,16 +181,16 @@ following table.
   Command      :ToggleCommentDebugPrints   Comment/uncomment debug lines in buffer -
 
   Command      :ResetDebugPrintsCounter    Reset debug print persistent counter    -
-                                           (only for built-in counter              
-                                           implementation)                         
+                                           (only for built-in counter
+                                           implementation)
 
   Command      :SearchDebugPrints          Search for all debug print lines in the -
-                                           current directory using fzf-lua or      
-                                           telescope.nvim                          
+                                           current directory using fzf-lua,
+                                           telescope.nvim or snacks.nvim
 
   Command      :DebugPrintQFList           Search for all debug print lines in the -
-                                           current directory and populate quickfix 
-                                           list                                    
+                                           current directory and populate quickfix
+                                           list
   ----------------------------------------------------------------------------------------------
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the showcase <SHOWCASE.md#register-usage> for
@@ -293,7 +294,7 @@ they are used to convert sections to ROT-13, which most folks don’t use.
                                       more information on customization and limitations
 
   filetypes              See (the     Custom filetypes - see showcase
-                         code)        
+                         code)
 
   print_tag              DEBUGPRINT   The string inserted into each print statement, which can
                                       be used to uniquely identify statements inserted by
@@ -323,110 +324,110 @@ they are used to convert sections to ROT-13, which most folks don’t use.
   Feature                 debugprint.nvim   timber.nvim   nvim-chainsaw     printer.nvim   refactoring.nvim   vim-printer   logsitter
   ----------------------- ----------------- ------------- ----------------- -------------- ------------------ ------------- -----------
   Include line numbers in :+1:              :+1: (via     :+1: (via user    :+1:           :+1:               :x:           :+1:
-  log lines                                 user config)  config)                                                           
+  log lines                                 user config)  config)
 
   Include other location  :+1:              :x:           :+1: (via user    :+1:           :+1:               :x:           :+1:
-  information in log                                      config)                                                           
-  lines                                                                                                                     
+  information in log                                      config)
+  lines
 
   Persistent location     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  counter between NeoVim                                                                                                    
-  sessions                                                                                                                  
+  counter between NeoVim
+  sessions
 
   Print plain debug lines :+1:              :+1: (via     :+1:              :x:            :+1:               :x:           :x:
-                                            user config)                                                                    
+                                            user config)
 
   Print variables using   :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
-  treesitter                                                                                                                
+  treesitter
 
   ‘Surround’ lines with   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  debugging above and                                                                                                       
-  below                                                                                                                     
+  debugging above and
+  below
 
   Use treesitter to       (some languages)  :+1:          :+1:              :x:            :x:                :x:           :x:
-  locate log targets                                                                                                        
+  locate log targets
 
   Use treesitter to       :x:               :+1:          :+1:              :x:            :x:                :x:           :x:
-  intelligently insert                                                                                                      
-  log lines                                                                                                                 
+  intelligently insert
+  log lines
 
   Enter                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  variables/expressions                                                                                                     
-  using prompts                                                                                                             
+  variables/expressions
+  using prompts
 
   Fallback to variables   :+1:              :x:           :+1:              :x:            :x:                :+1:          :x:
-  using current                                                                                                             
-  word/heuristic                                                                                                            
+  using current
+  word/heuristic
 
   Print variables using   :+1:              :+1:          :x:               :+1:           :x:                :x:           :x:
-  motions/operator                                                                                                          
+  motions/operator
 
   Add plain or variable   :+1:              :x:           :x:               :x::           :x:                :x:           :x:
-  debug lines in insert                                                                                                     
-  mode                                                                                                                      
+  debug lines in insert
+  mode
 
   Add variable debug      :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :x:
-  lines in visual mode                                                                                                      
+  lines in visual mode
 
   Print assertions        :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                            user config)                                                                    
+                                            user config)
 
   Print stack traces      :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                            user config)                                                                    
+                                            user config)
 
   Add time-tracking logic :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                            user config)                                                                    
+                                            user config)
 
   Add debugging           :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-  breakpoints                               user config)                                                                    
+  breakpoints                               user config)
 
   Print debug lines       :+1:              :+1:          :x:               (via global    :x:                :+1:          :x:
-  above/below current                                                       config)                                         
-  line                                                                                                                      
+  above/below current                                                       config)
+  line
 
   Supports dot-repeat     :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
 
   Can control whether to  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  move to inserted lines                                                                                                    
+  move to inserted lines
 
   Clean up/delete all     :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
-  debug lines in buffer                                                                                                     
+  debug lines in buffer
 
   Comment/uncomment all   :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
-  debug lines in buffer                                                                                                     
+  debug lines in buffer
 
   Comment/uncomment all   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  debug lines in selected                                                                                                   
-  range                                                                                                                     
+  debug lines in selected
+  range
 
   Can put debugprint text :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
-  into register                                                                                                             
+  into register
 
   Search for debugprint   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  lines using fzf-lua or                                                                                                    
-  telescope                                                                                                                 
+  lines using fzf-lua
+  telescope, or snacks.nvim
 
   Search for debugprint   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  lines and populate                                                                                                        
-  quickfix list                                                                                                             
+  lines and populate
+  quickfix list
 
   Extra visual emphasis   :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
-  of log statements       inserted lines    to highlight  counter,                                                          
-                                            lines on      signcolumn,                                                       
-                                            insertion     line-highlight,                                                   
-                                                          scrollbar                                                         
+  of log statements       inserted lines    to highlight  counter,
+                                            lines on      signcolumn,
+                                            insertion     line-highlight,
+                                                          scrollbar
 
   Can insert logs in      :+1: (using       :+1:          :x:               :x:            :x:                :x:           :x:
-  batches                 registers)                                                                                        
+  batches                 registers)
 
   Log watcher mechanism   :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
   Dynamic filetype        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  configuration/log                                                                                                         
-  templates                                                                                                                 
+  configuration/log
+  templates
 
   Completely customizable :x:               :+1:          :+1:              :+1:           :x:                :x:           :x:
-  log templates                                                                                                             
+  log templates
 
   Built-in support for:   -                 -             -                 -              -                  -             -
 
