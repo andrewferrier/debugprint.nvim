@@ -38,7 +38,8 @@ the NeoVim generation. It:
   basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis).
 
 - Will highlight inserted lines to make them easier to find in your code
-  (depends on [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns)).
+  (depends on [mini.nvim](https://github.com/echasnovski/mini.nvim/)
+  or [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns)).
 
 - Can output the value of variables (or in some cases, expressions) - it will
   detect a variable name under the cursor for some languages using Treesitter, or
@@ -83,7 +84,10 @@ return {
     -- opts = { … },
 
     dependencies = {
-        "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting
+        "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
+                                         -- ... or ...
+        "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+
         "ibhagwan/fzf-lua",              -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
         "nvim-telescope/telescope.nvim", -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
         "folke/snacks.nvim",             -- Optional: If you want to use the :SearchDebugPrints command with snacks.nvim
