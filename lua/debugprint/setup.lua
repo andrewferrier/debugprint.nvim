@@ -208,7 +208,7 @@ M.map_keys_and_commands = function(global_opts)
         global_opts.commands.search_debug_prints,
         debugprint_printtag_operations.show_debug_prints_fuzzy_finder,
         {
-            desc = "Search for debug prints using fzf-lua or telescope.nvim",
+            desc = "Search for debug prints using fzf-lua, telescope.nvim or snacks.nvim",
         }
     )
 
