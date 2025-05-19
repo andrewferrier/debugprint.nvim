@@ -155,7 +155,7 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim" -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+            "echasnovski/mini.nvim" -- Needed for `:Debugprint commenttoggle` (not needed for NeoVim 0.10+)
         }
     })
     …
@@ -167,7 +167,7 @@ Example for [`mini.deps`](https://github.com/echasnovski/mini.nvim):
 ```lua
 add({
     source = 'andrewferrier/debugprint.nvim',
-    depends = { 'echasnovski/mini.nvim' }, -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+    depends = { 'echasnovski/mini.nvim' }, -- Needed for `:Debugprint commenttoggle` (not needed for NeoVim 0.10+)
 })
 ```
 
