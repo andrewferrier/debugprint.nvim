@@ -99,9 +99,9 @@ Example for `lazy.nvim` <https://github.com/folke/lazy.nvim>:
                                              -- ... or ...
             "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
     
-            "ibhagwan/fzf-lua",              -- Optional: If you want to use the :SearchDebugPrints command with fzf-lua
-            "nvim-telescope/telescope.nvim", -- Optional: If you want to use the :SearchDebugPrints command with telescope.nvim
-            "folke/snacks.nvim",             -- Optional: If you want to use the :SearchDebugPrints command with snacks.nvim
+            "ibhagwan/fzf-lua",              -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
+            "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
+            "folke/snacks.nvim",             -- Optional: If you want to use the `:Debugprint search` command with snacks.nvim
         },
     
         lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -307,7 +307,7 @@ should be used.
 
 - `debugprint` does not handle deleting reformatted debug lines where a
     formatter has split them across multiple lines. If you want to be able to easily
-    delete your debug lines using `DeleteDebugPrints` or similar, don’t format your
+    delete your debug lines using `Debugprint delete` or similar, don’t format your
     file between inserting them and running this command. See this
     issue <https://github.com/andrewferrier/debugprint.nvim/issues/119> for
     discussion on this.
