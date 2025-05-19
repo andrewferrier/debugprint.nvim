@@ -114,7 +114,7 @@ M.show_debug_prints_fuzzy_finder = function()
     end
 
     vim.notify(
-        "None of fzf-lua,telescope.nvim or snacks.nvim is available for :SearchDebugPrints",
+        "None of fzf-lua, telescope.nvim or snacks.nvim are available",
         vim.log.levels.ERROR
     )
 end
