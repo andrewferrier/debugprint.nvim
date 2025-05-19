@@ -13,14 +13,61 @@ local map_key = function(mode, lhs, opts)
     end
 end
 
----@param name string|false
+---@param old_name string|false
+---@param _new_name string|false
 ---@param command function(vim.api.keyset.create_user_command.command_args):nil
 ---@param opts vim.api.keyset.user_command
 ---@return nil
-local create_command = function(name, command, opts)
-    if name ~= nil and name ~= "" and name ~= false then
-        vim.api.nvim_create_user_command(name, command, opts)
+local create_deprecated_command = function(old_name, _new_name, command, opts)
+    if old_name ~= nil and old_name ~= "" and old_name ~= false then
+        vim.api.nvim_create_user_command(old_name, function(args)
+            -- FIXME: Don't yet issue deprecation warning
+            -- vim.notify_once(
+            --     string.format(
+            --         "Command :%s is deprecated, use :Debugprint %s instead",
+            --         old_name,
+            --         new_name
+            --     ),
+            --     vim.log.levels.WARN
+            -- )
+            command(args)
+        end, opts)
     end
+end
+
+local create_master_command = function()
+    vim.api.nvim_create_user_command("Debugprint", function(args)
+        local subcommand = args.fargs[1]:lower()
+        local subcommands = {
+            delete = debugprint_printtag_operations.deleteprints,
+            commenttoggle = debugprint_printtag_operations.toggle_comment_debugprints,
+            resetcounter = require("debugprint.counter").reset_debug_prints_counter,
+            search = debugprint_printtag_operations.show_debug_prints_fuzzy_finder,
+            qflist = debugprint_printtag_operations.debug_print_qf_list,
+        }
+
+        if subcommands[subcommand] then
+            subcommands[subcommand](args)
+        else
+            vim.notify(
+                string.format("Unknown subcommand: %s", subcommand),
+                vim.log.levels.ERROR
+            )
+        end
+    end, {
+        nargs = "+",
+        complete = function()
+            return {
+                "delete",
+                "commenttoggle",
+                "resetcounter",
+                "search",
+                "qflist",
+            }
+        end,
+        desc = "Master command for debugprint operations",
+        range = true,
+    })
 end
 
 ---@param global_opts debugprint.GlobalOptions
@@ -178,8 +225,9 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Comment/uncomment all debugprint statements in the current buffer",
     })
 
-    create_command(
+    create_deprecated_command(
         global_opts.commands.delete_debug_prints,
+        "delete",
         debugprint_printtag_operations.deleteprints,
         {
             range = true,
@@ -187,8 +235,9 @@ M.map_keys_and_commands = function(global_opts)
         }
     )
 
-    create_command(
+    create_deprecated_command(
         global_opts.commands.toggle_comment_debug_prints,
+        "commenttoggle",
         debugprint_printtag_operations.toggle_comment_debugprints,
         {
             range = true,
@@ -196,29 +245,34 @@ M.map_keys_and_commands = function(global_opts)
         }
     )
 
-    create_command(
+    create_deprecated_command(
         global_opts.commands.reset_debug_prints_counter,
+        "resetcounter",
         require("debugprint.counter").reset_debug_prints_counter,
         {
             desc = "Reset the debugprint counter to 0",
         }
     )
 
-    create_command(
+    create_deprecated_command(
         global_opts.commands.search_debug_prints,
+        "search",
         debugprint_printtag_operations.show_debug_prints_fuzzy_finder,
         {
             desc = "Search for debug prints using fzf-lua, telescope.nvim or snacks.nvim",
         }
     )
 
-    create_command(
+    create_deprecated_command(
         global_opts.commands.debug_print_qf_list,
+        "qflist",
         debugprint_printtag_operations.debug_print_qf_list,
         {
             desc = "Search for debug prints and populate quickfix list",
         }
     )
+
+    create_master_command()
 end
 
 return M

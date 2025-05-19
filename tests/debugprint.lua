@@ -75,8 +75,13 @@ local init_file = function(lines, extension, row, col, opts)
 end
 
 local notify_message
+local notify_message_warnerr
 
-vim.notify = function(msg, _)
+vim.notify = function(msg, level)
+    if level == vim.log.levels.ERROR or level == vim.log.levels.WARN then
+        notify_message_warnerr = msg
+    end
+
     notify_message = msg
 end
 
@@ -107,8 +112,8 @@ local teardown = function(opts)
     pcall(vim.keymap.del, { "n", "x" }, "g?V")
     pcall(vim.keymap.del, "n", "g?o")
     pcall(vim.keymap.del, "n", "g?O")
+    pcall(vim.api.nvim_del_user_command, "Debugprint")
     pcall(vim.api.nvim_del_user_command, "DeleteDebugPrints")
-    pcall(vim.api.nvim_del_user_command, "ToggleCommentDebugPrints")
     vim.cmd("set modifiable")
 
     if opts.reset_counter then
@@ -1588,30 +1593,7 @@ describe("delete lines command", function()
         }, "lua", 2, 1)
 
         feedkeys("g?p")
-        vim.cmd("DeleteDebugPrints")
-
-        assert.equals(notify_message, "1 debug line deleted.")
-
-        check_lines({
-            "function x()",
-            "    local xyz = 3",
-            "end",
-        })
-    end)
-
-    it("with custom command", function()
-        assert.equals(notify_message, nil)
-
-        debugprint.setup({ commands = { delete_debug_prints = "FooBar" } })
-
-        init_file({
-            "function x()",
-            "    local xyz = 3",
-            "end",
-        }, "lua", 2, 1)
-
-        feedkeys("g?p")
-        vim.cmd("FooBar")
+        vim.cmd("Debugprint delete")
 
         assert.equals(notify_message, "1 debug line deleted.")
 
@@ -1634,7 +1616,7 @@ describe("delete lines command", function()
         }, "lua", 1, 0)
 
         feedkeys("g?pg?vwibble<CR>g?p")
-        vim.cmd("DeleteDebugPrints")
+        vim.cmd("Debugprint delete")
         assert.equals(notify_message, "3 debug lines deleted.")
 
         check_lines({
@@ -1657,7 +1639,7 @@ describe("delete lines command", function()
 
         feedkeys("g?pg?pg?pg?p")
 
-        vim.cmd("2 DeleteDebugPrints")
+        vim.cmd("2 Debugprint delete")
         assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
@@ -1689,7 +1671,7 @@ describe("delete lines command", function()
 
         feedkeys("g?pg?pg?pg?p")
 
-        vim.cmd("2,3 DeleteDebugPrints")
+        vim.cmd("2,3 Debugprint delete")
         assert.equals(notify_message, "2 debug lines deleted.")
 
         check_lines({
@@ -1718,7 +1700,7 @@ describe("delete lines command", function()
         feedkeys("g?p")
         feedkeys("g?P")
 
-        vim.cmd("1 DeleteDebugPrints")
+        vim.cmd("1 Debugprint delete")
         assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
@@ -1742,7 +1724,7 @@ describe("delete lines command", function()
         feedkeys("g?p")
         feedkeys("g?P")
 
-        vim.cmd("$ DeleteDebugPrints")
+        vim.cmd("$ Debugprint delete")
         assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
@@ -1765,7 +1747,7 @@ describe("delete lines command", function()
         }, "lua", 2, 1)
 
         feedkeys("g?p")
-        vim.cmd("DeleteDebugPrints")
+        vim.cmd("Debugprint delete")
         assert.equals(notify_message, "1 debug line deleted.")
 
         check_lines({
@@ -2052,7 +2034,7 @@ describe("comment toggle", function()
         }, "lua", 1, 1)
 
         feedkeys("g?p")
-        vim.cmd("ToggleCommentDebugPrint")
+        vim.cmd("Debugprint commenttoggle")
         feedkeys("jjg?p")
         assert.equals(notify_message, "1 debug line comment-toggled.")
 
@@ -2068,7 +2050,7 @@ describe("comment toggle", function()
             "end",
         })
 
-        vim.cmd("ToggleCommentDebugPrint")
+        vim.cmd("Debugprint commenttoggle")
         assert.equals(notify_message, "2 debug lines comment-toggled.")
 
         check_lines({
@@ -2097,7 +2079,7 @@ describe("comment toggle", function()
         feedkeys("g?p")
         feedkeys("jj")
         feedkeys("g?p")
-        vim.cmd("2 ToggleCommentDebugPrint")
+        vim.cmd("2 Debugprint commenttoggle")
         assert.equals(notify_message, "1 debug line comment-toggled.")
 
         check_lines({
@@ -2152,7 +2134,7 @@ describe("quickfix list", function()
 
     after_each(teardown)
 
-    it("can use DebugPrintQFList command", function()
+    it("can use Debugprint qflist command", function()
         local filename = init_file({
             "foo",
             "bar",
@@ -2167,7 +2149,7 @@ describe("quickfix list", function()
             "bar",
         })
 
-        vim.cmd("DebugPrintQFList")
+        vim.cmd("Debugprint qflist")
 
         local qflist = vim.fn.getqflist()
         assert.equals(#qflist, 1)
@@ -2352,7 +2334,7 @@ describe("check for variations of printtag/display_counter", function()
         assert.equals(notify_message, nil)
     end)
 
-    it("basic DeleteDebugPrints", function()
+    it("basic Debugprint delete", function()
         assert.equals(notify_message, nil)
 
         debugprint.setup({ print_tag = "" })
@@ -2364,7 +2346,7 @@ describe("check for variations of printtag/display_counter", function()
         }, "lua", 2, 1)
 
         feedkeys("g?p")
-        vim.cmd("DeleteDebugPrints")
+        vim.cmd("Debugprint delete")
 
         assert.equals(notify_message, "No print_tag set, cannot delete lines.")
 
@@ -2376,7 +2358,7 @@ describe("check for variations of printtag/display_counter", function()
         })
     end)
 
-    it("basic ToggleCommentDebugPrint", function()
+    it("basic commenttoggle", function()
         assert.equals(notify_message, nil)
 
         debugprint.setup({ print_tag = "" })
@@ -2388,7 +2370,7 @@ describe("check for variations of printtag/display_counter", function()
         }, "lua", 1, 1)
 
         feedkeys("g?p")
-        vim.cmd("ToggleCommentDebugPrints")
+        vim.cmd("Debugprint commenttoggle")
 
         assert.equals(
             notify_message,
@@ -2809,42 +2791,6 @@ describe("can disable built-in keymaps/commands", function()
         })
 
         assert.equals(notify_message, nil)
-    end)
-
-    it("custom command nil - does NOT disable", function()
-        assert.equals(notify_message, nil)
-
-        debugprint.setup({ commands = { delete_debug_prints = nil } })
-        assert.equals(command_exists("DeleteDebugPrints"), true)
-
-        init_file({
-            "function x()",
-            "    local xyz = 3",
-            "end",
-        }, "lua", 2, 1)
-
-        feedkeys("g?p")
-        vim.cmd("DeleteDebugPrint")
-
-        assert.equals(notify_message, "1 debug line deleted.")
-
-        check_lines({
-            "function x()",
-            "    local xyz = 3",
-            "end",
-        })
-    end)
-
-    -- These cannot be tested directly because there doesn't seem to be a way to
-    -- intercept a Vim-level error
-    it("custom command false - does disable", function()
-        debugprint.setup({ commands = { delete_debug_prints = false } })
-        assert.equals(command_exists("DeleteDebugPrints"), false)
-    end)
-
-    it("custom command zero-length string - does disable", function()
-        debugprint.setup({ commands = { delete_debug_prints = "" } })
-        assert.equals(command_exists("DeleteDebugPrints"), false)
     end)
 end)
 
@@ -3396,5 +3342,216 @@ describe("double statement insertion", function()
         })
 
         assert.equals(notify_message, nil)
+    end)
+end)
+
+describe("search command", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(teardown)
+
+    it("can use Debugprint search command", function()
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+        vim.cmd("Debugprint search")
+        -- Note: We can't easily test the actual search functionality since it depends on external plugins
+        -- But we can verify the command exists and doesn't error
+        assert.equals(
+            "None of fzf-lua, telescope.nvim or snacks.nvim are available",
+            notify_message
+        )
+    end)
+end)
+
+describe("new command structure", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(teardown)
+
+    it("shows error for unknown subcommand", function()
+        vim.cmd("Debugprint wibble")
+        assert.True(
+            string.find(notify_message, "Unknown subcommand: wibble") > 0
+        )
+    end)
+
+    it("shows usage message when no subcommand provided", function()
+        -- selene: allow(incorrect_standard_library_use)
+        assert.error_matches(function()
+            vim.cmd("Debugprint")
+        end, "E471: Argument required")
+    end)
+end)
+
+describe("deprecated commands", function()
+    before_each(function()
+        debugprint.setup()
+    end)
+
+    after_each(teardown)
+
+    it("shows deprecation warning for DeleteDebugPrints", function()
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("DeleteDebugPrints")
+
+        -- FIXME: Don't yet issue deprecation warning
+        -- assert.True(
+        --     string.find(
+        --         notify_message_warnerr,
+        --         "Command :DeleteDebugPrints is deprecated"
+        --     ) > 0
+        -- )
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("shows deprecation warning for ToggleCommentDebugPrints", function()
+        local filename = init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 1, 1)
+
+        feedkeys("g?p")
+        vim.cmd("ToggleCommentDebugPrints")
+
+        -- FIXME: Don't yet issue deprecation warning
+        -- assert.True(
+        --     string.find(
+        --         notify_message_warnerr,
+        --         "Command :ToggleCommentDebugPrints is deprecated"
+        --     ) > 0
+        -- )
+        check_lines({
+            "function x()",
+            "    -- print('DEBUGPRINT[1]: "
+                .. filename
+                .. ":1 (after function x())')",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it("shows deprecation warning for ResetDebugPrintsCounter", function()
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        vim.cmd("ResetDebugPrintsCounter")
+
+        -- FIXME: Don't yet issue deprecation warning
+        -- assert.True(
+        --     string.find(
+        --         notify_message_warnerr,
+        --         "Command :ResetDebugPrintsCounter is deprecated"
+        --     ) > 0
+        -- )
+    end)
+
+    it("shows deprecation warning for DebugPrintQFList", function()
+        init_file({
+            "foo",
+            "bar",
+        }, "lua", 1, 0)
+
+        feedkeys("g?p")
+        vim.cmd("DebugPrintQFList")
+
+        -- FIXME: Don't yet issue deprecation warning
+        -- assert.True(
+        --     string.find(
+        --         notify_message_warnerr,
+        --         "Command :DebugPrintQFList is deprecated"
+        --     ) > 0
+        -- )
+    end)
+end)
+
+describe("deprecated commands - custom", function()
+    after_each(teardown)
+
+    it("with custom command", function()
+        assert.equals(notify_message, nil)
+
+        debugprint.setup({ commands = { delete_debug_prints = "FooBar" } })
+
+        init_file({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        }, "lua", 2, 1)
+
+        feedkeys("g?p")
+        vim.cmd("FooBar")
+
+        -- FIXME: Don't yet issue deprecation warning
+        -- assert.True(
+        --     string.find(notify_message_warnerr, "Command :FooBar is deprecated")
+        --         > 0
+        -- )
+        assert.equals(notify_message, "1 debug line deleted.")
+
+        check_lines({
+            "function x()",
+            "    local xyz = 3",
+            "end",
+        })
+    end)
+
+    it(
+        "custom command nil - does NOT disable custom DeleteDebugPrints",
+        function()
+            assert.equals(notify_message, nil)
+
+            debugprint.setup({ commands = { delete_debug_prints = nil } })
+            assert.equals(command_exists("DeleteDebugPrints"), true)
+
+            init_file({
+                "function x()",
+                "    local xyz = 3",
+                "end",
+            }, "lua", 2, 1)
+
+            feedkeys("g?p")
+            vim.cmd("DeleteDebugPrints")
+
+            assert.equals(notify_message, "1 debug line deleted.")
+
+            check_lines({
+                "function x()",
+                "    local xyz = 3",
+                "end",
+            })
+        end
+    )
+
+    -- These cannot be tested directly because there doesn't seem to be a way to
+    -- intercept a Vim-level error
+    it("custom command false - does disable", function()
+        debugprint.setup({ commands = { delete_debug_prints = false } })
+        assert.equals(command_exists("DeleteDebugPrints"), false)
+    end)
+
+    it("custom command zero-length string - does disable", function()
+        debugprint.setup({ commands = { delete_debug_prints = "" } })
+        assert.equals(command_exists("DeleteDebugPrints"), false)
     end)
 end)

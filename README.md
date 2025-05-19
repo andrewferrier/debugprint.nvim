@@ -113,9 +113,8 @@ notified of any breaking changes to `debugprint`.
 ## Keymappings and Commands
 
 By default, the plugin will create some keymappings and commands for use 'out of
-the box'. There are also some function invocations which are not mapped to any
-keymappings or commands by default, but could be. This is all shown in the
-following table.
+the box'. There is also some functionality which is not mapped to any
+keymappings by default, but could be. This is all shown in the following table.
 
 | Mode       | Default Key / Cmd           | Purpose                                                                                                | Above/Below Line           |
 | ---------- | --------------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------- |
@@ -137,20 +136,19 @@ following table.
 | Op-pending | `g?o`                       | Variable debug                                                                                         | Below                      |
 | Op-pending | `g?O`                       | Variable debug                                                                                         | Above                      |
 | Op-pending | `g?so`                      | Variable debug                                                                                         | Above and below (surround) |
-| Command    | `:DeleteDebugPrints`        | Delete debug lines in buffer                                                                           | -                          |
-| Command    | `:ToggleCommentDebugPrints` | Comment/uncomment debug lines in buffer                                                                | -                          |
-| Command    | `:ResetDebugPrintsCounter`  | Reset debug print persistent counter (only for built-in counter implementation)                        | -                          |
-| Command    | `:SearchDebugPrints`        | Search for all debug print lines in the current directory using fzf-lua, telescope.nvim or snacks.nvim | -                          |
-| Command    | `:DebugPrintQFList`         | Search for all debug print lines in the current directory and populate quickfix list                   | -                          |
+| Command    | `:Debugprint delete`        | Delete all debug print statements in the current buffer                                                | -                          |
+| Command    | `:Debugprint commenttoggle` | Comment/uncomment all debug print statements in the current buffer                                     | -                          |
+| Command    | `:Debugprint resetcounter`  | Reset debug print persistent counter (only for built-in counter implementation)                        | -                          |
+| Command    | `:Debugprint search`        | Search for all debug print lines in the current directory using fzf-lua, telescope.nvim or snacks.nvim | -                          |
+| Command    | `:Debugprint qflist`        | Search for all debug print lines in the current directory and populate quickfix list                   | -                          |
 
 Each of the keymappings (except for 'surround' keys and insert modes) can also
 be prefixed with a register, see the [showcase](SHOWCASE.md#register-usage) for
 an example of how to use this to insert debugprint lines in batches.
 
-The keys and commands outlined above can be specifically overridden using the
-`keymaps` and `commands` objects inside the `opts` object used above during
-configuration of debugprint. For example, if configuring via `lazy.nvim`, it
-might look like this:
+The keys outlined above can be specifically overridden using the `keymaps` object
+inside the `opts` object used above during configuration of debugprint. For example,
+if configuring via `lazy.nvim`, it might look like this:
 
 ```lua
 return {
@@ -182,23 +180,20 @@ return {
                 variable_above = "g?V",
             },
         },
-        commands = {
-            toggle_comment_debug_prints = "ToggleCommentDebugPrints",
-            delete_debug_prints = "DeleteDebugPrints",
-            reset_debug_prints_counter = "ResetDebugPrintsCounter",
-            search_debug_prints = "SearchDebugPrints",
-        },
         -- … Other options
     },
 }
 ```
 
-You only need to include the keys / commands which you wish to override, others
-will default as shown above. Setting any key or command to `""` or `false` will
-skip it.
+You only need to include the keys which you wish to override, others will default
+as shown above. Setting any key to `""` or `false` will skip it.
 
 The default keymappings are chosen specifically because ordinarily in NeoVim
 they are used to convert sections to ROT-13, which most folks don't use.
+
+*Note*: As of recent versions of debugprint, the command names should no longer be
+customized, but instead the `Debugprint` top-level command with subcommands
+should be used.
 
 ## Mapping Deprecation
 
