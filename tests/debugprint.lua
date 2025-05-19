@@ -75,12 +75,14 @@ local init_file = function(lines, extension, row, col, opts)
 end
 
 local notify_message
-local notify_message_warnerr
+-- FIXME: This will be needed when deprecating the old commands
+-- local notify_message_warnerr
 
-vim.notify = function(msg, level)
-    if level == vim.log.levels.ERROR or level == vim.log.levels.WARN then
-        notify_message_warnerr = msg
-    end
+vim.notify = function(msg, _)
+    -- FIXME: This will be needed when deprecating the old commands
+    -- if level == vim.log.levels.ERROR or level == vim.log.levels.WARN then
+    --     -- notify_message_warnerr = msg
+    -- end
 
     notify_message = msg
 end
