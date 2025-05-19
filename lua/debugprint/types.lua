@@ -83,8 +83,3 @@
 ---@class debugprint.FunctionOptionsInternal: debugprint.FunctionOptions
 ---@field variable_name? string
 ---@field register? string
-
----@class debugprint.CommandOpts
----@field line1 integer
----@field line2 integer
----@field range 1|2

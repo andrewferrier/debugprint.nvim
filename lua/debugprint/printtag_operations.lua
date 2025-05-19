@@ -11,7 +11,7 @@ M.set_print_tag = function(tag)
     print_tag = tag
 end
 
----@param opts debugprint.CommandOpts
+---@param opts vim.api.keyset.create_user_command.command_argstable
 ---@param action function(integer, integer)
 ---@param action_present string
 ---@param action_past string
@@ -54,7 +54,7 @@ local buffer_action = function(opts, action, action_present, action_past)
     )
 end
 
----@param opts debugprint.CommandOpts
+---@param opts vim.api.keyset.create_user_command.command_argstable
 ---@return nil
 M.deleteprints = function(opts)
     local delete_adjust = 0
@@ -72,7 +72,7 @@ M.deleteprints = function(opts)
     end, "delete", "deleted")
 end
 
----@param opts debugprint.CommandOpts
+---@param opts vim.api.keyset.create_user_command.command_argstable
 ---@return nil
 M.toggle_comment_debugprints = function(opts)
     buffer_action(opts, function(count, initial_line)

@@ -132,7 +132,7 @@ M.is_modifiable = function()
     end
 end
 
----@param opts debugprint.CommandOpts
+---@param opts vim.api.keyset.create_user_command.command_argstable
 ---@return string[],integer
 M.get_command_lines_to_handle = function(opts)
     local lines_to_consider

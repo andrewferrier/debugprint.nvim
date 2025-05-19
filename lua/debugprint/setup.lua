@@ -14,8 +14,8 @@ local map_key = function(mode, lhs, opts)
 end
 
 ---@param name string|false
----@param command function
----@param opts table
+---@param command function(vim.api.keyset.create_user_command.command_argstable):nil
+---@param opts vim.api.keyset.user_command
 ---@return nil
 local create_command = function(name, command, opts)
     if name ~= nil and name ~= "" and name ~= false then
