@@ -28,7 +28,7 @@
 ---@field display_snippet? boolean
 ---@field move_to_debugline? boolean
 ---@field notify_for_registers? boolean
----@field highlight_lines? boolean
+---@field highlight_lines? boolean|function(int):boolean
 ---@field filetypes? debugprint.FileTypeConfigOrDynamic[]
 ---@field print_tag? string
 ---Deprecated

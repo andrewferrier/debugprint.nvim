@@ -40,7 +40,30 @@ local GLOBAL_OPTION_DEFAULTS = {
     display_snippet = true,
     move_to_debugline = false,
     notify_for_registers = true,
-    highlight_lines = true,
+    highlight_lines = function(bufnr)
+        -- Check if filetype is 'bigfile' as set by snacks' bigfile support:
+        -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
+        if vim.bo.filetype == "bigfile" then
+            return false
+        end
+
+        -- Check file size on disk
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        if filename ~= "" then
+            local size = vim.fn.getfsize(filename)
+            if size > 0 and size > 512 * 1024 then -- 512KB
+                return false
+            end
+        end
+
+        -- Check line count
+        local line_count = vim.api.nvim_buf_line_count(bufnr)
+        if line_count > 5000 then
+            return false
+        end
+
+        return true
+    end,
     filetypes = require("debugprint.filetypes"),
     print_tag = "DEBUGPRINT",
 }
@@ -58,7 +81,7 @@ local validate_global_opts = function(o)
         display_snippet = { o.display_snippet, "boolean" },
         move_to_debugline = { o.move_to_debugline, "boolean" },
         notify_for_registers = { o.notify_for_registers, "boolean" },
-        highlight_lines = { o.highlight_lines, "boolean" },
+        highlight_lines = { o.highlight_lines, { "function", "boolean" } },
         filetypes = { o.filetypes, "table" },
         print_tag = { o.print_tag, "string" },
     })

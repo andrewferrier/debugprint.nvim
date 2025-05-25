@@ -23,7 +23,8 @@ end
 
 ---@param filetypes debugprint.FileTypeConfig[]
 ---@param print_tag string
-M.setup_highlight = function(filetypes, print_tag)
+---@param highlight_lines_option boolean|function(integer):boolean
+M.setup_highlight = function(filetypes, print_tag, highlight_lines_option)
     if print_tag then
         vim.api.nvim_set_hl(
             0,
@@ -35,13 +36,16 @@ M.setup_highlight = function(filetypes, print_tag)
             callback = function(opts)
                 local buffer_filetype = vim.bo[opts.buf].filetype
 
-                -- Automatically ignore 'bigfiles' as detected by snacks' bigfile
-                -- support:
-                -- https://github.com/folke/snacks.nvim/blob/main/docs/bigfile.md
-                if
-                    buffer_filetype ~= "bigfile"
-                    and filetypes[buffer_filetype] ~= nil
-                then
+                local should_highlight
+
+                -- Check if highlighting should be enabled for this buffer
+                if type(highlight_lines_option) == "function" then
+                    should_highlight = highlight_lines_option(opts.buf)
+                else
+                    should_highlight = highlight_lines_option
+                end
+
+                if should_highlight and filetypes[buffer_filetype] ~= nil then
                     setup_highlight_buffer(print_tag, opts.buf)
                 end
             end,
