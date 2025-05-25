@@ -2555,7 +2555,7 @@ describe("allow display_* to be set in filetypes", function()
     after_each(teardown)
 
     it("display_counter", function()
-        debugprint.setup({ filetypes = { bash = { display_counter = false } } })
+        debugprint.setup({ filetypes = { sh = { display_counter = false } } })
 
         local lua_filename = init_file({
             "foo",

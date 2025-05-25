@@ -4,8 +4,23 @@ local utils_buffer = require("debugprint.utils.buffer")
 
 ---@return TSNode?
 local get_node_at_cursor = function()
+    local lang_filetype = vim.api.nvim_get_option_value("filetype", {})
+
+    -- This workaround appears to be needed for unit testing only on the new
+    -- 'main' branch of nvim-treesitter
+    if lang_filetype == "sh" then
+        lang_filetype = "bash"
+    end
+
+    -- Force parsing, in case needed - appears to be for unit testing
+    local ok, parser = pcall(vim.treesitter.get_parser, 0, lang_filetype)
+    if ok and parser then
+        parser:parse()
+    end
+
     local success, node = pcall(vim.treesitter.get_node, {
         ignore_injections = false,
+        lang = lang_filetype,
     })
 
     -- This will fail if this language is not supported by Treesitter, e.g.
