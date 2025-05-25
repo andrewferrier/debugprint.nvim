@@ -1212,7 +1212,7 @@ describe("can handle treesitter identifiers", function()
     it("special case dot expression (c)", function()
         debugprint.setup()
 
-        init_file({
+        local filename = init_file({
             "int main() {",
             "person.year = 1984;",
             "}",
@@ -1223,7 +1223,9 @@ describe("can handle treesitter identifiers", function()
         check_lines({
             "int main() {",
             "person.year = 1984;",
-            'fprintf(stderr, "DEBUGPRINT[1]: 45.c:2: person.year=%d\\n", person.year);',
+            'fprintf(stderr, "DEBUGPRINT[1]: '
+                .. filename
+                .. ':2: person.year=%d\\n", person.year);',
             "}",
         })
 
