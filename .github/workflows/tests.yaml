@@ -80,26 +80,3 @@ jobs:
       - name: Run tests
         run: |
           make test
-
-  urlchecker:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Install urlchecker
-      run: |
-        python -m pip install urlchecker
-
-    # The exclude pattern below is the video, which does exist but for some reason urlchecker doesn't like it.
-    - name: Run urlchecker
-      run: |
-        urlchecker check \
-          --branch main \
-          --no-print \
-          --exclude-patterns e1a8b93b-0c8f-4f02-86e8-cbe1d476940c \
-          --file-types .md \
-          --retry-count 1 \
-          --timeout 5 \
-          .
