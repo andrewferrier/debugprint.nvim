@@ -1,5 +1,23 @@
 # Changelog
 
+## [6.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.0.0...v6.1.0) (2025-05-28)
+
+
+### Features
+
+* Add support for snacks.picker ([f7e370d](https://github.com/andrewferrier/debugprint.nvim/commit/f7e370d9ac19db1f763ccef9b4b255686f6eded3))
+* fix docs and some user facing strigns to reflect snacks addition ([9d3cfc5](https://github.com/andrewferrier/debugprint.nvim/commit/9d3cfc59ef850fa1d7096ee0087a154eacaabbe8))
+* Start using subcommands - closes [#155](https://github.com/andrewferrier/debugprint.nvim/issues/155) ([ebc43a5](https://github.com/andrewferrier/debugprint.nvim/commit/ebc43a59aae8061fe8ddba78fa6b02a934d6196a))
+
+
+### Bug Fixes
+
+* Better default for large files - closes [#170](https://github.com/andrewferrier/debugprint.nvim/issues/170) ([d10946e](https://github.com/andrewferrier/debugprint.nvim/commit/d10946ee5c87333661ba2ae270888c02ffd4650b))
+* Correct type ([9e636e9](https://github.com/andrewferrier/debugprint.nvim/commit/9e636e98f2199c58985657085f988d9a26bfb79f))
+* Improve message grammar ([5d7c6d5](https://github.com/andrewferrier/debugprint.nvim/commit/5d7c6d5403af4378804be3d3b8eeea506149578c))
+* Issue with sh/bash on nvim-treesitter 'main' ([898a082](https://github.com/andrewferrier/debugprint.nvim/commit/898a08209f1fea5292dc37df25b6811dc1fbc12b))
+* selene issue with unused variable ([1ad3299](https://github.com/andrewferrier/debugprint.nvim/commit/1ad32998445437a31308e643273946de01240f26))
+
 ## [6.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.1.0...v6.0.0) (2025-04-29)
 
 
