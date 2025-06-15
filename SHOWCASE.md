@@ -155,7 +155,13 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim" -- Needed for `:Debugprint commenttoggle` (not needed for NeoVim 0.10+)
+            "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
+                                            -- ... or ...
+            "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+
+            "ibhagwan/fzf-lua",              -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
+            "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
+            "folke/snacks.nvim",             -- Optional: If you want to use the `:Debugprint search` command with snacks.nvim
         }
     })
     …
@@ -167,7 +173,15 @@ Example for [`mini.deps`](https://github.com/echasnovski/mini.nvim):
 ```lua
 add({
     source = 'andrewferrier/debugprint.nvim',
-    depends = { 'echasnovski/mini.nvim' }, -- Needed for `:Debugprint commenttoggle` (not needed for NeoVim 0.10+)
+    depends = {
+        "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
+                                        -- ... or ...
+        "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+
+        "ibhagwan/fzf-lua",              -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
+        "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
+        "folke/snacks.nvim",             -- Optional: If you want to use the `:Debugprint search` command with snacks.nvim
+    }
 })
 ```
 
