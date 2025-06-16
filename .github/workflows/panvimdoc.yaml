@@ -17,7 +17,7 @@ jobs:
           titledatepattern: "%Y-%m-%d"
           shiftheadinglevelby: -1
           dedupsubheadings: false
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "chore: Auto generate Vim docs"
           branch: ${{ github.head_ref }}
