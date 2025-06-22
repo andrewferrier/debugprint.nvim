@@ -39,7 +39,7 @@ if install ~= nil and type(install) == "function" then
         "markdown_inline",
         "php",
         "python",
-    }, { force = true, max_jobs = 1, summary = true }):wait(300000)
+    }, { max_jobs = 1, summary = true }):wait(300000)
 else
     print("'nvim-treesitter' legacy master branch detected.")
     install_parser_if_needed("bash")
