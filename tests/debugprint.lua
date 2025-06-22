@@ -12,39 +12,45 @@ vim.cmd("runtime! plugin/nvim-treesitter.lua")
 vim.cmd("runtime! plugin/filetypes.lua")
 
 local install_parser_if_needed = function(filetype)
-    local install = require("nvim-treesitter").install
-
-    if install ~= nil and type(install) == "function" then
-        -- Probably on new 'main' branch
-        install(filetype, { max_jobs = 1, summary = true }):wait(300000)
+    if vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW") then
+        print("Running in GitHub; installing parser " .. filetype .. "...")
+        vim.cmd("TSInstallSync! " .. filetype)
     else
-        if
-            vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW")
-        then
-            print("Running in GitHub; installing parser " .. filetype .. "...")
+        vim.cmd("new")
+        vim.cmd("only")
+        local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
+        if not ok then
+            print("Cannot load parser for " .. filetype .. ", installing...")
             vim.cmd("TSInstallSync! " .. filetype)
-        else
-            vim.cmd("new")
-            vim.cmd("only")
-            local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
-            if not ok then
-                print(
-                    "Cannot load parser for " .. filetype .. ", installing..."
-                )
-                vim.cmd("TSInstallSync! " .. filetype)
-            end
         end
     end
 end
 
-install_parser_if_needed("bash")
-install_parser_if_needed("html")
-install_parser_if_needed("javascript")
-install_parser_if_needed("lua")
-install_parser_if_needed("markdown")
-install_parser_if_needed("markdown_inline")
-install_parser_if_needed("php")
-install_parser_if_needed("python")
+local install = require("nvim-treesitter").install
+
+if install ~= nil and type(install) == "function" then
+    print("'nvim-treesitter' new main branch detected.")
+    install({
+        "bash",
+        "html",
+        "javascript",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "php",
+        "python",
+    }, { max_jobs = 1, summary = true }):wait(300000)
+else
+    print("'nvim-treesitter' legacy master branch detected.")
+    install_parser_if_needed("bash")
+    install_parser_if_needed("html")
+    install_parser_if_needed("javascript")
+    install_parser_if_needed("lua")
+    install_parser_if_needed("markdown")
+    install_parser_if_needed("markdown_inline")
+    install_parser_if_needed("php")
+    install_parser_if_needed("python")
+end
 
 local current_lua_file = debug.getinfo(1, "S").source:sub(2)
 local current_dir = vim.fn.fnamemodify(current_lua_file, ":h")
