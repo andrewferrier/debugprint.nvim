@@ -71,6 +71,9 @@ jobs:
           neovim: true
           version: ${{ matrix.neovim_branch }}
 
+      - name: Install treesitter CLI
+        uses: tree-sitter/setup-action@v2
+
       - name: Install dependent repos
         run: |
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
