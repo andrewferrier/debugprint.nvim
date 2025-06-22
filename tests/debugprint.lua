@@ -26,30 +26,27 @@ local install_parser_if_needed = function(filetype)
     end
 end
 
+local parsers = {
+    "bash",
+    "html",
+    "javascript",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "php",
+    "python",
+}
+
 local install = require("nvim-treesitter").install
 
 if install ~= nil and type(install) == "function" then
     print("'nvim-treesitter' new main branch detected.")
-    install({
-        "bash",
-        "html",
-        "javascript",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "php",
-        "python",
-    }, { max_jobs = 1, summary = true }):wait(300000)
+    install(parsers, { max_jobs = 1, summary = true }):wait(300000)
 else
     print("'nvim-treesitter' legacy master branch detected.")
-    install_parser_if_needed("bash")
-    install_parser_if_needed("html")
-    install_parser_if_needed("javascript")
-    install_parser_if_needed("lua")
-    install_parser_if_needed("markdown")
-    install_parser_if_needed("markdown_inline")
-    install_parser_if_needed("php")
-    install_parser_if_needed("python")
+    for _, parser in ipairs(parsers) do
+        install_parser_if_needed(parser)
+    end
 end
 
 local current_lua_file = debug.getinfo(1, "S").source:sub(2)
