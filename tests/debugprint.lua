@@ -16,7 +16,7 @@ local install_parser_if_needed = function(filetype)
 
     if install ~= nil and type(install) == "function" then
         -- Probably on new 'main' branch
-        install(filetype):wait(300000)
+        install(filetype, { max_jobs = 1, summary = true }):wait(300000)
     else
         if
             vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW")
