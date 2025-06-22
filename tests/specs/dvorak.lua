@@ -1,6 +1,7 @@
 local debugprint = require("debugprint")
 local support = require("tests.support")
 
+-- See https://github.com/andrewferrier/debugprint.nvim/issues/172 for the history of these tests
 describe("dvorak mapping handled", function()
     before_each(function()
         debugprint.setup()
