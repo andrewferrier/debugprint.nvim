@@ -255,18 +255,6 @@ M.debugprint_operatorfunc_motion = function()
     M.debugprint_operatorfunc_regular()
 end
 
----@param keys string
----@param insert boolean
-local debugprint_insertkeys = function(keys, insert)
-    if keys ~= nil and keys ~= "" then
-        if insert then
-            vim.api.nvim_put({ keys }, "c", true, true)
-        else
-            vim.api.nvim_feedkeys(keys, "xt", true)
-        end
-    end
-end
-
 ---@param opts? debugprint.FunctionOptions
 ---@return string|nil
 M.debugprint = function(opts)
@@ -305,13 +293,13 @@ M.debugprint = function(opts)
 
     if opts.insert == true then
         cache_request = {}
-        debugprint_insertkeys(get_debugprint_line(opts), opts.insert)
+        vim.api.nvim_put({ get_debugprint_line(opts) }, "c", true, true)
     else
         cache_request = opts
         utils_operator.set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
         )
-        debugprint_insertkeys("g@l", opts.insert)
+        vim.api.nvim_cmd({ cmd = "normal", bang = true, args = { "g@l" } }, {})
     end
 end
 
