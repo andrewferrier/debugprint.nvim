@@ -9,18 +9,30 @@ vim.opt.runtimepath:prepend(
 vim.opt.runtimepath:prepend("../nvim-treesitter")
 
 vim.cmd("runtime! plugin/nvim-treesitter.lua")
+vim.cmd("runtime! plugin/filetypes.lua")
 
 local install_parser_if_needed = function(filetype)
-    if vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW") then
-        print("Running in GitHub; installing parser " .. filetype .. "...")
-        vim.cmd("TSInstallSync! " .. filetype)
+    local install = require("nvim-treesitter").install
+
+    if install ~= nil and type(install) == "function" then
+        -- Probably on new 'main' branch
+        install(filetype):wait(300000)
     else
-        vim.cmd("new")
-        vim.cmd("only")
-        local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
-        if not ok then
-            print("Cannot load parser for " .. filetype .. ", installing...")
+        if
+            vim.tbl_contains(vim.tbl_keys(vim.fn.environ()), "GITHUB_WORKFLOW")
+        then
+            print("Running in GitHub; installing parser " .. filetype .. "...")
             vim.cmd("TSInstallSync! " .. filetype)
+        else
+            vim.cmd("new")
+            vim.cmd("only")
+            local ok, _ = pcall(vim.treesitter.get_parser, 0, filetype, {})
+            if not ok then
+                print(
+                    "Cannot load parser for " .. filetype .. ", installing..."
+                )
+                vim.cmd("TSInstallSync! " .. filetype)
+            end
         end
     end
 end
