@@ -16,8 +16,7 @@ local get_node_at_cursor = function()
         ignore_injections = false,
     })
 
-    -- This will fail if this language is not supported by Treesitter, e.g.
-    -- Powershell/ps1
+    -- This will fail if this language is not supported by Treesitter
     if success and node then
         return node
     else
