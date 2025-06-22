@@ -81,7 +81,7 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter ~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter
 
-      - name: Install dependent repos (nightly)
+      - name: Install treesitter (nightly)
         if: matrix.neovim_branch == 'nightly'
         run: |
           git clone --depth 1 --branch main https://github.com/nvim-treesitter/nvim-treesitter ~/.local/share/nvim/site/pack/vendor/start/nvim-treesitter
