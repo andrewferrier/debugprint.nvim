@@ -182,7 +182,7 @@ describe("can handle treesitter identifiers", function()
     it("special case dot expression (c)", function()
         debugprint.setup()
 
-        local filename = support.init_file({
+        support.init_file({
             "int main() {",
             "person.year = 1984;",
             "}",
