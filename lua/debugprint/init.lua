@@ -117,7 +117,7 @@ end
 ---@param opts debugprint.FunctionOptionsInternal
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
-local construct_debugprint_line = function(opts, fileconfig)
+local get_debugprint_line_core = function(opts, fileconfig)
     ---@type string
     local line_to_insert
 
@@ -155,7 +155,7 @@ local get_debugprint_line = function(opts)
         require("debugprint.filetype_config").get(global_opts.filetypes)
 
     if filetype_config ~= nil then
-        line_to_insert = construct_debugprint_line(opts, filetype_config)
+        line_to_insert = get_debugprint_line_core(opts, filetype_config)
     else
         line_to_insert = utils_errors.construct_error_line(
             "No debugprint configuration for filetype "
