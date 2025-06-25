@@ -56,6 +56,17 @@ local get_display_options = function(fileconfig)
     return display_counter, display_location, display_snippet
 end
 
+---@param linenr integer
+---@param fileconfig debugprint.FileTypeConfig
+---@return string
+local get_debugline_location = function(linenr, fileconfig)
+    if fileconfig.location then
+        return fileconfig.location
+    else
+        return vim.fn.expand("%:t") .. ":" .. linenr
+    end
+end
+
 ---@param opts debugprint.FunctionOptionsInternal
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
@@ -86,7 +97,7 @@ local get_debugline_textcontent = function(opts, fileconfig)
     if display_location then
         table.insert(
             line_components,
-            vim.fn.expand("%:t") .. ":" .. current_line_nr
+            get_debugline_location(current_line_nr, fileconfig)
         )
     end
 

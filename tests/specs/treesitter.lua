@@ -189,13 +189,10 @@ describe("can handle treesitter identifiers", function()
         }, "c", 2, 10)
 
         support.feedkeys("g?v")
-
         support.check_lines({
             "int main() {",
             "person.year = 1984;",
-            'fprintf(stderr, "DEBUGPRINT[1]: '
-                .. filename
-                .. ':2: person.year=%d\\n", person.year);',
+            'fprintf(stderr, "DEBUGPRINT[1]: %s:%d: person.year=%d\\n", __FILE__, __LINE__, person.year);',
             "}",
         })
 

@@ -104,9 +104,10 @@ return {
     ["bash"] = shell,
     ["c"] = {
         left = 'fprintf(stderr, "',
-        right = '\\n");',
-        mid_var = '%d\\n", ',
+        right = '\\n", __FILE__, __LINE__);',
+        mid_var = '%d\\n", __FILE__, __LINE__, ',
         right_var = ");",
+        location = "%s:%d",
         find_treesitter_variable = function(node)
             if node:type() == "field_expression" then
                 return vim.treesitter.get_node_text(node, 0)
@@ -140,6 +141,7 @@ return {
         right = '" << std::endl;',
         mid_var = '" << ',
         right_var = " << std::endl;",
+        location = '" << __FILE__ << ":" << __LINE__ << "',
     },
     ["cs"] = cs,
     ["c_sharp"] = cs,
