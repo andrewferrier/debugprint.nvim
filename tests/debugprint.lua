@@ -28,6 +28,7 @@ end
 
 local parsers = {
     "bash",
+    "cpp",
     "html",
     "javascript",
     "lua",
