@@ -13,6 +13,7 @@ local shell = {
     right = '"',
     mid_var = "${",
     right_var = '}"',
+    location = "$0:$LINENO",
     ---@param node TSNode
     find_treesitter_variable = function(node)
         if node:type() == "variable_name" then

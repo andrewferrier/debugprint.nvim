@@ -28,7 +28,7 @@ describe("allow display_* to be set in filetypes", function()
 
         support.check_lines({
             "XYZ=123",
-            '>&2 echo "DEBUGPRINT: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
+            '>&2 echo "DEBUGPRINT: $0:$LINENO: XYZ=${XYZ}"',
         })
 
         assert.equals(support.get_notify_message(), nil)
@@ -58,7 +58,7 @@ describe("allow display_* to be set in filetypes", function()
 
         support.check_lines({
             "XYZ=123",
-            '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1: XYZ=${XYZ}"',
+            '>&2 echo "DEBUGPRINT[2]: $0:$LINENO: XYZ=${XYZ}"',
         })
 
         assert.equals(support.get_notify_message(), nil)
@@ -88,7 +88,7 @@ describe("allow display_* to be set in filetypes", function()
 
         support.check_lines({
             "XYZ=123",
-            '>&2 echo "DEBUGPRINT[2]: ' .. sh_filename .. ':1 (after XYZ=123)"',
+            '>&2 echo "DEBUGPRINT[2]: $0:$LINENO (after XYZ=123)"',
         })
 
         assert.equals(support.get_notify_message(), nil)

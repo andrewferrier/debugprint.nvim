@@ -40,7 +40,7 @@ describe("can handle treesitter identifiers", function()
 
         support.check_lines({
             "XYZ=123",
-            '>&2 echo "DEBUGPRINT[1]: ' .. filename .. ':1: XYZ=${XYZ}"',
+            '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: XYZ=${XYZ}"',
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 1 })
