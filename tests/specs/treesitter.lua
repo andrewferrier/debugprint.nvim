@@ -32,7 +32,7 @@ describe("can handle treesitter identifiers", function()
     it("standard (bash)", function()
         debugprint.setup({})
 
-        local filename = support.init_file({
+        support.init_file({
             "XYZ=123",
         }, "bash", 1, 1)
 

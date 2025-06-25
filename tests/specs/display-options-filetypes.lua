@@ -20,7 +20,7 @@ describe("allow display_* to be set in filetypes", function()
             "bar",
         })
 
-        local sh_filename = support.init_file({
+        support.init_file({
             "XYZ=123",
         }, "bash", 1, 1)
 
@@ -50,7 +50,7 @@ describe("allow display_* to be set in filetypes", function()
             "bar",
         })
 
-        local sh_filename = support.init_file({
+        support.init_file({
             "XYZ=123",
         }, "bash", 1, 1)
 
@@ -80,7 +80,7 @@ describe("allow display_* to be set in filetypes", function()
             "bar",
         })
 
-        local sh_filename = support.init_file({
+        support.init_file({
             "XYZ=123",
         }, "bash", 1, 1)
 
