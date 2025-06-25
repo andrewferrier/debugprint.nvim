@@ -43,6 +43,8 @@ The keys in the configuration are used like this:
 
 To see some examples, you can look at the [built-in configurations](lua/debugprint/filetypes.lua).
 
+For more advanced use, there are also fields `find_treesitter_variable` and `location` in the filetype configuration, but these are currently undocumented and unsupported for custom use.
+
 ### Dynamically creating filetype configurations
 
 It is also possible to dynamically create filetype configurations by specifying filetype configurations as callback functions that pass back the contents of the table above, rather than the contents of the table directly. For example:
