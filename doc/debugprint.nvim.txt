@@ -330,6 +330,11 @@ should be used.
   information in log                                      config)                                                           
   lines                                                                                                                     
 
+  Language-derived        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  location (for some                                                                                                        
+  filetypes) to resist                                                                                                      
+  line movement                                                                                                             
+
   Persistent location     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
   counter between NeoVim                                                                                                    
   sessions                                                                                                                  
