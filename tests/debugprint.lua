@@ -36,6 +36,7 @@ local parsers = {
     "markdown_inline",
     "php",
     "python",
+    "zig",
 }
 
 local install = require("nvim-treesitter").install

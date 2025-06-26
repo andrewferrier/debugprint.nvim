@@ -292,9 +292,25 @@ return {
     ["vue"] = js,
     ["zig"] = {
         left = 'std.debug.print("',
-        right = '\\n", .{});',
-        mid_var = '{any}\\n", .{',
-        right_var = "});",
+        right = '\\n", .{ @src().file, @src().line });',
+        mid_var = '{any}\\n", .{ @src().file, @src().line, ',
+        location = "{s}:{d}",
+        right_var = " });",
+        find_treesitter_variable = function(node)
+            if node:type() == "field_expression" then
+                return vim.treesitter.get_node_text(node, 0)
+            elseif
+                node:parent()
+                and node:parent():type() == "field_expression"
+                and node:prev_named_sibling()
+            then
+                return vim.treesitter.get_node_text(node:parent(), 0)
+            elseif node:type() == "identifier" then
+                return vim.treesitter.get_node_text(node, 0)
+            else
+                return nil
+            end
+        end,
     },
     ["zsh"] = shell,
 }
