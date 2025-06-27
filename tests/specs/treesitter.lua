@@ -201,6 +201,28 @@ describe("can handle treesitter identifiers", function()
         assert.equals(support.get_notify_message(), nil)
     end)
 
+    it("special case dot expression (zig)", function()
+        debugprint.setup()
+
+        support.init_file({
+            "pub fn main() void {",
+            "person.year = 1984;",
+            "}",
+        }, "zig", 2, 10)
+
+        support.feedkeys("g?v")
+        support.check_lines({
+            "pub fn main() void {",
+            "person.year = 1984;",
+            'std.debug.print("DEBUGPRINT[1]: {s}:{d}: person.year={any}\\n", .{ @src().file, @src().line, person.year });',
+            "}",
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 2, 10 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
     it("non-special case variable (python)", function()
         debugprint.setup()
 
