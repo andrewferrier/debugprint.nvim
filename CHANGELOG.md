@@ -1,5 +1,27 @@
 # Changelog
 
+## [6.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.0.0...v6.1.0) (2025-06-27)
+
+
+### Features
+
+* __FILE__, __LINE__ for C/C++ - closes [#149](https://github.com/andrewferrier/debugprint.nvim/issues/149) ([1d5a975](https://github.com/andrewferrier/debugprint.nvim/commit/1d5a9753338e25a3bdc05c36f9c0cc4918a23d08))
+* Add support for snacks.picker ([f7e370d](https://github.com/andrewferrier/debugprint.nvim/commit/f7e370d9ac19db1f763ccef9b4b255686f6eded3))
+* fix docs and some user facing strigns to reflect snacks addition ([9d3cfc5](https://github.com/andrewferrier/debugprint.nvim/commit/9d3cfc59ef850fa1d7096ee0087a154eacaabbe8))
+* Start using subcommands - closes [#155](https://github.com/andrewferrier/debugprint.nvim/issues/155) ([ebc43a5](https://github.com/andrewferrier/debugprint.nvim/commit/ebc43a59aae8061fe8ddba78fa6b02a934d6196a))
+* Support 'location' for shell - closes [#178](https://github.com/andrewferrier/debugprint.nvim/issues/178) ([ed6225d](https://github.com/andrewferrier/debugprint.nvim/commit/ed6225dc446be07144f97b9a2da5d78f8927d237))
+* support 'location' for zig ([575c4eb](https://github.com/andrewferrier/debugprint.nvim/commit/575c4eb17c8e0aca827e50a4a03dfaa4539ba854))
+
+
+### Bug Fixes
+
+* Better default for large files - closes [#170](https://github.com/andrewferrier/debugprint.nvim/issues/170) ([d10946e](https://github.com/andrewferrier/debugprint.nvim/commit/d10946ee5c87333661ba2ae270888c02ffd4650b))
+* Correct type ([9e636e9](https://github.com/andrewferrier/debugprint.nvim/commit/9e636e98f2199c58985657085f988d9a26bfb79f))
+* Improve message grammar ([5d7c6d5](https://github.com/andrewferrier/debugprint.nvim/commit/5d7c6d5403af4378804be3d3b8eeea506149578c))
+* Issue with sh/bash on nvim-treesitter 'main' ([898a082](https://github.com/andrewferrier/debugprint.nvim/commit/898a08209f1fea5292dc37df25b6811dc1fbc12b))
+* selene issue with unused variable ([1ad3299](https://github.com/andrewferrier/debugprint.nvim/commit/1ad32998445437a31308e643273946de01240f26))
+* Use normal! for Dvorak keyboard - closes [#172](https://github.com/andrewferrier/debugprint.nvim/issues/172) ([a8e5ddf](https://github.com/andrewferrier/debugprint.nvim/commit/a8e5ddf5cd35704df0fbe34cf04d47d5dd8409ea))
+
 ## [6.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v5.1.0...v6.0.0) (2025-04-29)
 
 
