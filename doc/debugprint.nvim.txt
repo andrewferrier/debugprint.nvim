@@ -302,6 +302,11 @@ should be used.
                                         string), no print tag will be included, but this
                                         will disable the ability to delete, comment, or
                                         highlight print statements via debugprint
+
+  picker                 nil            Override the picker used for the :Debugprint search
+                                        command. Valid values: fzf-lua, telescope, or
+                                        snacks.picker. If nil, this is auto-selected based
+                                        on availability.
   ------------------------------------------------------------------------------------------
 
 ==============================================================================
