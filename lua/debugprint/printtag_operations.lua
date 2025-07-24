@@ -4,11 +4,19 @@ local utils_buffer = require("debugprint.utils.buffer")
 
 ---@type string
 local print_tag
+---@type string
+local picker
 
 ---@param tag string
 ---@return nil
 M.set_print_tag = function(tag)
     print_tag = tag
+end
+
+---@param pick string
+---@return nil
+M.set_picker = function(pick)
+    picker = pick
 end
 
 ---@param opts vim.api.keyset.create_user_command.command_args
@@ -125,16 +133,13 @@ local picker_handlers = {
 }
 
 M.show_debug_prints_fuzzy_finder = function()
-    local global_opts =
-        require("debugprint.options").get_and_validate_global_opts()
-    local picker = global_opts and global_opts.picker or nil
-
     if picker then
         if picker_handlers[picker] then
             if not picker_handlers[picker].call() then
                 vim.notify(
                     "Explicit picker "
-                        .. picker(" was requested but is not available"),
+                        .. picker
+                        .. " was requested but is not available",
                     vim.log.levels.ERROR
                 )
             end

@@ -324,6 +324,7 @@ M.setup = function(opts)
     require("debugprint.printtag_operations").set_print_tag(
         global_opts.print_tag
     )
+    require("debugprint.printtag_operations").set_picker(global_opts.picker)
 
     require("debugprint.setup").map_keys_and_commands(global_opts)
 
