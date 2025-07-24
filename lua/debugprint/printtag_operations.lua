@@ -82,41 +82,80 @@ M.toggle_comment_debugprints = function(opts)
 end
 
 ---@return nil
+local picker_handlers = {
+    ["fzf-lua"] = {
+        call = function()
+            local ok_fzf, fzf = pcall(require, "fzf-lua")
+            if ok_fzf then
+                fzf.grep({
+                    prompt = "Debug Prints> ",
+                    search = print_tag,
+                })
+                return true
+            end
+            return false
+        end,
+    },
+    ["telescope"] = {
+        call = function()
+            local ok_telescope, telescope = pcall(require, "telescope.builtin")
+            if ok_telescope then
+                telescope.live_grep({
+                    prompt_title = "Debug Prints> ",
+                    default_text = print_tag,
+                })
+                return true
+            end
+            return false
+        end,
+    },
+    ["snacks.picker"] = {
+        call = function()
+            local ok_snacks, snacks = pcall(require, "snacks")
+            if ok_snacks then
+                snacks.picker.grep({
+                    title = "Debug Prints> ",
+                    search = print_tag,
+                })
+                return true
+            end
+            return false
+        end,
+    },
+}
+
 M.show_debug_prints_fuzzy_finder = function()
-    local ok_fzf, fzf = pcall(require, "fzf-lua")
+    local global_opts =
+        require("debugprint.options").get_and_validate_global_opts()
+    local picker = global_opts and global_opts.picker or nil
 
-    if ok_fzf then
-        fzf.grep({
-            prompt = "Debug Prints> ",
-            search = print_tag,
-        })
-        return
+    if picker then
+        if picker_handlers[picker] then
+            if not picker_handlers[picker].call() then
+                vim.notify(
+                    "Explicit picker "
+                        .. picker(" was requested but is not available"),
+                    vim.log.levels.ERROR
+                )
+            end
+        else
+            vim.notify(
+                "Picker " .. picker .. " is not a valid picker",
+                vim.log.levels.ERROR
+            )
+        end
+    else
+        for _, handler in pairs(picker_handlers) do
+            if handler.call() then
+                return
+            end
+        end
+
+        vim.notify(
+            "None of fzf-lua, telescope.nvim or snacks.nvim are available",
+            vim.log.levels.ERROR
+        )
     end
-
-    local ok_telescope, telescope = pcall(require, "telescope.builtin")
-
-    if ok_telescope then
-        telescope.live_grep({
-            prompt_title = "Debug Prints> ",
-            default_text = print_tag,
-        })
-        return
-    end
-
-    local ok_snacks, snacks = pcall(require, "snacks")
-
-    if ok_snacks then
-        snacks.picker.grep({
-            title = "Debug Prints> ",
-            search = print_tag,
-        })
-        return
-    end
-
-    vim.notify(
-        "None of fzf-lua, telescope.nvim or snacks.nvim are available",
-        vim.log.levels.ERROR
-    )
 end
 
 ---@return nil

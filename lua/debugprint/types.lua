@@ -32,6 +32,7 @@
 ---@field highlight_lines? boolean|function(int):boolean
 ---@field filetypes? debugprint.FileTypeConfigOrDynamic[]
 ---@field print_tag? string
+---@field picker? "fzf-lua"|"telescope"|"snacks.picker"|nil
 ---Deprecated
 ---@field create_keymaps? boolean
 ---@field create_commands? boolean

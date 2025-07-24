@@ -66,6 +66,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     end,
     filetypes = require("debugprint.filetypes"),
     print_tag = "DEBUGPRINT",
+    picker = nil,
 }
 
 ---@param o debugprint.GlobalOptions
@@ -84,6 +85,7 @@ local validate_global_opts = function(o)
         highlight_lines = { o.highlight_lines, { "function", "boolean" } },
         filetypes = { o.filetypes, "table" },
         print_tag = { o.print_tag, "string" },
+        picker = { o.picker, { "string", "nil" } },
     })
 
     vim.validate({
