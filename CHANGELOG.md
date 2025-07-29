@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.1.0...v6.2.0) (2025-07-24)
+
+
+### Features
+
+* Allow override of search picker - closes [#183](https://github.com/andrewferrier/debugprint.nvim/issues/183) ([441b04f](https://github.com/andrewferrier/debugprint.nvim/commit/441b04f86e2eb663575f870c7c5b58134120d043))
+
+
+### Bug Fixes
+
+* Set picker correctly ([7e8f718](https://github.com/andrewferrier/debugprint.nvim/commit/7e8f7180dfe07692a311360f43fd6f88d0a045a4))
+
 ## [6.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.0.0...v6.1.0) (2025-06-27)
 
 
