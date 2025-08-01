@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.2.0...v6.3.0) (2025-08-01)
+
+
+### Features
+
+* Implement rust location - closes [#176](https://github.com/andrewferrier/debugprint.nvim/issues/176) ([70b60d1](https://github.com/andrewferrier/debugprint.nvim/commit/70b60d1a3430d525ea8d2916c0e2efd0066a40a0))
+
 ## [6.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.1.0...v6.2.0) (2025-07-24)
 
 
