@@ -273,8 +273,9 @@ return {
     ["ruby"] = ruby,
     ["rust"] = {
         left = 'eprintln!("',
-        right = '");',
-        mid_var = '{:#?}", ',
+        right = '", file!(), line!());',
+        mid_var = '{:#?}", file!(), line!(), ',
+        location = "{}:{}",
         right_var = ");",
     },
     ["sh"] = shell,
