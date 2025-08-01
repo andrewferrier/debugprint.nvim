@@ -223,6 +223,12 @@ return {
         mid_var = '"$(',
         right_var = ")",
     },
+    ["nim"] = {
+        left = 'stderr.writeLine("',
+        right = '")',
+        mid_var = '" & ',
+        right_var = ".repr)",
+    },
     ["perl"] = {
         left = 'print STDERR "',
         right = '\\n";',
