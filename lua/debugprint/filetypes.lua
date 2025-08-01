@@ -87,6 +87,14 @@ local lua = {
     end,
 }
 
+---@type debugprint.FileTypeConfig
+local ruby = {
+    left = 'STDERR.puts "',
+    right = '"',
+    mid_var = "#{",
+    right_var = '}"',
+}
+
 ---@type debugprint.FileTypeConfig[]
 return {
     ["apex"] = {
@@ -144,6 +152,7 @@ return {
         right_var = " << std::endl;",
         location = '" << __FILE__ << ":" << __LINE__ << "',
     },
+    ["crystal"] = ruby,
     ["cs"] = cs,
     ["c_sharp"] = cs,
     ["dart"] = {
@@ -261,12 +270,7 @@ return {
         mid_var = '", ',
         right_var = "), file=stderr())",
     },
-    ["ruby"] = {
-        left = 'STDERR.puts "',
-        right = '"',
-        mid_var = "#{",
-        right_var = '}"',
-    },
+    ["ruby"] = ruby,
     ["rust"] = {
         left = 'eprintln!("',
         right = '");',
