@@ -460,6 +460,8 @@ should be used.
 
   Cobol                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
+  Crystal                 :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+
   dart                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   Docker                  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
@@ -492,6 +494,8 @@ should be used.
 
   GNU Make                :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
+  Nim                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+
   Odin                    :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
   Perl                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
@@ -510,9 +514,9 @@ should be used.
 
   Rust                    :+1:              :+1:          :+1:              :+1:           :x:                :+1:          :x:
 
-  Swift                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-
   Svelte                  :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+
+  Swift                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   tcl                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
