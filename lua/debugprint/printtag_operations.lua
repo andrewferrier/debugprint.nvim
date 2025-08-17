@@ -6,6 +6,8 @@ local utils_buffer = require("debugprint.utils.buffer")
 local print_tag
 ---@type string
 local picker
+---@type string
+local picker_title
 
 ---@param tag string
 ---@return nil
@@ -17,6 +19,12 @@ end
 ---@return nil
 M.set_picker = function(pick)
     picker = pick
+end
+
+---@param title string
+---@return nil
+M.set_picker_title = function(title)
+    picker_title = title
 end
 
 ---@param opts vim.api.keyset.create_user_command.command_args
@@ -96,7 +104,7 @@ local picker_handlers = {
             local ok_fzf, fzf = pcall(require, "fzf-lua")
             if ok_fzf then
                 fzf.grep({
-                    prompt = "Debug Prints> ",
+                    prompt = picker_title,
                     search = print_tag,
                 })
                 return true
@@ -109,7 +117,7 @@ local picker_handlers = {
             local ok_telescope, telescope = pcall(require, "telescope.builtin")
             if ok_telescope then
                 telescope.live_grep({
-                    prompt_title = "Debug Prints> ",
+                    prompt_title = picker_title,
                     default_text = print_tag,
                 })
                 return true
@@ -122,7 +130,7 @@ local picker_handlers = {
             local ok_snacks, snacks = pcall(require, "snacks")
             if ok_snacks then
                 snacks.picker.grep({
-                    title = "Debug Prints> ",
+                    title = picker_title,
                     search = print_tag,
                 })
                 return true
