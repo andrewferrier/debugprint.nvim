@@ -186,6 +186,12 @@ return {
         mid_var = "', ",
         right_var = "",
     },
+    ["gdscript"] = {
+        left = 'print("',
+        right = '")',
+        mid_var = '" + str(',
+        right_var = "))",
+    },
     ["go"] = {
         left = 'fmt.Fprintf(os.Stderr, "',
         right = '\\n")',
