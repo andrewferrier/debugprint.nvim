@@ -474,6 +474,8 @@ should be used.
 
   Fortran                 :+1:              :x:           :x:               :x:            :x:                :+1:          :x:
 
+  GDScript                :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+
   Golang                  :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
 
   Haskell                 :+1:              :x:           :x:               :x:            :x:                :x:           :x:
