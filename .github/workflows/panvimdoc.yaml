@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: pandoc to vimdoc
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: readme
         uses: kdheepak/panvimdoc@main
         with:
