@@ -67,6 +67,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     filetypes = require("debugprint.filetypes"),
     print_tag = "DEBUGPRINT",
     picker = nil,
+    picker_title = "Debug Prints> ",
 }
 
 ---@param o debugprint.GlobalOptions
