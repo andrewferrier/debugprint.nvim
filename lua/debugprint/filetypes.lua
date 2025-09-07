@@ -249,12 +249,14 @@ return {
         right = '\\n";',
         mid_var = "$",
         right_var = '\\n";',
+        location = '", __FILE__, ":", __LINE__, "',
     },
     ["php"] = {
         left = 'fwrite(STDERR, "',
         right = '\\n");',
         mid_var = "$",
         right_var = '\\n");',
+        location = '" . __FILE__ . ":" . __LINE__ . "',
     },
     ["ps1"] = {
         left = 'Write-Error "',
