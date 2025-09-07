@@ -246,7 +246,7 @@ describe("can handle treesitter identifiers", function()
     it("non-special case variable (php cursor-on-name)", function()
         debugprint.setup()
 
-        local filename = support.init_file({
+        support.init_file({
             "<?php",
             "$branchCode = 'au';",
             "?>",
@@ -258,8 +258,8 @@ describe("can handle treesitter identifiers", function()
             "<?php",
             "$branchCode = 'au';",
             'fwrite(STDERR, "DEBUGPRINT[1]: '
-                .. filename
-                .. ':2: branchCode=$branchCode\\n");',
+                .. '" . __FILE__ . ":" . __LINE__ . "'
+                .. ': branchCode=$branchCode\\n");',
             "?>",
         })
 
@@ -271,7 +271,7 @@ describe("can handle treesitter identifiers", function()
     it("non-special case variable (php cursor-on-dollar)", function()
         debugprint.setup()
 
-        local filename = support.init_file({
+        support.init_file({
             "<?php",
             "$branchCode = 'au';",
             "?>",
@@ -283,8 +283,8 @@ describe("can handle treesitter identifiers", function()
             "<?php",
             "$branchCode = 'au';",
             'fwrite(STDERR, "DEBUGPRINT[1]: '
-                .. filename
-                .. ':2: branchCode=$branchCode\\n");',
+                .. '" . __FILE__ . ":" . __LINE__ . "'
+                .. ': branchCode=$branchCode\\n");',
             "?>",
         })
 
