@@ -292,6 +292,7 @@ return {
         right = '")',
         mid_var = "\\(",
         right_var = ')")',
+        location = "\\(#file):\\(#line)",
     },
     ["svelte"] = js,
     ["tcl"] = {
