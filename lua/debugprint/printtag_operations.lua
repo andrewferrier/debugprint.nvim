@@ -109,7 +109,7 @@ local picker_handlers = {
             local ok_telescope, telescope = pcall(require, "telescope.builtin")
             if ok_telescope then
                 telescope.live_grep({
-                    prompt_title = "Debug Prints> ",
+                    prompt_title = "Debug Prints",
                     default_text = print_tag,
                 })
                 return true
@@ -122,7 +122,7 @@ local picker_handlers = {
             local ok_snacks, snacks = pcall(require, "snacks")
             if ok_snacks then
                 snacks.picker.grep({
-                    title = "Debug Prints> ",
+                    title = "Debug Prints",
                     search = print_tag,
                 })
                 return true
