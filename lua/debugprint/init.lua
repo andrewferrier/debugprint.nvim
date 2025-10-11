@@ -119,7 +119,14 @@ local get_debugline_textcontent = function(opts, fileconfig)
             line = line .. ": "
         end
 
-        line = line .. opts.variable_name .. "="
+        local variable_name_presentation = opts.variable_name
+
+        if fileconfig.escape_variable_name then
+            variable_name_presentation =
+                fileconfig.escape_variable_name(opts.variable_name)
+        end
+
+        line = line .. variable_name_presentation .. "="
     end
 
     return line

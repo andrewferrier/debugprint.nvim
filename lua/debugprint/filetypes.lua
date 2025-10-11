@@ -7,6 +7,14 @@
 -- added/removed standalone, or to ensure that the statements are visible by
 -- default. Explanations are given below in comments below in some cases.
 
+local ESCAPE_DOUBLE_QUOTES = function(variable_name)
+    return string.gsub(variable_name, '"', '\\"')
+end
+
+local ESCAPE_SINGLE_QUOTES = function(variable_name)
+    return string.gsub(variable_name, "'", "\\'")
+end
+
 ---@type debugprint.FileTypeConfig
 local shell = {
     left = '>&2 echo "',
@@ -22,6 +30,7 @@ local shell = {
             return nil
         end
     end,
+    escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
 local docker = vim.deepcopy(shell)
@@ -51,6 +60,7 @@ local js = {
             return nil
         end
     end,
+    escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
 ---@type debugprint.FileTypeConfig
@@ -85,6 +95,7 @@ local lua = {
             return nil
         end
     end,
+    escape_variable_name = ESCAPE_SINGLE_QUOTES,
 }
 
 ---@type debugprint.FileTypeConfig
@@ -93,6 +104,7 @@ local ruby = {
     right = '"',
     mid_var = "#{",
     right_var = '}"',
+    escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
 ---@type debugprint.FileTypeConfig[]
@@ -132,6 +144,7 @@ return {
                 return nil
             end
         end,
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["cmake"] = {
         left = 'message(DEBUG "',
@@ -179,6 +192,7 @@ return {
         right = '" 1>&2',
         mid_var = "$",
         right_var = '" 1>&2',
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["fortran"] = {
         left = "print *, '",
@@ -197,6 +211,7 @@ return {
         right = '\\n")',
         mid_var = '%+v\\n", ',
         right_var = ")",
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["haskell"] = {
         left = 'putStrLn "',
@@ -209,6 +224,7 @@ return {
         right = '");',
         mid_var = '" + ',
         right_var = ");",
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["javascript"] = js,
     ["javascriptreact"] = js,
@@ -257,6 +273,7 @@ return {
         mid_var = "$",
         right_var = '\\n");',
         location = '" . __FILE__ . ":" . __LINE__ . "',
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["ps1"] = {
         left = 'Write-Error "',
@@ -271,6 +288,7 @@ return {
         right = '")',
         mid_var = "{",
         right_var = '}")',
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["r"] = {
         left = 'cat(paste("',
@@ -285,6 +303,7 @@ return {
         mid_var = '{:#?}", file!(), line!(), ',
         location = "{}:{}",
         right_var = ");",
+        escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["sh"] = shell,
     ["swift"] = {

@@ -8,6 +8,7 @@
 ---@field mid_var string
 ---@field right_var string
 ---@field location string?
+---@field escape_variable_name? function(string):string
 ---@field find_treesitter_variable? function(node:TSNode):string
 ---@field display_counter? boolean|function():string
 ---@field display_location? boolean

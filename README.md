@@ -41,10 +41,10 @@ the NeoVim generation. It:
   (depends on [mini.nvim](https://github.com/echasnovski/mini.nvim/)
   or [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns)).
 
-- Can output the value of variables (or in some cases, expressions) - it will
-  detect a variable name under the cursor for some languages using Treesitter, or
-  will prompt with a sensible default. It understands Treesitter embedded
-  languages (e.g. JavaScript-in-HTML).
+- Can output the value of variables (or simple expressions) - it will detect a
+  variable name under the cursor for some languages using Treesitter, or will
+  prompt with a sensible default. It understands Treesitter embedded languages
+  (e.g. JavaScript-in-HTML).
 
 - Provides [keymappings](#keymappings-and-commands) for normal, insert,
   visual, and operator-pending modes. Supports
