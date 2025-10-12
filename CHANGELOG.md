@@ -1,5 +1,22 @@
 # Changelog
 
+## [6.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.2.0...v6.3.0) (2025-10-11)
+
+
+### Features
+
+* Add Perl/PHP location support - closes [#180](https://github.com/andrewferrier/debugprint.nvim/issues/180) ([399ec24](https://github.com/andrewferrier/debugprint.nvim/commit/399ec24601c3006a0452f43984dddfee23d6c8ae))
+* Add Swift location support - closes [#177](https://github.com/andrewferrier/debugprint.nvim/issues/177) ([6435c2e](https://github.com/andrewferrier/debugprint.nvim/commit/6435c2e4ac315f2649cf6eb5729c5967cfb7c544))
+* Implement GDScript - closes [#191](https://github.com/andrewferrier/debugprint.nvim/issues/191) ([84d1c54](https://github.com/andrewferrier/debugprint.nvim/commit/84d1c54c530a2755406b368db06cafa8dea7f515))
+* Implement rust location - closes [#176](https://github.com/andrewferrier/debugprint.nvim/issues/176) ([70b60d1](https://github.com/andrewferrier/debugprint.nvim/commit/70b60d1a3430d525ea8d2916c0e2efd0066a40a0))
+
+
+### Bug Fixes
+
+* Handle escaping of 'variables' - closes [#194](https://github.com/andrewferrier/debugprint.nvim/issues/194) ([c870d4b](https://github.com/andrewferrier/debugprint.nvim/commit/c870d4b7f245156a5c9df856c605e6bb824702ec))
+* Make PHP tests work ([80b1aec](https://github.com/andrewferrier/debugprint.nvim/commit/80b1aec4ab02d2f7e797e959cea6c0ece3927ff9))
+* Remove '&gt;' from telescope/snacks ([47e297e](https://github.com/andrewferrier/debugprint.nvim/commit/47e297e8c7af390ad341f01659a046f89988946b))
+
 ## [6.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.1.0...v6.2.0) (2025-07-24)
 
 
