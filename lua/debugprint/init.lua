@@ -328,10 +328,7 @@ M.setup = function(opts)
         require("debugprint.options").get_and_validate_global_opts(opts)
 
     require("debugprint.health").set_global_opts(global_opts)
-    require("debugprint.printtag_operations").set_print_tag(
-        global_opts.print_tag
-    )
-    require("debugprint.printtag_operations").set_picker(global_opts.picker)
+    require("debugprint.printtag_operations").set_global_opts(global_opts)
 
     require("debugprint.setup").map_keys_and_commands(global_opts)
 

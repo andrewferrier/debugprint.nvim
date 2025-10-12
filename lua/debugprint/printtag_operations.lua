@@ -2,21 +2,13 @@ local M = {}
 
 local utils_buffer = require("debugprint.utils.buffer")
 
----@type string
-local print_tag
----@type string
-local picker
+---@type debugprint.GlobalOptions
+local global_opts
 
----@param tag string
+---@param opts debugprint.GlobalOptions
 ---@return nil
-M.set_print_tag = function(tag)
-    print_tag = tag
-end
-
----@param pick string
----@return nil
-M.set_picker = function(pick)
-    picker = pick
+M.set_global_opts = function(opts)
+    global_opts = opts
 end
 
 ---@param opts vim.api.keyset.create_user_command.command_args
@@ -24,7 +16,7 @@ end
 ---@param action_present string
 ---@param action_past string
 local buffer_action = function(opts, action, action_present, action_past)
-    if print_tag == "" then
+    if global_opts.print_tag == "" then
         vim.notify(
             "No print_tag set, cannot " .. action_present .. " lines.",
             vim.log.levels.WARN
@@ -42,7 +34,7 @@ local buffer_action = function(opts, action, action_present, action_past)
     end
 
     for count, line in ipairs(lines_to_consider) do
-        if string.find(line, print_tag, 1, true) ~= nil then
+        if string.find(line, global_opts.print_tag, 1, true) ~= nil then
             action(count, initial_line)
             actioned_count = actioned_count + 1
         end
@@ -97,7 +89,7 @@ local picker_handlers = {
             if ok_fzf then
                 fzf.grep({
                     prompt = "Debug Prints> ",
-                    search = print_tag,
+                    search = global_opts.print_tag,
                 })
                 return true
             end
@@ -110,7 +102,7 @@ local picker_handlers = {
             if ok_telescope then
                 telescope.live_grep({
                     prompt_title = "Debug Prints",
-                    default_text = print_tag,
+                    default_text = global_opts.print_tag,
                 })
                 return true
             end
@@ -123,7 +115,7 @@ local picker_handlers = {
             if ok_snacks then
                 snacks.picker.grep({
                     title = "Debug Prints",
-                    search = print_tag,
+                    search = global_opts.print_tag,
                 })
                 return true
             end
@@ -133,19 +125,19 @@ local picker_handlers = {
 }
 
 M.show_debug_prints_fuzzy_finder = function()
-    if picker then
-        if picker_handlers[picker] then
-            if not picker_handlers[picker].call() then
+    if global_opts.picker then
+        if picker_handlers[global_opts.picker] then
+            if not picker_handlers[global_opts.picker].call() then
                 vim.notify(
                     "Explicit picker "
-                        .. picker
+                        .. global_opts.picker
                         .. " was requested but is not available",
                     vim.log.levels.ERROR
                 )
             end
         else
             vim.notify(
-                "Picker " .. picker .. " is not a valid picker",
+                "Picker " .. global_opts.picker .. " is not a valid picker",
                 vim.log.levels.ERROR
             )
         end
@@ -166,7 +158,7 @@ end
 ---@return nil
 M.debug_print_qf_list = function()
     local grep_cmd = vim.o.grepprg
-    local search_args = '"' .. print_tag .. '" ' .. vim.fn.getcwd()
+    local search_args = '"' .. global_opts.print_tag .. '" ' .. vim.fn.getcwd()
 
     local cannot_run = function()
         vim.notify(
