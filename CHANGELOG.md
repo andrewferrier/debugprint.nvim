@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.1](https://github.com/andrewferrier/debugprint.nvim/compare/v6.3.0...v6.3.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* More echasnovski → nvim-mini ([0b90e4f](https://github.com/andrewferrier/debugprint.nvim/commit/0b90e4fe332bbc03009b0a16fd3be6c97aadef84))
+
 ## [6.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.2.0...v6.3.0) (2025-10-11)
 
 
