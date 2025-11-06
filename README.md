@@ -38,8 +38,8 @@ the NeoVim generation. It:
   basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis).
 
 - Will highlight inserted lines to make them easier to find in your code
-  (depends on [mini.nvim](https://github.com/echasnovski/mini.nvim/)
-  or [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns)).
+  (depends on [mini.nvim](https://github.com/nvim-mini/mini.nvim/)
+  or [mini.hipatterns](https://github.com/nvim-mini/mini.hipatterns)).
 
 - Can output the value of variables (or simple expressions) - it will detect a
   variable name under the cursor for some languages using Treesitter, or will

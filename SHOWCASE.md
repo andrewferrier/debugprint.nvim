@@ -157,9 +157,9 @@ packer.startup(function(use)
             require("debugprint").setup(opts)
         end,
         requires = {
-            "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
+            "nvim-mini/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
                                             -- ... or ...
-            "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+            "nvim-mini/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
 
             "ibhagwan/fzf-lua",              -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
             "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
@@ -170,15 +170,15 @@ packer.startup(function(use)
 end)
 ```
 
-Example for [`mini.deps`](https://github.com/echasnovski/mini.nvim):
+Example for [`mini.deps`](https://github.com/nvim-mini/mini.nvim):
 
 ```lua
 add({
     source = 'andrewferrier/debugprint.nvim',
     depends = {
-        "echasnovski/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
+        "nvim-mini/mini.nvim",         -- Optional: Needed for line highlighting (full mini.nvim plugin)
                                         -- ... or ...
-        "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+        "nvim-mini/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
 
         "ibhagwan/fzf-lua",              -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
         "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
@@ -211,7 +211,7 @@ The notifications that happen when you add content to a register can be disabled
 
 ## Highlighting Lines
 
-By default, if and only if you have [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns) installed, `debugprint` will highlight lines that are inserted (strictly, it is highlighting lines that include the `print_tag` value). If you don't like this behaviour, you can disable it by setting the global `highlight_lines` option to `false`:
+By default, if and only if you have [mini.hipatterns](https://github.com/nvim-mini/mini.hipatterns) installed, `debugprint` will highlight lines that are inserted (strictly, it is highlighting lines that include the `print_tag` value). If you don't like this behaviour, you can disable it by setting the global `highlight_lines` option to `false`:
 
 ```lua
 return {
