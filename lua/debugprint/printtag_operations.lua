@@ -113,9 +113,10 @@ local picker_handlers = {
         call = function()
             local ok_snacks, snacks = pcall(require, "snacks")
             if ok_snacks then
-                snacks.picker.grep({
+                snacks.picker.grep_word({
                     title = "Debug Prints",
                     search = global_opts.print_tag,
+                    regex = true,
                 })
                 return true
             end
