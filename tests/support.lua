@@ -75,7 +75,6 @@ M.teardown = function(opts)
     pcall(vim.keymap.del, "n", "g?o")
     pcall(vim.keymap.del, "n", "g?O")
     pcall(vim.api.nvim_del_user_command, "Debugprint")
-    pcall(vim.api.nvim_del_user_command, "DeleteDebugPrints")
     vim.cmd("set modifiable")
 
     if opts.reset_counter then

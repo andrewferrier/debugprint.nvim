@@ -28,13 +28,6 @@ local GLOBAL_OPTION_DEFAULTS = {
             variable_above = "g?V",
         },
     },
-    commands = {
-        toggle_comment_debug_prints = "ToggleCommentDebugPrints",
-        delete_debug_prints = "DeleteDebugPrints",
-        reset_debug_prints_counter = "ResetDebugPrintsCounter",
-        search_debug_prints = "SearchDebugPrints",
-        debug_print_qf_list = "DebugPrintQFList",
-    },
     display_counter = true,
     display_location = true,
     display_snippet = true,
@@ -76,7 +69,6 @@ local validate_global_opts = function(o)
 
     vim.validate({
         keymaps = { o.keymaps, "table" },
-        commands = { o.commands, "table" },
         display_counter = { o.display_counter, { "function", "boolean" } },
         display_location = { o.display_location, "boolean" },
         display_snippet = { o.display_snippet, "boolean" },
@@ -91,21 +83,6 @@ local validate_global_opts = function(o)
     vim.validate({
         keymaps_normal = { o.keymaps.normal, "table" },
         keymaps_visual = { o.keymaps.visual, "table" },
-
-        commands_delete_debug_prints = {
-            o.commands.delete_debug_prints,
-            STRING_FALSE_NIL,
-        },
-
-        commands_toggle_comment_debug_prints = {
-            o.commands.toggle_comment_debug_prints,
-            STRING_FALSE_NIL,
-        },
-
-        commands_reset_debug_prints_counter = {
-            o.commands.reset_debug_prints_counter,
-            STRING_FALSE_NIL,
-        },
     })
 
     local normal = o.keymaps.normal
