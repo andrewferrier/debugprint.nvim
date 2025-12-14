@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.3.0...v7.0.0) (2025-12-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop legacy cmds - closes #200
+
+### Bug Fixes
+
+* Drop legacy cmds - closes [#200](https://github.com/andrewferrier/debugprint.nvim/issues/200) ([87ec871](https://github.com/andrewferrier/debugprint.nvim/commit/87ec87161fa1e71a944a38016270717c10d6d858))
+* More echasnovski → nvim-mini ([0b90e4f](https://github.com/andrewferrier/debugprint.nvim/commit/0b90e4fe332bbc03009b0a16fd3be6c97aadef84))
+* use more appropriate snacks picker ([7af176c](https://github.com/andrewferrier/debugprint.nvim/commit/7af176c178150fdc571ef4aa40420ea3d03e69d2))
+* use more appropriate snacks picker ([a80af74](https://github.com/andrewferrier/debugprint.nvim/commit/a80af74b0a8a2b921b8ae19840bf9bcf50f0ca5e))
+
 ## [6.3.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.2.0...v6.3.0) (2025-10-11)
 
 
