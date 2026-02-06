@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v7.0.0...v7.1.0) (2026-02-06)
+
+
+### Features
+
+* Add actionlint test ([53df48d](https://github.com/andrewferrier/debugprint.nvim/commit/53df48dd7f3b2c720a3a335b6d435d718169ca3d))
+
 ## [7.0.0](https://github.com/andrewferrier/debugprint.nvim/compare/v6.3.0...v7.0.0) (2025-12-14)
 
 
