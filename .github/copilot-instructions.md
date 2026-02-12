@@ -15,7 +15,7 @@ debugprint.nvim is a NeoVim plugin that simplifies debugging by automatically in
 **Technology Stack:**
 
 - Language: Lua (NeoVim plugin)
-- Target: NeoVim 0.10+ (maintains vN-1 compatibility with latest release)
+- Target: NeoVim (maintains compatibility with stable, stable - 1, and nightly)
 - Dependencies: plenary.nvim (testing), mini.nvim (optional highlighting), nvim-treesitter (optional variable detection)
 
 ## Repository Structure
@@ -97,18 +97,6 @@ The project uses multiple linters and type checkers:
 
 **MANDATORY:** All commits MUST follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. This is strictly enforced and non-negotiable.
 
-### Examples from Project History
-
-```bash
-feat: Add actionlint test
-fix: use more appropriate snacks picker
-fix: More echasnovski → nvim-mini
-chore(main): release 7.1.0
-chore: Auto generate Vim docs
-test: 'main' branch has become default
-docs: update plugin references in README.md
-```
-
 ### Release Process
 
 - The project uses `release-please` for automated releases
@@ -169,20 +157,11 @@ describe("feature name", function()
 end)
 ```
 
-### Test Naming Convention
-
-Test files in `specs/` use numeric prefixes for ordering:
-
-- `00-setup.lua` - Setup tests
-- `05-basic.lua` - Basic functionality
-- `10-basic_with_custom_keys.lua` - Basic with customization
-- `counter.lua`, `display-options.lua`, etc. - Feature-specific tests
-
 ### CI Test Matrix
 
 Tests run against multiple NeoVim versions and OS:
 
-- NeoVim: stable - 1, stable, and nightly
+- NeoVim: all versions supported by the plugin
 - OS: Ubuntu, macOS
 
 ## CI/CD Pipeline
@@ -198,21 +177,6 @@ The `.github/workflows/tests.yaml` runs these checks:
 5. **typecheck** - Type checking for Lua code
 6. **unit_test** - Runs test suite across matrix of NeoVim versions and OS
 
-### Pre-commit Hooks
-
-The project uses pre-commit hooks (`.pre-commit-config.yaml`):
-
-- Check for large files
-- Gitleaks (secret detection)
-- StyLua formatting
-- Markdownlint
-- Luacheck
-- llscheck (Lua language server check)
-
-### Making Changes
-
-**All CI checks must pass before merging.**
-
 ## Documentation
 
 ### Vim Help Documentation
@@ -222,7 +186,7 @@ The project uses pre-commit hooks (`.pre-commit-config.yaml`):
 - Uses special comment markers for generation
 - Generated on every push to main branch
 
-### README and SHOWCASE
+### Other documentation
 
 - `README.md` - User-facing documentation, installation, features
 - `SHOWCASE.md` - Advanced usage examples and customization patterns
@@ -290,57 +254,3 @@ git commit -m "style: format code with stylua"
 - Add missing `---@type`, `---@param`, `---@return` annotations
 - Check `lua/debugprint/types.lua` for type definitions
 - Ensure type names match defined types exactly
-
-### Issue: Pre-commit hooks fail
-
-**Error:** Git commit is rejected by pre-commit hooks
-
-**Solution:**
-
-```bash
-# Run all pre-commit hooks manually
-pre-commit run --all-files
-
-# Or fix specific issues
-stylua lua/ tests/           # Fix formatting
-luacheck lua/                # Fix lint issues
-markdownlint README.md       # Fix markdown issues
-```
-
-## Key Files Reference
-
-- `.stylua.toml` - Code formatting configuration (indent: 4 spaces, width: 80)
-- `.luacheckrc` - Luacheck configuration (allows vim global)
-- `selene.toml` - Selene linter configuration
-- `.luarc.jsonc` - Lua language server and type checking config
-- `.pre-commit-config.yaml` - Pre-commit hooks configuration
-- `Makefile` - Contains `make test` command
-- `.editorconfig` - Editor configuration for consistent formatting
-- `.github/workflows/tests.yaml` - CI/CD pipeline definition
-- `.github/workflows/release-please.yml` - Automated release workflow
-- `.github/workflows/panvimdoc.yaml` - Auto-generates Vim help docs
-
-## Notes for AI Agents
-
-1. **Always format Lua code with stylua** - This is the #1 cause of CI failures
-2. **Always use conventional commits** - Release automation depends on this
-3. **Type annotations are important** - Help with maintenance and type checking
-4. **Test your changes** - Run `make test` if NeoVim is available
-5. **Check existing patterns** - Look at `lua/debugprint/filetypes.lua` for filetype examples
-6. **Respect the module structure** - Keep utilities in `utils/`, types in `types.lua`
-
-## Getting Help
-
-- Check `README.md` for user documentation
-- Check `SHOWCASE.md` for advanced customization examples
-- Look at existing test files in `tests/specs/` for patterns
-- Review similar filetypes in `lua/debugprint/filetypes.lua`
-- Check GitHub issues for similar problems or feature requests
-
-## Quick Start Checklist
-
-- [ ] Read the README.md to understand what the plugin does
-- [ ] Review lua/debugprint/filetypes.lua to understand filetype configurations
-- [ ] Check .stylua.toml for formatting rules
-- [ ] Understand that conventional commits are mandatory
-- [ ] Know that stylua formatting is mandatory
