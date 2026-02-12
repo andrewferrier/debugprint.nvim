@@ -15,31 +15,14 @@ debugprint.nvim is a NeoVim plugin that simplifies debugging by automatically in
 **Technology Stack:**
 
 - Language: Lua (NeoVim plugin)
-- Target: NeoVim 0.10+
+- Target: NeoVim 0.10+ (maintains vN-1 compatibility with latest release)
 - Dependencies: plenary.nvim (testing), mini.nvim (optional highlighting), nvim-treesitter (optional variable detection)
 
 ## Repository Structure
 
 ```text
-lua/debugprint/           # Main plugin source code
-├── init.lua             # Main entry point, debugprint() function
-├── setup.lua            # Plugin setup, keymaps, and commands
-├── filetypes.lua        # Built-in filetype configurations
-├── filetype_config.lua  # Filetype configuration logic
-├── options.lua          # Default plugin options
-├── types.lua            # Type definitions
-├── counter.lua          # Counter persistence logic
-├── highlight.lua        # Line highlighting integration
-├── printtag_operations.lua  # Delete/comment/search operations
-├── health.lua           # Health check command
-└── utils/               # Utility modules
-
-tests/                   # Test suite
-├── run.lua             # Test runner
-├── debugprint.lua      # Test setup
-├── support.lua         # Test utilities
-└── specs/              # Test specifications
-
+lua/debugprint/         # Main plugin source code
+tests/                  # Test suite
 doc/                    # Generated Vim help documentation
 .github/workflows/      # CI/CD workflows
 ```
@@ -48,14 +31,7 @@ doc/                    # Generated Vim help documentation
 
 ### Code Formatting
 
-**CRITICAL:** All Lua code MUST be formatted using `stylua` with the project's configuration:
-
-```toml
-# .stylua.toml
-indent_type = "Spaces"
-indent_width = 4
-column_width = 80
-```
+**CRITICAL:** All Lua code MUST be formatted using `stylua` with the project's configuration (see `.stylua.toml`).
 
 **Before committing any Lua code:**
 
@@ -67,6 +43,8 @@ stylua lua/ tests/          # Auto-format code
 The CI pipeline will fail if code is not properly formatted. There are no exceptions.
 
 ### Code Quality Tools
+
+**IMPORTANT:** Ensure these are run on any pull requests submitted for review.
 
 The project uses multiple linters and type checkers:
 
@@ -118,37 +96,6 @@ The project uses multiple linters and type checkers:
 ## Commit Message Convention
 
 **MANDATORY:** All commits MUST follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. This is strictly enforced and non-negotiable.
-
-### Required Format
-
-```text
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-### Allowed Types
-
-- `feat:` - New features
-- `fix:` - Bug fixes
-- `docs:` - Documentation changes only
-- `chore:` - Maintenance tasks, dependencies, tooling
-- `test:` - Test additions or modifications
-- `refactor:` - Code refactoring without feature/fix changes
-- `perf:` - Performance improvements
-- `ci:` - CI/CD configuration changes
-- `style:` - Code style changes (formatting, whitespace)
-- `revert:` - Revert previous commits
-
-### Breaking Changes
-
-Use `!` after type/scope or add `BREAKING CHANGE:` in footer:
-
-```text
-feat!: drop legacy commands - closes #200
-```
 
 ### Examples from Project History
 
@@ -235,7 +182,7 @@ Test files in `specs/` use numeric prefixes for ordering:
 
 Tests run against multiple NeoVim versions and OS:
 
-- NeoVim: v0.10.4, stable, nightly
+- NeoVim: stable - 1, stable, and nightly
 - OS: Ubuntu, macOS
 
 ## CI/CD Pipeline
@@ -264,73 +211,7 @@ The project uses pre-commit hooks (`.pre-commit-config.yaml`):
 
 ### Making Changes
 
-**Always run these before committing:**
-
-```bash
-# Format code
-stylua lua/ tests/
-
-# Run linters
-luacheck lua/
-selene lua/ tests/
-
-# Run tests (requires NeoVim installed)
-make test
-```
-
-**All CI checks must pass before merging.** The CI enforces:
-
-- Code formatting (no automatic fixes)
-- Linter compliance
-- Type checking compliance
-- All tests passing
-
-## Common Patterns
-
-### Adding a New Filetype
-
-Add to `lua/debugprint/filetypes.lua`:
-
-```lua
-M.filetypes = {
-    -- ...
-    newlang = {
-        left = 'print("',
-        right = '")',
-        mid_var = '", ',
-        right_var = ")",
-    },
-}
-```
-
-For languages with Treesitter support, add `find_treesitter_variable` function.
-
-### Custom Display Options
-
-Filetype configs can override global display options:
-
-```lua
-newlang = {
-    -- ... print format ...
-    display_counter = false,     -- Disable counter for this filetype
-    display_location = true,     -- Show file:line
-    display_snippet = false,     -- Don't show code snippet
-}
-```
-
-### Dynamic Filetype Configs
-
-Use a function for dynamic configuration:
-
-```lua
-newlang = function(opts)
-    return {
-        left = calculate_left(),
-        right = calculate_right(),
-        -- ...
-    }
-end
-```
+**All CI checks must pass before merging.**
 
 ## Documentation
 
@@ -447,10 +328,6 @@ markdownlint README.md       # Fix markdown issues
 4. **Test your changes** - Run `make test` if NeoVim is available
 5. **Check existing patterns** - Look at `lua/debugprint/filetypes.lua` for filetype examples
 6. **Respect the module structure** - Keep utilities in `utils/`, types in `types.lua`
-7. **Line width is 80 characters** - Enforced by stylua
-8. **4 spaces for indentation** - Enforced by stylua
-9. **Don't edit CHANGELOG.md** - It's auto-generated by release-please
-10. **Don't edit doc/debugprint.txt** - It's auto-generated by panvimdoc
 
 ## Getting Help
 
@@ -467,9 +344,3 @@ markdownlint README.md       # Fix markdown issues
 - [ ] Check .stylua.toml for formatting rules
 - [ ] Understand that conventional commits are mandatory
 - [ ] Know that stylua formatting is mandatory
-- [ ] Run `stylua lua/ tests/` before committing
-- [ ] Run `luacheck lua/` before committing
-- [ ] Run `make test` if adding/changing functionality (requires NeoVim)
-- [ ] Write tests for new features in tests/specs/
-- [ ] Use proper type annotations for all functions
-- [ ] Follow the existing code patterns and structure
