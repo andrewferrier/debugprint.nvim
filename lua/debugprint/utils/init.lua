@@ -27,20 +27,39 @@ end
 ---@param row integer 0-indexed row
 ---@param col integer 0-indexed column
 ---@return string?
-local find_variable_via_query = function(row, col)
-    local ok, parser = pcall(vim.treesitter.get_parser, 0)
-    if not ok or not parser then
+local get_treesitter_lang_at = function(row, col)
+    local success, parser = pcall(vim.treesitter.get_parser, 0)
+    if not (success and parser) then
         return nil
     end
 
-    -- Use the Treesitter language at the given position (supports injected languages)
-    local range = { row, col, row, col + 1 }
-    local lang = parser:language_for_range(range)
+    -- parse(true) ensures injected/embedded language trees are available
+    parser:parse(true)
+
+    local lang_tree = parser:language_for_range({ row, col, row, col })
+    if not lang_tree then
+        return nil
+    end
+
+    return lang_tree:lang()
+end
+
+---@param row integer 0-indexed row
+---@param col integer 0-indexed column
+---@return string?
+local find_variable_via_query = function(row, col)
+    local lang = get_treesitter_lang_at(row, col)
     if not lang then
         return nil
     end
+
     local query = vim.treesitter.query.get(lang, "debugprint")
     if not query then
+        return nil
+    end
+
+    local ok, parser = pcall(vim.treesitter.get_parser, 0)
+    if not ok or not parser then
         return nil
     end
 
@@ -51,9 +70,9 @@ local find_variable_via_query = function(row, col)
 
     local root = trees[1]:root()
 
-    -- Find the smallest (most specific) capture containing the cursor position.
+    -- Find the largest (most complete) capture containing the cursor position.
     -- When multiple captures overlap (e.g. identifier inside member_expression),
-    -- the smallest range gives the most precise match at the cursor.
+    -- the largest range gives the most useful match at the cursor.
     local best_node = nil
     -- Weight rows more heavily than columns so multi-line nodes are always
     -- considered larger than single-line nodes.
@@ -72,7 +91,7 @@ local find_variable_via_query = function(row, col)
                     local bsr, bsc, ber, bec = best_node:range()
                     local cur_size = (er - sr) * ROW_WEIGHT + (ec - sc)
                     local best_size = (ber - bsr) * ROW_WEIGHT + (bec - bsc)
-                    if cur_size < best_size then
+                    if cur_size > best_size then
                         best_node = node
                     end
                 end
@@ -150,22 +169,10 @@ M.get_effective_filetypes = function()
     -- until the first non-whitespace column
     local current_line_col = vim.fn.col("$")
 
-    local success, parser = pcall(vim.treesitter.get_parser, 0)
+    local treesitter_lang =
+        get_treesitter_lang_at(current_line_nr, current_line_col)
 
-    if success and parser then
-        -- For some reason I don't understand, this parse line is necessary to
-        -- make embedded languages work
-        parser:parse(true)
-
-        local treesitter_lang = parser
-            :language_for_range({
-                current_line_nr,
-                current_line_col,
-                current_line_nr,
-                current_line_col,
-            })
-            :lang()
-
+    if treesitter_lang then
         local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
         -- The order in which filetypes are provided seems to be semi-random
         -- (at least prior to v0.10) so we are sorting them to at least give some
