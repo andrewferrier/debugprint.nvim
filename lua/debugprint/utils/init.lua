@@ -46,6 +46,14 @@ local find_variable_via_query = function(row, col)
 
     local root = trees[1]:root()
 
+    -- Find the smallest (most specific) capture containing the cursor position.
+    -- When multiple captures overlap (e.g. identifier inside member_expression),
+    -- the smallest range gives the most precise match at the cursor.
+    local best_node = nil
+    -- Weight rows more heavily than columns so multi-line nodes are always
+    -- considered larger than single-line nodes.
+    local ROW_WEIGHT = 100000
+
     for id, node, _ in query:iter_captures(root, 0, row, row + 1) do
         if query.captures[id] == "variable" then
             local sr, sc, er, ec = node:range()
@@ -53,9 +61,22 @@ local find_variable_via_query = function(row, col)
                 (sr < row or (sr == row and sc <= col))
                 and (er > row or (er == row and ec > col))
             then
-                return vim.treesitter.get_node_text(node, 0)
+                if best_node == nil then
+                    best_node = node
+                else
+                    local bsr, bsc, ber, bec = best_node:range()
+                    local cur_size = (er - sr) * ROW_WEIGHT + (ec - sc)
+                    local best_size = (ber - bsr) * ROW_WEIGHT + (bec - bsc)
+                    if cur_size < best_size then
+                        best_node = node
+                    end
+                end
             end
         end
+    end
+
+    if best_node ~= nil then
+        return vim.treesitter.get_node_text(best_node, 0)
     end
 
     return nil

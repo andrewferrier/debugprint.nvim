@@ -40,18 +40,6 @@ local js = {
     right = '")',
     mid_var = '", ',
     right_var = ")",
-    ---@param node TSNode
-    find_treesitter_variable = function(node)
-        if node:type() == "property_identifier" and node:parent() ~= nil then
-            local parent = node:parent()
-            ---@cast parent TSNode
-            return vim.treesitter.get_node_text(parent, 0)
-        elseif node:type() == "identifier" then
-            return vim.treesitter.get_node_text(node, 0)
-        else
-            return nil
-        end
-    end,
     escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 

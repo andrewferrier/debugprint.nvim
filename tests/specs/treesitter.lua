@@ -217,6 +217,27 @@ describe("can handle treesitter identifiers", function()
         assert.equals(support.get_notify_message(), nil)
     end)
 
+    it("standard (javascript) via query - plain identifier", function()
+        debugprint.setup()
+
+        local filename = support.init_file({
+            "let myVar = 42",
+        }, "javascript", 1, 4)
+
+        support.feedkeys("g?v")
+
+        support.check_lines({
+            "let myVar = 42",
+            'console.warn("DEBUGPRINT[1]: '
+                .. filename
+                .. ':1: myVar=", myVar)',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 4 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
     it("special case dot expression (c)", function()
         debugprint.setup()
 
