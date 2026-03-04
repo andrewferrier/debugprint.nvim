@@ -86,6 +86,25 @@ describe("can handle treesitter identifiers", function()
         assert.equals(support.get_notify_message(), nil)
     end)
 
+    it("standard (zsh) via query - same grammar as bash", function()
+        debugprint.setup({})
+
+        support.init_file({
+            "MY_VAR=hello",
+        }, "zsh", 1, 2)
+
+        support.feedkeys("g?v")
+
+        support.check_lines({
+            "MY_VAR=hello",
+            '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: MY_VAR=${MY_VAR}"',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 2 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
     it("non-identifier", function()
         debugprint.setup({})
 
@@ -231,6 +250,27 @@ describe("can handle treesitter identifiers", function()
             'console.warn("DEBUGPRINT[1]: '
                 .. filename
                 .. ':1: myVar=", myVar)',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 4 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
+    it("standard (javascript) via query - member expression", function()
+        debugprint.setup()
+
+        local filename = support.init_file({
+            "obj.value = 10",
+        }, "javascript", 1, 4)
+
+        support.feedkeys("g?v")
+
+        support.check_lines({
+            "obj.value = 10",
+            'console.warn("DEBUGPRINT[1]: '
+                .. filename
+                .. ':1: obj.value=", obj.value)',
         })
 
         assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 4 })
