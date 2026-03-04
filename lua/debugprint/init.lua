@@ -291,8 +291,7 @@ M.debugprint = function(opts)
 
         if filetype_config then
             opts.variable_name = utils.get_variable_name(
-                global_opts.ignore_treesitter or opts.ignore_treesitter or false,
-                filetype_config
+                global_opts.ignore_treesitter or opts.ignore_treesitter or false
             )
 
             if not opts.variable_name then

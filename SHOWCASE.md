@@ -43,7 +43,7 @@ The keys in the configuration are used like this:
 
 To see some examples, you can look at the [built-in configurations](lua/debugprint/filetypes.lua).
 
-For more advanced use, there are also fields `find_treesitter_variable` and `location` in the filetype configuration, but these are currently undocumented and unsupported for custom use.
+For more advanced use, there is also the fields `location` in the filetype configuration, but this is currently undocumented and unsupported for custom use.
 
 ### Dynamically creating filetype configurations
 
@@ -67,6 +67,18 @@ require('debugprint').setup({ filetypes = { ["filetype"] = my_fileformat }})
 The function you specify is invoked each time that a debug line is inserted. In the example above, `opts` is of type `DebugprintFileTypeFunctionParams`. This can be found documented in `lua/debugprint/types.lua`. This type is not stable and the contents are not guaranteed to stay the same between versions, although we'll try not to remove fields from it.
 
 Further documentation on this technique is not provided as this is an advanced approach and is left for the user.
+
+### Customizing Treesitter Variable Detection with Query Files
+
+For some languages, `debugprint` uses Neovim's Treesitter integration to intelligently detect the variable under the cursor for variable debug lines. This detection is driven by Treesitter query files, which define patterns for different language grammars.
+
+By default, `debugprint` looks for a query file named `debugprint.scm` within the `queries/<lang>/` directory for the active filetype's language. Some of these `debugprint.scm` files are supplied with and built into `debugprint.nvim`. For example, [this file](queries/c/debugprint.scm) is used for C files.
+
+In these query files, patterns are defined to capture specific nodes in the Treesitter parse tree. The `@variable` capture is crucial: `debugprint` specifically looks for nodes captured as `@variable` to identify what it should consider a variable.
+
+If there is no query file for a particular filetype, `debugprint` will fallback to the nearest detected Treesitter node, or failing that, it will prompt the user for a variable name, using intelligent defaults.
+
+You can provide your own `debugprint.scm` query files to customize how `debugprint` detects variables for any language. These files should be placed in your Neovim configuration's runtime path (e.g. `~/.config/nvim`) under `queries/<lang>/debugprint.scm`. For instance, to customize variable detection for Java, you would create `queries/java/debugprint.scm`.
 
 ## Use `console.info()` rather than `console.warn()` for JavaScript/TypeScript
 

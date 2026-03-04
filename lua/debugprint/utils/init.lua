@@ -2,15 +2,28 @@ local M = {}
 
 local utils_buffer = require("debugprint.utils.buffer")
 
+---@param lang string?
+---@return vim.treesitter.LanguageTree?
+local force_parsing_if_possible = function(lang)
+    local ok, parser
+
+    if lang ~= nil then
+        ok, parser = pcall(vim.treesitter.get_parser, 0, lang)
+    else
+        ok, parser = pcall(vim.treesitter.get_parser, 0)
+    end
+
+    if ok and parser then
+        parser:parse(true)
+        return parser
+    else
+        return nil
+    end
+end
+
 ---@return TSNode?
 local get_node_at_cursor = function()
-    local lang_filetype = vim.api.nvim_get_option_value("filetype", {})
-
-    -- Force parsing, in case needed - appears to be for unit testing
-    local ok, parser = pcall(vim.treesitter.get_parser, 0, lang_filetype)
-    if ok and parser then
-        parser:parse()
-    end
+    force_parsing_if_possible(vim.api.nvim_get_option_value("filetype", {}))
 
     local success, node = pcall(vim.treesitter.get_node, {
         ignore_injections = false,
@@ -24,26 +37,116 @@ local get_node_at_cursor = function()
     end
 end
 
----@param filetype_config debugprint.FileTypeConfig
+---@param row integer 0-indexed row
+---@param col integer 0-indexed column
 ---@return string?
-local find_treesitter_variable = function(filetype_config)
+local get_treesitter_lang_at = function(row, col)
+    local parser = force_parsing_if_possible()
+    if not parser then
+        return nil
+    end
+
+    local lang_tree = parser:language_for_range({ row, col, row, col })
+    if not lang_tree then
+        return nil
+    end
+
+    return lang_tree:lang()
+end
+
+---@param row integer 0-indexed row
+---@param col integer 0-indexed column
+---@return string?
+local find_variable_via_query = function(row, col)
+    local lang = get_treesitter_lang_at(row, col)
+    if not lang then
+        return nil
+    end
+
+    local query = vim.treesitter.query.get(lang, "debugprint")
+    if not query then
+        return nil
+    end
+
+    local ok, parser = pcall(vim.treesitter.get_parser, 0)
+    if not ok or not parser then
+        return nil
+    end
+
+    local trees = parser:parse()
+    if not trees or not trees[1] then
+        return nil
+    end
+
+    local root = trees[1]:root()
+
+    -- Find the largest (most complete) capture containing the cursor position.
+    -- When multiple captures overlap, the largest range gives the most useful match at the cursor.
+    local best_node = nil
+    -- Weight rows more heavily than columns so multi-line nodes are always
+    -- considered larger than single-line nodes.
+    local ROW_WEIGHT = 100000
+
+    for id, node, _ in query:iter_captures(root, 0, row, row + 1) do
+        if query.captures[id] == "variable" then
+            local sr, sc, er, ec = node:range()
+            if
+                (sr < row or (sr == row and sc <= col))
+                and (er > row or (er == row and ec > col))
+            then
+                if best_node == nil then
+                    best_node = node
+                else
+                    local bsr, bsc, ber, bec = best_node:range()
+                    local cur_size = (er - sr) * ROW_WEIGHT + (ec - sc)
+                    local best_size = (ber - bsr) * ROW_WEIGHT + (bec - bsc)
+                    if cur_size > best_size then
+                        best_node = node
+                    end
+                end
+            end
+        end
+    end
+
+    if best_node ~= nil then
+        return vim.treesitter.get_node_text(best_node, 0)
+    end
+
+    return nil
+end
+
+---@return string?
+local find_treesitter_variable = function()
+    -- Try query-file approach first (e.g. queries/bash/debugprint.scm).
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row, col = cursor[1] - 1, cursor[2]
+    local var = find_variable_via_query(row, col)
+    if var ~= nil then
+        return var
+    end
+
+    -- If the language has a query file but find_variable_via_query found no
+    -- capture, return nil so we don't use treesitter at all. Only fall through
+    -- to the generic node-text path for languages that have no query file.
+    local lang = get_treesitter_lang_at(row, col)
+    if lang and vim.treesitter.query.get(lang, "debugprint") then
+        return nil
+    end
+
+    -- Fall back to the node-based approach used by file types without a query
+    -- file.
     local node_at_cursor = get_node_at_cursor()
 
     if node_at_cursor == nil then
         return nil
     else
-        if vim.tbl_get(filetype_config, "find_treesitter_variable") then
-            return filetype_config.find_treesitter_variable(node_at_cursor)
-        else
-            return vim.treesitter.get_node_text(node_at_cursor, 0)
-        end
+        return vim.treesitter.get_node_text(node_at_cursor, 0)
     end
 end
 
 ---@param ignore_treesitter boolean
----@param filetype_config debugprint.FileTypeConfig
 ---@return string?
-M.get_variable_name = function(ignore_treesitter, filetype_config)
+M.get_variable_name = function(ignore_treesitter)
     local variable_name = utils_buffer.get_visual_selection()
 
     if variable_name == false then
@@ -51,7 +154,7 @@ M.get_variable_name = function(ignore_treesitter, filetype_config)
     end
 
     if variable_name == nil and ignore_treesitter ~= true then
-        variable_name = find_treesitter_variable(filetype_config)
+        variable_name = find_treesitter_variable()
     end
 
     if variable_name == nil then
@@ -78,22 +181,10 @@ M.get_effective_filetypes = function()
     -- until the first non-whitespace column
     local current_line_col = vim.fn.col("$")
 
-    local success, parser = pcall(vim.treesitter.get_parser, 0)
+    local treesitter_lang =
+        get_treesitter_lang_at(current_line_nr, current_line_col)
 
-    if success and parser then
-        -- For some reason I don't understand, this parse line is necessary to
-        -- make embedded languages work
-        parser:parse(true)
-
-        local treesitter_lang = parser
-            :language_for_range({
-                current_line_nr,
-                current_line_col,
-                current_line_nr,
-                current_line_col,
-            })
-            :lang()
-
+    if treesitter_lang then
         local filetypes = vim.treesitter.language.get_filetypes(treesitter_lang)
         -- The order in which filetypes are provided seems to be semi-random
         -- (at least prior to v0.10) so we are sorting them to at least give some

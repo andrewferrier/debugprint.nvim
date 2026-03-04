@@ -22,14 +22,6 @@ local shell = {
     mid_var = "${",
     right_var = '}"',
     location = "$0:$LINENO",
-    ---@param node TSNode
-    find_treesitter_variable = function(node)
-        if node:type() == "variable_name" then
-            return vim.treesitter.get_node_text(node, 0)
-        else
-            return nil
-        end
-    end,
     escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
@@ -48,18 +40,6 @@ local js = {
     right = '")',
     mid_var = '", ',
     right_var = ")",
-    ---@param node TSNode
-    find_treesitter_variable = function(node)
-        if node:type() == "property_identifier" and node:parent() ~= nil then
-            local parent = node:parent()
-            ---@cast parent TSNode
-            return vim.treesitter.get_node_text(parent, 0)
-        elseif node:type() == "identifier" then
-            return vim.treesitter.get_node_text(node, 0)
-        else
-            return nil
-        end
-    end,
     escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
@@ -77,24 +57,6 @@ local lua = {
     right = "')",
     mid_var = "' .. vim.inspect(",
     right_var = "))",
-    ---@param node TSNode
-    find_treesitter_variable = function(node)
-        if node:type() == "dot_index_expression" then
-            return vim.treesitter.get_node_text(node, 0)
-        elseif
-            node:parent()
-            and node:parent():type() == "dot_index_expression"
-            and node:prev_named_sibling()
-        then
-            local parent = node:parent()
-            ---@cast parent TSNode
-            return vim.treesitter.get_node_text(parent, 0)
-        elseif node:type() == "identifier" then
-            return vim.treesitter.get_node_text(node, 0)
-        else
-            return nil
-        end
-    end,
     escape_variable_name = ESCAPE_SINGLE_QUOTES,
 }
 
@@ -129,21 +91,6 @@ return {
         mid_var = '%d\\n", __FILE__, __LINE__, ',
         right_var = ");",
         location = "%s:%d",
-        find_treesitter_variable = function(node)
-            if node:type() == "field_expression" then
-                return vim.treesitter.get_node_text(node, 0)
-            elseif
-                node:parent()
-                and node:parent():type() == "field_expression"
-                and node:prev_named_sibling()
-            then
-                return vim.treesitter.get_node_text(node:parent(), 0)
-            elseif node:type() == "identifier" then
-                return vim.treesitter.get_node_text(node, 0)
-            else
-                return nil
-            end
-        end,
         escape_variable_name = ESCAPE_DOUBLE_QUOTES,
     },
     ["cmake"] = {
@@ -335,21 +282,6 @@ return {
         mid_var = '{any}\\n", .{ @src().file, @src().line, ',
         location = "{s}:{d}",
         right_var = " });",
-        find_treesitter_variable = function(node)
-            if node:type() == "field_expression" then
-                return vim.treesitter.get_node_text(node, 0)
-            elseif
-                node:parent()
-                and node:parent():type() == "field_expression"
-                and node:prev_named_sibling()
-            then
-                return vim.treesitter.get_node_text(node:parent(), 0)
-            elseif node:type() == "identifier" then
-                return vim.treesitter.get_node_text(node, 0)
-            else
-                return nil
-            end
-        end,
     },
     ["zsh"] = shell,
 }
