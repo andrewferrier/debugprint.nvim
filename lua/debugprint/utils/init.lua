@@ -24,9 +24,55 @@ local get_node_at_cursor = function()
     end
 end
 
+---@param row integer 0-indexed row
+---@param col integer 0-indexed column
+---@return string?
+local find_variable_via_query = function(row, col)
+    local ok, parser = pcall(vim.treesitter.get_parser, 0)
+    if not ok or not parser then
+        return nil
+    end
+
+    local lang = parser:lang()
+    local query = vim.treesitter.query.get(lang, "debugprint")
+    if not query then
+        return nil
+    end
+
+    local trees = parser:parse()
+    if not trees or not trees[1] then
+        return nil
+    end
+
+    local root = trees[1]:root()
+
+    for id, node, _ in query:iter_captures(root, 0, row, row + 1) do
+        if query.captures[id] == "variable" then
+            local sr, sc, er, ec = node:range()
+            if
+                (sr < row or (sr == row and sc <= col))
+                and (er > row or (er == row and ec > col))
+            then
+                return vim.treesitter.get_node_text(node, 0)
+            end
+        end
+    end
+
+    return nil
+end
+
 ---@param filetype_config debugprint.FileTypeConfig
 ---@return string?
 local find_treesitter_variable = function(filetype_config)
+    -- Try query-file approach first (e.g. queries/bash/debugprint.scm).
+    -- This is the preferred mechanism for file types that provide a query file.
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local var = find_variable_via_query(cursor[1] - 1, cursor[2])
+    if var ~= nil then
+        return var
+    end
+
+    -- Fall back to the node-based approach used by all other file types.
     local node_at_cursor = get_node_at_cursor()
 
     if node_at_cursor == nil then

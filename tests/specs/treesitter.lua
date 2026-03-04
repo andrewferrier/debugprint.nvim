@@ -48,6 +48,66 @@ describe("can handle treesitter identifiers", function()
         assert.equals(support.get_notify_message(), nil)
     end)
 
+    it(
+        "standard (bash) via query - cursor at start of variable name",
+        function()
+            debugprint.setup({})
+
+            support.init_file({
+                "XYZ=123",
+            }, "bash", 1, 0)
+
+            support.feedkeys("g?v")
+
+            support.check_lines({
+                "XYZ=123",
+                '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: XYZ=${XYZ}"',
+            })
+
+            assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
+
+            assert.equals(support.get_notify_message(), nil)
+        end
+    )
+
+    it("standard (bash) via query - variable reference in echo", function()
+        debugprint.setup({})
+
+        support.init_file({
+            'echo "$FOO"',
+        }, "bash", 1, 7)
+
+        support.feedkeys("g?v")
+
+        support.check_lines({
+            'echo "$FOO"',
+            '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: FOO=${FOO}"',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 7 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
+    it("standard (sh) via query - same grammar as bash", function()
+        debugprint.setup({})
+
+        support.init_file({
+            "MY_VAR=hello",
+        }, "sh", 1, 2)
+
+        support.feedkeys("g?v")
+
+        support.check_lines({
+            "MY_VAR=hello",
+            '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: MY_VAR=${MY_VAR}"',
+        })
+
+        assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 2 })
+
+        assert.equals(support.get_notify_message(), nil)
+    end)
+
     it("non-identifier", function()
         debugprint.setup({})
 
