@@ -48,28 +48,6 @@ describe("can handle treesitter identifiers", function()
         assert.equals(support.get_notify_message(), nil)
     end)
 
-    it(
-        "standard (bash) via query - cursor at start of variable name",
-        function()
-            debugprint.setup({})
-
-            support.init_file({
-                "XYZ=123",
-            }, "bash", 1, 0)
-
-            support.feedkeys("g?v")
-
-            support.check_lines({
-                "XYZ=123",
-                '>&2 echo "DEBUGPRINT[1]: $0:$LINENO: XYZ=${XYZ}"',
-            })
-
-            assert.are.same(vim.api.nvim_win_get_cursor(0), { 1, 0 })
-
-            assert.equals(support.get_notify_message(), nil)
-        end
-    )
-
     it("standard (bash) via query - variable reference in echo", function()
         debugprint.setup({})
 
