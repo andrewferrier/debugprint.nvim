@@ -22,14 +22,6 @@ local shell = {
     mid_var = "${",
     right_var = '}"',
     location = "$0:$LINENO",
-    ---@param node TSNode
-    find_treesitter_variable = function(node)
-        if node:type() == "variable_name" then
-            return vim.treesitter.get_node_text(node, 0)
-        else
-            return nil
-        end
-    end,
     escape_variable_name = ESCAPE_DOUBLE_QUOTES,
 }
 
