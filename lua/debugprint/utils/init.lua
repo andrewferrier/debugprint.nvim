@@ -33,7 +33,12 @@ local find_variable_via_query = function(row, col)
         return nil
     end
 
-    local lang = parser:lang()
+    -- Use the Treesitter language at the given position (supports injected languages)
+    local range = { row, col, row, col + 1 }
+    local lang = parser:language_for_range(range)
+    if not lang then
+        return nil
+    end
     local query = vim.treesitter.query.get(lang, "debugprint")
     if not query then
         return nil
