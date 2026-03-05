@@ -106,9 +106,8 @@ local find_variable_via_query = function(row, col)
     return nil
 end
 
----@param filetype_config debugprint.FileTypeConfig
 ---@return string?
-local find_treesitter_variable = function(filetype_config)
+local find_treesitter_variable = function()
     -- Try query-file approach first (e.g. queries/bash/debugprint.scm).
     -- This is the preferred mechanism for file types that provide a query file.
     local cursor = vim.api.nvim_win_get_cursor(0)
@@ -123,18 +122,13 @@ local find_treesitter_variable = function(filetype_config)
     if node_at_cursor == nil then
         return nil
     else
-        if vim.tbl_get(filetype_config, "find_treesitter_variable") then
-            return filetype_config.find_treesitter_variable(node_at_cursor)
-        else
-            return vim.treesitter.get_node_text(node_at_cursor, 0)
-        end
+        return vim.treesitter.get_node_text(node_at_cursor, 0)
     end
 end
 
 ---@param ignore_treesitter boolean
----@param filetype_config debugprint.FileTypeConfig
 ---@return string?
-M.get_variable_name = function(ignore_treesitter, filetype_config)
+M.get_variable_name = function(ignore_treesitter)
     local variable_name = utils_buffer.get_visual_selection()
 
     if variable_name == false then
@@ -142,7 +136,7 @@ M.get_variable_name = function(ignore_treesitter, filetype_config)
     end
 
     if variable_name == nil and ignore_treesitter ~= true then
-        variable_name = find_treesitter_variable(filetype_config)
+        variable_name = find_treesitter_variable()
     end
 
     if variable_name == nil then
