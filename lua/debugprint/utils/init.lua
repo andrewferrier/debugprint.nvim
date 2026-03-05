@@ -111,12 +111,23 @@ local find_treesitter_variable = function()
     -- Try query-file approach first (e.g. queries/bash/debugprint.scm).
     -- This is the preferred mechanism for file types that provide a query file.
     local cursor = vim.api.nvim_win_get_cursor(0)
-    local var = find_variable_via_query(cursor[1] - 1, cursor[2])
+    local row, col = cursor[1] - 1, cursor[2]
+    local var = find_variable_via_query(row, col)
     if var ~= nil then
         return var
     end
 
-    -- Fall back to the node-based approach used by all other file types.
+    -- If the language has a query file but the cursor is not on a recognised
+    -- capture (e.g. on whitespace or inside a comment), return nil so the
+    -- caller shows the user a prompt.  Only fall through to the generic
+    -- node-text path for languages that have no query file at all.
+    local lang = get_treesitter_lang_at(row, col)
+    if lang and vim.treesitter.query.get(lang, "debugprint") then
+        return nil
+    end
+
+    -- Fall back to the node-based approach used by file types without a query
+    -- file (e.g. Python, Ruby, PHP).
     local node_at_cursor = get_node_at_cursor()
 
     if node_at_cursor == nil then
