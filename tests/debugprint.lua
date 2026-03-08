@@ -42,7 +42,7 @@ local parsers = {
 if vim.fn.has("nvim-0.12.0") == 1 then
     -- This currently only works on NeoVim nightly (0.12)+, because
     -- the ones before don't have a zsh grammar
-    parsers.insert("zsh")
+    table.insert(parsers, "zsh")
 end
 
 local install = require("nvim-treesitter").install
