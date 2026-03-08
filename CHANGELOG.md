@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/andrewferrier/debugprint.nvim/compare/v7.1.0...v7.1.1) (2026-03-08)
+
+
+### Bug Fixes
+
+* Only NeoVim 0.12+ supports zsh treesitter ([ef46b99](https://github.com/andrewferrier/debugprint.nvim/commit/ef46b99e90b75b9fe466db967633d42009f736b8))
+
 ## [7.1.0](https://github.com/andrewferrier/debugprint.nvim/compare/v7.0.0...v7.1.0) (2026-02-06)
 
 
