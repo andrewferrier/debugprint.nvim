@@ -37,6 +37,7 @@ local parsers = {
     "php",
     "python",
     "zig",
+    "zsh",
 }
 
 local install = require("nvim-treesitter").install
