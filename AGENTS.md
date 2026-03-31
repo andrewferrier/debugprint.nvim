@@ -1,16 +1,10 @@
-# Copilot Instructions for debugprint.nvim
+# Agent Instructions for debugprint.nvim
 
 Welcome to debugprint.nvim! This document provides essential information for AI coding agents to work efficiently with this repository.
 
 ## Project Overview
 
-debugprint.nvim is a NeoVim plugin that simplifies debugging by automatically inserting language-specific debug print statements. It supports 40+ file types out-of-the-box and provides features like:
-
-- Automatic insertion of debug statements with file names, line numbers, and counters
-- Variable value printing using Treesitter
-- Commands to delete, comment, or search debug statements
-- Highlighting of inserted debug lines
-- Support for custom filetypes
+debugprint.nvim is a NeoVim plugin that simplifies debugging by automatically inserting language-specific debug print statements. See the README.md for more information on features.
 
 **Technology Stack:**
 
@@ -77,11 +71,11 @@ The project uses multiple linters and type checkers:
 
    ```lua
    local M = {}
-   
+
    M.some_function = function()
        -- ...
    end
-   
+
    return M
    ```
 
@@ -143,15 +137,15 @@ describe("feature name", function()
             "line1",
             "line2",
         }, "lua", 1, 0)
-        
+
         support.feedkeys("g?p")
-        
+
         support.check_lines({
             "line1",
             "print('DEBUGPRINT[1]: " .. filename .. ":1 (after line1)')",
             "line2",
         })
-        
+
         assert.equals(support.get_notify_message(), nil)
     end)
 end)
