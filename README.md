@@ -75,7 +75,7 @@ Recent interview video showing most of the key features of debugprint:
 
 ## Installation
 
-**Requires NeoVim 0.10+.**
+**Requires NeoVim 0.11+.**
 
 Example for [`lazy.nvim`](https://github.com/folke/lazy.nvim):
 
