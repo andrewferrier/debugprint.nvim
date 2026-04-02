@@ -93,22 +93,13 @@ describe("can do various file types", function()
 
             support.feedkeys("g?p")
 
-            if vim.fn.has("nvim-0.11.0") == 1 then
-                -- On NeoVim nightly, this inserts an extra space before the comment
-                support.check_lines({
-                    "(fn print-and-add [a b c]",
-                    "  ; No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
-                    "  (print a)",
-                    "  (+ b c))",
-                })
-            else
-                support.check_lines({
-                    "(fn print-and-add [a b c]",
-                    "  ;No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
-                    "  (print a)",
-                    "  (+ b c))",
-                })
-            end
+            -- On NeoVim nightly, this inserts an extra space before the comment
+            support.check_lines({
+                "(fn print-and-add [a b c]",
+                "  ; No debugprint configuration for filetype fennel; see https://github.com/andrewferrier/debugprint.nvim/blob/main/SHOWCASE.md#modifying-or-adding-filetypes",
+                "  (print a)",
+                "  (+ b c))",
+            })
 
             assert.equals(support.get_notify_message(), nil)
         end

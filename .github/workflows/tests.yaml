@@ -66,7 +66,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        neovim_branch: ["v0.10.4", "stable", "nightly"]
+        neovim_branch: ["v0.11.7", "stable", "nightly"]
 
     steps:
       - uses: actions/checkout@v6
