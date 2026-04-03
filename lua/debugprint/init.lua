@@ -5,6 +5,7 @@ local utils_buffer = require("debugprint.utils.buffer")
 local utils_errors = require("debugprint.utils.errors")
 local utils_operator = require("debugprint.utils.operator")
 local utils_register = require("debugprint.utils.register")
+local utils_variable = require("debugprint.utils.variable")
 
 ---@type debugprint.GlobalOptions
 local global_opts
@@ -290,7 +291,7 @@ M.debugprint = function(opts)
             require("debugprint.filetype_config").get(global_opts.filetypes)
 
         if filetype_config then
-            opts.variable_name = utils.get_variable_name(
+            opts.variable_name = utils_variable.get_variable_name(
                 global_opts.ignore_treesitter or opts.ignore_treesitter or false
             )
 
