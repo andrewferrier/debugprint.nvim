@@ -62,79 +62,132 @@ local GLOBAL_OPTION_DEFAULTS = {
     picker = nil,
 }
 
+local STRING_OR_BOOLEAN = { "string", "boolean" }
+
 ---@param o debugprint.GlobalOptions
 ---@return nil
 local validate_global_opts = function(o)
-    local STRING_FALSE_NIL = { "string", "boolean", "nil" }
+    vim.validate("keymaps", o.keymaps, "table")
+    vim.validate(
+        "display_counter",
+        o.display_counter,
+        { "function", "boolean" }
+    )
+    vim.validate("display_location", o.display_location, "boolean")
+    vim.validate("display_snippet", o.display_snippet, "boolean")
+    vim.validate("move_to_debugline", o.move_to_debugline, "boolean")
+    vim.validate("notify_for_registers", o.notify_for_registers, "boolean")
+    vim.validate(
+        "highlight_lines",
+        o.highlight_lines,
+        { "function", "boolean" }
+    )
+    vim.validate("filetypes", o.filetypes, "table")
+    vim.validate("print_tag", o.print_tag, "string")
+    vim.validate("picker", o.picker, "string", true)
 
-    vim.validate({
-        keymaps = { o.keymaps, "table" },
-        display_counter = { o.display_counter, { "function", "boolean" } },
-        display_location = { o.display_location, "boolean" },
-        display_snippet = { o.display_snippet, "boolean" },
-        move_to_debugline = { o.move_to_debugline, "boolean" },
-        notify_for_registers = { o.notify_for_registers, "boolean" },
-        highlight_lines = { o.highlight_lines, { "function", "boolean" } },
-        filetypes = { o.filetypes, "table" },
-        print_tag = { o.print_tag, "string" },
-        picker = { o.picker, { "string", "nil" } },
-    })
-
-    vim.validate({
-        keymaps_normal = { o.keymaps.normal, "table" },
-        keymaps_visual = { o.keymaps.visual, "table" },
-    })
+    vim.validate("keymaps_normal", o.keymaps.normal, "table")
+    vim.validate("keymaps_visual", o.keymaps.visual, "table")
 
     local normal = o.keymaps.normal
     local insert = o.keymaps.insert
     local visual = o.keymaps.visual
 
     if normal ~= nil then
-        vim.validate({
-            plain_below = { normal.plain_below, STRING_FALSE_NIL },
-            plain_above = { normal.plain_above, STRING_FALSE_NIL },
-            variable_below = { normal.variable_below, STRING_FALSE_NIL },
-            variable_above = { normal.variable_above, STRING_FALSE_NIL },
-            variable_below_alwaysprompt = {
-                normal.variable_below_alwaysprompt,
-                STRING_FALSE_NIL,
-            },
-            variable_above_alwaysprompt = {
-                normal.variable_above_alwaysprompt,
-                STRING_FALSE_NIL,
-            },
-            surround_plain = { normal.surround_plain, STRING_FALSE_NIL },
-            surround_variable = { normal.surround_variable, STRING_FALSE_NIL },
-            surround_variable_alwaysprompt = {
-                normal.surround_variable_alwaysprompt,
-                STRING_FALSE_NIL,
-            },
-            textobj_below = { normal.textobj_below, STRING_FALSE_NIL },
-            textobj_above = { normal.textobj_above, STRING_FALSE_NIL },
-            textobj_surround = { normal.textobj_surround, STRING_FALSE_NIL },
-            delete_debug_prints = {
-                normal.delete_debug_prints,
-                STRING_FALSE_NIL,
-            },
-            toggle_comment_debug_prints = {
-                normal.toggle_comment_debug_prints,
-                STRING_FALSE_NIL,
-            },
-        })
+        vim.validate("plain_below", normal.plain_below, STRING_OR_BOOLEAN, true)
+        vim.validate("plain_above", normal.plain_above, STRING_OR_BOOLEAN, true)
+        vim.validate(
+            "variable_below",
+            normal.variable_below,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "variable_above",
+            normal.variable_above,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "variable_below_alwaysprompt",
+            normal.variable_below_alwaysprompt,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "variable_above_alwaysprompt",
+            normal.variable_above_alwaysprompt,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "surround_plain",
+            normal.surround_plain,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "surround_variable",
+            normal.surround_variable,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "surround_variable_alwaysprompt",
+            normal.surround_variable_alwaysprompt,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "textobj_below",
+            normal.textobj_below,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "textobj_above",
+            normal.textobj_above,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "textobj_surround",
+            normal.textobj_surround,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "delete_debug_prints",
+            normal.delete_debug_prints,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "toggle_comment_debug_prints",
+            normal.toggle_comment_debug_prints,
+            STRING_OR_BOOLEAN,
+            true
+        )
     end
 
     if insert ~= nil then
-        vim.validate({
-            variable_below = { insert.plain, STRING_FALSE_NIL },
-            variable_above = { insert.variable, STRING_FALSE_NIL },
-        })
+        vim.validate("plain", insert.plain, STRING_OR_BOOLEAN, true)
+        vim.validate("variable", insert.variable, STRING_OR_BOOLEAN, true)
     end
 
     if visual ~= nil then
-        vim.validate({
-            variable_below = { visual.variable_below, STRING_FALSE_NIL },
-            variable_above = { visual.variable_above, STRING_FALSE_NIL },
-        })
+        vim.validate(
+            "variable_below",
+            visual.variable_below,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "variable_above",
+            visual.variable_above,
+            STRING_OR_BOOLEAN,
+            true
+        )
     end
 end
 
@@ -150,14 +203,12 @@ local FUNCTION_OPTION_DEFAULTS = {
 ---@param o debugprint.FunctionOptions
 ---@return nil
 local validate_function_opts = function(o)
-    vim.validate({
-        above = { o.above, "boolean" },
-        variable = { o.variable, "boolean" },
-        ignore_treesitter = { o.ignore_treesitter, "boolean" },
-        motion = { o.motion, "boolean" },
-        insert = { o.insert, "boolean" },
-        surround = { o.surround, "boolean" },
-    })
+    vim.validate("above", o.above, "boolean")
+    vim.validate("variable", o.variable, "boolean")
+    vim.validate("ignore_treesitter", o.ignore_treesitter, "boolean")
+    vim.validate("motion", o.motion, "boolean")
+    vim.validate("insert", o.insert, "boolean")
+    vim.validate("surround", o.surround, "boolean")
 end
 
 ---@param opts? debugprint.GlobalOptions

@@ -343,9 +343,7 @@ end
 ---@param filetypes debugprint.FileTypeConfigOrDynamic[]
 ---@return nil
 M.add_custom_filetypes = function(filetypes)
-    vim.validate({
-        filetypes = { filetypes, "table" },
-    })
+    vim.validate("filetypes", filetypes, "table")
 
     global_opts.filetypes =
         vim.tbl_deep_extend("force", global_opts.filetypes, filetypes)
