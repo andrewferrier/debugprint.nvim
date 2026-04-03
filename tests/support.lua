@@ -3,15 +3,8 @@ local M = {}
 local debugprint = require("debugprint")
 
 local notify_message
--- FIXME: This will be needed when deprecating the old commands
--- local notify_message_warnerr
 
 vim.notify = function(msg, _)
-    -- FIXME: This will be needed when deprecating the old commands
-    -- if level == vim.log.levels.ERROR or level == vim.log.levels.WARN then
-    --     -- notify_message_warnerr = msg
-    -- end
-
     notify_message = msg
 end
 
