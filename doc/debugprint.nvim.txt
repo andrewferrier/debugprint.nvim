@@ -1,4 +1,5 @@
-*debugprint.nvim.txt*             For NVIM             Last change: 2026-04-06
+*debugprint.nvim.txt*
+                                           For NVIM    Last change: 2026-04-25
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -53,22 +54,22 @@ generation. It:
     basis <SHOWCASE.md#setting-display_-options-on-per-filetype-basis>.
 - Will highlight inserted lines to make them easier to find in your code (depends
     on mini.nvim <https://github.com/nvim-mini/mini.nvim/> or mini.hipatterns
-    <https://github.com/nvim-mini/mini.hipatterns>).
+<https://github.com/nvim-mini/mini.hipatterns>).
 - Can output the value of variables (or simple expressions) - it will detect a
     variable name under the cursor for some languages using Treesitter, or will
     prompt with a sensible default. It understands Treesitter embedded languages
-    (e.g. JavaScript-in-HTML).
+    (e.g. JavaScript-in-HTML).
 - Provides |debugprint.nvim-keymappings| for normal, insert, visual, and
     operator-pending modes. Supports dot-repeat
-    <https://jovicailic.org/2018/03/vim-the-dot-command/>. Can insert two
+<https://jovicailic.org/2018/03/vim-the-dot-command/>. Can insert two
     'surrounding' lines at the same time.
 - Supports direct writing to NeoVim registers for batch insert of debugprint
     lines.
 - Provides |debugprint.nvim-commands| to delete or comment debugging lines added
     to the current buffer, search for those lines in the current directory
     (project) using fzf-lua <https://github.com/ibhagwan/fzf-lua>, telescope.nvim
-    <https://github.com/nvim-telescope/telescope.nvim> or snacks.nvim
-    <https://github.com/folke/snacks.nvim>, and add those lines to the quickfix
+<https://github.com/nvim-telescope/telescope.nvim> or snacks.nvim
+<https://github.com/folke/snacks.nvim>, and add those lines to the quickfix
     list.
 - Can optionally move to the inserted line (or not).
 
@@ -80,7 +81,7 @@ Recent interview video showing most of the key features of debugprint:
 
 
 
-Older, shorter demo video showing basic features. 
+Older, shorter demo video showing basic features.
 
 
 ==============================================================================
