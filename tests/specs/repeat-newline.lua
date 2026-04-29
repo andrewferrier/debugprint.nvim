@@ -24,7 +24,7 @@ describe("can repeat with move to line", function()
                 .. filename
                 .. ":2 (after print(DEBUGPRINT[1]: "
                 .. filename
-                .. ":1 (after foo…)')",
+                .. ":1 (after fo…)')",
             "bar",
         })
 
