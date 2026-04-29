@@ -36,6 +36,7 @@ local parsers = {
     "markdown_inline",
     "php",
     "python",
+    "rust",
     "zig",
 }
 
