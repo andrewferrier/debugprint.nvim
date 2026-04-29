@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v7.1.1...v7.2.0) (2026-04-29)
+
+
+### Features
+
+* Implement display_timestamp capability ([5a6f495](https://github.com/andrewferrier/debugprint.nvim/commit/5a6f495f9bf9ba52077b744fd01b0db4a3f970b7))
+* **queries:** golang support ([052b87a](https://github.com/andrewferrier/debugprint.nvim/commit/052b87af99a08dacb4e4c3a9ab9e3a8134332a3c))
+
+
+### Bug Fixes
+
+* Remove support for NeoVim 0.10 - closes [#206](https://github.com/andrewferrier/debugprint.nvim/issues/206) ([bd44c61](https://github.com/andrewferrier/debugprint.nvim/commit/bd44c61429c6a796841bd765374782a732916665))
+* Standardize on AGENTS.md ([1e960c6](https://github.com/andrewferrier/debugprint.nvim/commit/1e960c6b6477d8c70da7a49269aac946755aa8d6))
+
 ## [7.1.1](https://github.com/andrewferrier/debugprint.nvim/compare/v7.1.0...v7.1.1) (2026-03-08)
 
 
