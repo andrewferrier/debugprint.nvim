@@ -1,5 +1,5 @@
 *debugprint.nvim.txt*
-                                           For NVIM    Last change: 2026-04-28
+                                           For NVIM    Last change: 2026-04-29
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -285,6 +285,10 @@ should be used.
   display_snippet        true           Include a snippet of the line above/below in the
                                         debug message (plain debug lines only) for context
 
+  display_timestamp      false          Include a dynamically-generated local timestamp at
+                                        the start of the debug message. Only supported for
+                                        some languages; see showcase for details.
+
   notify_for_registers   true           If set to false, disables the notifications that
                                         occur when debugprint lines are inserted or appended
                                         to registers
@@ -384,7 +388,7 @@ should be used.
   Print stack traces       :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
                                              user config)                                                                    
 
-  Add time-tracking logic  :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
+  Add time-tracking logic  (some languages)  :+1: (via     :+1:              :x:            :x:                :x:           :x:
                                              user config)                                                                    
 
   Add debugging            :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
