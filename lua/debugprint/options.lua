@@ -31,6 +31,7 @@ local GLOBAL_OPTION_DEFAULTS = {
     display_counter = true,
     display_location = true,
     display_snippet = true,
+    display_timestamp = false,
     move_to_debugline = false,
     notify_for_registers = true,
     highlight_lines = function(bufnr)
@@ -75,6 +76,7 @@ local validate_global_opts = function(o)
     )
     vim.validate("display_location", o.display_location, "boolean")
     vim.validate("display_snippet", o.display_snippet, "boolean")
+    vim.validate("display_timestamp", o.display_timestamp, "boolean")
     vim.validate("move_to_debugline", o.move_to_debugline, "boolean")
     vim.validate("notify_for_registers", o.notify_for_registers, "boolean")
     vim.validate(

@@ -15,6 +15,11 @@ local ESCAPE_SINGLE_QUOTES = function(variable_name)
     return string.gsub(variable_name, "'", "\\'")
 end
 
+local TIME_EXPRESSIONS = {
+    PYTHON = "__import__('datetime').datetime.now().strftime('%H:%M:%S.%f')[:12]",
+    RUST = 'chrono::Local::now().format("%H:%M:%S%.3f")',
+}
+
 ---@type debugprint.FileTypeConfig
 local shell = {
     left = '>&2 echo "',
@@ -36,7 +41,15 @@ docker.left = "RUN " .. docker.left
 -- for some other discussion on this.
 ---@type debugprint.FileTypeConfig
 local js = {
-    left = 'console.warn("',
+    left = function(opts)
+        if opts.display_timestamp then
+            return "console.warn("
+                .. "(d=>d.toTimeString().slice(0,8)"
+                .. '+"."+String(d.getMilliseconds()).padStart(3,"0"))(new Date())'
+                .. '+": "+"'
+        end
+        return 'console.warn("'
+    end,
     right = '")',
     mid_var = '", ',
     right_var = ")",
@@ -53,7 +66,15 @@ local cs = {
 
 ---@type debugprint.FileTypeConfig
 local lua = {
-    left = "print('",
+    left = function(opts)
+        if opts.display_timestamp then
+            return "print("
+                .. "(function()local s,u=vim.uv.gettimeofday()"
+                .. "return os.date('%H:%M:%S',s)..('%.3f'):format(u/1e6):sub(2)end)()"
+                .. "..': '..'"
+        end
+        return "print('"
+    end,
     right = "')",
     mid_var = "' .. vim.inspect(",
     right_var = "))",
@@ -230,8 +251,18 @@ return {
     },
     -- Don't print to stderr by default, because it requires 'import sys'
     ["python"] = {
-        left = 'print("',
-        left_var = 'print(f"',
+        left = function(opts)
+            if opts.display_timestamp then
+                return 'print(f"{' .. TIME_EXPRESSIONS.PYTHON .. "}: "
+            end
+            return 'print("'
+        end,
+        left_var = function(opts)
+            if opts.display_timestamp then
+                return 'print(f"{' .. TIME_EXPRESSIONS.PYTHON .. "}: "
+            end
+            return 'print(f"'
+        end,
         right = '")',
         mid_var = "{",
         right_var = '}")',
@@ -245,9 +276,26 @@ return {
     },
     ["ruby"] = ruby,
     ["rust"] = {
-        left = 'eprintln!("',
-        right = '", file!(), line!());',
-        mid_var = '{:#?}", file!(), line!(), ',
+        left = function(opts)
+            if opts.display_timestamp then
+                return 'eprintln!("{}: '
+            end
+            return 'eprintln!("'
+        end,
+        right = function(opts)
+            if opts.display_timestamp then
+                return '", ' .. TIME_EXPRESSIONS.RUST .. ", file!(), line!());"
+            end
+            return '", file!(), line!());'
+        end,
+        mid_var = function(opts)
+            if opts.display_timestamp then
+                return '{:#?}", '
+                    .. TIME_EXPRESSIONS.RUST
+                    .. ", file!(), line!(), "
+            end
+            return '{:#?}", file!(), line!(), '
+        end,
         location = "{}:{}",
         right_var = ");",
         escape_variable_name = ESCAPE_DOUBLE_QUOTES,

@@ -2,16 +2,23 @@
 
 ---@meta types
 
+---@class debugprint.ConfigOpts
+---@field display_timestamp boolean
+
+---@alias debugprint.FieldValue string | fun(opts: debugprint.ConfigOpts): string
+
 ---@class debugprint.FileTypeConfig
----@field left string
----@field right string
----@field mid_var string
----@field right_var string
+---@field left debugprint.FieldValue
+---@field right debugprint.FieldValue
+---@field mid_var debugprint.FieldValue
+---@field right_var debugprint.FieldValue
+---@field left_var? debugprint.FieldValue
 ---@field location string?
 ---@field escape_variable_name? function(string):string
 ---@field display_counter? boolean|function():string
 ---@field display_location? boolean
 ---@field display_snippet? boolean
+---@field display_timestamp? boolean
 
 ---@class debugprint.FileTypeConfigParams
 ---@field effective_filetypes string[]
@@ -27,6 +34,7 @@
 ---@field display_counter? boolean|function():string
 ---@field display_location? boolean
 ---@field display_snippet? boolean
+---@field display_timestamp? boolean
 ---@field move_to_debugline? boolean
 ---@field notify_for_registers? boolean
 ---@field highlight_lines? boolean|function(int):boolean

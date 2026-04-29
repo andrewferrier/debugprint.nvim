@@ -31,7 +31,7 @@ local get_debugline_tag_and_counter = function(display_counter)
 end
 
 ---@param fileconfig debugprint.FileTypeConfig
----@return function|boolean?, boolean?, boolean?
+---@return function|boolean?, boolean?, boolean?, boolean?
 local get_display_options = function(fileconfig)
     local display_counter
     if fileconfig.display_counter ~= nil then
@@ -54,7 +54,14 @@ local get_display_options = function(fileconfig)
         display_snippet = global_opts.display_snippet
     end
 
-    return display_counter, display_location, display_snippet
+    local display_timestamp
+    if fileconfig.display_timestamp ~= nil then
+        display_timestamp = fileconfig.display_timestamp
+    else
+        display_timestamp = global_opts.display_timestamp
+    end
+
+    return display_counter, display_location, display_snippet, display_timestamp
 end
 
 ---@param linenr integer
@@ -77,7 +84,7 @@ local get_debugline_textcontent = function(opts, fileconfig)
     local line_components = {}
     local force_snippet_for_plain = false
 
-    local display_counter, display_location, display_snippet =
+    local display_counter, display_location, display_snippet, _ =
         get_display_options(fileconfig)
 
     if
@@ -137,28 +144,34 @@ end
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
 local get_debugprint_line_core = function(opts, fileconfig)
+    local _, _, _, display_timestamp = get_display_options(fileconfig)
+
+    ---@type debugprint.ConfigOpts
+    local config_opts = { display_timestamp = display_timestamp or false }
+
+    local resolve_field = function(field)
+        if type(field) == "function" then
+            return field(config_opts)
+        end
+        return field
+    end
+
     ---@type string
     local line_to_insert
 
     if opts.variable_name then
-        local left
-
-        if fileconfig["left_var"] ~= nil then
-            left = fileconfig["left_var"]
-        else
-            left = fileconfig["left"]
-        end
-
-        line_to_insert = left
+        local left_field = fileconfig.left_var ~= nil and fileconfig.left_var
+            or fileconfig.left
+        line_to_insert = resolve_field(left_field)
             .. get_debugline_textcontent(opts, fileconfig)
-            .. fileconfig.mid_var
+            .. resolve_field(fileconfig.mid_var)
             .. opts.variable_name
-            .. fileconfig.right_var
+            .. resolve_field(fileconfig.right_var)
     else
         opts.variable_name = nil
-        line_to_insert = fileconfig.left
+        line_to_insert = resolve_field(fileconfig.left)
             .. get_debugline_textcontent(opts, fileconfig)
-            .. fileconfig.right
+            .. resolve_field(fileconfig.right)
     end
 
     return line_to_insert

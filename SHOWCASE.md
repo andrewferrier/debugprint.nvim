@@ -138,9 +138,43 @@ or
 require('debugprint').add_custom_filetypes({ ["filetype"] = { display_counter = false }, … })
 ```
 
+## Adding Timestamps to Debug Lines
+
+When `display_timestamp = true` is set in your `setup()` configuration, `debugprint` will include a dynamically-generated local timestamp at the beginning of each debug line. The timestamp format is `hh:mm:ss.sss` (ISO-8601 time-only, with millisecond precision).
+
+```lua
+require('debugprint').setup({ display_timestamp = true })
+```
+
+This is supported out-of-the-box for a few common filetypes. For unsupported languages, the timestamp is silently omitted. For some languages, you may need to add dependencies or imports for the timestamp to work. This is left as an exercise for the user.
+
+`display_timestamp` can also be set per-filetype using the same override mechanism as the other `display_*` options:
+
+```lua
+require('debugprint').setup({ filetypes = { ["lua"] = { display_timestamp = false } } })
+```
+
+### Adding Timestamp Support for Custom Filetypes
+
+To add timestamp support to a custom or tweaked filetype, make `left` (and optionally `left_var`, `right`, `mid_var`, or `right_var`) a function instead of a plain string. The function receives a `debugprint.ConfigOpts` table with a `display_timestamp` boolean field, and returns the appropriate string:
+
+```lua
+local my_fileformat = {
+    left = function(opts)
+        if opts.display_timestamp then
+            return 'myprint(my_timestamp_expr() + ": " + "'
+        end
+        return 'myprint("'
+    end,
+    right = '")',
+    mid_var = '" + ',
+    right_var = ')',
+}
+```
+
 ## Restoring non-persistent `display_counter` counter
 
-In older versions, `debugprint` used a `display_counter` which was only local to a particular NeoVim session; it was reset when exiting NeoVim and wasn't common between NeoVim sessions in different terminals. If you don't like the new 'persistent' counter, you can restore this old behaviour by setting a custom `display_counter`. This will recreate the old logic:
+In older versions, `debugprint` used a `display_counter` which was only local to a particular NeoVim session
 
 ```lua
 local counter = 0
