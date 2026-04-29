@@ -260,6 +260,7 @@ local handle_debugprint_line = function(opts)
     end
 end
 
+---@type debugprint.FunctionOptionsInternal
 local cache_request = {}
 
 ---@return nil
@@ -283,8 +284,12 @@ end
 
 ---@return nil
 M.debugprint_operatorfunc_motion = function()
-    cache_request.variable_name = utils_buffer.get_operator_selection()
-    M.debugprint_operatorfunc_regular()
+    local get_operator_selection = utils_buffer.get_operator_selection()
+
+    if get_operator_selection ~= false then
+        cache_request.variable_name = get_operator_selection
+        M.debugprint_operatorfunc_regular()
+    end
 end
 
 ---@param opts? debugprint.FunctionOptions
