@@ -23,36 +23,16 @@ doc/                    # Generated Vim help documentation
 
 ## Lua Best Practices
 
-### Code Formatting
+### Code Quality
 
-**CRITICAL:** All Lua code MUST be formatted using `stylua` with the project's configuration (see `.stylua.toml`).
-
-**Before committing any Lua code:**
+**CRITICAL:** Before considering any change complete, run:
 
 ```bash
-stylua --check lua/ tests/  # Check formatting
-stylua lua/ tests/          # Auto-format code
+pre-commit run --all-files  # Runs stylua, markdownlint, luacheck, and lua-language-server typecheck
+make test                   # Runs the full test suite
 ```
 
-The CI pipeline will fail if code is not properly formatted. There are no exceptions.
-
-### Code Quality Tools
-
-**IMPORTANT:** Ensure these are run on any pull requests submitted for review.
-
-The project uses multiple linters and type checkers:
-
-1. **luacheck** - Static analyzer for Lua
-   - Configuration: `.luacheckrc` (allows `vim` global)
-   - Run: `luacheck lua/`
-
-2. **selene** - Modern Lua linter
-   - Configuration: `selene.toml` and `vim.toml`
-   - Run: `selene lua/ tests/`
-
-3. **nvim-typecheck** - Lua type checking for NeoVim
-   - Checks type annotations in `lua/` directory
-   - Uses `.luarc.jsonc` for configuration
+These must both pass with no errors or warnings. There are no exceptions.
 
 ### Lua Coding Standards
 
@@ -193,28 +173,16 @@ The `.github/workflows/tests.yaml` runs these checks:
 
 ## Troubleshooting Common Issues
 
-### Issue: stylua check fails in CI
+### Issue: pre-commit checks fail
 
-**Error:** Code is not formatted according to stylua configuration
-
-**Solution:**
-
-```bash
-cd /path/to/debugprint.nvim
-stylua lua/ tests/
-git add -u
-git commit -m "style: format code with stylua"
-```
-
-### Issue: luacheck warnings
-
-**Error:** Undefined or unused variables
+**Error:** One or more pre-commit hooks fail when running `pre-commit run --all-files`
 
 **Solution:**
 
-- Fix undefined variables by adding proper requires or local declarations
-- Remove unused variables or prefix with `_` if intentionally unused
-- Add `---@diagnostic disable-next-line: <diagnostic>` if it's a false positive
+- **stylua**: Run `stylua lua/ tests/` to auto-format, then re-run pre-commit
+- **luacheck**: Fix undefined/unused variables; prefix intentionally unused vars with `_`
+- **llscheck** (lua-language-server): Add or correct `---@type`, `---@param`, `---@return` annotations; check `lua/debugprint/types.lua` for type definitions
+- **markdownlint**: Fix markdown formatting issues flagged in the output
 
 ### Issue: selene errors
 
@@ -225,26 +193,3 @@ git commit -m "style: format code with stylua"
 - Review selene documentation for the specific diagnostic
 - Fix the underlying issue (prefer this)
 - Use `--[[ allow(<diagnostic>) ]]` sparingly for false positives
-
-### Issue: Tests fail with treesitter errors
-
-**Error:** Treesitter parser not found
-
-**Explanation:** Tests automatically install required parsers in CI but may need manual setup locally.
-
-**Solution:**
-
-```lua
--- In NeoVim command line
-:TSInstall lua javascript python  -- Install needed parsers
-```
-
-### Issue: Type checking fails
-
-**Error:** Type annotations incorrect or missing
-
-**Solution:**
-
-- Add missing `---@type`, `---@param`, `---@return` annotations
-- Check `lua/debugprint/types.lua` for type definitions
-- Ensure type names match defined types exactly
