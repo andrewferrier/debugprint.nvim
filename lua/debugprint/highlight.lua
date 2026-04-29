@@ -1,5 +1,7 @@
 local M = {}
 
+local utils = require("debugprint.utils")
+
 ---@param print_tag string
 ---@param bufnr integer
 local setup_highlight_buffer = function(print_tag, bufnr)
@@ -36,14 +38,9 @@ M.setup_highlight = function(filetypes, print_tag, highlight_lines_option)
             callback = function(opts)
                 local buffer_filetype = vim.bo[opts.buf].filetype
 
-                local should_highlight
-
                 -- Check if highlighting should be enabled for this buffer
-                if type(highlight_lines_option) == "function" then
-                    should_highlight = highlight_lines_option(opts.buf)
-                else
-                    should_highlight = highlight_lines_option
-                end
+                local should_highlight =
+                    utils.resolve_value(highlight_lines_option, opts.buf)
 
                 if should_highlight and filetypes[buffer_filetype] ~= nil then
                     setup_highlight_buffer(print_tag, opts.buf)

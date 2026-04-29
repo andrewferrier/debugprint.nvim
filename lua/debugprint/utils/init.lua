@@ -122,4 +122,14 @@ M.get_snippet = function(current_line, above)
     return line_contents
 end
 
+---@param value any
+---@param ... any
+---@return any
+M.resolve_value = function(value, ...)
+    if type(value) == "function" then
+        return value(...)
+    end
+    return value
+end
+
 return M

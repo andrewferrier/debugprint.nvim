@@ -30,40 +30,6 @@ local get_debugline_tag_and_counter = function(display_counter)
     return tag_and_counter
 end
 
----@param fileconfig debugprint.FileTypeConfig
----@return function|boolean?, boolean?, boolean?, boolean?
-local get_display_options = function(fileconfig)
-    local display_counter
-    if fileconfig.display_counter ~= nil then
-        display_counter = fileconfig.display_counter
-    else
-        display_counter = global_opts.display_counter
-    end
-
-    local display_location
-    if fileconfig.display_location ~= nil then
-        display_location = fileconfig.display_location
-    else
-        display_location = global_opts.display_location
-    end
-
-    local display_snippet
-    if fileconfig.display_snippet ~= nil then
-        display_snippet = fileconfig.display_snippet
-    else
-        display_snippet = global_opts.display_snippet
-    end
-
-    local display_timestamp
-    if fileconfig.display_timestamp ~= nil then
-        display_timestamp = fileconfig.display_timestamp
-    else
-        display_timestamp = global_opts.display_timestamp
-    end
-
-    return display_counter, display_location, display_snippet, display_timestamp
-end
-
 ---@param linenr integer
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
@@ -84,8 +50,12 @@ local get_debugline_textcontent = function(opts, fileconfig)
     local line_components = {}
     local force_snippet_for_plain = false
 
-    local display_counter, display_location, display_snippet, _ =
-        get_display_options(fileconfig)
+    local display_counter =
+        vim.F.if_nil(fileconfig.display_counter, global_opts.display_counter)
+    local display_location =
+        vim.F.if_nil(fileconfig.display_location, global_opts.display_location)
+    local display_snippet =
+        vim.F.if_nil(fileconfig.display_snippet, global_opts.display_snippet)
 
     if
         not display_location
@@ -144,34 +114,28 @@ end
 ---@param fileconfig debugprint.FileTypeConfig
 ---@return string
 local get_debugprint_line_core = function(opts, fileconfig)
-    local _, _, _, display_timestamp = get_display_options(fileconfig)
+    local display_timestamp = vim.F.if_nil(
+        fileconfig.display_timestamp,
+        global_opts.display_timestamp
+    )
 
     ---@type debugprint.ConfigOpts
     local config_opts = { display_timestamp = display_timestamp or false }
-
-    local resolve_field = function(field)
-        if type(field) == "function" then
-            return field(config_opts)
-        end
-        return field
-    end
 
     ---@type string
     local line_to_insert
 
     if opts.variable_name then
-        local left_field = fileconfig.left_var ~= nil and fileconfig.left_var
-            or fileconfig.left
-        line_to_insert = resolve_field(left_field)
+        local left_field = vim.F.if_nil(fileconfig.left_var, fileconfig.left)
+        line_to_insert = utils.resolve_value(left_field, config_opts)
             .. get_debugline_textcontent(opts, fileconfig)
-            .. resolve_field(fileconfig.mid_var)
+            .. utils.resolve_value(fileconfig.mid_var, config_opts)
             .. opts.variable_name
-            .. resolve_field(fileconfig.right_var)
+            .. utils.resolve_value(fileconfig.right_var, config_opts)
     else
-        opts.variable_name = nil
-        line_to_insert = resolve_field(fileconfig.left)
+        line_to_insert = utils.resolve_value(fileconfig.left, config_opts)
             .. get_debugline_textcontent(opts, fileconfig)
-            .. resolve_field(fileconfig.right)
+            .. utils.resolve_value(fileconfig.right, config_opts)
     end
 
     return line_to_insert
@@ -206,24 +170,12 @@ local add_to_register = function(opts, keys)
     utils_register.set_register(keys)
 
     if global_opts.notify_for_registers then
-        ---@type string
-        local content
-
-        if opts.variable_name then
-            content = "variable debug line (" .. opts.variable_name .. ")"
-        else
-            content = "plain debug line"
-        end
-
-        if utils_register.register_append() then
-            vim.notify(
-                "Appended " .. content .. " to register " .. opts.register
-            )
-        else
-            vim.notify(
-                "Written " .. content .. " to register " .. opts.register
-            )
-        end
+        local content = opts.variable_name
+                and "variable debug line (" .. opts.variable_name .. ")"
+            or "plain debug line"
+        local action = utils_register.register_append() and "Appended"
+            or "Written"
+        vim.notify(action .. " " .. content .. " to register " .. opts.register)
     end
 end
 
