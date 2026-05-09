@@ -1,11 +1,6 @@
 local M = {}
 
 local utils = require("debugprint.utils")
-local utils_buffer = require("debugprint.utils.buffer")
-local utils_errors = require("debugprint.utils.errors")
-local utils_operator = require("debugprint.utils.operator")
-local utils_register = require("debugprint.utils.register")
-local utils_variable = require("debugprint.utils.variable")
 
 ---@type debugprint.GlobalOptions
 local global_opts
@@ -153,12 +148,13 @@ local get_debugprint_line = function(opts)
     if filetype_config ~= nil then
         line_to_insert = get_debugprint_line_core(opts, filetype_config)
     else
-        line_to_insert = utils_errors.construct_error_line(
-            "No debugprint configuration for filetype "
-                .. utils.get_effective_filetypes()[1]
-                .. "; see https://github.com/andrewferrier/debugprint.nvim/"
-                .. "blob/main/SHOWCASE.md#modifying-or-adding-filetypes"
-        )
+        line_to_insert =
+            require("debugprint.utils.errors").construct_error_line(
+                "No debugprint configuration for filetype "
+                    .. utils.get_effective_filetypes()[1]
+                    .. "; see https://github.com/andrewferrier/debugprint.nvim/"
+                    .. "blob/main/SHOWCASE.md#modifying-or-adding-filetypes"
+            )
     end
 
     return line_to_insert
@@ -167,13 +163,14 @@ end
 ---@param opts debugprint.FunctionOptionsInternal
 ---@param keys string
 local add_to_register = function(opts, keys)
-    utils_register.set_register(keys)
+    require("debugprint.utils.register").set_register(keys)
 
     if global_opts.notify_for_registers then
         local content = opts.variable_name
                 and "variable debug line (" .. opts.variable_name .. ")"
             or "plain debug line"
-        local action = utils_register.register_append() and "Appended"
+        local action = require("debugprint.utils.register").register_append()
+                and "Appended"
             or "Written"
         vim.notify(action .. " " .. content .. " to register " .. opts.register)
     end
@@ -204,7 +201,7 @@ local handle_debugprint_line = function(opts)
             move_to_debugline = false
         end
 
-        utils_buffer.insert_and_indent_line(
+        require("debugprint.utils.buffer").insert_and_indent_line(
             line_nr,
             line_content,
             move_to_debugline
@@ -229,14 +226,15 @@ M.debugprint_operatorfunc_regular = function()
         handle_debugprint_line(cache_request)
     end
 
-    utils_operator.set_callback(
+    require("debugprint.utils.operator").set_callback(
         "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
     )
 end
 
 ---@return nil
 M.debugprint_operatorfunc_motion = function()
-    local get_operator_selection = utils_buffer.get_operator_selection()
+    local get_operator_selection =
+        require("debugprint.utils.buffer").get_operator_selection()
 
     if get_operator_selection ~= false then
         cache_request.variable_name = get_operator_selection
@@ -248,11 +246,11 @@ end
 ---@return string|nil
 M.debugprint = function(opts)
     opts = require("debugprint.options").get_and_validate_function_opts(opts)
-    opts.register = utils_register.register_named()
+    opts.register = require("debugprint.utils.register").register_named()
 
     require("debugprint.options").check_function_opts_compatibility(opts)
 
-    if not utils_buffer.is_modifiable() then
+    if not require("debugprint.utils.buffer").is_modifiable() then
         return
     end
 
@@ -261,9 +259,12 @@ M.debugprint = function(opts)
             require("debugprint.filetype_config").get(global_opts.filetypes)
 
         if filetype_config then
-            opts.variable_name = utils_variable.get_variable_name(
-                global_opts.ignore_treesitter or opts.ignore_treesitter or false
-            )
+            opts.variable_name =
+                require("debugprint.utils.variable").get_variable_name(
+                    global_opts.ignore_treesitter
+                        or opts.ignore_treesitter
+                        or false
+                )
 
             if not opts.variable_name then
                 return
@@ -273,7 +274,7 @@ M.debugprint = function(opts)
 
     if opts.motion == true then
         cache_request = opts
-        utils_operator.set_operatorfunc(
+        require("debugprint.utils.operator").set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_motion"
         )
         return "g@"
@@ -284,7 +285,7 @@ M.debugprint = function(opts)
         vim.api.nvim_put({ get_debugprint_line(opts) }, "c", true, true)
     else
         cache_request = opts
-        utils_operator.set_operatorfunc(
+        require("debugprint.utils.operator").set_operatorfunc(
             "v:lua.require'debugprint'.debugprint_operatorfunc_regular"
         )
         vim.api.nvim_cmd({ cmd = "normal", bang = true, args = { "g@l" } }, {})
