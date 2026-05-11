@@ -2,12 +2,12 @@
 
 ---@meta types
 
----@class debugprint.ConfigOpts
+---@class (exact) debugprint.ConfigOpts
 ---@field display_timestamp boolean
 
 ---@alias debugprint.FieldValue string | fun(opts: debugprint.ConfigOpts): string
 
----@class debugprint.FileTypeConfig
+---@class (exact) debugprint.FileTypeConfig
 ---@field left debugprint.FieldValue
 ---@field right debugprint.FieldValue
 ---@field mid_var debugprint.FieldValue
@@ -20,7 +20,7 @@
 ---@field display_snippet? boolean
 ---@field display_timestamp? boolean
 
----@class debugprint.FileTypeConfigParams
+---@class (exact) debugprint.FileTypeConfigParams
 ---@field effective_filetypes string[]
 ---@field file_path string
 ---@field bufnr integer
@@ -28,7 +28,7 @@
 ---@alias debugprint.FileTypeConfigOrDynamic debugprint.FileTypeConfig |
 ---                                          function(debugprint.FileTypeConfigParams):debugprint.FileTypeConfig)
 
----@class debugprint.GlobalOptions
+---@class (exact) debugprint.GlobalOptions
 ---@field keymaps? debugprint.KeymapOptions
 ---@field commands? debugprint.CommandOptions
 ---@field display_counter? boolean|function():string
@@ -46,12 +46,12 @@
 ---@field create_commands? boolean
 ---@field ignore_treesitter? boolean
 
----@class debugprint.KeymapOptions
+---@class (exact) debugprint.KeymapOptions
 ---@field normal? debugprint.KeymapNormalOptions
 ---@field insert? debugprint.KeymapInsertOptions
 ---@field visual? debugprint.KeymapVisualOptions
 
----@class debugprint.KeymapNormalOptions
+---@class (exact) debugprint.KeymapNormalOptions
 ---@field plain_below? string|false
 ---@field plain_above? string|false
 ---@field variable_below? string|false
@@ -67,22 +67,22 @@
 ---@field delete_debug_prints? string|false
 ---@field toggle_comment_debug_prints? string|false
 
----@class debugprint.KeymapInsertOptions
+---@class (exact) debugprint.KeymapInsertOptions
 ---@field plain? string|false
 ---@field variable? string|false
 
----@class debugprint.KeymapVisualOptions
+---@class (exact) debugprint.KeymapVisualOptions
 ---@field variable_below? string|false
 ---@field variable_above? string|false
 
----@class debugprint.CommandOptions
+---@class (exact) debugprint.CommandOptions
 ---@field delete_debug_prints? string|false
 ---@field toggle_comment_debug_prints? string|false
 ---@field reset_debug_prints_counter? string|false
 ---@field search_debug_prints? string|false
 ---@field debug_print_qf_list? string|false
 
----@class debugprint.FunctionOptions
+---@class (exact) debugprint.FunctionOptions
 ---@field above? boolean
 ---@field variable? boolean
 ---@field ignore_treesitter? boolean
@@ -90,6 +90,6 @@
 ---@field motion? boolean
 ---@field surround? boolean
 
----@class debugprint.FunctionOptionsInternal: debugprint.FunctionOptions
+---@class (exact) debugprint.FunctionOptionsInternal: debugprint.FunctionOptions
 ---@field variable_name? string
 ---@field register? string
