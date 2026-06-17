@@ -228,6 +228,13 @@ return {
         mid_var = '" & ',
         right_var = ".repr)",
     },
+    ["odin"] = {
+        left = 'fmt.eprintfln("',
+        right = '", #location())',
+        mid_var = '%v", #location(), ',
+        location = "%s",
+        right_var = ")",
+    },
     ["perl"] = {
         left = 'print STDERR "',
         right = '\\n";',
