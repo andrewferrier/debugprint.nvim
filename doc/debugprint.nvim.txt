@@ -1,5 +1,5 @@
 *debugprint.nvim.txt*
-                                           For NVIM    Last change: 2026-05-11
+                                           For NVIM    Last change: 2026-06-17
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -500,7 +500,7 @@ should be used.
 
   Nim                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Odin                     :x:               :+1:          :x:               :x:            :x:                :x:           :x:
+  Odin                     :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
   Perl                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
