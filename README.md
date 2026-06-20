@@ -32,9 +32,10 @@ the NeoVim generation. It:
   support other languages or customize existing ones](SHOWCASE.md).
 
 - Includes reference information in each 'print line' such as file names, line
-  numbers, a counter (which persists between NeoVim sessions), and snippets of
-  other lines to make it easier to cross-reference them in output. Each of these
-  can be optionally disabled [globally](#other-options) or [on a per-filetype
+  numbers, a counter (which persists between NeoVim sessions), a timestamp (not
+  added by default) and snippets of other lines to make it easier to
+  cross-reference them in output. Each of these can be optionally disabled
+  [globally](#other-options) or [on a per-filetype
   basis](SHOWCASE.md#setting-display_-options-on-per-filetype-basis).
 
 - Will highlight inserted lines to make them easier to find in your code
