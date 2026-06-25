@@ -281,6 +281,12 @@ return {
         mid_var = '", ',
         right_var = "), file=stderr())",
     },
+    ["robot"] = {
+        left = "Log To Console  \\n",
+        right = "",
+        mid_var = "${",
+        right_var = "}",
+    },
     ["ruby"] = ruby,
     ["rust"] = {
         left = function(opts)
