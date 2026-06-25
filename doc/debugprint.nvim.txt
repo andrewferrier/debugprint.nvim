@@ -1,5 +1,5 @@
 *debugprint.nvim.txt*
-                                           For NVIM    Last change: 2026-06-22
+                                           For NVIM    Last change: 2026-06-25
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -514,6 +514,8 @@ should be used.
   R                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   React                    :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+
+  Robot Framework          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
   Ruby                     :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
 
