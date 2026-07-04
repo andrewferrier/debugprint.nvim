@@ -56,7 +56,7 @@ the NeoVim generation. It:
   lines.
 
 - Provides [commands](#keymappings-and-commands) to delete or comment debugging
-  lines added to the current buffer, search for those lines in the current
+  lines added to the current buffer, navigate between debugging lines with `[g`-style keybindings, search for those lines in the current
   directory (project) using [fzf-lua](https://github.com/ibhagwan/fzf-lua),
   [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) or
   [snacks.nvim](https://github.com/folke/snacks.nvim), and add those lines to
