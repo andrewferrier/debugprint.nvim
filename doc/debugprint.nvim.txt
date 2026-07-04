@@ -1,5 +1,5 @@
 *debugprint.nvim.txt*
-                                           For NVIM    Last change: 2026-06-25
+                                           For NVIM    Last change: 2026-07-04
 
 ==============================================================================
 Table of Contents                          *debugprint.nvim-table-of-contents*
@@ -165,6 +165,14 @@ keymappings by default, but could be. This is all shown in the following table.
 
   Normal       None                        Comment/uncomment debug lines in buffer                 -
 
+  Normal       [g                          Jump to previous debug print in current buffer          -
+
+  Normal       ]g                          Jump to next debug print in current buffer              -
+
+  Normal       [G                          Jump to first debug print in current buffer             -
+
+  Normal       ]G                          Jump to last debug print in current buffer              -
+
   Insert       Ctrl-G p                    Plain debug                                             In-place
 
   Insert       Ctrl-G v                    Variable debug (always prompt for variable)             In-place
@@ -223,6 +231,10 @@ For example, if configuring via `lazy.nvim`, it might look like this:
                     textobj_surround = "g?so",
                     toggle_comment_debug_prints = "",
                     delete_debug_prints = "",
+                    jump_prev_debug_print = "[g",
+                    jump_next_debug_print = "]g",
+                    jump_first_debug_print = "[G",
+                    jump_last_debug_print = "]G",
                 },
                 insert = {
                     plain = "<C-G>p",
@@ -330,215 +342,216 @@ should be used.
 
 (This table is quite wide, you may need to scroll horizontally)
 
-  --------------------------------------------------------------------------------------------------------------------------------------
-  Feature                  debugprint.nvim   timber.nvim   nvim-chainsaw     printer.nvim   refactoring.nvim   vim-printer   logsitter
-  ------------------------ ----------------- ------------- ----------------- -------------- ------------------ ------------- -----------
-  Include line numbers in  :+1:              :+1: (via     :+1: (via user    :+1:           :+1:               :x:           :+1:
-  log lines                                  user config)  config)                                                           
+  ----------------------------------------------------------------------------------------------------------------------------------------
+  Feature                    debugprint.nvim   timber.nvim   nvim-chainsaw     printer.nvim   refactoring.nvim   vim-printer   logsitter
+  -------------------------- ----------------- ------------- ----------------- -------------- ------------------ ------------- -----------
+  Include line numbers in    :+1:              :+1: (via     :+1: (via user    :+1:           :+1:               :x:           :+1:
+  log lines                                    user config)  config)                                                           
 
-  Include other location   :+1:              :x:           :+1: (via user    :+1:           :+1:               :x:           :+1:
-  information in log lines                                 config)                                                           
+  Include other location     :+1:              :x:           :+1: (via user    :+1:           :+1:               :x:           :+1:
+  information in log lines                                   config)                                                           
 
-  Language-derived         :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  location (for some                                                                                                         
-  filetypes) to resist                                                                                                       
-  line movement                                                                                                              
+  Language-derived location  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  (for some filetypes) to                                                                                                      
+  resist line movement                                                                                                         
 
-  Persistent location      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  counter between NeoVim                                                                                                     
-  sessions                                                                                                                   
+  Persistent location        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  counter between NeoVim                                                                                                       
+  sessions                                                                                                                     
 
-  Print plain debug lines  :+1:              :+1: (via     :+1:              :x:            :+1:               :x:           :x:
-                                             user config)                                                                    
+  Print plain debug lines    :+1:              :+1: (via     :+1:              :x:            :+1:               :x:           :x:
+                                               user config)                                                                    
 
-  Print variables using    :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
-  treesitter                                                                                                                 
+  Print variables using      :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
+  treesitter                                                                                                                   
 
-  ‘Surround’ lines with    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  debugging above and                                                                                                        
-  below                                                                                                                      
+  ‘Surround’ lines with      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  debugging above and below                                                                                                    
 
-  Use treesitter to locate (some languages)  :+1:          :+1:              :x:            :x:                :x:           :x:
-  log targets                                                                                                                
+  Use treesitter to locate   (some languages)  :+1:          :+1:              :x:            :x:                :x:           :x:
+  log targets                                                                                                                  
 
-  Use treesitter to        :x:               :+1:          :+1:              :x:            :x:                :x:           :x:
-  intelligently insert log                                                                                                   
-  lines                                                                                                                      
+  Use treesitter to          :x:               :+1:          :+1:              :x:            :x:                :x:           :x:
+  intelligently insert log                                                                                                     
+  lines                                                                                                                        
 
-  Enter                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  variables/expressions                                                                                                      
-  using prompts                                                                                                              
+  Enter                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  variables/expressions                                                                                                        
+  using prompts                                                                                                                
 
-  Fallback to variables    :+1:              :x:           :+1:              :x:            :x:                :+1:          :x:
-  using current                                                                                                              
-  word/heuristic                                                                                                             
+  Fallback to variables      :+1:              :x:           :+1:              :x:            :x:                :+1:          :x:
+  using current                                                                                                                
+  word/heuristic                                                                                                               
 
-  Print variables using    :+1:              :+1:          :x:               :+1:           :x:                :x:           :x:
-  motions/operator                                                                                                           
+  Print variables using      :+1:              :+1:          :x:               :+1:           :x:                :x:           :x:
+  motions/operator                                                                                                             
 
-  Add plain or variable    :+1:              :x:           :x:               :x::           :x:                :x:           :x:
-  debug lines in insert                                                                                                      
-  mode                                                                                                                       
+  Add plain or variable      :+1:              :x:           :x:               :x::           :x:                :x:           :x:
+  debug lines in insert mode                                                                                                   
 
-  Add variable debug lines :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :x:
-  in visual mode                                                                                                             
+  Add variable debug lines   :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :x:
+  in visual mode                                                                                                               
 
-  Print assertions         :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                             user config)                                                                    
+  Keybindings to move to     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  next/previous/first/last                                                                                                     
+  log line                                                                                                                     
 
-  Print stack traces       :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                             user config)                                                                    
+  Print assertions           :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
+                                               user config)                                                                    
 
-  Add time-tracking logic  (some languages)  :+1: (via     :+1:              :x:            :x:                :x:           :x:
-                                             user config)                                                                    
+  Print stack traces         :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
+                                               user config)                                                                    
 
-  Add debugging            :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
-  breakpoints                                user config)                                                                    
+  Add time-tracking logic    (some languages)  :+1: (via     :+1:              :x:            :x:                :x:           :x:
+                                               user config)                                                                    
 
-  Print debug lines        :+1:              :+1:          :x:               (via global    :x:                :+1:          :x:
-  above/below current line                                                   config)                                         
+  Add debugging breakpoints  :x:               :+1: (via     :+1:              :x:            :x:                :x:           :x:
+                                               user config)                                                                    
 
-  Supports dot-repeat      :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
+  Print debug lines          :+1:              :+1:          :x:               (via global    :x:                :+1:          :x:
+  above/below current line                                                     config)                                         
 
-  Can control whether to   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  move to inserted lines                                                                                                     
+  Supports dot-repeat        :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
 
-  Clean up/delete all      :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
-  debug lines in buffer                                                                                                      
+  Can control whether to     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  move to inserted lines                                                                                                       
 
-  Comment/uncomment all    :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
-  debug lines in buffer                                                                                                      
+  Clean up/delete all debug  :+1:              :+1:          :+1:              :x:            :x:                :x:           :x:
+  lines in buffer                                                                                                              
 
-  Comment/uncomment all    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  debug lines in selected                                                                                                    
-  range                                                                                                                      
+  Comment/uncomment all      :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  debug lines in buffer                                                                                                        
 
-  Can put debugprint text  :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
-  into register                                                                                                              
+  Comment/uncomment all      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  debug lines in selected                                                                                                      
+  range                                                                                                                        
 
-  Search for debugprint    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  lines using fzf-lua,                                                                                                       
-  telescope.nvim or                                                                                                          
-  snacks.nvim                                                                                                                
+  Can put debugprint text    :+1:              :x:           :x:               :+1:           :x:                :x:           :x:
+  into register                                                                                                                
 
-  Search for debugprint    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  lines and populate                                                                                                         
-  quickfix list                                                                                                              
+  Search for debugprint      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  lines using fzf-lua,                                                                                                         
+  telescope.nvim or                                                                                                            
+  snacks.nvim                                                                                                                  
 
-  Extra visual emphasis of :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
-  log statements           inserted lines    to highlight  counter,                                                          
-                                             lines on      signcolumn,                                                       
-                                             insertion     line-highlight,                                                   
-                                                           scrollbar                                                         
+  Search for debugprint      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  lines and populate                                                                                                           
+  quickfix list                                                                                                                
 
-  Can insert logs in       :+1: (using       :+1:          :x:               :x:            :x:                :x:           :x:
-  batches                  registers)                                                                                        
+  Extra visual emphasis of   :+1: Highlights   :+1: Flashes  :+1: status line  :x:            :x:                :x:           :x:
+  log statements             inserted lines    to highlight  counter,                                                          
+                                               lines on      signcolumn,                                                       
+                                               insertion     line-highlight,                                                   
+                                                             scrollbar                                                         
 
-  Log watcher mechanism    :x:               :+1:          :x:               :x:            :x:                :x:           :x:
+  Can insert logs in batches :+1: (using       :+1:          :x:               :x:            :x:                :x:           :x:
+                             registers)                                                                                        
 
-  Dynamic filetype         :+1:              :x:           :x:               :x:            :x:                :x:           :x:
-  configuration/log                                                                                                          
-  templates                                                                                                                  
+  Log watcher mechanism      :x:               :+1:          :x:               :x:            :x:                :x:           :x:
 
-  Completely customizable  :x:               :+1:          :+1:              :+1:           :x:                :x:           :x:
-  log templates                                                                                                              
+  Dynamic filetype           :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  configuration/log                                                                                                            
+  templates                                                                                                                    
 
-  Built-in support for:    -                 -             -                 -              -                  -             -
+  Completely customizable    :x:               :+1:          :+1:              :+1:           :x:                :x:           :x:
+  log templates                                                                                                                
 
-  Apex (Salesforce)        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Built-in support for:      -                 -             -                 -              -                  -             -
 
-  AppleScript              :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+  Apex (Salesforce)          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Astro                    :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  AppleScript                :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
-  bash/sh                  :+1:              :x:           :+1:              :+1:           :x:                :+1:          :x:
+  Astro                      :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
-  C                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  bash/sh                    :+1:              :x:           :+1:              :+1:           :x:                :+1:          :x:
 
-  C# (C Sharp)             :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  C                          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  C++                      :+1:              :x:           :x:               :+1:           :+1:               :+1:          :x:
+  C# (C Sharp)               :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  CMake                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  C++                        :+1:              :x:           :x:               :+1:           :+1:               :+1:          :x:
 
-  Cobol                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  CMake                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Crystal                  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Cobol                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  dart                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Crystal                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Docker                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  dart                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  DOS/Windows Batch        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Docker                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Elixir                   :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  DOS/Windows Batch          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  fish                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Elixir                     :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
-  Fortran                  :+1:              :x:           :x:               :x:            :x:                :+1:          :x:
+  fish                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  GDScript                 :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Fortran                    :+1:              :x:           :x:               :x:            :x:                :+1:          :x:
 
-  Golang                   :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
+  GDScript                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Haskell                  :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Golang                     :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
 
-  Java                     :+1:              :x:           :x:               :+1:           :+1:               :+1:          :x:
+  Haskell                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Javascript/Typescript    :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
+  Java                       :+1:              :x:           :x:               :+1:           :+1:               :+1:          :x:
 
-  Kotlin                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Javascript/Typescript      :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
 
-  lean                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Kotlin                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Lisp                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  lean                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  lua                      :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
+  Lisp                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  luau                     :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  lua                        :+1:              :+1:          :+1:              :+1:           :+1:               :+1:          :+1:
 
-  GNU Make                 :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  luau                       :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
-  Nim                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  GNU Make                   :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Odin                     :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
+  Nim                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Perl                     :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Odin                       :+1:              :+1:          :x:               :x:            :x:                :x:           :x:
 
-  PHP                      :+1:              :x:           :x:               :x:            :+1:               :x:           :x:
+  Perl                       :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Powershell/ps1           :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  PHP                        :+1:              :x:           :x:               :x:            :+1:               :x:           :x:
 
-  Python                   :+1:              :x:           :+1:              :+1:           :+1:               :+1:          :x:
+  Powershell/ps1             :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  R                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Python                     :+1:              :x:           :+1:              :+1:           :+1:               :+1:          :x:
 
-  React                    :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+  R                          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Robot Framework          :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  React                      :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
-  Ruby                     :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
+  Robot Framework            :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Rust                     :+1:              :+1:          :+1:              :+1:           :x:                :+1:          :x:
+  Ruby                       :+1:              :+1:          :+1:              :x:            :+1:               :x:           :x:
 
-  Svelte                   :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+  Rust                       :+1:              :+1:          :+1:              :+1:           :x:                :+1:          :x:
 
-  Swift                    :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Svelte                     :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
-  tcl                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Swift                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  VimL (vimscript)         :+1:              :x:           :x:               :+1:           :x:                :+1:          :x:
+  tcl                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Vue                      :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
+  VimL (vimscript)           :+1:              :x:           :x:               :+1:           :x:                :+1:          :x:
 
-  Zig                      :+1:              :x:           :x:               :x:            :x:                :x:           :x:
+  Vue                        :+1:              :x:           :+1:              :x:            :x:                :x:           :x:
 
-  zsh                      :+1:              :x:           :+1:              :+1:           :x:                :+1:          :x:
+  Zig                        :+1:              :x:           :x:               :x:            :x:                :x:           :x:
 
-  Add custom filetypes     :+1:              :+1:          :+1:              :+1:           :x:                :x:           :+1:
+  zsh                        :+1:              :x:           :+1:              :+1:           :x:                :+1:          :x:
 
-  Implemented in           Lua               Lua           Lua               Lua            Lua                VimL          Lua
-  --------------------------------------------------------------------------------------------------------------------------------------
+  Add custom filetypes       :+1:              :+1:          :+1:              :+1:           :x:                :x:           :+1:
+
+  Implemented in             Lua               Lua           Lua               Lua            Lua                VimL          Lua
+  ----------------------------------------------------------------------------------------------------------------------------------------
 There is also a similar table in the nvim-chainsaw documentation
 <https://github.com/chrisgrieser/nvim-chainsaw?tab=readme-ov-file#comparison-with-similar-plugins>.
 
