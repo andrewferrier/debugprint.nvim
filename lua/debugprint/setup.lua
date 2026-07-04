@@ -9,6 +9,15 @@ local debugprint_printtag_operations = require("debugprint.printtag_operations")
 ---@return nil
 local map_key = function(mode, lhs, opts)
     if lhs ~= nil and lhs ~= "" and lhs ~= false then
+        local existing = vim.fn.maparg(lhs, mode, false, true)
+        if
+            type(existing) == "table"
+            and next(existing) ~= nil
+            and existing.lhs == lhs
+        then
+            return
+        end
+
         vim.api.nvim_set_keymap(mode, lhs, "", opts)
     end
 end
