@@ -212,6 +212,26 @@ M.map_keys_and_commands = function(global_opts)
         desc = "Comment/uncomment all debugprint statements in the current buffer",
     })
 
+    map_key("n", global_opts.keymaps.normal.jump_prev_debug_print, {
+        callback = debugprint_printtag_operations.jump_prev_debug_print,
+        desc = "Jump to previous debugprint statement in the current buffer",
+    })
+
+    map_key("n", global_opts.keymaps.normal.jump_next_debug_print, {
+        callback = debugprint_printtag_operations.jump_next_debug_print,
+        desc = "Jump to next debugprint statement in the current buffer",
+    })
+
+    map_key("n", global_opts.keymaps.normal.jump_first_debug_print, {
+        callback = debugprint_printtag_operations.jump_first_debug_print,
+        desc = "Jump to first debugprint statement in the current buffer",
+    })
+
+    map_key("n", global_opts.keymaps.normal.jump_last_debug_print, {
+        callback = debugprint_printtag_operations.jump_last_debug_print,
+        desc = "Jump to last debugprint statement in the current buffer",
+    })
+
     create_master_command()
 end
 

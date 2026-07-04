@@ -18,6 +18,10 @@ local GLOBAL_OPTION_DEFAULTS = {
             textobj_surround = "g?so",
             toggle_comment_debug_prints = "",
             delete_debug_prints = "",
+            jump_prev_debug_print = "[g",
+            jump_next_debug_print = "]g",
+            jump_first_debug_print = "[G",
+            jump_last_debug_print = "]G",
         },
         insert = {
             plain = "<C-G>p",
@@ -167,6 +171,30 @@ local validate_global_opts = function(o)
         vim.validate(
             "toggle_comment_debug_prints",
             normal.toggle_comment_debug_prints,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "jump_prev_debug_print",
+            normal.jump_prev_debug_print,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "jump_next_debug_print",
+            normal.jump_next_debug_print,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "jump_first_debug_print",
+            normal.jump_first_debug_print,
+            STRING_OR_BOOLEAN,
+            true
+        )
+        vim.validate(
+            "jump_last_debug_print",
+            normal.jump_last_debug_print,
             STRING_OR_BOOLEAN,
             true
         )

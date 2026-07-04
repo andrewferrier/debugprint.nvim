@@ -66,6 +66,10 @@
 ---@field textobj_surround? string|false
 ---@field delete_debug_prints? string|false
 ---@field toggle_comment_debug_prints? string|false
+---@field jump_prev_debug_print? string|false
+---@field jump_next_debug_print? string|false
+---@field jump_first_debug_print? string|false
+---@field jump_last_debug_print? string|false
 
 ---@class (exact) debugprint.KeymapInsertOptions
 ---@field plain? string|false

@@ -81,6 +81,112 @@ M.toggle_comment_debugprints = function(opts)
     end, "comment-toggle", "comment-toggled")
 end
 
+---@param line_nr integer?
+---@return nil
+local move_cursor_to_debug_print = function(line_nr)
+    if line_nr == nil then
+        vim.notify("No matching debug print found in this direction")
+        return
+    end
+
+    local line = vim.api.nvim_buf_get_lines(0, line_nr - 1, line_nr, false)[1]
+    local first_non_ws_col = 0
+
+    if line ~= nil then
+        local first_non_ws = string.find(line, "%S")
+        if first_non_ws ~= nil then
+            first_non_ws_col = first_non_ws - 1
+        end
+    end
+
+    vim.api.nvim_win_set_cursor(0, { line_nr, first_non_ws_col })
+end
+
+---@param print_tag string
+---@return string
+local get_literal_search_pattern = function(print_tag)
+    return "\\V" .. print_tag:gsub("\\", "\\\\")
+end
+
+---@param direction "next"|"prev"|"first"|"last"
+---@return integer?
+local find_debug_print_line = function(direction)
+    local pattern = get_literal_search_pattern(global_opts.print_tag)
+    local current_view = vim.fn.winsaveview()
+    local target_line = nil
+
+    if direction == "next" or direction == "prev" then
+        local line_nr = vim.api.nvim_win_get_cursor(0)[1]
+
+        if direction == "next" then
+            local current_line = vim.api.nvim_get_current_line()
+            vim.api.nvim_win_set_cursor(0, { line_nr, #current_line })
+        else
+            vim.api.nvim_win_set_cursor(0, { line_nr, 0 })
+        end
+
+        local flags = direction == "next" and "Wn" or "bWn"
+        local match = vim.fn.searchpos(pattern, flags)
+        if match[1] > 0 then
+            target_line = match[1]
+        end
+    elseif direction == "first" then
+        vim.api.nvim_win_set_cursor(0, { 1, 0 })
+        local match = vim.fn.searchpos(pattern, "Wn")
+        if match[1] > 0 then
+            target_line = match[1]
+        end
+    else
+        local last_line_nr = vim.api.nvim_buf_line_count(0)
+        local last_line = vim.api.nvim_buf_get_lines(
+            0,
+            last_line_nr - 1,
+            last_line_nr,
+            false
+        )[1]
+        local last_col = last_line and #last_line or 0
+        vim.api.nvim_win_set_cursor(0, { last_line_nr, last_col })
+        local match = vim.fn.searchpos(pattern, "bWn")
+        if match[1] > 0 then
+            target_line = match[1]
+        end
+    end
+
+    vim.fn.winrestview(current_view)
+    return target_line
+end
+
+---@param direction "next"|"prev"|"first"|"last"
+---@return nil
+local jump_debug_print = function(direction)
+    if global_opts.print_tag == "" then
+        vim.notify("No print_tag set, cannot jump through debug lines.")
+        return
+    end
+
+    move_cursor_to_debug_print(find_debug_print_line(direction))
+end
+
+---@return nil
+M.jump_prev_debug_print = function()
+    jump_debug_print("prev")
+end
+
+---@return nil
+M.jump_next_debug_print = function()
+    jump_debug_print("next")
+end
+
+---@return nil
+M.jump_first_debug_print = function()
+    jump_debug_print("first")
+end
+
+---@return nil
+M.jump_last_debug_print = function()
+    jump_debug_print("last")
+end
+
 ---@return nil
 local picker_handlers = {
     ["fzf-lua"] = {
