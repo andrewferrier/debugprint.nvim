@@ -1,5 +1,29 @@
 # Changelog
 
+## [7.2.0](https://github.com/andrewferrier/debugprint.nvim/compare/v7.1.1...v7.2.0) (2026-07-04)
+
+
+### Features
+
+* Add Odin support ([a5c5369](https://github.com/andrewferrier/debugprint.nvim/commit/a5c5369ded5f6ea4f0e5dae5b91646c1807305cf))
+* Add Odin support ([6e978a0](https://github.com/andrewferrier/debugprint.nvim/commit/6e978a0933d356bf76a08b7d266424d8df8c45a0))
+* Add support for Robot Framework language - closes [#214](https://github.com/andrewferrier/debugprint.nvim/issues/214) ([5cb5d2c](https://github.com/andrewferrier/debugprint.nvim/commit/5cb5d2c1bde474e9474ad42a464485247aef6c78))
+* Implement display_timestamp capability ([5a6f495](https://github.com/andrewferrier/debugprint.nvim/commit/5a6f495f9bf9ba52077b744fd01b0db4a3f970b7))
+* Implement navigation keybindings - closes [#216](https://github.com/andrewferrier/debugprint.nvim/issues/216) ([04ee92d](https://github.com/andrewferrier/debugprint.nvim/commit/04ee92d4d6b7322c8fbae2136188f28909ab7fa7))
+* **queries:** golang support ([052b87a](https://github.com/andrewferrier/debugprint.nvim/commit/052b87af99a08dacb4e4c3a9ab9e3a8134332a3c))
+
+
+### Bug Fixes
+
+* Don't map keys if they are already mapped ([a944702](https://github.com/andrewferrier/debugprint.nvim/commit/a944702e797250bfa39813f0694bc6e70d2a12d6))
+* Remove support for NeoVim 0.10 - closes [#206](https://github.com/andrewferrier/debugprint.nvim/issues/206) ([bd44c61](https://github.com/andrewferrier/debugprint.nvim/commit/bd44c61429c6a796841bd765374782a732916665))
+* Standardize on AGENTS.md ([1e960c6](https://github.com/andrewferrier/debugprint.nvim/commit/1e960c6b6477d8c70da7a49269aac946755aa8d6))
+
+
+### Performance Improvements
+
+* Inline some requires ([1a0347c](https://github.com/andrewferrier/debugprint.nvim/commit/1a0347c8b75972f45e8ca45f7fabae23dd80cbeb))
+
 ## [7.1.1](https://github.com/andrewferrier/debugprint.nvim/compare/v7.1.0...v7.1.1) (2026-03-08)
 
 
