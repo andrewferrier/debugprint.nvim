@@ -132,7 +132,7 @@ local find_debug_print_line = function(direction)
         end
     elseif direction == "first" then
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
-        local match = vim.fn.searchpos(pattern, "Wn")
+        local match = vim.fn.searchpos(pattern, "Wnc")
         if match[1] > 0 then
             target_line = match[1]
         end
