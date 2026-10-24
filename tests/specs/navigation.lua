@@ -59,4 +59,16 @@ describe("debug print navigation keymaps", function()
             "No matching debug print found in this direction"
         )
     end)
+    it("finds a print tag at the start of the first line", function()
+        debugprint.setup()
+        support.init_file({
+            "DEBUGPRINT first",
+            "other",
+            "DEBUGPRINT last",
+        }, "lua", 2, 0)
+
+        support.feedkeys("[G")
+        assert.equals(vim.api.nvim_win_get_cursor(0)[1], 1)
+        assert.equals(vim.api.nvim_win_get_cursor(0)[2], 0)
+    end)
 end)
